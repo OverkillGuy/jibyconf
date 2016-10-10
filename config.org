@@ -1,0 +1,202 @@
+
+My Emacs configuration file, hard-earned.
+
+Great resources for any emacs setup:
+- [[http://doc.norang.ca/org-mode.html][NORANG init.el]]
+- [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chuan's setup]]
+
+* Cosmetic
+** Disable graphical menus
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1) 
+(menu-bar-mode -1)
+#+END_SRC
+** Mode line aspect
+I want my emacs to look cool, so I changed the mode line accordingly.
+Idea came from [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]].
+#+BEGIN_SRC emacs-lisp
+;; Cosmetic : change modeline aspect
+(require 'powerline)
+(powerline-default-theme)
+#+END_SRC
+Because I'm not a complete hack, I changed the colors to my liking (blue !)
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'mode-line nil
+                    :foreground "White"
+                    :background "DarkBlue"
+                    :box nil)
+#+END_SRC
+
+* Backup files
+These files are supposed to save my life, but I can't stand them when they're polluting my working directory.
+#+BEGIN_SRC emacs-lisp
+;; Make all backups out of sight !
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+  )
+#+END_SRC
+** TODO Sasha Chuan's ALWAYS BACKUP NEVER DELETE policy
+
+* Org-babel
+Load all my common languages
+#+BEGIN_SRC emacs-lisp
+;; Orgmode code-execution support my languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((ipython . t)
+   (plantuml . t)
+   (C . t)
+   (sh . t)
+   ))
+#+END_SRC
+** TODO Set PlantUML jar path
+It's usually done via ~M-x customize~.
+* Speedbar
+A neat file explorer for emacs
+#+BEGIN_SRC emacs-lisp
+;; File manager docked by default
+(require 'sr-speedbar)
+;; speedbar : show all filetypes (not just indexed ones)
+(custom-set-variable
+ '(speedbar-show-unknown-files t)
+)
+#+END_SRC
+** TODO Make speedbar stick to projectile-folder
+Instead of jumping around the folders
+* C++
+** TODO [#A] GTAGS integration
+helm-gtags setup !
+** Highlighting FIXMEs and TODOs
+#+BEGIN_SRC emacs-lisp
+;; TODO/FIXME highlight enable
+(require 'fic-mode)
+(add-hook 'c++-mode-hook 'turn-on-fic-mode) 
+
+#+END_SRC
+*** TODO Show all TODO/FIXME in a project
+
+** Compilation							       :make:
+*** Compilation buffer coloring support
+Make compilation buffers support ANSI terminal coloring (eg: CMake)
+#+BEGIN_SRC elisp
+     ;; Adds ANSI Color support to Compilation window
+     (require 'ansi-color)
+     (defun colorize-compilation-buffer ()
+     (toggle-read-only)
+     (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+#+END_SRC
+
+*** TODO Compilation of project (using makefile)
+While in one file 3 level down the project root, call =compile= without specifying project root (with relative path).
+** TODO Go to method/variable definition			       :helm:
+Find a way to go to definition of that method. 
+Helm can do that 
+** TODO Uncomment region binding				 :keybinding:
+Command exists (~M-x uncomment-region~) but is by default not bound.
+Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
+** TODO Yasnippets module
+Yasnippets
+* Emacs usability
+** TODO Remap C-x C-c to avoid accidentally exiting		 :keybinding:
+I don't /want/ to exit emacs often (open all day for logging project progress and edit code, close it usually once a day before closing down computer to make sure all files are saved)
+Use an other binding to make it less likely to exit.
+** Helm							  :projectmanagement:
+*** TODO Rebinding C-x b to helm-mini				 :keybinding:
+From the interwebs
+#+BEGIN_SRC elisp
+   (global-set-key (kbd "C-x b") 'helm-mini)
+#+END_SRC
+
+*** TODO Find a good sample Helm conf to improve workflow
+Sasha Chuan might have it.
+*** Helm-projectile integration
+Enable the integration
+#+BEGIN_SRC emacs-lisp
+(helm-projectile-on)
+#+END_SRC
+Make projectile use helm for project-switching
+#+BEGIN_SRC emacs-lisp
+;; asks for file to open when project is switched
+(setq projectile-switch-project-action 'helm-projectile-find-file)
+#+END_SRC
+
+** Projectile
+Takes care of some project-definitions : jumping around files in a defined project.
+You define what a project is then search for files in the project.
+Integrates well to Helm.
+** Undo tree
+Smarter UNDO : undo-tree.
+*** TODO Rebind the undo command to undo-tree
+*** TODO Persist the buffer undo-history over 
+* Emacs calendar
+** TODO Set computer location for sunrise-sunset in calendar
+** TODO Calendar reminders for events
+From [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up-alarms-audio-visual-triggered-by-org-mode-events][StackOverflow]]:
+#+BEGIN_SRC emacs-lisp
+(require 'notifications)
+
+(notifications-notify :title "Achtung!"
+                      :body (format "You have an appointment in %d minutes" 10)
+                      :app-name "Emacs: Org"
+                      :sound-name "alarm-clock-elapsed")
+#+END_SRC
+
+
+* Emacs tricks 							     :editor:
+
+** IDE
+*** TODO Project navigation
+Emacs should know what my projects are (fdeco-solar etc) based on CMake and ~/dev/workspace/ folder.
+Should allow to navigate to any file I ask for.
+**** Using projectile ?
+Integrated with helm, also gtags ?
+*** JSON
+**** Prettify dense JSON
+Select region then ~C-\ python -m json.tool~. There's an additional prepend switch to make the command happen in-buffer.
+**** TODO Packing pretty JSON
+
+*** Highlight all occurences of word in buffer
+~M-x highlight-regexp RET pattern RET RET~.
+Double return because it asks for highlight-color (default yellow)
+** Orgmode
+*** TODO Linking documents
+**** Email attachments
+**** Whiteboard image
+
+*** TODO Publishing a project
+See [[http://orgmode.org/manual/Publishing.html]]
+For FDECO and JoshWeaver projects.
+
+*** TODO Bugzilla template
+Each time =bug12345= is written, replace it with the link https://bugzilla.seebyte.com/show_bug.cgi?id=12345 with a link name from the original
+
+*** TODO Link to email
+*** TODO Link to git
+**** Linking to branches
+**** Linking to commit
+**** Linking to tag
+
+*** Line-wrap by default
+To get line-wrap EVERYWHERE : ~(global-visual-line-mode t)~.
+Not recommended because applies even in C++ buffers. Alternatively, enable only in current buffer with  ~M-x visual-line-mode~.
+Major modes where wrapping is useful
+- Org (runaway text should be contained to the window)
+Harmful
+- Compilation buffers
+- C++ code
+*** Image resizing : whiteboard
+From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-mode][Stackoverflow]] and [[http://lists.gnu.org/archive/html/emacs-orgmode/2012-08/msg01388.html][Orgmode maillist archive]]
+~(setq org-image-actual-width nil)~ then
+#+BEGIN_SRC
+#+ATTR_HTML: :width 500px
+#+ATTR_ORG: :width 500
+[[~/images/example.jpg]]
+#+END_SRC
+**** TODO Set default image resizing to coherent value (500px ?)
+
