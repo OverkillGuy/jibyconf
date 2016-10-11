@@ -1,3 +1,5 @@
+#+PROPERTY: tangle init.el
+#+SETUPFILE: /home/jean-baptiste.doyon/Documents/dev-local/org-html-themes/setup/theme-bigblow.setup
 
 My Emacs configuration file, hard-earned.
 
@@ -10,8 +12,10 @@ This file is part of a git repository that I sync across devices.
 ** TODO Make the .emacs file point to this file			   :initfile:
 * Cosmetic							   :cosmetic:
 ** Disable graphical bar						:GUI:
+Remove the GUI tools (open,save etc) but keep the helpful menu bar.
+
 #+BEGIN_SRC emacs-lisp
-(tool-bar-mode -1) ;; Remove the GUI tools (open,save etc)
+(tool-bar-mode -1)
 (menu-bar-mode 1)  ;; Enable the menu bar (file-edit-options etc)
 #+END_SRC
 ** Mode line aspect
@@ -58,6 +62,9 @@ Load all my common languages
    (sh . t)
    ))
 #+END_SRC
+** Daily log into drawers						:log:
+I want daily notes of my projects. Simple things like words and timestamp.
+By default org-mode adds logged data (with z in the agenda) at the root of the relevant section,
 ** Org-babel source coloring			    :orgbabel:syntaxcoloring:
 #+BEGIN_SRC emacs-lisp
 ;; Make org-babel colorize source code
@@ -210,7 +217,7 @@ Binding files I access often to Emacs registers for quick access.
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events
 From [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up-alarms-audio-visual-triggered-by-org-mode-events][StackOverflow]]:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (require 'notifications)
 
 (notifications-notify :title "Achtung!"
