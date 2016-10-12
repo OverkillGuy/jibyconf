@@ -56,7 +56,7 @@ Load all my common languages
 ;; Orgmode code-execution support my languages
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((ipython . t)
+ '((python . t)
    (plantuml . t)
    (C . t)
    (sh . t)
@@ -94,9 +94,7 @@ A neat file explorer for emacs
 ;; File manager docked by default
 (require 'sr-speedbar)
 ;; speedbar : show all filetypes (not just indexed ones)
-(custom-set-variable
- '(speedbar-show-unknown-files t)
-)
+(setq speedbar-show-unknown-files t)
 #+END_SRC
 ** TODO Make speedbar stick to projectile-folder	:speedbar:projectile:
 Instead of jumping around the folders
