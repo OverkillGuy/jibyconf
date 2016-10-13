@@ -96,8 +96,13 @@ A neat file explorer for emacs
 ;; speedbar : show all filetypes (not just indexed ones)
 (setq speedbar-show-unknown-files t)
 #+END_SRC
-** TODO Make speedbar stick to projectile-folder	:speedbar:projectile:
-Instead of jumping around the folders
+** Make speedbar stick to projectile-folder		:speedbar:projectile:
+Instead of jumping around the folders.
+See [[http://stackoverflow.com/questions/15063081/speedbar-how-to-fix-the-base-directory-not-change-as-buffer-switched][Stackoverflow question]].
+#+BEGIN_SRC emacs-lisp
+(sr-speedbar-refresh-turn-off)
+#+END_SRC
+
 * C++									:cpp:
 ** Indentation							  :codestyle:
 #+BEGIN_SRC emacs-lisp
