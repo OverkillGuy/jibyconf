@@ -58,6 +58,7 @@ Load all my common languages
  'org-babel-load-languages
  '((python . t)
    (plantuml . t)
+   (ditaa . t)
    (C . t)
    (sh . t)
    ))
@@ -80,11 +81,16 @@ Such timestamps and messages should only go in the *:LOGBOOK:* drawer.
 ;; Make org-babel colorize source code
 (setq-default org-src-fontify-natively t)
 #+END_SRC
-** TODO Set PlantUML jar path						:UML:
+** Set PlantUML jar path 						:UML:
 It's usually done via ~M-x customize~.
 #+BEGIN_SRC emacs-lisp
 (setq org-plantuml-jar-path
       (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
+#+END_SRC
+** Ditaa diagrams
+
+#+BEGIN_SRC emacs-lisp
+(setq org-ditaa-jar-path  "~/.emacs.d/scripts/ditaa.jar")
 #+END_SRC
 
 ** TODO Org-capture						 :orgcapture:
