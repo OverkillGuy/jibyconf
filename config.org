@@ -88,9 +88,16 @@ It's usually done via ~M-x customize~.
       (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
 #+END_SRC
 ** Ditaa diagrams
-
+Pointing emacs to the ditaa executable
 #+BEGIN_SRC emacs-lisp
 (setq org-ditaa-jar-path  "~/.emacs.d/scripts/ditaa.jar")
+#+END_SRC
+
+Make ditaa diagrams "safe" to evaluate, without prompt
+#+BEGIN_SRC emacs-lisp
+  (defun my-org-confirm-babel-evaluate (lang body)
+    (not (string= lang "ditaa")))  ; don't ask for ditaa
+  (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
 ** TODO Org-capture						 :orgcapture:
