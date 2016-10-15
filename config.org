@@ -1,18 +1,38 @@
+#+PROPERTY: tangle init.el
+#+SETUPFILE: /home/jean-baptiste.doyon/Documents/dev-local/org-html-themes/setup/theme-bigblow.setup
 
-My Emacs configuration file, hard-earned.
+This is my Emacs configuration file.
+It is the fruit of months of daily use and "what if I could make it
+better/faster/automated ?"
+
+Any TODO is a potential for improval.
 
 Great resources for any emacs setup:
 - [[http://doc.norang.ca/org-mode.html][NORANG init.el]]
 - [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chuan's setup]]
 
-* Cosmetic
+* Config file setup
+This file is part of a git repository that I sync across devices.
+** TODO Make the .emacs file point to this file			   :initfile:
+** TODO [#A] Use this orgfile as init.el
+See [[http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file][Stackoverflow post on the topic]].
+Uses the following code:
+#+BEGIN_SRC emacs-lisp
+(require 'org)
+(org-babel-load-file
+ (expand-file-name "settings.org"
+                   user-emacs-directory))
+#+END_SRC
+Would need to make this a symlink to this file.
+* Cosmetic							   :cosmetic:
 ** Theme
 I use ~tango-dark~ and it looks great !
 *** TODO Make theme-selection via code
-** Disable graphical menus
+** Disable graphical bar						:GUI:
+Remove the GUI tools (open,save etc) but keep the helpful menu bar.
 #+BEGIN_SRC emacs-lisp
-(tool-bar-mode -1) 
-(menu-bar-mode -1)
+(tool-bar-mode -1)
+(menu-bar-mode 1)  ;; Enable the menu bar (file-edit-options etc)
 #+END_SRC
 ** Mode line aspect
 I want my emacs to look cool, so I changed the mode line accordingly.
@@ -30,7 +50,7 @@ Because I'm not a complete hack, I changed the colors to my liking (blue !)
                     :box nil)
 #+END_SRC
 
-* Backup files
+* Backup files							     :backup:
 These files are supposed to save my life, but I can't stand them when they're polluting my working directory.
 #+BEGIN_SRC emacs-lisp
 ;; Make all backups out of sight !
@@ -44,46 +64,133 @@ These files are supposed to save my life, but I can't stand them when they're po
 #+END_SRC
 ** TODO Sasha Chuan's ALWAYS BACKUP NEVER DELETE policy
 
-* Org-babel
+
+* Orgmode								:org:
+** Org-babel load languages					   :orgbabel:
 Load all my common languages
 #+BEGIN_SRC emacs-lisp
 ;; Orgmode code-execution support my languages
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((ipython . t)
+ '((python . t)
    (plantuml . t)
+   (ditaa . t)
    (C . t)
    (sh . t)
    ))
 #+END_SRC
-** TODO Set PlantUML jar path
-It's usually done via ~M-x customize~.
-** TODO [#A] Use this orgfile as init.el
-See [[http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file][Stackoverflow post on the topic]].
-Uses the following code:
+** Task tracking 							:log:
+I want daily notes of my projects. Simple things like words and timestamp.
+By default org-mode adds logged data (with z in the agenda) at the root of the relevant section.
 #+BEGIN_SRC emacs-lisp
-(require 'org)
-(org-babel-load-file
- (expand-file-name "settings.org"
-                   user-emacs-directory))
+     (setq org-todo-keywords
+       '((sequence "TODO(t)" "WAIT(w@/!)" "DOING(i!)" "|" "DONE(d!)" "CANCELED(c@)")))
 #+END_SRC
-Would need to make this a symlink to this file.
-* Speedbar
+
+Such timestamps and messages should only go in the *:LOGBOOK:* drawer.
+#+BEGIN_SRC emacs-lisp
+(setq org-log-into-drawer t)
+#+END_SRC
+
+** Org-babel source coloring			    :orgbabel:syntaxcoloring:
+#+BEGIN_SRC emacs-lisp
+;; Make org-babel colorize source code
+(setq-default org-src-fontify-natively t)
+#+END_SRC
+** Set PlantUML jar path 						:UML:
+It's usually done via ~M-x customize~.
+#+BEGIN_SRC emacs-lisp
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
+#+END_SRC
+** Ditaa diagrams
+Pointing emacs to the ditaa executable
+#+BEGIN_SRC emacs-lisp
+(setq org-ditaa-jar-path  "~/.emacs.d/scripts/ditaa.jar")
+#+END_SRC
+
+Make ditaa diagrams "safe" to evaluate, without prompt
+#+BEGIN_SRC emacs-lisp
+  (defun my-org-confirm-babel-evaluate (lang body)
+    (not (string= lang "ditaa")))  ; don't ask for ditaa
+  (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+#+END_SRC
+
+** TODO Org-capture						 :orgcapture:
+* Speedbar							   :speedbar:
+
 A neat file explorer for emacs
 #+BEGIN_SRC emacs-lisp
 ;; File manager docked by default
 (require 'sr-speedbar)
 ;; speedbar : show all filetypes (not just indexed ones)
-(custom-set-variable
- '(speedbar-show-unknown-files t)
-)
+(setq speedbar-show-unknown-files t)
 #+END_SRC
-** TODO Make speedbar stick to projectile-folder
-Instead of jumping around the folders
-* C++
-** TODO [#A] GTAGS integration
-helm-gtags setup !
-** Highlighting FIXMEs and TODOs
+** Make speedbar stick to projectile-folder		:speedbar:projectile:
+Instead of jumping around the folders.
+See [[http://stackoverflow.com/questions/15063081/speedbar-how-to-fix-the-base-directory-not-change-as-buffer-switched][Stackoverflow question]].
+#+BEGIN_SRC emacs-lisp
+(sr-speedbar-refresh-turn-off)
+#+END_SRC
+
+* C++									:cpp:
+** Indentation							  :codestyle:
+#+BEGIN_SRC emacs-lisp
+
+;; style I want to use in c++ mode
+(c-add-style "my-style"
+	     '("stroustrup"
+	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
+	       (c-basic-offset . 4)            ; indent by four spaces
+	       (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
+				   (brace-list-open . 0)
+				   (statement-case-open . +)))))
+
+(defun my-c++-mode-hook ()
+  (c-set-style "my-style")        ; use my-style defined above
+  (auto-fill-mode)
+  (c-toggle-auto-hungry-state 1))
+;; Trigger my-style when entering c++-mode
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+#+END_SRC
+** GTAGS integration to helm 					 :helm:gtags:
+#+BEGIN_SRC emacs-lisp
+;; Enable Helm with GTAGS in C and C++ mode
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+;; Enable Helm with GTAGS in C and C++ mode
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+;; Helm-gtags settings (unsure what they do)
+(setq
+ helm-gtags-ignore-case t
+ helm-gtags-auto-update t
+ helm-gtags-use-input-at-cursor t
+ helm-gtags-pulse-at-cursor t
+ helm-gtags-prefix-key "\C-cg"
+ helm-gtags-suggested-key-mapping t
+ helm-gtags-fuzzy-match t
+ )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+;; Adds keybindings for helm
+(eval-after-load "helm-gtags"
+  '(progn 
+     (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+     (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+     (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)))
+#+END_SRC
+** Highlighting FIXMEs and TODOs				   :cosmetic:
 #+BEGIN_SRC emacs-lisp
 ;; TODO/FIXME highlight enable
 (require 'fic-mode)
@@ -92,7 +199,7 @@ helm-gtags setup !
 #+END_SRC
 *** TODO Show all TODO/FIXME in a project
 
-** Compilation							       :make:
+** Compilation							:compilation:
 *** Compilation buffer coloring support
 Make compilation buffers support ANSI terminal coloring (eg: CMake)
 #+BEGIN_SRC elisp
@@ -120,15 +227,15 @@ Yasnippets
 I don't /want/ to exit emacs often (open all day for logging project progress and edit code, close it usually once a day before closing down computer to make sure all files are saved)
 Use an other binding to make it less likely to exit.
 ** Helm							  :projectmanagement:
-*** TODO Rebinding C-x b to helm-mini				 :keybinding:
+*** TODO Rebinding C-x b to helm-mini			    :keybinding:helm:
 From the interwebs
 #+BEGIN_SRC elisp
    (global-set-key (kbd "C-x b") 'helm-mini)
 #+END_SRC
 
-*** TODO Find a good sample Helm conf to improve workflow
+*** TODO Find a good sample Helm conf to improve workflow	       :helm:
 Sasha Chuan might have it.
-*** Helm-projectile integration
+*** Helm-projectile integration				    :helm:projectile:
 Enable the integration
 #+BEGIN_SRC emacs-lisp
 (helm-projectile-on)
@@ -139,19 +246,21 @@ Make projectile use helm for project-switching
 (setq projectile-switch-project-action 'helm-projectile-find-file)
 #+END_SRC
 
-** Projectile
+** Projectile							 :projectile:
 Takes care of some project-definitions : jumping around files in a defined project.
 You define what a project is then search for files in the project.
 Integrates well to Helm.
-** Undo tree
+** Undo tree							   :undotree:
 Smarter UNDO : undo-tree.
 *** TODO Rebind the undo command to undo-tree
 *** TODO Persist the buffer undo-history over 
-* Emacs calendar
+** TODO Registers						 :keybinding:
+Binding files I access often to Emacs registers for quick access.
+* Emacs calendar						   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events
 From [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up-alarms-audio-visual-triggered-by-org-mode-events][StackOverflow]]:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (require 'notifications)
 
 (notifications-notify :title "Achtung!"
@@ -168,8 +277,9 @@ You need to create the first entry so that ~M-x bbdb~ does something useful.
 In my case I created myself as a contact: ~M-x bbdb-create RET Jb RET RET RET~.
 Then go to the created buffer, save it. You can now version-control your created BBDB file, yay !
 
-* Emacs tricks 							     :editor:
 
+* Emacs tricks 							     :editor:
+This section is from old work config file.
 ** IDE
 *** TODO Project navigation
 Emacs should know what my projects are (fdeco-solar etc) based on CMake and ~/dev/workspace/ folder.
