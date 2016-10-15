@@ -6,6 +6,9 @@ Great resources for any emacs setup:
 - [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chuan's setup]]
 
 * Cosmetic
+** Theme
+I use ~tango-dark~ and it looks great !
+*** TODO Make theme-selection via code
 ** Disable graphical menus
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1) 
@@ -55,6 +58,16 @@ Load all my common languages
 #+END_SRC
 ** TODO Set PlantUML jar path
 It's usually done via ~M-x customize~.
+** TODO [#A] Use this orgfile as init.el
+See [[http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file][Stackoverflow post on the topic]].
+Uses the following code:
+#+BEGIN_SRC emacs-lisp
+(require 'org)
+(org-babel-load-file
+ (expand-file-name "settings.org"
+                   user-emacs-directory))
+#+END_SRC
+Would need to make this a symlink to this file.
 * Speedbar
 A neat file explorer for emacs
 #+BEGIN_SRC emacs-lisp
@@ -147,6 +160,13 @@ From [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up
                       :sound-name "alarm-clock-elapsed")
 #+END_SRC
 
+* Contacts
+Using BBDB, see [[http://sachachua.com/blog/tag/bbdb/][Sacha chuan blog, bbdb section]].
+See also [[http://emacs-fu.blogspot.co.uk/2009/08/managing-e-mail-addresses-with-bbdb.html][Using bbdb for email addresses]].
+** Setup
+You need to create the first entry so that ~M-x bbdb~ does something useful.
+In my case I created myself as a contact: ~M-x bbdb-create RET Jb RET RET RET~.
+Then go to the created buffer, save it. You can now version-control your created BBDB file, yay !
 
 * Emacs tricks 							     :editor:
 
