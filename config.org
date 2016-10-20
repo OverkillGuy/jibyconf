@@ -10,6 +10,7 @@ Any TODO is a potential for improval.
 Great resources for any emacs setup:
 - [[http://doc.norang.ca/org-mode.html][NORANG init.el]]
 - [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chuan's setup]]
+- [[http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php][An other init.el sample]]
 
 * Config file setup
 This file is part of a git repository that I sync across devices.
@@ -17,17 +18,40 @@ This file is part of a git repository that I sync across devices.
 ** TODO [#A] Use this orgfile as init.el
 See [[http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file][Stackoverflow post on the topic]].
 Uses the following code:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (require 'org)
 (org-babel-load-file
  (expand-file-name "settings.org"
                    user-emacs-directory))
 #+END_SRC
 Would need to make this a symlink to this file.
+* Packages
+Official repos for emacs packages
+#+BEGIN_SRC emacs-lisp
+(setq package-archives '(("gnu" . "https ://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+#+END_SRC
 * Cosmetic							   :cosmetic:
 ** Theme
-I use ~tango-dark~ and it looks great !
-*** TODO Make theme-selection via code
+I use ~tango-dark~ at home and it looks great !
+At work, I use ~misterioso~.
+#+BEGIN_SRC emacs-lisp  :exports none
+(load-theme 'misterioso t) ;; Theme used at work 
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(load-theme 'tango-dark t)
+#+END_SRC
+** Make text readable 
+
+#+BEGIN_SRC emacs-lisp
+;; Make text readable through fontsize 18
+(set-face-attribute 'default nil :height 180)
+#+END_SRC
+
+#+RESULTS:
+
 ** Disable graphical bar						:GUI:
 Remove the GUI tools (open,save etc) but keep the helpful menu bar.
 #+BEGIN_SRC emacs-lisp
@@ -270,9 +294,9 @@ From [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up
 #+END_SRC
 
 * Contacts
-Using BBDB, see [[http://sachachua.com/blog/tag/bbdb/][Sacha chuan blog, bbdb section]].
-See also [[http://emacs-fu.blogspot.co.uk/2009/08/managing-e-mail-addresses-with-bbdb.html][Using bbdb for email addresses]].
-** Setup
+Using BBDB, see [[http://sachachua.com/blog/tag/bbdb/][Sacha chuan blog, bbdb section]]. See also [[http://emacs-fu.blogspot.co.uk/2009/08/managing-e-mail-addresses-with-bbdb.html][Using bbdb for email addresses]].
+Or using Org-contact in contrib folder to export to vCard (then sync).
+** BBDB Setup
 You need to create the first entry so that ~M-x bbdb~ does something useful.
 In my case I created myself as a contact: ~M-x bbdb-create RET Jb RET RET RET~.
 Then go to the created buffer, save it. You can now version-control your created BBDB file, yay !
@@ -330,3 +354,7 @@ From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-m
 #+END_SRC
 **** TODO Set default image resizing to coherent value (500px ?)
 
+
+* Room for improvement
+- Should move every TODO entry into here, with appropriate tags for readability
+- 
