@@ -93,7 +93,6 @@ These files are supposed to save my life, but I can't stand them when they're po
 #+END_SRC
 ** TODO Sasha Chuan's ALWAYS BACKUP NEVER DELETE policy
 
-
 * Orgmode								:org:
 ** Org-babel load languages					   :orgbabel:
 Load all my common languages
@@ -188,14 +187,16 @@ See [[http://stackoverflow.com/questions/15063081/speedbar-how-to-fix-the-base-d
 ;; Trigger my-style when entering c++-mode
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 #+END_SRC
-** Nested Parenthesis coloring			       :cosmetic:readability:
-Using =rainbow-delimiters=.
-
+** Parenthesis matching 			       :cosmetic:readability:
+Using =rainbow-delimiters= for top-level visibility of braces and parens.
 #+BEGIN_SRC sh
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 #+END_SRC
 
-#+RESULTS:
+Show paren mode for showing matching brace under the cursor
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'show-paren-mode)
+#+END_SRC
 
 ** GTAGS integration to helm 					 :helm:gtags:
 #+BEGIN_SRC emacs-lisp
@@ -280,6 +281,12 @@ From the interwebs
 *** TODO Find a good sample Helm conf to improve workflow	       :helm:
 Sasha Chuan might have it.
 *** Helm-projectile integration				    :helm:projectile:
+Enable helm
+#+BEGIN_SRC emacs-lisp
+(require 'helm-config)
+(helm-mode 1)
+#+END_SRC
+
 Enable the integration
 #+BEGIN_SRC emacs-lisp
 (helm-projectile-on)
@@ -295,7 +302,15 @@ Takes care of some project-definitions : jumping around files in a defined proje
 You define what a project is then search for files in the project.
 Integrates well to Helm.
 ** Undo tree							   :undotree:
-Smarter UNDO : undo-tree.
+Enable it everywhere (replacing the common undo).
+#+BEGIN_SRC emacs-lisp
+(require 'undo-tree)
+(global-undo-tree-mode)
+#+END_SRC
+
+Use ~C-x u~ to open the undo-tree view, then ~d~ to view the diff of
+each node. ~q~ quits the session.
+
 *** TODO Rebind the undo command to undo-tree
 *** TODO Persist the buffer undo-history over 
 ** TODO Registers						 :keybinding:
