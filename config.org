@@ -153,6 +153,15 @@ See [[http://stackoverflow.com/questions/15063081/speedbar-how-to-fix-the-base-d
 ;; Trigger my-style when entering c++-mode
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 #+END_SRC
+** Nested Parenthesis coloring			       :cosmetic:readability:
+Using =rainbow-delimiters=.
+
+#+BEGIN_SRC sh
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
+#+RESULTS:
+
 ** GTAGS integration to helm 					 :helm:gtags:
 #+BEGIN_SRC emacs-lisp
 ;; Enable Helm with GTAGS in C and C++ mode
