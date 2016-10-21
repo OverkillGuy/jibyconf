@@ -36,7 +36,7 @@ Official repos for emacs packages
 ** Theme
 I use ~tango-dark~ at home and it looks great !
 At work, I use ~misterioso~.
-#+BEGIN_SRC emacs-lisp  :exports none
+#+BEGIN_SRC emacs-lisp  :tangle no
 (load-theme 'misterioso t) ;; Theme used at work 
 #+END_SRC
 
