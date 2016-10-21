@@ -322,7 +322,8 @@ From the interwebs
 #+END_SRC
 
 *** TODO Find a good sample Helm conf to improve workflow	       :helm:
-Sasha Chuan might have it.
+- [[https://tuhdo.github.io/helm-intro.html][Helm intro]]
+
 *** Helm-projectile integration				    :helm:projectile:
 Enable helm
 #+BEGIN_SRC emacs-lisp
