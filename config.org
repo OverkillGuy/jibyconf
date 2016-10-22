@@ -50,13 +50,13 @@ At work, I use ~misterioso~.
 (set-face-attribute 'default nil :height 180)
 #+END_SRC
 
-#+RESULTS:
 
-** Disable graphical bar						:GUI:
+** Disable graphical bars 						:GUI:
 Remove the GUI tools (open,save etc) but keep the helpful menu bar.
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode 1)  ;; Enable the menu bar (file-edit-options etc)
+(toggle-scroll-bar -1) 
 #+END_SRC
 ** Mode line aspect
 I want my emacs to look cool, so I changed the mode line accordingly.
@@ -110,10 +110,17 @@ Load all my common languages
 #+END_SRC
 
 #+CAPTION: Make the shell work like an interactive bash shell
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent :exports code
 (setq org-babel-default-header-args:sh
       '((:results . "output") (:shebang . "#!/bin/bash -l")))
 #+END_SRC
+
+#+CAPTION: Make python not need absurd "return"s
+#+BEGIN_SRC emacs-lisp
+(setq org-babel-default-header-args:python
+      '((:results . "output")))
+#+END_SRC
+
 ** Org export
 Do not show me section numbers in export (HTML or \latex)
 #+BEGIN_SRC emacs-lisp
@@ -134,9 +141,11 @@ Such timestamps and messages should only go in the *:LOGBOOK:* drawer.
 #+END_SRC
 
 ** Org-babel source coloring			    :orgbabel:syntaxcoloring:
+#+CAPTION: Make org-babel colorize source code
 #+BEGIN_SRC emacs-lisp
-;; Make org-babel colorize source code
-(setq-default org-src-fontify-natively t)
+(setq org-src-fontify-natively t
+      org-adapt-indentation nil
+      org-src-preserve-indentation t)
 #+END_SRC
 ** Set PlantUML jar path						:UML:
 It's usually done via ~M-x customize~.
