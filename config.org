@@ -166,7 +166,12 @@ Make ditaa diagrams "safe" to evaluate, without prompt
   (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
-** TODO Org-capture						 :orgcapture:
+** TODO Org-capture 						 :orgcapture:
+** Ediff support
+When merging org-mode files (reconciliating changes on config files at work and at home), the default ediff buffer would not work: the buffer is folded, so pressing ~n~ does not jump to next conflict. To fix this, I make ediff expand the whole file (show all):
+#+BEGIN_SRC emacs-lisp
+(add-hook 'ediff-prepare-buffer-hook #'show-all)
+#+END_SRC
 * Speedbar							   :speedbar:
 
 A neat file explorer for emacs
