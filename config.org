@@ -22,15 +22,15 @@ Uses the following code:
 (require 'org)
 (org-babel-load-file
  (expand-file-name "settings.org"
-                   user-emacs-directory))
+		   user-emacs-directory))
 #+END_SRC
 Would need to make this a symlink to this file.
 * Packages
 Official repos for emacs packages
 #+BEGIN_SRC emacs-lisp
 (setq package-archives '(("gnu" . "https ://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+			 ("marmalade" . "https://marmalade-repo.org/packages/")
+			 ("melpa" . "https://melpa.org/packages/")))
 #+END_SRC
 * Cosmetic							   :cosmetic:
 ** Theme
@@ -43,20 +43,20 @@ At work, I use ~misterioso~.
 #+BEGIN_SRC emacs-lisp
 (load-theme 'tango-dark t)
 #+END_SRC
-** Make text readable 
+** Make text readable
 
 #+BEGIN_SRC emacs-lisp
 ;; Make text readable through fontsize 18
 (set-face-attribute 'default nil :height 180)
 #+END_SRC
 
-#+RESULTS:
 
-** Disable graphical bar						:GUI:
+** Disable graphical bars 						:GUI:
 Remove the GUI tools (open,save etc) but keep the helpful menu bar.
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode 1)  ;; Enable the menu bar (file-edit-options etc)
+(toggle-scroll-bar -1) 
 #+END_SRC
 ** Mode line aspect
 I want my emacs to look cool, so I changed the mode line accordingly.
@@ -69,9 +69,9 @@ Idea came from [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fan
 Because I'm not a complete hack, I changed the colors to my liking (blue !)
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'mode-line nil
-                    :foreground "White"
-                    :background "DarkBlue"
-                    :box nil)
+		    :foreground "White"
+		    :background "DarkBlue"
+		    :box nil)
 #+END_SRC
 
 ** Beacon
@@ -107,13 +107,26 @@ Load all my common languages
    (sh . t)
    ))
 #+END_SRC
+
+#+CAPTION: Make the shell work like an interactive bash shell
+#+BEGIN_SRC emacs-lisp :results silent :exports code
+(setq org-babel-default-header-args:sh
+      '((:results . "output") (:shebang . "#!/bin/bash -l")))
+#+END_SRC
+
+#+CAPTION: Make python not need absurd "return"s
+#+BEGIN_SRC emacs-lisp
+(setq org-babel-default-header-args:python
+      '((:results . "output")))
+#+END_SRC
+
 ** Org export
 Do not show me section numbers in export (HTML or \latex)
 #+BEGIN_SRC emacs-lisp
 (setq org-export-with-section-numbers nil)
 #+END_SRC
 
-** Task tracking 							:log:
+** Task tracking							:log:
 I want daily notes of my projects. Simple things like words and timestamp.
 By default org-mode adds logged data (with z in the agenda) at the root of the relevant section.
 #+BEGIN_SRC emacs-lisp
@@ -127,11 +140,13 @@ Such timestamps and messages should only go in the *:LOGBOOK:* drawer.
 #+END_SRC
 
 ** Org-babel source coloring			    :orgbabel:syntaxcoloring:
+#+CAPTION: Make org-babel colorize source code
 #+BEGIN_SRC emacs-lisp
-;; Make org-babel colorize source code
-(setq-default org-src-fontify-natively t)
+(setq org-src-fontify-natively t
+      org-adapt-indentation nil
+      org-src-preserve-indentation t)
 #+END_SRC
-** Set PlantUML jar path 						:UML:
+** Set PlantUML jar path						:UML:
 It's usually done via ~M-x customize~.
 #+BEGIN_SRC emacs-lisp
 (setq org-plantuml-jar-path
@@ -150,7 +165,12 @@ Make ditaa diagrams "safe" to evaluate, without prompt
   (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
-** TODO Org-capture						 :orgcapture:
+** TODO Org-capture 						 :orgcapture:
+** Ediff support
+When merging org-mode files (reconciliating changes on config files at work and at home), the default ediff buffer would not work: the buffer is folded, so pressing ~n~ does not jump to next conflict. To fix this, I make ediff expand the whole file (show all):
+#+BEGIN_SRC emacs-lisp
+(add-hook 'ediff-prepare-buffer-hook #'show-all)
+#+END_SRC
 * Speedbar							   :speedbar:
 
 A neat file explorer for emacs
@@ -198,7 +218,7 @@ Show paren mode for showing matching brace under the cursor
 (add-hook 'prog-mode-hook 'show-paren-mode)
 #+END_SRC
 
-** GTAGS integration to helm 					 :helm:gtags:
+** GTAGS integration to helm					 :helm:gtags:
 #+BEGIN_SRC emacs-lisp
 ;; Enable Helm with GTAGS in C and C++ mode
 (add-hook 'c-mode-hook 'helm-gtags-mode)
@@ -227,7 +247,7 @@ Show paren mode for showing matching brace under the cursor
 #+BEGIN_SRC emacs-lisp
 ;; Adds keybindings for helm
 (eval-after-load "helm-gtags"
-  '(progn 
+  '(progn
      (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
      (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
      (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
@@ -239,7 +259,7 @@ Show paren mode for showing matching brace under the cursor
 #+BEGIN_SRC emacs-lisp
 ;; TODO/FIXME highlight enable
 (require 'fic-mode)
-(add-hook 'c++-mode-hook 'turn-on-fic-mode) 
+(add-hook 'c++-mode-hook 'turn-on-fic-mode)
 
 #+END_SRC
 *** TODO Show all TODO/FIXME in a project
@@ -260,8 +280,8 @@ Make compilation buffers support ANSI terminal coloring (eg: CMake)
 *** TODO Compilation of project (using makefile)
 While in one file 3 level down the project root, call =compile= without specifying project root (with relative path).
 ** TODO Go to method/variable definition			       :helm:
-Find a way to go to definition of that method. 
-Helm can do that 
+Find a way to go to definition of that method.
+Helm can do that
 ** TODO Uncomment region binding				 :keybinding:
 Command exists (~M-x uncomment-region~) but is by default not bound.
 Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
@@ -312,7 +332,7 @@ Use ~C-x u~ to open the undo-tree view, then ~d~ to view the diff of
 each node. ~q~ quits the session.
 
 *** TODO Rebind the undo command to undo-tree
-*** TODO Persist the buffer undo-history over 
+*** TODO Persist the buffer undo-history over
 ** TODO Registers						 :keybinding:
 Binding files I access often to Emacs registers for quick access.
 * Emacs calendar						   :calendar:
@@ -323,9 +343,9 @@ From [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up
 (require 'notifications)
 
 (notifications-notify :title "Achtung!"
-                      :body (format "You have an appointment in %d minutes" 10)
-                      :app-name "Emacs: Org"
-                      :sound-name "alarm-clock-elapsed")
+		      :body (format "You have an appointment in %d minutes" 10)
+		      :app-name "Emacs: Org"
+		      :sound-name "alarm-clock-elapsed")
 #+END_SRC
 
 * Contacts
@@ -337,7 +357,7 @@ In my case I created myself as a contact: ~M-x bbdb-create RET Jb RET RET RET~.
 Then go to the created buffer, save it. You can now version-control your created BBDB file, yay !
 
 
-* Emacs tricks 							     :editor:
+* Emacs tricks							     :editor:
 This section is from old work config file.
 ** IDE
 *** TODO Project navigation
@@ -392,4 +412,4 @@ From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-m
 
 * Room for improvement
 - Should move every TODO entry into here, with appropriate tags for readability
-- 
+-
