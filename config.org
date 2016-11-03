@@ -21,7 +21,7 @@ Uses the following code:
 #+BEGIN_SRC emacs-lisp :tangle no
 (require 'org)
 (org-babel-load-file
- (expand-file-name "settings.org"
+ (expand-file-name "init.el"
 		   user-emacs-directory))
 #+END_SRC
 Would need to make this a symlink to this file.
@@ -257,7 +257,7 @@ Show paren mode for showing matching brace under the cursor
 #+END_SRC
 ** Highlighting FIXMEs and TODOs				   :cosmetic:
 #+BEGIN_SRC emacs-lisp
-;; TODO/FIXME highlight enable
+;; TODO/FIXME highlight enable :tangle no
 (require 'fic-mode)
 (add-hook 'c++-mode-hook 'turn-on-fic-mode)
 
@@ -287,6 +287,14 @@ Command exists (~M-x uncomment-region~) but is by default not bound.
 Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
 ** TODO Yasnippets module
 Yasnippets
+* Git									:git:
+*** Git gutter
+Show diff-lines by the file fringe
+#+BEGIN_SRC emacs-lisp
+(global-git-gutter-mode +1)
+#+END_SRC
+
+More info at https://github.com/syohex/emacs-git-gutter
 * Emacs usability
 ** TODO Remap C-x C-c to avoid accidentally exiting		 :keybinding:
 I don't /want/ to exit emacs often (open all day for logging project progress and edit code, close it usually once a day before closing down computer to make sure all files are saved)
@@ -412,4 +420,3 @@ From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-m
 
 * Room for improvement
 - Should move every TODO entry into here, with appropriate tags for readability
--
