@@ -287,6 +287,14 @@ Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
 ** TODO Yasnippets module
 Yasnippets
 * Emacs usability
+** Double spacing navigation
+By default emacs assumes the American typist system of 2 spaces after a sentence-ending character (like ~.~).
+This makes using ~M-e~ navigation difficult, as I only space my sentences once.
+
+#+CAPTION: Make emacs use single-spaced sentences
+#+BEGIN_SRC emacs-lisp
+(setq sentence-end-double-space nil)
+#+END_SRC
 ** TODO Remap C-x C-c to avoid accidentally exiting		 :keybinding:
 I don't /want/ to exit emacs often (open all day for logging project progress and edit code, close it usually once a day before closing down computer to make sure all files are saved)
 Use an other binding to make it less likely to exit.
