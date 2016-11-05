@@ -295,6 +295,13 @@ This makes using ~M-e~ navigation difficult, as I only space my sentences once.
 #+BEGIN_SRC emacs-lisp
 (setq sentence-end-double-space nil)
 #+END_SRC
+
+** Dead keys
+My French keyboard on emacs won't type dead keys by default, this fixes it.
+#+BEGIN_SRC emacs-lisp
+(require 'iso-transl)
+#+END_SRC
+
 ** TODO Remap C-x C-c to avoid accidentally exiting		 :keybinding:
 I don't /want/ to exit emacs often (open all day for logging project progress and edit code, close it usually once a day before closing down computer to make sure all files are saved)
 Use an other binding to make it less likely to exit.
