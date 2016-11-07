@@ -21,7 +21,7 @@ Uses the following code:
 #+BEGIN_SRC emacs-lisp :tangle no
 (require 'org)
 (org-babel-load-file
- (expand-file-name "settings.org"
+ (expand-file-name "init.el"
 		   user-emacs-directory))
 #+END_SRC
 Would need to make this a symlink to this file.
@@ -92,7 +92,6 @@ These files are supposed to save my life, but I can't stand them when they're po
   )
 #+END_SRC
 ** TODO Sasha Chuan's ALWAYS BACKUP NEVER DELETE policy
-
 
 * Orgmode								:org:
 ** Org-babel load languages					   :orgbabel:
@@ -208,14 +207,16 @@ See [[http://stackoverflow.com/questions/15063081/speedbar-how-to-fix-the-base-d
 ;; Trigger my-style when entering c++-mode
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 #+END_SRC
-** Nested Parenthesis coloring			       :cosmetic:readability:
-Using =rainbow-delimiters=.
-
+** Parenthesis matching 			       :cosmetic:readability:
+Using =rainbow-delimiters= for top-level visibility of braces and parens.
 #+BEGIN_SRC sh
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 #+END_SRC
 
-#+RESULTS:
+Show paren mode for showing matching brace under the cursor
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'show-paren-mode)
+#+END_SRC
 
 ** GTAGS integration to helm					 :helm:gtags:
 #+BEGIN_SRC emacs-lisp
@@ -256,7 +257,7 @@ Using =rainbow-delimiters=.
 #+END_SRC
 ** Highlighting FIXMEs and TODOs				   :cosmetic:
 #+BEGIN_SRC emacs-lisp
-;; TODO/FIXME highlight enable
+;; TODO/FIXME highlight enable :tangle no
 (require 'fic-mode)
 (add-hook 'c++-mode-hook 'turn-on-fic-mode)
 
@@ -286,6 +287,14 @@ Command exists (~M-x uncomment-region~) but is by default not bound.
 Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
 ** TODO Yasnippets module
 Yasnippets
+* Git									:git:
+*** Git gutter
+Show diff-lines by the file fringe
+#+BEGIN_SRC emacs-lisp
+(global-git-gutter-mode +1)
+#+END_SRC
+
+More info at https://github.com/syohex/emacs-git-gutter
 * Emacs usability
 ** Double spacing navigation
 By default emacs assumes the American typist system of 2 spaces after a sentence-ending character (like ~.~).
@@ -315,6 +324,12 @@ From the interwebs
 *** TODO Find a good sample Helm conf to improve workflow	       :helm:
 Sasha Chuan might have it.
 *** Helm-projectile integration				    :helm:projectile:
+Enable helm
+#+BEGIN_SRC emacs-lisp
+(require 'helm-config)
+(helm-mode 1)
+#+END_SRC
+
 Enable the integration
 #+BEGIN_SRC emacs-lisp
 (helm-projectile-on)
@@ -330,7 +345,15 @@ Takes care of some project-definitions : jumping around files in a defined proje
 You define what a project is then search for files in the project.
 Integrates well to Helm.
 ** Undo tree							   :undotree:
-Smarter UNDO : undo-tree.
+Enable it everywhere (replacing the common undo).
+#+BEGIN_SRC emacs-lisp
+(require 'undo-tree)
+(global-undo-tree-mode)
+#+END_SRC
+
+Use ~C-x u~ to open the undo-tree view, then ~d~ to view the diff of
+each node. ~q~ quits the session.
+
 *** TODO Rebind the undo command to undo-tree
 *** TODO Persist the buffer undo-history over
 ** TODO Registers						 :keybinding:
@@ -411,7 +434,6 @@ From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-m
 
 
 * Room for improvement
-- Should move every TODO entry into here, with appropriate tags for readability
 *** TODO Remove items from modeline
 When running a split-windowed emacs, the modeline is too crowded with stuff like Projectile, beacon-mode etc.
 There is a mode called Diminish mode that solves it. See [[http://emacs.stackexchange.com/questions/3925/hide-list-of-minor-modes-in-mode-line][SO on modeline too long]].
@@ -432,3 +454,4 @@ Bonus points for popping the "IDE perspective" from a cold-boot.
 
 *** TODO Compilation follow to first error
 Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
+
