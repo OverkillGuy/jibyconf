@@ -37,7 +37,7 @@ Official repos for emacs packages
 I use ~tango-dark~ at home and it looks great !
 At work, I use ~misterioso~.
 #+BEGIN_SRC emacs-lisp  :tangle no
-(load-theme 'misterioso t) ;; Theme used at work 
+(load-theme 'misterioso t) ;; Theme used at work
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -51,12 +51,12 @@ At work, I use ~misterioso~.
 #+END_SRC
 
 
-** Disable graphical bars 						:GUI:
+** Disable graphical bars						:GUI:
 Remove the GUI tools (open,save etc) but keep the helpful menu bar.
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode 1)  ;; Enable the menu bar (file-edit-options etc)
-(toggle-scroll-bar -1) 
+(toggle-scroll-bar -1)
 #+END_SRC
 ** Mode line aspect
 I want my emacs to look cool, so I changed the mode line accordingly.
@@ -166,7 +166,7 @@ Make ditaa diagrams "safe" to evaluate, without prompt
   (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
-** TODO Org-capture 						 :orgcapture:
+** TODO Org-capture						 :orgcapture:
 ** Ediff support
 When merging org-mode files (reconciliating changes on config files at work and at home), the default ediff buffer would not work: the buffer is folded, so pressing ~n~ does not jump to next conflict. To fix this, I make ediff expand the whole file (show all):
 #+BEGIN_SRC emacs-lisp
@@ -412,4 +412,23 @@ From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-m
 
 * Room for improvement
 - Should move every TODO entry into here, with appropriate tags for readability
--
+*** TODO Remove items from modeline
+When running a split-windowed emacs, the modeline is too crowded with stuff like Projectile, beacon-mode etc.
+There is a mode called Diminish mode that solves it. See [[http://emacs.stackexchange.com/questions/3925/hide-list-of-minor-modes-in-mode-line][SO on modeline too long]].
+
+Need to evaluate what is useless in modeline depending on what I do.
+
+See also: Smart-modeline !
+*** TODO Orgmode buffer switch
+When orgmode opens a buffer it's in the next buffer.
+I want it to happen in a specific place to avoid messing my setup.
+
+See http://emacs.stackexchange.com/questions/721/how-to-control-in-which-window-a-buffer-is-displayed
+
+*** TODO Perspective mode
+Emacs equivalent of virtual desktops, which you can integrate into projectile.
+This would allow the organisation stuff to be in a perspective and coding to be in an other one, and invoke either in one chord.
+Bonus points for popping the "IDE perspective" from a cold-boot.
+
+*** TODO Compilation follow to first error
+Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
