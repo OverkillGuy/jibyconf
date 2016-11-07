@@ -455,3 +455,16 @@ Bonus points for popping the "IDE perspective" from a cold-boot.
 *** TODO Compilation follow to first error
 Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
 
+*** Some setups
+
+#+CAPTION: Org-mode setup from https://news.ycombinator.com/reply?id=12863388&goto=item%3Fid%3D12862608%2312863388
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package org
+    :bind ("C-c a" . org-agenda)
+    :config
+    (progn
+      (setq org-agenda-files '("~/org"))
+      (setq org-cycle-separator-lines 1)
+      (setq org-todo-keywords '((type "TODO" "PROG" "WAIT" "|" "DONE")))
+      (setq org-todo-keyword-faces '(("TODO" . "brightblack") ("WAIT" . "yellow")))))
+#+END_SRC
