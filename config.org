@@ -433,6 +433,21 @@ Then go to the created buffer, save it. You can now version-control your created
 
 
 * Emacs tricks							     :editor:
+* RFC
+Browsing RFCs in emacs (from [[https://www.emacswiki.org/emacs/Irfc][emacswiki]])
+
+#+BEGIN_SRC sh :tangle no
+mkdir -p ~/dev/doc/rfc
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp
+(require 'irfc)
+(setq irfc-directory "~/dev/doc/rfc/")
+(setq irfc-assoc-mode t)
+#+END_SRC
+
+
 This section is from old work config file.
 ** IDE
 *** TODO Project navigation
