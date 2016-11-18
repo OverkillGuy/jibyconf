@@ -295,6 +295,16 @@ Show diff-lines by the file fringe
 #+END_SRC
 
 More info at https://github.com/syohex/emacs-git-gutter
+*** Orgit
+Link to magit buffers from Org documents.
+Install the package ~orgit~. See the documentation in [[https://github.com/magit/orgit][package Github page]].
+
+#+CAPTION: Using orgit in git repos
+#+BEGIN_EXAMPLE
+orgit:/path/to/repo/           links to a magit-status buffer
+orgit-log:/path/to/repo/::REV  links to a magit-log buffer
+orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
+#+END_EXAMPLE
 * Emacs usability
 ** Double spacing navigation
 By default emacs assumes the American typist system of 2 spaces after a sentence-ending character (like ~.~).
