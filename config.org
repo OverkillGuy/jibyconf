@@ -458,6 +458,13 @@ mkdir -p ~/dev/doc/rfc
 (setq irfc-assoc-mode t)
 #+END_SRC
 
+#+CAPTION: Change the font face for some options to match my theme
+#+BEGIN_SRC emacs-lisp
+;; (setq irfc-head-name-face :foreground "orange red")
+(set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
+#+END_SRC
+
+#+RESULTS:
 
 This section is from old work config file.
 ** IDE
