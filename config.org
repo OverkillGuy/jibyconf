@@ -180,11 +180,12 @@ A neat file explorer for emacs
 ;; speedbar : show all filetypes (not just indexed ones)
 (setq speedbar-show-unknown-files t)
 #+END_SRC
-** Make speedbar stick to projectile-folder		:speedbar:projectile:
-Instead of jumping around the folders.
-See [[http://stackoverflow.com/questions/15063081/speedbar-how-to-fix-the-base-directory-not-change-as-buffer-switched][Stackoverflow question]].
+** Speedbar in projectile 				:speedbar:projectile:
+Use ~projectile-speedbar~ package (see [[https://github.com/anshulverma/projectile-speedbar#projectile--speedbar][Github project page]])
+
+#+CAPTION: Opens the sr-speedbar when pressing Alt F3 in a projectile-owned buffer
 #+BEGIN_SRC emacs-lisp
-(sr-speedbar-refresh-turn-off)
+(global-set-key (kbd "M-<f3>") 'projectile-speedbar-open-current-buffer-in-tree)
 #+END_SRC
 
 * C++									:cpp:
