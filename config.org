@@ -306,6 +306,21 @@ orgit:/path/to/repo/           links to a magit-status buffer
 orgit-log:/path/to/repo/::REV  links to a magit-log buffer
 orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
 #+END_EXAMPLE
+*** Merge "take both" option
+While using emerge (merge conflict resolution tool), I sometimes need
+an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][stackoverflow]])
+
+#+CAPTION: Adds a "take both" option to merge conflict resolution and bind it to d
+#+BEGIN_SRC emacs-lisp
+(defun ediff-copy-both-to-C ()
+  (interactive)
+  (ediff-copy-diff ediff-current-difference nil 'C nil
+                   (concat
+                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+(defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
+(add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
+#+END_SRC
 * Emacs usability
 ** Double spacing navigation
 By default emacs assumes the American typist system of 2 spaces after a sentence-ending character (like ~.~).
