@@ -1,5 +1,4 @@
 #+PROPERTY: tangle init.el
-#+SETUPFILE: /home/jean-baptiste.doyon/Documents/dev-local/org-html-themes/setup/theme-bigblow.setup
 
 This is my Emacs configuration file.
 It is the fruit of months of daily use and "what if I could make it
@@ -50,12 +49,11 @@ At work, I use ~misterioso~.
 (set-face-attribute 'default nil :height 180)
 #+END_SRC
 
-
 ** Disable graphical bars						:GUI:
-Remove the GUI tools (open,save etc) but keep the helpful menu bar.
+Remove all the GUI tools (open,save etc) including the helpful menu bar (which takes an /entire/ character row !).
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
-(menu-bar-mode 1)  ;; Enable the menu bar (file-edit-options etc)
+(menu-bar-mode -1)
 (toggle-scroll-bar -1)
 #+END_SRC
 ** Mode line aspect
