@@ -327,6 +327,16 @@ an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][s
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 #+END_SRC
+*** Git status shortcut
+#+CAPTION: Rebind Alt-F12 to magit-status
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-<f12>") 'magit-status)
+#+END_SRC
+#+CAPTION: Rebind Ctrl-Alt-F12 to magit-status
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
+#+END_SRC
+
 * Emacs usability
 ** Double spacing navigation
 By default emacs assumes the American typist system of 2 spaces after a sentence-ending character (like ~.~).
