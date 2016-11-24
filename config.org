@@ -1,5 +1,4 @@
-#+PROPERTY: tangle init.el
-
+#+PROPERTY: header-args :tangle init.el :results silent
 This is my Emacs configuration file.
 It is the fruit of months of daily use and "what if I could make it
 better/faster/automated ?"
@@ -64,14 +63,26 @@ Idea came from [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fan
 (require 'powerline)
 (powerline-default-theme)
 #+END_SRC
-Because I'm not a complete hack, I changed the colors to my liking (blue !)
+Because I'm not a complete hack who just copies and pastes, I changed
+the colors to my liking (blue !)
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'mode-line nil
 		    :foreground "White"
 		    :background "DarkBlue"
 		    :box nil)
 #+END_SRC
-
+*** Remove useless mode descriptors
+Clean up the mode line to hide the modes I use all the time.
+#+BEGIN_SRC emacs-lisp
+(require 'diminish)
+(diminish 'projectile-mode " [P]")
+(diminish 'undo-tree-mode)
+(diminish 'git-gutter-mode)
+(diminish 'helm-mode)
+(diminish 'helm-gtags-mode " G")
+(diminish 'beacon-mode)
+(diminish 'auto-revert-mode " Rev")
+#+END_SRC
 ** Beacon
 Show the cursor's position when scrolling the window.
 #+BEGIN_SRC emacs-lisp
@@ -540,7 +551,7 @@ Harmful
 *** Image resizing : whiteboard
 From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-mode][Stackoverflow]] and [[http://lists.gnu.org/archive/html/emacs-orgmode/2012-08/msg01388.html][Orgmode maillist archive]]
 ~(setq org-image-actual-width nil)~ then
-#+BEGIN_SRC
+#+BEGIN_SRC org :tangle no
 #+ATTR_HTML: :width 500px
 #+ATTR_ORG: :width 500
 [[~/images/example.jpg]]
