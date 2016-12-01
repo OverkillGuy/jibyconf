@@ -127,7 +127,7 @@ Load all my common languages
    (plantuml . t)
    (ditaa . t)
    (C . t)
-   (sh . t)
+   (shell . t)
    ))
 #+END_SRC
 
