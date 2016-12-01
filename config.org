@@ -242,6 +242,7 @@ Use ~projectile-speedbar~ package (see [[https://github.com/anshulverma/projecti
 
 #+CAPTION: Opens the sr-speedbar when pressing Alt F3 in a projectile-owned buffer
 #+BEGIN_SRC emacs-lisp
+(require 'projectile-speedbar)
 (global-set-key (kbd "M-<f3>") 'projectile-speedbar-open-current-buffer-in-tree)
 #+END_SRC
 
