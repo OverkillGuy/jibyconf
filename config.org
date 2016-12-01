@@ -209,6 +209,12 @@ It's usually done via ~M-x customize~.
 (setq org-plantuml-jar-path
       (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
 #+END_SRC
+Edit the path for the PlantUML major mode too
+#+BEGIN_SRC emacs-lisp
+;; Install Plantuml mode first
+(setq plantuml-jar-path
+      (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
+#+END_SRC
 ** Ditaa diagrams
 Pointing emacs to the ditaa executable
 #+BEGIN_SRC emacs-lisp
