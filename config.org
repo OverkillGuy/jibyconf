@@ -109,6 +109,14 @@ These files are supposed to save my life, but I can't stand them when they're po
 ** TODO Sasha Chuan's ALWAYS BACKUP NEVER DELETE policy
 
 * Orgmode								:org:
+** Enable orgmode shortcuts					:keybindings:
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+#+END_SRC
+û
 ** Org-babel load languages					   :orgbabel:
 Load all my common languages
 #+BEGIN_SRC emacs-lisp
@@ -133,6 +141,40 @@ Load all my common languages
 #+BEGIN_SRC emacs-lisp
 (setq org-babel-default-header-args:python
       '((:results . "output")))
+#+END_SRC
+
+** Capture
+From [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org-capture-templates/][Sasha Chuan blog]].
+
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+      (append '(("l" "Ledger entries")
+		("lr" "RBS" plain
+		 (file "~/org/ledger.org")
+		 "%(org-read-date) %^{Payee}
+  Liabilities:RBS
+  Expenses:%^{Account}  %^{Amount}
+")
+		("lf" "CIC FR" plain
+		 (file "~/org/ledger.org")
+		 "%(org-read-date) %^{Payee}
+  Liabilities:CIC
+  Expenses:%^{Account}  %^{Amount}
+")
+		("ls" "SOCGEN FR" plain
+		 (file "~/org/ledger.org")
+		 "%(org-read-date) %^{Payee}
+  Liabilities:SOCGEN
+  Expenses:%^{Account}  %^{Amount}
+")
+
+		("lc" "Cash" plain
+		(file "~/org/ledger.org")
+		"%(org-read-date) * %^{Payee}
+  Expenses:Cash
+  Expenses:%^{Account}  %^{Amount}
+"))
+       org-capture-templates))
 #+END_SRC
 
 ** Org export
