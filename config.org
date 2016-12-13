@@ -148,7 +148,7 @@ From [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org
 
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
-      (append '(("l" "Ledger entries")
+      '(("l" "Ledger entries")
 		("lr" "RBS" plain
 		 (file "~/org/ledger.org")
 		 "%(org-read-date) %^{Payee}
@@ -172,9 +172,7 @@ From [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org
 		(file "~/org/ledger.org")
 		"%(org-read-date) * %^{Payee}
   Expenses:Cash
-  Expenses:%^{Account}  %^{Amount}
-"))
-       org-capture-templates))
+  Expenses:%^{Account}  %^{Amount}")))
 #+END_SRC
 
 ** Org export
