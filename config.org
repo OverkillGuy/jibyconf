@@ -226,7 +226,6 @@ Make ditaa diagrams "safe" to evaluate, without prompt
   (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
-** TODO Org-capture						 :orgcapture:
 ** Ediff support
 When merging org-mode files (reconciliating changes on config files at work and at home), the default ediff buffer would not work: the buffer is folded, so pressing ~n~ does not jump to next conflict. To fix this, I make ediff expand the whole file (show all):
 #+BEGIN_SRC emacs-lisp
@@ -272,7 +271,7 @@ Use ~projectile-speedbar~ package (see [[https://github.com/anshulverma/projecti
 #+END_SRC
 ** Parenthesis matching 			       :cosmetic:readability:
 Using =rainbow-delimiters= for top-level visibility of braces and parens.
-#+BEGIN_SRC sh
+#+BEGIN_SRC emacs-lisp
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 #+END_SRC
 
@@ -325,8 +324,11 @@ Show paren mode for showing matching brace under the cursor
 (add-hook 'c++-mode-hook 'turn-on-fic-mode)
 
 #+END_SRC
-*** TODO Show all TODO/FIXME in a project
-
+*** DONE Show all TODO/FIXME in a project
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-12-16 Fri 10:55]
+:END:
+Feasible with ~M-x occur~ or ~projectile-multi-occur~.
 ** Compilation							:compilation:
 *** Compilation buffer coloring support
 Make compilation buffers support ANSI terminal coloring (eg: CMake)
@@ -340,11 +342,17 @@ Make compilation buffers support ANSI terminal coloring (eg: CMake)
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 #+END_SRC
 
-*** TODO Compilation of project (using makefile)
-While in one file 3 level down the project root, call =compile= without specifying project root (with relative path).
+*** DONE Compilation of project (using makefile)
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-12-16 Fri 10:55]
+:END:
+While in one file 3 level down the project root, call =compile=
+without specifying project root (with relative path). ~M-x compile~
+then specify ~-C ~/dev/workspace/project-name~. Projectile could help
+there too
 ** TODO Go to method/variable definition			       :helm:
 Find a way to go to definition of that method.
-Helm can do that
+Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]].
 ** TODO Uncomment region binding				 :keybinding:
 Command exists (~M-x uncomment-region~) but is by default not bound.
 Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
@@ -413,15 +421,20 @@ My French keyboard on emacs won't type dead keys by default, this fixes it.
 I don't /want/ to exit emacs often (open all day for logging project progress and edit code, close it usually once a day before closing down computer to make sure all files are saved)
 Use an other binding to make it less likely to exit.
 ** Helm							  :projectmanagement:
-*** TODO Rebinding C-x b to helm-mini			    :keybinding:helm:
+*** DONE Rebinding C-x b to helm-mini                       :keybinding:helm:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-12-16 Fri 10:57]
+:END:
 From the interwebs
 #+BEGIN_SRC elisp
    (global-set-key (kbd "C-x b") 'helm-mini)
 #+END_SRC
 
-*** TODO Find a good sample Helm conf to improve workflow	       :helm:
-- [[https://tuhdo.github.io/helm-intro.html][Helm intro]]
-
+*** DONE Find a good sample Helm conf to improve workflow              :helm:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-12-16 Fri 10:57]
+:END:
+[[https://tuhdo.github.io/helm-intro.html][Helm intro]]
 *** Helm-projectile integration				    :helm:projectile:
 Enable helm
 #+BEGIN_SRC emacs-lisp
@@ -535,7 +548,8 @@ Then go to the created buffer, save it. You can now version-control your created
 * RFC
 Browsing RFCs in emacs (from [[https://www.emacswiki.org/emacs/Irfc][emacswiki]])
 
-#+BEGIN_SRC sh :tangle no
+#+CAPTION: Create the RFC folder path if needed
+#+BEGIN_SRC shell :tangle no
 mkdir -p ~/dev/doc/rfc
 #+END_SRC
 
