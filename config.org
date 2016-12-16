@@ -420,6 +420,12 @@ My French keyboard on emacs won't type dead keys by default, this fixes it.
 ** TODO Remap C-x C-c to avoid accidentally exiting		 :keybinding:
 I don't /want/ to exit emacs often (open all day for logging project progress and edit code, close it usually once a day before closing down computer to make sure all files are saved)
 Use an other binding to make it less likely to exit.
+See [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Rebinding.html][Emacs manual online on rebinding]].
+#+CAPTION: Rebind exit to C-x C-c ESC
+#+BEGIN_SRC emacs-lisp
+(global-unset-key (kbd "C-x C-c"))
+(global-set-key (kbd "C-x C-c ESC") 'save-buffers-kill-terminal)
+#+END_SRC
 ** Helm							  :projectmanagement:
 *** DONE Rebinding C-x b to helm-mini                       :keybinding:helm:
 :LOGBOOK:
@@ -642,6 +648,8 @@ Bonus points for popping the "IDE perspective" from a cold-boot.
 *** TODO Compilation follow to first error
 Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
 
+*** Orgmode link to info file
+See [[http://stackoverflow.com/questions/10445285/org-mode-embed-links-to-info-files][Stackoverflow post for solution/workaround]]
 *** Some setups
 
 #+CAPTION: Org-mode setup from https://news.ycombinator.com/reply?id=12863388&goto=item%3Fid%3D12862608%2312863388
