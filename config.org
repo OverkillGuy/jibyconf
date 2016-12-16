@@ -9,7 +9,7 @@ Great resources for any emacs setup:
 - [[http://doc.norang.ca/org-mode.html][NORANG init.el]]
 - [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chuan's setup]]
 - [[http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php][An other init.el sample]]
-
+- [[https://ilikewhenit.works/blog/6][Simple system via use-package]]
 * Config file setup
 This file is part of a git repository that I sync across devices.
 ** TODO Make the .emacs file point to this file			   :initfile:
@@ -231,6 +231,8 @@ When merging org-mode files (reconciliating changes on config files at work and 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'ediff-prepare-buffer-hook #'show-all)
 #+END_SRC
+** TODO Autolist
+See [[https://github.com/calvinwyoung/org-autolist][Github page]]
 * Speedbar							   :speedbar:
 
 A neat file explorer for emacs
