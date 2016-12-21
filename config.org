@@ -32,12 +32,7 @@ Official repos for emacs packages
 #+END_SRC
 * Cosmetic							   :cosmetic:
 ** Theme
-I use ~tango-dark~ at home and it looks great !
-At work, I use ~misterioso~.
-#+BEGIN_SRC emacs-lisp  :tangle no
-(load-theme 'misterioso t) ;; Theme used at work
-#+END_SRC
-
+I use ~tango-dark~ and it looks great !
 #+BEGIN_SRC emacs-lisp
 (load-theme 'tango-dark t)
 #+END_SRC
@@ -63,8 +58,8 @@ Idea came from [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fan
 (require 'powerline)
 (powerline-default-theme)
 #+END_SRC
-Because I'm not a complete hack who just copies and pastes, I changed
-the colors to my liking (blue !)
+Because I wanted to feel like I'm actually customizing rather than
+copying and pasting, I changed the colors to my liking (blue !)
 #+BEGIN_SRC emacs-lisp
 (set-face-attribute 'mode-line nil
 		    :foreground "White"
@@ -99,11 +94,11 @@ These files are supposed to save my life, but I can't stand them when they're po
 #+BEGIN_SRC emacs-lisp
 ;; Make all backups out of sight !
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-  backup-by-copying t    ; Don't delink hardlinks
-  version-control t      ; Use version numbers on backups
-  delete-old-versions t  ; Automatically delete excess backups
-  kept-new-versions 20   ; how many of the newest versions to keep
-  kept-old-versions 5    ; and how many of the old
+  :backup-by-copying t    ; Don't delink hardlinks
+  :version-control t      ; Use version numbers on backups
+  :delete-old-versions t  ; Automatically delete excess backups
+  :kept-new-versions 20   ; how many of the newest versions to keep
+  :kept-old-versions 5    ; and how many of the old
   )
 #+END_SRC
 ** TODO Sasha Chuan's ALWAYS BACKUP NEVER DELETE policy
@@ -233,24 +228,6 @@ When merging org-mode files (reconciliating changes on config files at work and 
 #+END_SRC
 ** TODO Autolist
 See [[https://github.com/calvinwyoung/org-autolist][Github page]]
-* Speedbar							   :speedbar:
-
-A neat file explorer for emacs
-#+BEGIN_SRC emacs-lisp
-;; File manager docked by default
-(require 'sr-speedbar)
-;; speedbar : show all filetypes (not just indexed ones)
-(setq speedbar-show-unknown-files t)
-#+END_SRC
-** Speedbar in projectile 				:speedbar:projectile:
-Use ~projectile-speedbar~ package (see [[https://github.com/anshulverma/projectile-speedbar#projectile--speedbar][Github project page]])
-
-#+CAPTION: Opens the sr-speedbar when pressing Alt F3 in a projectile-owned buffer
-#+BEGIN_SRC emacs-lisp
-(require 'projectile-speedbar)
-(global-set-key (kbd "M-<f3>") 'projectile-speedbar-open-current-buffer-in-tree)
-#+END_SRC
-
 * C++									:cpp:
 ** Indentation							  :codestyle:
 #+BEGIN_SRC emacs-lisp
@@ -360,15 +337,14 @@ Command exists (~M-x uncomment-region~) but is by default not bound.
 Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
 ** TODO Yasnippets module
 Yasnippets
-* Git									:git:
-*** Git gutter
+* Git gutter                                                          :git:
 Show diff-lines by the file fringe
 #+BEGIN_SRC emacs-lisp
 (global-git-gutter-mode +1)
 #+END_SRC
 
 More info at https://github.com/syohex/emacs-git-gutter
-*** Orgit
+* Orgit                                                     :org:git:magit:
 Link to magit buffers from Org documents.
 Install the package ~orgit~. See the documentation in [[https://github.com/magit/orgit][package Github page]].
 
@@ -378,7 +354,7 @@ orgit:/path/to/repo/           links to a magit-status buffer
 orgit-log:/path/to/repo/::REV  links to a magit-log buffer
 orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
 #+END_EXAMPLE
-*** Merge "take both" option
+* Merge-tool "take both" option                                       :git:
 While using emerge (merge conflict resolution tool), I sometimes need
 an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][stackoverflow]])
 
@@ -393,7 +369,7 @@ an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][s
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 #+END_SRC
-*** Git status shortcut
+* Git graph shortcuts                               :keybindings:magit:git:
 #+CAPTION: Rebind Alt-F12 to magit-status
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-<f12>") 'magit-status)
@@ -403,8 +379,7 @@ an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][s
 (global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
 #+END_SRC
 
-* Emacs usability
-** Double spacing navigation
+* Double spacing navigation                                :usability:locale:
 By default emacs assumes the American typist system of 2 spaces after a sentence-ending character (like ~.~).
 This makes using ~M-e~ navigation difficult, as I only space my sentences once.
 
@@ -413,73 +388,86 @@ This makes using ~M-e~ navigation difficult, as I only space my sentences once.
 (setq sentence-end-double-space nil)
 #+END_SRC
 
-** Dead keys
+* Force enabling dead keys                                :usability:locale:
 My French keyboard on emacs won't type dead keys by default, this fixes it.
 #+BEGIN_SRC emacs-lisp
 (require 'iso-transl)
 #+END_SRC
 
-** TODO Remap C-x C-c to avoid accidentally exiting		 :keybinding:
-I don't /want/ to exit emacs often (open all day for logging project progress and edit code, close it usually once a day before closing down computer to make sure all files are saved)
-Use an other binding to make it less likely to exit.
-See [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Rebinding.html][Emacs manual online on rebinding]].
+* DONE Remap C-x C-c to avoid accidentally exiting :keybinding:controversial:
+CLOSED: [2016-12-16 Fri]
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-12-16 Fri]
+:END:
+I don't /want/ to exit emacs often (open all day for logging project
+progress and edit code, and close it usually once a day before closing
+down computer to make sure all files are saved) Use an other binding
+to make it less likely to exit. See [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Rebinding.html][Emacs manual online on rebinding]].
 #+CAPTION: Rebind exit to C-x C-c ESC
 #+BEGIN_SRC emacs-lisp
 (global-unset-key (kbd "C-x C-c"))
 (global-set-key (kbd "C-x C-c ESC") 'save-buffers-kill-terminal)
 #+END_SRC
-** Helm							  :projectmanagement:
 *** DONE Rebinding C-x b to helm-mini                       :keybinding:helm:
 :LOGBOOK:
 - State "DONE"       from "TODO"       [2016-12-16 Fri 10:57]
 :END:
-From the interwebs
 #+BEGIN_SRC elisp
    (global-set-key (kbd "C-x b") 'helm-mini)
 #+END_SRC
 
-*** DONE Find a good sample Helm conf to improve workflow              :helm:
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2016-12-16 Fri 10:57]
-:END:
-[[https://tuhdo.github.io/helm-intro.html][Helm intro]]
 *** Helm-projectile integration				    :helm:projectile:
-Enable helm
+Enable helm first:
 #+BEGIN_SRC emacs-lisp
 (require 'helm-config)
 (helm-mode 1)
 #+END_SRC
 
-Enable the integration
+Enable the projectile integration:
 #+BEGIN_SRC emacs-lisp
 (helm-projectile-on)
 #+END_SRC
-Make projectile use helm for project-switching
+Make projectile use helm for project-switching (rather than ido)
 #+BEGIN_SRC emacs-lisp
 ;; asks for file to open when project is switched
 (setq projectile-switch-project-action 'helm-projectile-find-file)
 #+END_SRC
 
-** Projectile							 :projectile:
-Takes care of some project-definitions : jumping around files in a defined project.
-You define what a project is then search for files in the project.
-Integrates well to Helm.
-** Undo tree							   :undotree:
-Enable it everywhere (replacing the common undo).
+* Same-frame speedbar                                             :speedbar:
+A neat project tree system:
+#+BEGIN_SRC emacs-lisp
+;; File manager docked by default
+(require 'sr-speedbar)
+;; speedbar : show all filetypes (not just indexed ones)
+(setq speedbar-show-unknown-files t)
+#+END_SRC
+*** Speedbar in projectile                              :speedbar:projectile:
+Use ~projectile-speedbar~ package (see [[https://github.com/anshulverma/projectile-speedbar#projectile--speedbar][Github project page]])
+#+CAPTION: Opens the sr-speedbar when pressing Alt F3 in a projectile-owned buffer
+#+BEGIN_SRC emacs-lisp
+(require 'projectile-speedbar)
+(global-set-key (kbd "M-<f3>") 'projectile-speedbar-open-current-buffer-in-tree)
+#+END_SRC
+
+
+* Undo tree                                                  :usability:undo:
+Enable it everywhere (replacing the common undo into a tree of file
+modification).
 #+BEGIN_SRC emacs-lisp
 (require 'undo-tree)
 (global-undo-tree-mode)
 #+END_SRC
 
-Use ~C-x u~ to open the undo-tree view, then ~d~ to view the diff of
-each node. ~q~ quits the session.
+Use ~C-x u~ to open the undo-tree view, optionally ~d~ to view the
+diff of each change to undo. ~q~ quits the session.
 
-*** TODO Rebind the undo command to undo-tree
-*** TODO Persist the buffer undo-history over
-** TODO Registers						 :keybinding:
-Binding files I access often to Emacs registers for quick access.
-* Terminal integration						   :terminal:
-Use ~multi-term~, using [[http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/][this configuration]]:
+** TODO Persist the buffer undo-history over
+
+* Multiple terminals                                               :terminal:
+Use ~multi-term~ for cool terminals in emacs, using [[http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/][this
+configuration]]. Press F5 to open a terminal in the current buffer's
+directory, Control + Pageup/Pagedown to switch between running
+terminals .
 
 #+BEGIN_SRC emacs-lisp
 (when (require 'multi-term nil t)
@@ -490,8 +478,8 @@ Use ~multi-term~, using [[http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-
         multi-term-program "/bin/bash"))
 #+END_SRC
 
-Wrong syntax but good configuration:
-#+BEGIN_SRC emacs-lisp
+Wrong syntax but interesting configuration:
+#+BEGIN_SRC emacs-lisp :tangle no
 ; (when (require 'term nil t) ; only if term can be loaded..
 ;   (setq term-bind-key-alist
 ;         (list (cons "C-c C-c"  'term-interrupt-subjob)
@@ -512,7 +500,7 @@ Wrong syntax but good configuration:
 #+END_SRC
 
 Good syntax but bad configuration, from [[https://github.com/aborn/emacs.d/blob/master/utils/multi-term-config.el][alternate configuration]]
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (add-hook 'term-mode-hook
           (lambda ()
             ;; 下面设置multi-term buffer的长度无限
@@ -665,3 +653,7 @@ See [[http://stackoverflow.com/questions/10445285/org-mode-embed-links-to-info-f
       (setq org-todo-keywords '((type "TODO" "PROG" "WAIT" "|" "DONE")))
       (setq org-todo-keyword-faces '(("TODO" . "brightblack") ("WAIT" . "yellow")))))
 #+END_SRC
+
+- [[https://tuhdo.github.io/helm-intro.html][Helm intro]]
+*** TODO Registers                                               :keybinding:
+Binding files I access often to Emacs registers for quick access.
