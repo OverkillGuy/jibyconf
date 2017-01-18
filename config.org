@@ -329,6 +329,21 @@ While in one file 3 level down the project root, call =compile=
 without specifying project root (with relative path). ~M-x compile~
 then specify ~-C ~/dev/workspace/project-name~. Projectile could help
 there too
+
+** ROS message files major mode                           :cosmetic:ROS:mode:
+ROS Messages, Actions and Services files are basically YAML. I would
+like yaml-mode to be used when opening them, for the syntax-highlight.
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.action\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.srv\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.msg\\'" . yaml-mode))
+#+END_SRC
+** Use c++-mode for .h files                                 :usability:mode:
+At work we use .h files for C++ headers, but emacs insists on triggering c-mode.
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+#+END_SRC
 ** TODO Go to method/variable definition			       :helm:
 Find a way to go to definition of that method.
 Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]].
