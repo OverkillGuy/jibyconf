@@ -330,6 +330,11 @@ without specifying project root (with relative path). ~M-x compile~
 then specify ~-C ~/dev/workspace/project-name~. Projectile could help
 there too
 
+*** Compilation keybinding                                       :keybinding:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<f9>") 'recompile)
+(global-set-key (kbd "S-<f9>") 'compile)
+#+END_SRC
 ** ROS message files major mode                           :cosmetic:ROS:mode:
 ROS Messages, Actions and Services files are basically YAML. I would
 like yaml-mode to be used when opening them, for the syntax-highlight.
@@ -626,7 +631,11 @@ From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-m
 
 
 * Room for improvement
-*** TODO Remove items from modeline
+*** DONE Remove items from modeline
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2017-01-19 Thu 13:27] \\
+  Fixed with dimished-mode
+:END:
 When running a split-windowed emacs, the modeline is too crowded with stuff like Projectile, beacon-mode etc.
 There is a mode called Diminish mode that solves it. See [[http://emacs.stackexchange.com/questions/3925/hide-list-of-minor-modes-in-mode-line][SO on modeline too long]].
 
@@ -647,8 +656,6 @@ Bonus points for popping the "IDE perspective" from a cold-boot.
 *** TODO Compilation follow to first error
 Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
 
-*** Orgmode link to info file
-See [[http://stackoverflow.com/questions/10445285/org-mode-embed-links-to-info-files][Stackoverflow post for solution/workaround]]
 *** Some setups
 
 #+CAPTION: Org-mode setup from https://news.ycombinator.com/reply?id=12863388&goto=item%3Fid%3D12862608%2312863388
