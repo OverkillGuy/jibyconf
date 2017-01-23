@@ -54,7 +54,8 @@ I like Monaco as a font, but it's not installed on all my boxes.
 #+END_SRC
 
 ** Disable graphical bars						:GUI:
-Remove all the GUI tools (open,save etc) including the helpful menu bar (which takes an /entire/ character row !).
+Remove all the GUI tools (open,save etc) including the helpful menu
+bar (which takes an /entire/ character row !).
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -232,7 +233,10 @@ Make ditaa diagrams "safe" to evaluate, without prompt
 #+END_SRC
 
 ** Ediff support
-When merging org-mode files (reconciliating changes on config files at work and at home), the default ediff buffer would not work: the buffer is folded, so pressing ~n~ does not jump to next conflict. To fix this, I make ediff expand the whole file (show all):
+When merging org-mode files (reconciliating changes on config files at
+work and at home), the default ediff buffer would not work: the buffer
+is folded, so pressing ~n~ does not jump to next conflict. To fix
+this, I make ediff expand the whole file (show all):
 #+BEGIN_SRC emacs-lisp
 (add-hook 'ediff-prepare-buffer-hook #'show-all)
 #+END_SRC
@@ -307,8 +311,9 @@ Show paren mode for showing matching brace under the cursor
      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)))
 #+END_SRC
 ** Highlighting FIXMEs and TODOs				   :cosmetic:
-#+BEGIN_SRC emacs-lisp
-;; TODO/FIXME highlight enable :tangle no
+Disabled coz breaks things
+#+BEGIN_SRC emacs-lisp :tangle no
+;; TODO/FIXME highlight enabled fuckup
 (require 'fic-mode)
 (add-hook 'c++-mode-hook 'turn-on-fic-mode)
 
@@ -322,11 +327,11 @@ Feasible with ~M-x occur~ or ~projectile-multi-occur~.
 *** Compilation buffer coloring support
 Make compilation buffers support ANSI terminal coloring (eg: CMake)
 #+BEGIN_SRC elisp
-     ;; Adds ANSI Color support to Compilation window
-     (require 'ansi-color)
-     (defun colorize-compilation-buffer ()
-     (toggle-read-only)
-     (ansi-color-apply-on-region compilation-filter-start (point))
+;; Adds ANSI Color support to Compilation window
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 #+END_SRC
@@ -355,7 +360,8 @@ like yaml-mode to be used when opening them, for the syntax-highlight.
 (add-to-list 'auto-mode-alist '("\\.msg\\'" . yaml-mode))
 #+END_SRC
 ** Use c++-mode for .h files                                 :usability:mode:
-At work we use .h files for C++ headers, but emacs insists on triggering c-mode.
+At work we use .h files for C++ headers, but emacs insists on
+triggering c-mode.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 #+END_SRC
@@ -585,9 +591,10 @@ mkdir -p ~/dev/doc/rfc
 ;; (setq irfc-head-name-face :foreground "orange red")
 (set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
 #+END_SRC
+** TODO Writing RFC documents
+I want to be able to write down RFC-like documents via org-mode.
 
-#+RESULTS:
-
+* Old config
 This section is from old work config file.
 ** IDE
 *** TODO Project navigation
