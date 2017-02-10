@@ -55,13 +55,13 @@ I like Monaco as a font, but it's not installed on all my boxes.
 
 ** Disable graphical bars						:GUI:
 Remove all the GUI tools (open,save etc) including the helpful menu
-bar (which takes an /entire/ character row !).
+bar (which takes an entire character row !).
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 #+END_SRC
-** Mode line aspect
+** Mode line aspect                                                 :GUIonly:
 I want my emacs to look cool, so I changed the mode line accordingly.
 Idea came from [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]].
 #+BEGIN_SRC emacs-lisp
@@ -99,7 +99,20 @@ Rebind the Pause key to make the cursor blink
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "<pause>") 'beacon-blink)
 #+END_SRC
-
+** Hlines
+Use the form-feed package to draw horizontal lines instead of ~^L~
+#+BEGIN_SRC emacs-lisp
+(use-package form-feed
+  :config
+  (add-hook org-mode 'form-feed-mode))
+#+END_SRC
+** Nyancat for file-percentage
+#+BEGIN_SRC emacs-lisp
+(use-package nyan-mode
+  :config
+  (add-hook org-mode 'nyan-mode)
+  (setq nyan-animate-nyancat t)
+#+END_SRC
 * Backup files							     :backup:
 These files are supposed to save my life, but I can't stand them when they're polluting my working directory.
 #+BEGIN_SRC emacs-lisp
@@ -258,7 +271,7 @@ See [[https://github.com/calvinwyoung/org-autolist][Github page]]
 (defun my-c++-mode-hook ()
   (c-set-style "my-style")        ; use my-style defined above
   (auto-fill-mode)
-  (c-toggle-auto-hungry-state 1))
+  (c-toggle-auto-hungry-state -1))
 ;; Trigger my-style when entering c++-mode
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 #+END_SRC
@@ -416,8 +429,9 @@ an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][s
 #+END_SRC
 
 * Double spacing navigation                                :usability:locale:
-By default emacs assumes the American typist system of 2 spaces after a sentence-ending character (like ~.~).
-This makes using ~M-e~ navigation difficult, as I only space my sentences once.
+By default emacs assumes the American typist system of 2 spaces after
+a sentence-ending character (like ~.~). This makes using ~M-e~
+navigation difficult, as I only space my sentences once.
 
 #+CAPTION: Make emacs use single-spaced sentences
 #+BEGIN_SRC emacs-lisp
