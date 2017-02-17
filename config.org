@@ -44,13 +44,13 @@ I like Monaco as a font, but it's not installed on all my boxes.
 ; 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ {} <> "'`  ~-_/|\?
 (cond
  ((find-font (font-spec :name "Monaco"))
-  (set-frame-font "Monaco-18"))
+  (set-frame-font "Monaco-14"))
  ((find-font (font-spec :name "inconsolata"))
-  (set-frame-font "inconsolata-18"))
+  (set-frame-font "inconsolata-14"))
  ((find-font (font-spec :name "Lucida Console"))
-  (set-frame-font "Lucida Console-18"))
+  (set-frame-font "Lucida Console-14"))
  ((find-font (font-spec :name "courier"))
-  (set-frame-font "courier-18")))
+  (set-frame-font "courier-14")))
 #+END_SRC
 
 ** Disable graphical bars						:GUI:
@@ -104,14 +104,14 @@ Use the form-feed package to draw horizontal lines instead of ~^L~
 #+BEGIN_SRC emacs-lisp
 (use-package form-feed
   :config
-  (add-hook org-mode 'form-feed-mode))
+  (add-hook 'org-mode-hook 'form-feed-mode))
 #+END_SRC
 ** Nyancat for file-percentage
 #+BEGIN_SRC emacs-lisp
 (use-package nyan-mode
   :config
-  (add-hook org-mode 'nyan-mode)
-  (setq nyan-animate-nyancat t)
+  (add-hook 'org-mode-hook 'nyan-mode)
+  (setq nyan-animate-nyancat t))
 #+END_SRC
 * Backup files							     :backup:
 These files are supposed to save my life, but I can't stand them when they're polluting my working directory.
