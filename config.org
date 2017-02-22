@@ -27,7 +27,7 @@ Would need to make this a symlink to this file.
 Official repos for emacs packages
 #+BEGIN_SRC emacs-lisp
 (setq package-archives '(("gnu" . "https ://elpa.gnu.org/packages/")
-			 ("marmalade" . "https://marmalade-repo.org/packages/")
+;			 ("marmalade" . "https://marmalade-repo.org/packages/")
 			 ("melpa" . "https://melpa.org/packages/")))
 #+END_SRC
 * Cosmetic							   :cosmetic:
