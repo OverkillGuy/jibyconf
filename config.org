@@ -129,6 +129,10 @@ These files are supposed to save my life, but I can't stand them when they're po
 ** TODO Sasha Chuan's ALWAYS BACKUP NEVER DELETE policy
 
 * Orgmode								:org:
+** Fill paragraphs automatically in org-mode			  :usability:
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook 'auto-fill-mode)
+#+END_SRC
 ** Enable orgmode shortcuts					:keybindings:
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c l") 'org-store-link)
