@@ -368,6 +368,13 @@ there too
 (global-set-key (kbd "<f9>") 'recompile)
 (global-set-key (kbd "S-<f9>") 'compile)
 #+END_SRC
+*** Jump to error files
+There's a minor mode that allows to auto-jump to error locations in
+compilations buffers : ~next-error-follow-minor-mode~. (It also works
+in search buffers). See [[info:emacs#Compilation%20Mode]].
+#+BEGIN_SRC emacs-lisp
+(add-hook 'compilation-mode-hook 'next-error-follow-minor-mode)
+#+END_SRC
 *** TODO System-wide notification of completion
 Using [[http://emacs.stackexchange.com/a/14188][Stackoverflow answer]] and notification
 #+BEGIN_SRC emacs-lisp :tangle no
