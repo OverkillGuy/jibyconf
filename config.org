@@ -656,9 +656,16 @@ Double return because it asks for highlight-color (default yellow)
 See [[http://orgmode.org/manual/Publishing.html]]
 For FDECO and JoshWeaver projects.
 
-*** TODO Bugzilla template
-Each time =bug12345= is written, replace it with the link https://bugzilla.seebyte.com/show_bug.cgi?id=12345 with a link name from the original
-
+*** DONE Bugzilla template
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2017-02-22 Wed 14:03]
+:END:
+Each time =bug12345= is written, replace it with the link https://bugzilla.mozilla.org/show_bug.cgi?id=12345 with a link name from the original
+Fixed with the following sample (inspired from [[https://github.com/thi-ng/org-spec][org-spec template]]):
+#+BEGIN_SRC org
+#+LINK: bug https://bugzilla.mozilla.org/show_bug.cgi?id=
+[[bug:12345]]
+#+END_SRC
 *** TODO Link to email
 *** TODO Link to git
 **** Linking to branches
@@ -707,7 +714,10 @@ Emacs equivalent of virtual desktops, which you can integrate into projectile.
 This would allow the organisation stuff to be in a perspective and coding to be in an other one, and invoke either in one chord.
 Bonus points for popping the "IDE perspective" from a cold-boot.
 
-*** TODO Compilation follow to first error
+*** DONE Compilation follow to first error
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2017-02-22 Wed 14:11]
+:END:
 Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
 
 *** Some setups
