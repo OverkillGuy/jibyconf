@@ -465,6 +465,15 @@ My French keyboard on emacs won't type dead keys by default, this fixes it.
 (require 'iso-transl)
 #+END_SRC
 
+* Window movement                                      :usability:keybinding:
+Switching emacs windows with ~C-x o~ works with two windows, but with
+more it gets very annoying. The [[https://github.com/abo-abo/ace-window][ace-window]] package aims to solve that
+by binding ~M-p~ to it (faster than default).
+#+BEGIN_SRC emacs-lisp
+(use-package ace-window
+  :config
+  (global-set-key (kbd "M-p") 'ace-window))
+#+END_SRC
 * DONE Remap C-x C-c to avoid accidentally exiting :keybinding:controversial:
 CLOSED: [2016-12-16 Fri]
 :LOGBOOK:
