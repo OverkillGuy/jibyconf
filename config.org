@@ -529,7 +529,12 @@ Use ~projectile-speedbar~ package (see [[https://github.com/anshulverma/projecti
 (global-set-key (kbd "M-<f3>") 'projectile-speedbar-open-current-buffer-in-tree)
 #+END_SRC
 
-
+* Typing text over selection deletes selection                    :usability:
+Default emacs behavior on typing inside selected region is to
+de-select and append typed text. I'd rather have it replace the text.
+#+BEGIN_SRC emacs-lisp
+(delete-selection-mode t)
+#+END_SRC
 * Undo tree                                                  :usability:undo:
 Enable it everywhere (replacing the common undo into a tree of file
 modification).
