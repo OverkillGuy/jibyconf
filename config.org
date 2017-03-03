@@ -472,7 +472,7 @@ by binding ~M-p~ to it (faster than default).
 #+BEGIN_SRC emacs-lisp
 (use-package ace-window
   :config
-  (global-set-key (kbd "M-p") 'ace-window))
+  (global-set-key (kbd "C-;") 'ace-window))
 #+END_SRC
 * DONE Remap C-x C-c to avoid accidentally exiting :keybinding:controversial:
 CLOSED: [2016-12-16 Fri]
