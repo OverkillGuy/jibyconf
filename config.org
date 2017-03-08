@@ -260,6 +260,13 @@ this, I make ediff expand the whole file (show all):
 #+END_SRC
 ** TODO Autolist
 See [[https://github.com/calvinwyoung/org-autolist][Github page]]
+** Async code execution
+Via [[https://github.com/astahlman/ob-async][ob-async package]] available via MELPA. All code blocks with
+~:async~ are now executed non-blockingly.
+#+BEGIN_SRC emacs-lisp
+(require 'ob-async)
+(add-to-list 'org-ctrl-c-ctrl-c-hook 'ob-async-org-babel-execute-src-block)
+#+END_SRC
 * C++									:cpp:
 ** Indentation							  :codestyle:
 #+BEGIN_SRC emacs-lisp
