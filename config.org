@@ -382,6 +382,11 @@ in search buffers). See [[info:emacs#Compilation%20Mode]].
 #+BEGIN_SRC emacs-lisp
 (add-hook 'compilation-mode-hook 'next-error-follow-minor-mode)
 #+END_SRC
+*** Auto-follow till error
+See [[info:emacs#Compilation][Emacs manual]].
+#+BEGIN_SRC emacs-lisp
+(setq compilation-scroll-output 'first-error)
+#+END_SRC
 *** TODO System-wide notification of completion
 Using [[http://emacs.stackexchange.com/a/14188][Stackoverflow answer]] and notification
 #+BEGIN_SRC emacs-lisp :tangle no
