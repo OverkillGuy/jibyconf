@@ -620,7 +620,19 @@ dired buffer by setting a flag and making the buffer editable.
 #+BEGIN_SRC emacs-lisp
 (setq wdired-allow-to-change-permissions t)
 #+END_SRC
+* Dired search via narrow                                             :dired:
+From [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][pragmaticemacs blog]], I can do a live-filter of a dired buffer
+akin to searching that narrows the buffer to my selection. Coupled
+with other dired commands, this allows to perform actions on a
+regex-based subset of a folder.
 
+#+BEGIN_SRC emacs-lisp
+;;narrow dired to match filter
+(use-package dired-narrow
+  :ensure t
+  :bind (:map dired-mode-map
+              ("/" . dired-narrow)))
+#+END_SRC
 * Emacs calendar						   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events
