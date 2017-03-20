@@ -706,7 +706,7 @@ For FDECO and JoshWeaver projects.
 :END:
 Each time =bug12345= is written, replace it with the link https://bugzilla.mozilla.org/show_bug.cgi?id=12345 with a link name from the original
 Fixed with the following sample (inspired from [[https://github.com/thi-ng/org-spec][org-spec template]]):
-#+BEGIN_SRC org
+#+BEGIN_SRC org :tangle no
 #+LINK: bug https://bugzilla.mozilla.org/show_bug.cgi?id=
 [[bug:12345]]
 #+END_SRC
