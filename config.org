@@ -734,7 +734,11 @@ From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-m
 #+END_SRC
 **** TODO Set default image resizing to coherent value (500px ?)
 
-
+* DocView
+Keep scrolling across pages when viewing PDFs (from [[info:emacs#DocView%20Navigation][DocView manual]])
+#+BEGIN_SRC emacs-lisp
+(setq doc-view-continuous t)
+#+END_SRC
 * Room for improvement
 *** DONE Remove items from modeline
 :LOGBOOK:
