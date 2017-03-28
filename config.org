@@ -633,6 +633,23 @@ regex-based subset of a folder.
   :bind (:map dired-mode-map
               ("/" . dired-narrow)))
 #+END_SRC
+* Dired-X enable                                                      :dired:
+From [[info:dired-x#Installation][Dired-X info page]], load the dired extensions (including pressing
+I/N on an info/man page to open with info/man mode, and much more)
+#+BEGIN_SRC emacs-lisp
+(add-hook 'dired-load-hook
+               (lambda ()
+                 (load "dired-x")
+                 ;; Set dired-x global variables here.  For example:
+                 ;; (setq dired-guess-shell-gnutar "gtar")
+                 ;; (setq dired-x-hands-off-my-keys nil)
+                 ))
+     ;; (add-hook 'dired-mode-hook
+     ;;           (lambda ()
+     ;;             ;; Set dired-x buffer-local variables here.  For example:
+     ;;             ;; (dired-omit-mode 1)
+     ;;             ))
+#+END_SRC
 * Emacs calendar						   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events
