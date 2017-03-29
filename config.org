@@ -419,6 +419,22 @@ Command exists (~M-x uncomment-region~) but is by default not bound.
 Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
 ** TODO Yasnippets module
 Yasnippets
+* Python                                                         :python:IDE:
+Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
+From the readme:
+#+BEGIN_SRC shell :tangle no
+pip install jedi flake8 importmagic autopep8
+#+END_SRC
+and on the emacs side of things, install their repository
+#+BEGIN_SRC emacs-lisp :tangle no
+(require 'package)
+(add-to-list 'package-archives
+             '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+#+END_SRC
+then install the package =elpy=, and use the following conf
+#+BEGIN_SRC emacs-lisp
+(elpy-enable)
+#+END_SRC
 * Git gutter                                                          :git:
 Show diff-lines by the file fringe
 #+BEGIN_SRC emacs-lisp
