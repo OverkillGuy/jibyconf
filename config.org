@@ -541,6 +541,12 @@ Make projectile use helm for project-switching (rather than ido)
 (setq projectile-switch-project-action 'helm-projectile-find-file)
 #+END_SRC
 
+* Kill this buffer                                 :keybinding:controversial:
+When pressing the usual buffer-kill keychord, always want to kill the
+current buffer (for larger killings I use ~C-x C-b~).
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x k") 'kill-this-buffer)
+#+END_SRC
 * Same-frame speedbar                                             :speedbar:
 A neat project tree system:
 #+BEGIN_SRC emacs-lisp
