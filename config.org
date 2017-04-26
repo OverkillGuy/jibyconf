@@ -916,3 +916,22 @@ Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follo
 - [[https://tuhdo.github.io/helm-intro.html][Helm intro]]
 *** TODO Registers                                               :keybinding:
 Binding files I access often to Emacs registers for quick access.
+* Small project ideas                                           :projectidea:
+Emacs-config-related odds and end I'd like to have working.
+** BugTracker integration in magit
+Use known commit prefixes (such as =bug15152=) as url-equivalents.
+Point to a static location (like [[https://bugzilla.mozilla.org][firefox's bugzilla tracker]]) with bug
+number appended.
+
+Import the whole bugs database first to org-mode (including
+properties), or learn to use command line tools like =arcanist=.
+
+When a bug is highlighted, show the bug's name in tooltip or
+minibuffer. Bug number should be clickable to visit either browser bug
+or dumped org-mode entry for the bug.
+
+See also : [[info:emacs#Goto%20Address%20mode][Emacs Manual: Goto Address mode]], and [[info:elisp#Clickable%20Text][Elisp Manual: Clickable Text]].
+** Auto-Refile my entries based on the tags they use
+See [[https://superuser.com/questions/1112979/automatically-refile-using-tags-in-org-mode][stackoverflow answer]]. Could expose it as a python-esque task:
+Given a trained decision system and a dict-data of entry, decide point
+of relocation. Boils down to dispatch rules.
