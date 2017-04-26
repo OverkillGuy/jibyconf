@@ -225,6 +225,19 @@ Such timestamps and messages should only go in the *:LOGBOOK:* drawer.
       org-adapt-indentation nil
       org-src-preserve-indentation t)
 #+END_SRC
+*** Background color for code blocks
+So far the code blocks are syntax-highlit by emacs. Let's add a
+different background-color to them to make delimitation visual.
+#+BEGIN_SRC emacs-lisp :tangle no
+(defface org-block-background
+  '((t (:background "#444")))
+  "Face used for the source block background.")
+#+END_SRC
+And the (never-tested via code, only customize-interface) associated trigger code:
+#+BEGIN_SRC emacs-lisp :tangle no
+(setq org-src-block-faces '(("emacs-lisp" org-block-background)))
+#+END_SRC
+**** TODO Apply the color-coding to other languages as appropriate
 ** Set PlantUML jar path						:UML:
 It's usually done via ~M-x customize~.
 #+BEGIN_SRC emacs-lisp
