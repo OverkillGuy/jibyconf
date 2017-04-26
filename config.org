@@ -808,6 +808,15 @@ Keep scrolling across pages when viewing PDFs (from [[info:emacs#DocView%20Navig
 (setq doc-view-continuous t)
 #+END_SRC
 * Room for improvement
+*** RSS feed monitoring
+See [[info:org#RSS%20feeds][Org mode documentation about org-rss]].
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(setq org-feed-alist
+	  '(("Slashdot"
+	      "http://rss.slashdot.org/Slashdot/slashdot"
+	      "~/txt/org/feeds.org" "Slashdot Entries")))
+#+END_SRC
 *** DONE Remove items from modeline
 :LOGBOOK:
 - State "DONE"       from "TODO"       [2017-01-19 Thu 13:27] \\
