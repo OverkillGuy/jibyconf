@@ -409,6 +409,22 @@ Using [[http://emacs.stackexchange.com/a/14188][Stackoverflow answer]] and notif
 #+END_SRC
 
 
+** Source parsing
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+;; replace the `completion-at-point' and `complete-symbol' bindings in
+;; irony-mode's buffers by irony-mode's function
+(defun my-irony-mode-hook ()
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async))
+(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+#+END_SRC
 ** ROS message files major mode                           :cosmetic:ROS:mode:
 ROS Messages, Actions and Services files are basically YAML. I would
 like yaml-mode to be used when opening them, for the syntax-highlight.
