@@ -116,7 +116,7 @@ Use the form-feed package to draw horizontal lines instead of ~^L~
 #+END_SRC
 * Backup files							     :backup:
 These files are supposed to save my life, but I can't stand them when they're polluting my working directory.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Make all backups out of sight !
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
   :backup-by-copying t    ; Don't delink hardlinks
