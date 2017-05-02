@@ -218,6 +218,14 @@ Such timestamps and messages should only go in the *:LOGBOOK:* drawer.
 (setq org-log-into-drawer t)
 #+END_SRC
 
+** Effort estimation
+Whenever I use efforts estimate, I want to consider that a day (of
+work) is 8 hours, not 24 hours, see [[https://emacs.stackexchange.com/questions/15306/org-mode-clock-sum-to-count-8h-a-day-and-not-24][SO question]] and [[info:org#Effort%20estimates][efforts estimate
+documentation]].
+
+#+BEGIN_SRC emacs-lisp
+(setq org-time-clocksum-use-effort-durations t)
+#+END_SRC
 ** Org-babel source coloring			    :orgbabel:syntaxcoloring:
 #+CAPTION: Make org-babel colorize source code
 #+BEGIN_SRC emacs-lisp
