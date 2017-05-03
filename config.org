@@ -10,6 +10,7 @@ Great resources for any emacs setup:
 - [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chuan's setup]]
 - [[http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php][An other init.el sample]]
 - [[https://ilikewhenit.works/blog/6][Simple system via use-package]]
+- [[https://zeekat.nl/articles/making-emacs-work-for-me.html][Yet another guy's emacs setup]]
 * Config file setup
 This file is part of a git repository that I sync across devices.
 ** TODO Make the .emacs file point to this file			   :initfile:
