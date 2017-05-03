@@ -873,11 +873,45 @@ Which makes :
 *** RSS feed monitoring
 See [[info:org#RSS%20feeds][Org mode documentation about org-rss]].
 
-#+BEGIN_SRC emacs-lisp :tangle no
+Done with this:
+#+BEGIN_SRC emacs-lisp :tangle-no
 (setq org-feed-alist
-	  '(("Slashdot"
-	      "http://rss.slashdot.org/Slashdot/slashdot"
-	      "~/txt/org/feeds.org" "Slashdot Entries")))
+      '(("Affaires Étrangères"
+	 "http://radiofrance-podcast.net/podcast09/rss_12841.xml"
+	 "~/org/rss-podcasts.org"
+	 "Affaires Étrangères"
+	 :template "
+* %h
+:PROPERTIES:
+:CREATED: %u
+:GUID: %a:END:
+%description")
+	("L'esprit public"
+	 "http://radiofrance-podcast.net/podcast09/rss_16119.xml"
+	 "/home/jean-baptiste.doyon/Documents/Perso/rss-podcasts.org"
+	 "L'esprit public"
+	 :template "
+* %h
+:PROPERTIES:
+:CREATED: %u
+:GUID: %a:END:
+%description")
+	("C dans l'air"
+	 "https://www.youtube.com/feeds/videos.xml?channel_id=UCvg4_wSz4Cmo4xRPXaKU47A"
+	 "/home/jean-baptiste.doyon/Documents/Perso/rss-podcasts.org"
+	 "C dans l'air"
+	 :parse-feed org-feed-parse-atom-feed
+	 :parse-entry org-feed-parse-atom-entry
+	 :template "
+* %title
+:PROPERTIES:
+:CREATED: %u
+:GUID: %a:END:
+%description")
+	;; TODO Use    :filter to only insert entries >30 minutes = emission integrale
+
+	; (string-match "[ \t]*$" test-str)
+	))
 #+END_SRC
 *** DONE Remove items from modeline
 :LOGBOOK:
