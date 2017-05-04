@@ -175,29 +175,19 @@ From [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org
       '(("l" "Ledger entries")
 		("lr" "RBS" plain
 		 (file "~/org/ledger.org")
-		 "%(org-read-date) %^{Payee}
-  Liabilities:RBS
-  Expenses:%^{Account}  %^{Amount}
-")
+		 "%(org-read-date) %^{Payee}\n  Liabilities:RBS\n  Expenses:%^{Account}  %^{Amount}\n")
 		("lf" "CIC FR" plain
 		 (file "~/org/ledger.org")
-		 "%(org-read-date) %^{Payee}
-  Liabilities:CIC
-  Expenses:%^{Account}  %^{Amount}
-")
+		 "%(org-read-date) %^{Payee}\n  Liabilities:CIC\n  Expenses:%^{Account}  %^{Amount}\n")
 		("ls" "SOCGEN FR" plain
 		 (file "~/org/ledger.org")
-		 "%(org-read-date) %^{Payee}
-  Liabilities:SOCGEN
-  Expenses:%^{Account}  %^{Amount}
-")
-
+		 "%(org-read-date) %^{Payee}\n  Liabilities:SOCGEN\n  Expenses:%^{Account}  %^{Amount}\n")
 		("lc" "Cash" plain
 		(file "~/org/ledger.org")
-		"%(org-read-date) * %^{Payee}
-  Expenses:Cash
-  Expenses:%^{Account}  %^{Amount}")))
+		"%(org-read-date) * %^{Payee}\n  Expenses:Cash\n  Expenses:%^{Account}  %^{Amount}")))
 #+END_SRC
+
+
 
 ** Org export
 Do not show me section numbers in export (HTML or \latex)
@@ -880,34 +870,19 @@ Done with this:
 	 "http://radiofrance-podcast.net/podcast09/rss_12841.xml"
 	 "~/org/rss-podcasts.org"
 	 "Affaires Étrangères"
-	 :template "
-* %h
-:PROPERTIES:
-:CREATED: %u
-:GUID: %a:END:
-%description")
+	 :template "* %h\n:PROPERTIES:\n\n:CREATED: %u\n:GUID: %a:END:\n%description")
 	("L'esprit public"
 	 "http://radiofrance-podcast.net/podcast09/rss_16119.xml"
 	 "/home/jean-baptiste.doyon/Documents/Perso/rss-podcasts.org"
 	 "L'esprit public"
-	 :template "
-* %h
-:PROPERTIES:
-:CREATED: %u
-:GUID: %a:END:
-%description")
+	 :template "* %h\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
 	("C dans l'air"
 	 "https://www.youtube.com/feeds/videos.xml?channel_id=UCvg4_wSz4Cmo4xRPXaKU47A"
 	 "/home/jean-baptiste.doyon/Documents/Perso/rss-podcasts.org"
 	 "C dans l'air"
 	 :parse-feed org-feed-parse-atom-feed
 	 :parse-entry org-feed-parse-atom-entry
-	 :template "
-* %title
-:PROPERTIES:
-:CREATED: %u
-:GUID: %a:END:
-%description")
+	 :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
 	;; TODO Use    :filter to only insert entries >30 minutes = emission integrale
 
 	; (string-match "[ \t]*$" test-str)
