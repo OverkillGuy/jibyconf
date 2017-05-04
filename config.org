@@ -952,3 +952,11 @@ See also : [[info:emacs#Goto%20Address%20mode][Emacs Manual: Goto Address mode]]
 See [[https://superuser.com/questions/1112979/automatically-refile-using-tags-in-org-mode][stackoverflow answer]]. Could expose it as a python-esque task:
 Given a trained decision system and a dict-data of entry, decide point
 of relocation. Boils down to dispatch rules.
+** Memacs support for CalDAV                       :org:mode:calendar:memacs:
+Memacs[fn::python code importing data logs to org-mode format]
+supports import of ical calendar entries, but not CalDAV. Would be
+great to extend to CalDAV, which could then be run as cronjob.
+This would be one more step towards Emacs-only setup (no need for
+Thunderbird calendar).
+
+See existing [[https://github.com/novoid/Memacs/blob/master/memacs/ical.py][ical support in memacs]], and [[http://stackoverflow.com/a/31036500][SO reading CalDAV in Python]].
