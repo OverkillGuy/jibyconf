@@ -871,21 +871,20 @@ Done with this:
 	 "http://radiofrance-podcast.net/podcast09/rss_12841.xml"
 	 "~/org/rss-podcasts.org"
 	 "Affaires Étrangères"
-	 :template "* %h\n:PROPERTIES:\n\n:CREATED: %u\n:GUID: %a:END:\n%description")
+	 :template "* %h\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
 	("L'esprit public"
 	 "http://radiofrance-podcast.net/podcast09/rss_16119.xml"
-	 "/home/jean-baptiste.doyon/Documents/Perso/rss-podcasts.org"
+	 "~/org/rss-podcasts.org"
 	 "L'esprit public"
 	 :template "* %h\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
 	("C dans l'air"
 	 "https://www.youtube.com/feeds/videos.xml?channel_id=UCvg4_wSz4Cmo4xRPXaKU47A"
-	 "/home/jean-baptiste.doyon/Documents/Perso/rss-podcasts.org"
+	 "~/org/rss-podcasts.org"
 	 "C dans l'air"
 	 :parse-feed org-feed-parse-atom-feed
 	 :parse-entry org-feed-parse-atom-entry
 	 :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
-	;; TODO Use    :filter to only insert entries >30 minutes = emission integrale
-
+	;; TODO Use    :filter to only insert entries >30 minutes = the whole show, not snippets
 	; (string-match "[ \t]*$" test-str)
 	))
 #+END_SRC
