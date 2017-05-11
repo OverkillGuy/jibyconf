@@ -645,7 +645,7 @@ buffer history.
 	 (cons "C-c C-j" 'term-line-mode)
 	 (cons "C-c C-k" 'term-char-mode)
 	 (cons "C-c C-l" 'comint-clear-buffer)
-;               (cons "C-c C-c"  'term-interrupt-subjob)
+         (cons "C-c C-c"  'term-interrupt-subjob))))
 ;               (cons "C-p" . 'previous-line)
 ;               (cons "C-n" 'next-line)
 ;               (cons "M-f" 'term-send-forward-word)
