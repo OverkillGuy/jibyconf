@@ -139,7 +139,9 @@ These files are supposed to save my life, but I can't stand them when they're po
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
-(global-set-key (kbd "C-c b")  'org-iswitchb)
+; (global-set-key (kbd "C-c b")  'org-iswitchb)
+(global-set-key (kbd "C-c C-x C-o") 'org-clock-out)
+(global-set-key (kbd "C-c C-x C-j") 'org-clock-jump-to-current-clock)
 #+END_SRC
 
 ** Org-babel load languages					   :orgbabel:
