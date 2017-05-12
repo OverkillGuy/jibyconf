@@ -715,6 +715,11 @@ I/N on an info/man page to open with info/man mode, and much more)
      ;;             ;; (dired-omit-mode 1)
      ;;             ))
 #+END_SRC
+Also force-enable the =dired-jump= keybinding in all modes (its prefix
+is sometimes overriden by the XMPP client I use at work)
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x C-j") 'dired-jump)
+#+END_SRC
 * Emacs calendar						   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events
