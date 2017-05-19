@@ -761,6 +761,24 @@ From [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up
 Single file for contacts, each headline a person, tags for clustering,
 properties for mapping data (phone number etc). Tailored column view
 for visual inspection.
+
+* Offline documentation                                                 :doc:
+:PROPERTIES:
+:CREATED:  [2017-05-19 Fri 17:15]
+:END:
+
+Use =helm-dash= in Emacs and bind it to =F6=
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm-dash
+  :config
+  (helm-dash-activate-docset "C++")
+  (helm-dash-activate-docset "Python 2")
+  (helm-dash-activate-docset "Docker")
+  :bind
+  (("<f6>" . helm-dash-at-point)))
+#+END_SRC
+
 * RFC                                                               :rfc:doc:
 Browsing RFCs in emacs (from [[https://www.emacswiki.org/emacs/Irfc][emacswiki]])
 
