@@ -67,8 +67,9 @@ I want my emacs to look cool, so I changed the mode line accordingly.
 Idea came from [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]].
 #+BEGIN_SRC emacs-lisp
 ;; Cosmetic : change modeline aspect
-(require 'powerline)
-(powerline-default-theme)
+(use-package powerline
+  :config
+  (powerline-default-theme)
 #+END_SRC
 Because I wanted to feel like I'm actually customizing rather than
 copying and pasting, I changed the colors to my liking (blue !)
