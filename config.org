@@ -471,16 +471,6 @@ Show diff-lines by the file fringe
 #+END_SRC
 
 More info at https://github.com/syohex/emacs-git-gutter
-* Orgit                                                     :org:git:magit:
-Link to magit buffers from Org documents.
-Install the package ~orgit~. See the documentation in [[https://github.com/magit/orgit][package Github page]].
-
-#+CAPTION: Using orgit in git repos
-#+BEGIN_EXAMPLE
-orgit:/path/to/repo/           links to a magit-status buffer
-orgit-log:/path/to/repo/::REV  links to a magit-log buffer
-orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
-#+END_EXAMPLE
 * Merge-tool "take both" option                                       :git:
 While using emerge (merge conflict resolution tool), I sometimes need
 an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][stackoverflow]])
@@ -496,7 +486,14 @@ an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][s
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 #+END_SRC
-* Git graph shortcuts                               :keybindings:magit:git:
+* Magit                                                           :git:magit:
+** Show word-diff                                                  :cosmetic:
+Shows the equivalent of =git diff --word-diff=
+#+BEGIN_SRC emacs-lisp
+(setq magit-diff-refine-hunk 'all)
+#+END_SRC
+
+** Git graph shortcuts                                :keybindings:
 #+CAPTION: Rebind Alt-F12 to magit-status
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-<f12>") 'magit-status)
@@ -505,6 +502,16 @@ an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][s
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
 #+END_SRC
+** Orgit                                                          :org:magit:
+Link to magit buffers from Org documents.
+Install the package ~orgit~. See the documentation in [[https://github.com/magit/orgit][package Github page]].
+
+#+CAPTION: Using orgit in git repos
+#+BEGIN_EXAMPLE
+orgit:/path/to/repo/           links to a magit-status buffer
+orgit-log:/path/to/repo/::REV  links to a magit-log buffer
+orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
+#+END_EXAMPLE
 
 * Double spacing navigation                                :usability:locale:
 By default emacs assumes the American typist system of 2 spaces after
