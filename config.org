@@ -706,13 +706,15 @@ Good syntax but bad configuration, from [[https://github.com/aborn/emacs.d/blob/
 (setq show-trailing-whitespace nil)))
 #+END_SRC
 
-* Dired change permissions                                            :dired:
+* Dired customizations                                                :dired:
+** Dired change permissions
 From [[http://pragmaticemacs.com/emacs/batch-edit-file-permissions-in-dired/][pragmaticemacs blog]], I can change the permissions of files in a
-dired buffer by setting a flag and making the buffer editable.
+dired buffer by setting the buffer as editable (disable read-only,
+bound to =C-x C-q=)
 #+BEGIN_SRC emacs-lisp
 (setq wdired-allow-to-change-permissions t)
 #+END_SRC
-* Dired search via narrow                                             :dired:
+** Dired search via narrow
 From [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][pragmaticemacs blog]], I can do a live-filter of a dired buffer
 akin to searching that narrows the buffer to my selection. Coupled
 with other dired commands, this allows to perform actions on a
@@ -725,7 +727,7 @@ regex-based subset of a folder.
   :bind (:map dired-mode-map
               ("/" . dired-narrow)))
 #+END_SRC
-* Dired-X enable                                                      :dired:
+** Dired-X enable
 From [[info:dired-x#Installation][Dired-X info page]], load the dired extensions (including pressing
 I/N on an info/man page to open with info/man mode, and much more)
 #+BEGIN_SRC emacs-lisp
