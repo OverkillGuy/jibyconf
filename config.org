@@ -749,6 +749,45 @@ is sometimes overriden by the XMPP client I use at work)
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 #+END_SRC
+* Encryption and secrets handling                                    :crypto:
+GPG, passwordstore setup etc
+
+Created a GPG key for work.
+Created a passwordstore tied to it. (using =pass= executable, wrapping
+GPG)
+
+See [[https://emacs.stackexchange.com/questions/20824/how-to-use-minibuffer-instead-of-pop-up-window-for-gpg-files][GPG pin entry via emacs]] to avoid GPG popup.
+
+See [[info:org#org-crypt][Orgmode manual on org-crypt]]
+** Org-crypt
+Encrypt the text of an org entry but not headline or properties.
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-crypt)
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+(setq org-crypt-key nil)
+; (setq auto-save-default nil)
+(setq org-crypt-disable-auto-save: 'ask)
+#+END_SRC
+Now, anything that has a =:crypt:= tag will be saved as GPG armored
+blob.
+See next subheadline for checking that.
+
+*** Super secret field here                                           :crypt:
+:PROPERTIES:
+:CREATED:  [2017-05-25 Thu 11:44]
+:password: The password for this field (symmetrically encrypted) is passwd
+:END:
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+jA0EAwMC4zb/dFxDeWpgyXqjXcfIkeggyCCq/5wwzgF3poZZx10WLFxE5+9rqvpH
+oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
+6aveEV5CR0SQWrnYUOpKeA79h8mX95XMCw3EwwqckhDYaOaT8Iu4lXOz5A==
+=6LdW
+-----END PGP MESSAGE-----
+
 * Emacs calendar						   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events
