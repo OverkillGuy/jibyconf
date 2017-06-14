@@ -550,7 +550,8 @@ My French keyboard on emacs won't type dead keys by default, this fixes it.
 (require 'iso-transl)
 #+END_SRC
 
-* Window movement                                      :usability:keybinding:
+* Navigation                                           :usability:keybinding:
+** Window movement
 Switching emacs windows with ~C-x o~ works with two windows, but with
 more it gets very annoying. The [[https://github.com/abo-abo/ace-window][ace-window]] package aims to solve that
 by binding ~M-p~ to it (faster than default).
@@ -559,6 +560,16 @@ by binding ~M-p~ to it (faster than default).
   :config
   (global-set-key (kbd "C-;") 'ace-window))
 #+END_SRC
+** Jump around buffer
+Use =ace-iseach=[fn::[[https://github.com/tam17aki/ace-isearch]]] for
+replacing ISearch with a jump-around-buffer thing. When typing =C-s=,
+it dispatches the right search system.
+#+BEGIN_SRC emacs-lisp
+(use-package ace-isearch
+  :config
+  (global-ace-isearch-mode +1))
+#+END_SRC
+
 * DONE Remap C-x C-c to avoid accidentally exiting :keybinding:controversial:
 CLOSED: [2016-12-16 Fri]
 :LOGBOOK:
