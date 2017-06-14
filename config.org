@@ -101,7 +101,7 @@ Rebind the Pause key to make the cursor blink
 #+END_SRC
 ** Hlines
 Use the form-feed package to draw horizontal lines instead of ~^L~
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package form-feed
   :config
   (add-hook 'org-mode-hook 'form-feed-mode))
