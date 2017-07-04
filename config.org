@@ -228,13 +228,13 @@ documentation]].
 *** Background color for code blocks
 So far the code blocks are syntax-highlit by emacs. Let's add a
 different background-color to them to make delimitation visual.
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
 (defface org-block-background
   '((t (:background "#444")))
   "Face used for the source block background.")
 #+END_SRC
 And the (never-tested via code, only customize-interface) associated trigger code:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
 (setq org-src-block-faces '(("emacs-lisp" org-block-background)))
 #+END_SRC
 **** TODO Apply the color-coding to other languages as appropriate
