@@ -53,7 +53,25 @@ I like Monaco as a font, but it's not installed on all my boxes.
  ((find-font (font-spec :name "courier"))
   (set-frame-font "courier-14")))
 #+END_SRC
+*** UTF8 everywhere                                                  :locale:
+Force the use of UTF8 everywhere in emacs.
+#+BEGIN_SRC emacs-lisp
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
 
+;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+#+END_SRC
+
+Use Symbola font ([[http://www.fonts2u.com/symbola.font][download link]]) as fallback font, for those UTF8
+symbols that my coding fonts don't cover. Tip from [[http://endlessparentheses.com/manually-choose-a-fallback-font-for-unicode.html][endless-parentheses]]
+
+#+BEGIN_SRC emacs-lisp
+(set-fontset-font "fontset-default" nil
+		  (font-spec :name "Symbola"))
+#+END_SRC
 ** Disable graphical bars						:GUI:
 Remove all the GUI tools (open,save etc) including the helpful menu
 bar (which takes an entire character row !).
@@ -534,27 +552,6 @@ navigation difficult, as I only space my sentences once.
 #+CAPTION: Make emacs use single-spaced sentences
 #+BEGIN_SRC emacs-lisp
 (setq sentence-end-double-space nil)
-#+END_SRC
-
-* UTF8 everywhere                                                    :locale:
-
-#+BEGIN_SRC emacs-lisp
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-
-;; Treat clipboard input as UTF-8 string first; compound text next, etc.
-(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-#+END_SRC
-
-Tip from [[http://endlessparentheses.com/manually-choose-a-fallback-font-for-unicode.html][endless-parentheses]], use Symbola font ([[http://www.fonts2u.com/symbola.font][download link]]) as
-fallback font, for those UTF8 symbols that my coding fonts don't
-cover.
-
-#+BEGIN_SRC emacs-lisp
-(set-fontset-font "fontset-default" nil
-		  (font-spec :name "Symbola"))
 #+END_SRC
 
 * Force enabling dead keys                                :usability:locale:
