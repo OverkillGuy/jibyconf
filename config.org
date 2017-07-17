@@ -114,6 +114,12 @@ Use the form-feed package to draw horizontal lines instead of ~^L~
   (add-hook 'prog-mode-hook 'nyan-mode)
   (setq nyan-animate-nyancat t))
 #+END_SRC
+** Mouse avoids cursor
+Using [[help:avoid][avoid package]], moves mouse out of my way when the mouse is
+visible (not in a terminal):
+#+BEGIN_SRC emacs-lisp
+(if (display-mouse-p) (mouse-avoidance-mode 'banish))
+#+END_SRC
 * Backup files							     :backup:
 These files are supposed to save my life, but I can't stand them when they're polluting my working directory.
 #+BEGIN_SRC emacs-lisp :tangle no
