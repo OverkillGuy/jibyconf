@@ -78,7 +78,7 @@ bar (which takes an entire character row !).
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(setq scroll-bar-mode nil)
+(scroll-bar-mode -1)
 #+END_SRC
 ** Mode line aspect                                                 :GUIonly:
 I want my emacs to look cool, so I changed the mode line accordingly.
