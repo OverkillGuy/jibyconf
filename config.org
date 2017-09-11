@@ -614,10 +614,26 @@ orgit-log:/path/to/repo/::REV  links to a magit-log buffer
 orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
 #+END_EXAMPLE
 
+* Latex                                                               :latex:
+Use =auctex= and =preview-latex-mode=. Using =xetex= backend
+#+BEGIN_SRC emacs-lisp
+(use-package tex-mode
+  :ensure auctex
+  :config
+  (setq 'tex-engine 'xetex))
+#+END_SRC
+
+Preview pane should be enabled by default on Latex documents
+#+BEGIN_SRC emacs-lisp
+(use-package latex-preview-pane
+  :config
+  (latex-preview-pane-enable))
+#+END_SRC
 * Double spacing navigation                                :usability:locale:
 By default emacs assumes the American typist system of 2 spaces after
 a sentence-ending character (like ~.~). This makes using ~M-e~
-navigation difficult, as I only space my sentences once.
+navigation difficult, as I only space my sentences once, as europeans
+(the French?) do.
 
 #+CAPTION: Make emacs use single-spaced sentences
 #+BEGIN_SRC emacs-lisp
