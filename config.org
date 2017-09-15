@@ -954,6 +954,14 @@ mkdir -p ~/dev/doc/rfc
 ;; (setq irfc-head-name-face :foreground "orange red")
 (set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
 #+END_SRC
+
+Opening RFCs does not automatically trigger the =irfc-mode=, so I'm
+forcing it by using a directory variable:
+
+#+BEGIN_SRC emacs-lisp :tangle ~/dev/doc/rfc/.dir-locals.el
+((nil (eval . (if (string-match ".txt$" (buffer-file-name))(irfc-mode)))))
+#+END_SRC
+
 ** TODO Writing RFC documents
 I want to be able to write down RFC-like documents via org-mode.
 
