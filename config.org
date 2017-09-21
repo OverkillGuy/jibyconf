@@ -709,6 +709,15 @@ Use =F7= to jump files and shift-F7 to switch project
 (global-set-key (kbd "<f7>") 'helm-projectile-find-file-dwim)
 (global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
 #+END_SRC
+
+* Silver searcher
+Installing =silver-searcher= for quick code lookup instead of
+=projectile-grep=. [[https://github.com/ggreer/the_silver_searcher][Ag link]]
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm-ag)
+#+END_SRC
+
 * Kill this buffer                                 :keybinding:controversial:
 When pressing the usual buffer-kill keychord, always want to kill the
 current buffer (for larger killings I use ~C-x C-b~).
