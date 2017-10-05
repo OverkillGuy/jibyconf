@@ -686,6 +686,11 @@ C++ functions.
                   (json-mode "{" "}" "/[*/]" nil)
                   (javascript-mode  "{" "}" "/[*/]" nil)))))
 #+END_SRC
+** Path in json block
+
+#+BEGIN_SRC emacs-lisp
+(use-package json-snatcher)
+#+END_SRC
 * DONE Remap C-x C-c to avoid accidentally exiting :keybinding:controversial:
 CLOSED: [2016-12-16 Fri]
 :LOGBOOK:
