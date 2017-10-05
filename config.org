@@ -665,7 +665,27 @@ it dispatches the right search system.
   :config
   (global-ace-isearch-mode +1))
 #+END_SRC
+** Hide-show blocks
+From [[https://writequit.org/articles/working-with-logs-in-emacs.html][viewing logs in emacs]] article, allow hiding blocks like json or
+C++ functions.
 
+#+BEGIN_SRC emacs-lisp
+(use-package hideshow
+  :bind (("C-c TAB" . hs-toggle-hiding)
+         ("C-\\" . hs-toggle-hiding)
+         ("M-+" . hs-show-all))
+  :init (add-hook #'prog-mode-hook #'hs-minor-mode)
+  :diminish hs-minor-mode
+  :config
+  (setq hs-special-modes-alist
+        (mapcar 'purecopy
+                '((c-mode "{" "}" "/[*/]" nil nil)
+                  (c++-mode "{" "}" "/[*/]" nil nil)
+                  (java-mode "{" "}" "/[*/]" nil nil)
+                  (js-mode "{" "}" "/[*/]" nil)
+                  (json-mode "{" "}" "/[*/]" nil)
+                  (javascript-mode  "{" "}" "/[*/]" nil)))))
+#+END_SRC
 * DONE Remap C-x C-c to avoid accidentally exiting :keybinding:controversial:
 CLOSED: [2016-12-16 Fri]
 :LOGBOOK:
