@@ -338,10 +338,22 @@ Using [[https://github.com/yjwen/org-reveal][ox-reveal]] package.
 ;; Trigger my-style when entering c++-mode
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 #+END_SRC
-** Parenthesis matching 			       :cosmetic:readability:
-Using =rainbow-delimiters= for top-level visibility of braces and parens.
+** Parenthesis matching				       :cosmetic:readability:
+Using =rainbow-delimiters= for top-level visibility of braces and
+parens.
+
 #+BEGIN_SRC emacs-lisp
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(use-package rainbow-delimiters
+  :init
+  ((setq rainbow-delimiters-max-face-count 6)
+   (set-face-foreground 'rainbow-delimiters-depth-1-face "#ffffff")
+   (set-face-foreground 'rainbow-delimiters-depth-2-face "#32ccc0")
+   (set-face-foreground 'rainbow-delimiters-depth-3-face "#00cd00")
+   (set-face-foreground 'rainbow-delimiters-depth-4-face "#0000cd")
+   (set-face-foreground 'rainbow-delimiters-depth-5-face "#cdcd00")
+   (set-face-foreground 'rainbow-delimiters-depth-6-face "#cd00cd"))
+  :config
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
 Show paren mode for showing matching brace under the cursor
