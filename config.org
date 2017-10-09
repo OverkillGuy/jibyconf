@@ -345,14 +345,14 @@ parens.
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
   :init
-  ((setq rainbow-delimiters-max-face-count 6)
-   (set-face-foreground 'rainbow-delimiters-depth-1-face "#ffffff")
-   (set-face-foreground 'rainbow-delimiters-depth-2-face "#32ccc0")
-   (set-face-foreground 'rainbow-delimiters-depth-3-face "#00cd00")
-   (set-face-foreground 'rainbow-delimiters-depth-4-face "#0000cd")
-   (set-face-foreground 'rainbow-delimiters-depth-5-face "#cdcd00")
-   (set-face-foreground 'rainbow-delimiters-depth-6-face "#cd00cd"))
+  (setq rainbow-delimiters-max-face-count 6)
   :config
+  (set-face-foreground 'rainbow-delimiters-depth-1-face "#ffffff")
+  (set-face-foreground 'rainbow-delimiters-depth-2-face "#32ccc0")
+  (set-face-foreground 'rainbow-delimiters-depth-3-face "#00cd00")
+  (set-face-foreground 'rainbow-delimiters-depth-4-face "#0000cd")
+  (set-face-foreground 'rainbow-delimiters-depth-5-face "#cdcd00")
+  (set-face-foreground 'rainbow-delimiters-depth-6-face "#cd00cd")
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
