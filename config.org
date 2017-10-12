@@ -179,6 +179,7 @@ Load all my common languages
  '((python . t)
    (plantuml . t)
    (ditaa . t)
+   (dot . t)
    (C . t)
    (shell . t)
    ))
