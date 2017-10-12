@@ -715,6 +715,13 @@ programming modes
 #+BEGIN_SRC emacs-lisp
 (use-package minimap-mode)
 #+END_SRC
+** Silver searcher
+Installing =silver-searcher= for quick code lookup instead of
+=projectile-grep=. [[https://github.com/ggreer/the_silver_searcher][Ag link]]
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm-ag)
+#+END_SRC
 
 * DONE Remap C-x C-c to avoid accidentally exiting :keybinding:controversial:
 CLOSED: [2016-12-16 Fri]
@@ -758,14 +765,6 @@ Use =F7= to jump files and shift-F7 to switch project
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "<f7>") 'helm-projectile-find-file-dwim)
 (global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
-#+END_SRC
-
-* Silver searcher
-Installing =silver-searcher= for quick code lookup instead of
-=projectile-grep=. [[https://github.com/ggreer/the_silver_searcher][Ag link]]
-
-#+BEGIN_SRC emacs-lisp
-(use-package helm-ag)
 #+END_SRC
 
 * Kill this buffer                                 :keybinding:controversial:
