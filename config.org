@@ -918,12 +918,13 @@ See [[info:org#org-crypt][Orgmode manual on org-crypt]]
 Encrypt the text of an org entry but not headline or properties.
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-crypt)
-(org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance (quote ("crypt")))
-(setq org-crypt-key nil)
-; (setq auto-save-default nil)
-(setq org-crypt-disable-auto-save: 'ask)
+(use-package org-crypt
+  :config
+  (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+  (setq org-crypt-key nil)
+					; (setq auto-save-default nil)
+  (setq org-crypt-disable-auto-save: 'ask))
 #+END_SRC
 Now, anything that has a =:crypt:= tag will be saved as GPG armored
 blob.
