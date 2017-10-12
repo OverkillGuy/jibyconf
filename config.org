@@ -632,7 +632,7 @@ Use =auctex= and =preview-latex-mode=. Using =xetex= backend
 (use-package tex-mode
   :ensure auctex
   :config
-  (setq 'tex-engine 'xetex))
+  (setq tex-engine 'xetex))
 #+END_SRC
 
 Preview pane should be enabled by default on Latex documents
