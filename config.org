@@ -15,6 +15,8 @@ Great resources for any emacs setup:
 This file is part of a git repository that I sync across devices.
 ** TODO Make the .emacs file point to this file			   :initfile:
 ** TODO [#A] Use this orgfile as init.el
+** TODO [#A] Use this orgfile as init.el                           :disabled:
+Allows autoloading it.
 See [[http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file][Stackoverflow post on the topic]].
 Uses the following code:
 #+BEGIN_SRC emacs-lisp :tangle no
@@ -117,14 +119,14 @@ Pause key to make the cursor blink
   :diminish beacon-mode
   :bind ("<pause>" . beacon-blink))
 #+END_SRC
-** Hlines
+** Hlines                                                          :disabled:
 Use the form-feed package to draw horizontal lines instead of ~^L~
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package form-feed
   :config
   (add-hook 'org-mode-hook 'form-feed-mode))
 #+END_SRC
-** Nyancat for file-percentage
+** Nyancat for file-percentage                                     :disabled:
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package nyan-mode
   :config
@@ -138,8 +140,9 @@ visible (not in a terminal):
 #+BEGIN_SRC emacs-lisp
 (if (display-mouse-p) (mouse-avoidance-mode 'banish))
 #+END_SRC
-* Backup files							     :backup:
-These files are supposed to save my life, but I can't stand them when they're polluting my working directory.
+* Backup files                                              :backup:disabled:
+These files are supposed to save my life, but I can't stand them when
+they're polluting my working directory.
 #+BEGIN_SRC emacs-lisp :tangle no
 ;; Make all backups out of sight !
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
@@ -398,7 +401,7 @@ Show paren mode for showing matching brace under the cursor
      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)))
 #+END_SRC
-** Highlighting FIXMEs and TODOs				   :cosmetic:
+** Highlighting FIXMEs and TODOs                          :cosmetic:disabled:
 Disabled coz breaks things
 #+BEGIN_SRC emacs-lisp :tangle no
 ;; TODO/FIXME highlight enabled fuckup
@@ -450,7 +453,7 @@ See [[info:emacs#Compilation][Emacs manual]].
 #+BEGIN_SRC emacs-lisp
 (setq compilation-scroll-output 'first-error)
 #+END_SRC
-*** TODO System-wide notification of completion
+*** TODO System-wide notification of completion                    :disabled:
 Using [[http://emacs.stackexchange.com/a/14188][Stackoverflow answer]] and notification
 #+BEGIN_SRC emacs-lisp :tangle no
 (defun my-compilation-finish-function (buffer desc)
@@ -459,7 +462,7 @@ Using [[http://emacs.stackexchange.com/a/14188][Stackoverflow answer]] and notif
 #+END_SRC
 
 
-** Source parsing
+** Source parsing                                                  :disabled:
 #+BEGIN_SRC emacs-lisp :tangle no
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'c-mode-hook 'irony-mode)
@@ -948,7 +951,7 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 
 * Emacs calendar						   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
-** TODO Calendar reminders for events
+** TODO Calendar reminders for events                              :disabled:
 From [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up-alarms-audio-visual-triggered-by-org-mode-events][StackOverflow]]:
 
 #+NAME: emacs-system-notify
