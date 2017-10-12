@@ -1011,65 +1011,6 @@ forcing it by using a directory variable:
 * TODO Writing RFC documents
 I want to be able to write down RFC-like documents via org-mode.
 
-* Old config
-This section is from old work config file.
-** IDE
-*** TODO Project navigation
-Emacs should know what my projects are (fdeco-solar etc) based on CMake and ~/dev/workspace/ folder.
-Should allow to navigate to any file I ask for.
-**** Using projectile ?
-Integrated with helm, also gtags ?
-*** JSON
-**** Prettify dense JSON
-Select region then ~C-\ python -m json.tool~. There's an additional prepend switch to make the command happen in-buffer.
-**** TODO Packing pretty JSON
-
-*** Highlight all occurences of word in buffer
-~M-x highlight-regexp RET pattern RET RET~.
-Double return because it asks for highlight-color (default yellow)
-** Orgmode
-*** TODO Linking documents
-**** Email attachments
-**** Whiteboard image
-
-*** TODO Publishing a project
-See [[http://orgmode.org/manual/Publishing.html]]
-For FDECO and JoshWeaver projects.
-
-*** DONE Bugzilla template
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2017-02-22 Wed 14:03]
-:END:
-Each time =bug12345= is written, replace it with the link https://bugzilla.mozilla.org/show_bug.cgi?id=12345 with a link name from the original
-Fixed with the following sample (inspired from [[https://github.com/thi-ng/org-spec][org-spec template]]):
-#+BEGIN_SRC org :tangle no
-#+LINK: bug https://bugzilla.mozilla.org/show_bug.cgi?id=
-[[bug:12345]]
-#+END_SRC
-*** TODO Link to email
-*** TODO Link to git
-**** Linking to branches
-**** Linking to commit
-**** Linking to tag
-
-*** Line-wrap by default
-To get line-wrap EVERYWHERE : ~(global-visual-line-mode t)~.
-Not recommended because applies even in C++ buffers. Alternatively, enable only in current buffer with  ~M-x visual-line-mode~.
-Major modes where wrapping is useful
-- Org (runaway text should be contained to the window)
-Harmful
-- Compilation buffers
-- C++ code
-*** Image resizing : whiteboard
-From [[http://stackoverflow.com/questions/11670654/how-to-resize-images-in-org-mode][Stackoverflow]] and [[http://lists.gnu.org/archive/html/emacs-orgmode/2012-08/msg01388.html][Orgmode maillist archive]]
-~(setq org-image-actual-width nil)~ then
-#+BEGIN_SRC org :tangle no
-#+ATTR_HTML: :width 500px
-#+ATTR_ORG: :width 500
-[[~/images/example.jpg]]
-#+END_SRC
-**** TODO Set default image resizing to coherent value (500px ?)
-
 * DocView
 Keep scrolling across pages when viewing PDFs (from [[info:emacs#DocView%20Navigation][DocView manual]])
 #+BEGIN_SRC emacs-lisp
