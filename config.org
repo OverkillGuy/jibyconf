@@ -916,6 +916,27 @@ is sometimes overriden by the XMPP client I use at work)
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 #+END_SRC
+** Neotree?                                                        :disabled:
+From [[https://github.com/jaypei/emacs-neotree][Neotree Github]]. a modern alternative to sr-speedbar
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package neotree
+  :ensure t
+  :bind (([f8] . neotree-toggle))
+  :config (setq neo-autorefresh nil))
+#+END_SRC
+See [[https://github.com/jaypei/emacs-neotree/issues/149][Github issue : Projectile interaction]], [[https://emacs.stackexchange.com/questions/33632/stopping-neotree-from-constantly-switching-to-the-open-files-directory][SO similar question]]
+
+Can also use all-the-icons-fonts
+*** All-the-icons.el                                               :disabled:
+See [[https://github.com/domtronn/all-the-icons.el][Github all-the-icons.el]], a repository aggregating font-awesome and
+equivalents and integrating it to emacs font property system.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package all-the-icons)
+#+END_SRC
+Need to do the font download once
+#+BEGIN_EXAMPLE emacs-lisp
+(all-the-icons-install-fonts)
+#+END_EXAMPLE
 * Encryption and secrets handling                                    :crypto:
 GPG, passwordstore setup etc
 
