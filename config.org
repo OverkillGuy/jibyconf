@@ -564,7 +564,7 @@ int main(int argc, char **argv)
 #+END_SRC
 
 
-* Python                                                         :python:IDE:
+* Python                                                :python:IDE:disabled:
 Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
 From the readme:
 #+BEGIN_SRC shell :tangle no
@@ -577,7 +577,7 @@ and on the emacs side of things, install their repository
              '("elpy" . "https://jorgenschaefer.github.io/packages/"))
 #+END_SRC
 then install the package =elpy=, and use the following conf
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (elpy-enable)
 #+END_SRC
 
