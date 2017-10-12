@@ -647,6 +647,16 @@ Preview pane should be enabled by default on Latex documents
   :config
   (latex-preview-pane-enable))
 #+END_SRC
+* Markup languages
+** Restructured text
+From [[https://github.com/masayuko/ox-rst][ox-rst Github page]]:
+#+BEGIN_SRC emacs-lisp
+(use-package ox-rst)
+#+END_SRC
+** Markdown
+#+BEGIN_SRC emacs-lisp
+(use-package markdown-mode)
+#+END_SRC
 * Double spacing navigation                                :usability:locale:
 By default emacs assumes the American typist system of 2 spaces after
 a sentence-ending character (like ~.~). This makes using ~M-e~
