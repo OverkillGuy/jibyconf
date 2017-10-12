@@ -577,14 +577,16 @@ then install the package =elpy=, and use the following conf
 #+BEGIN_SRC emacs-lisp
 (elpy-enable)
 #+END_SRC
-* Git gutter                                                          :git:
+
+* Git                                                                   :git:
+** Git gutter
 Show diff-lines by the file fringe
 #+BEGIN_SRC emacs-lisp
 (global-git-gutter-mode +1)
 #+END_SRC
 
 More info at https://github.com/syohex/emacs-git-gutter
-* Merge-tool "take both" option                                       :git:
+** Merge-tool "take both" option
 While using emerge (merge conflict resolution tool), I sometimes need
 an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][stackoverflow]])
 
@@ -593,20 +595,20 @@ an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][s
 (defun ediff-copy-both-to-C ()
   (interactive)
   (ediff-copy-diff ediff-current-difference nil 'C nil
-                   (concat
-                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
-                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+		   (concat
+		    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+		    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 #+END_SRC
-* Magit                                                           :git:magit:
-** Show word-diff                                                  :cosmetic:
+** Magit                                                              :magit:
+*** Show word-diff                                                 :cosmetic:
 Shows the equivalent of =git diff --word-diff=
 #+BEGIN_SRC emacs-lisp
 (setq magit-diff-refine-hunk 'all)
 #+END_SRC
 
-** Git graph shortcuts                                :keybindings:
+*** Git graph shortcuts                                         :keybindings:
 #+CAPTION: Rebind Alt-F12 to magit-status
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-<f12>") 'magit-status)
@@ -615,7 +617,7 @@ Shows the equivalent of =git diff --word-diff=
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
 #+END_SRC
-** Orgit                                                          :org:magit:
+*** Orgit                                                               :org:
 Link to magit buffers from Org documents.
 Install the package ~orgit~. See the documentation in [[https://github.com/magit/orgit][package Github page]].
 
