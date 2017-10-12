@@ -709,6 +709,13 @@ C++ functions.
 #+BEGIN_SRC emacs-lisp
 (use-package json-snatcher)
 #+END_SRC
+** Minimap
+Similar to the Sublime minimap, triggers using =minimap-mode= in
+programming modes
+#+BEGIN_SRC emacs-lisp
+(use-package minimap-mode)
+#+END_SRC
+
 * DONE Remap C-x C-c to avoid accidentally exiting :keybinding:controversial:
 CLOSED: [2016-12-16 Fri]
 :LOGBOOK:
