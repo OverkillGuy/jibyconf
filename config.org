@@ -967,10 +967,7 @@ properties for mapping data (phone number etc). Tailored column view
 for visual inspection.
 
 * Offline documentation                                                 :doc:
-:PROPERTIES:
-:CREATED:  [2017-05-19 Fri 17:15]
-:END:
-
+** Helm-dash
 Use =helm-dash= in Emacs and bind it to =F6=
 
 #+BEGIN_SRC emacs-lisp
@@ -983,7 +980,7 @@ Use =helm-dash= in Emacs and bind it to =F6=
   (("<f6>" . helm-dash-at-point)))
 #+END_SRC
 
-* RFC                                                               :rfc:doc:
+** RFC                                                              :rfc:doc:
 Browsing RFCs in emacs (from [[https://www.emacswiki.org/emacs/Irfc][emacswiki]])
 
 #+CAPTION: Create the RFC folder path if needed
@@ -1011,7 +1008,7 @@ forcing it by using a directory variable:
 ((nil (eval . (if (string-match ".txt$" (buffer-file-name))(irfc-mode)))))
 #+END_SRC
 
-** TODO Writing RFC documents
+* TODO Writing RFC documents
 I want to be able to write down RFC-like documents via org-mode.
 
 * Old config
