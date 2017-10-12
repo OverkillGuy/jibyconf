@@ -657,6 +657,36 @@ From [[https://github.com/masayuko/ox-rst][ox-rst Github page]]:
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode)
 #+END_SRC
+* Editing
+** Unfill
+When editing text, sometimes I need to revert the line truncation that
+=fill-mode= provides. Here's a handy snippet from [[https://www.emacswiki.org/emacs/UnfillParagraph][the internet]] to do
+just that.
+
+#+BEGIN_SRC emacs-lisp
+(defun unfill-region (beg end)
+  "Unfill the region, joining text paragraphs into a single
+    logical line.  This is useful, e.g., for use with
+    `visual-line-mode'."
+  (interactive "*r")
+  (let ((fill-column (point-max)))
+    (fill-region beg end)))
+
+;; Handy key definition
+(define-key global-map (kbd "C-M-Q") 'unfill-region)
+
+    ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+	;; This would override `fill-column' if it's an integer.
+	(emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+
+;; Handy key definition
+(define-key global-map (kbd "M-Q") 'unfill-paragraph)
+#+END_SRC
 * Double spacing navigation                                :usability:locale:
 By default emacs assumes the American typist system of 2 spaces after
 a sentence-ending character (like ~.~). This makes using ~M-e~
