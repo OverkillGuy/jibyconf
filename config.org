@@ -564,8 +564,24 @@ int main(int argc, char **argv)
 }
 #+END_SRC
 
-
-* Python                                                :python:IDE:disabled:
+#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/yaml-mode/playbook :mkdirp yes
+# -*- mode: snippet -*-
+#name : Simple playbook template
+#key : playbook
+# --
+---
+- hosts: webservers
+  vars:
+    http_port: 80
+    max_clients: 200
+  remote_user: root
+  tasks:
+  - name: ensure apache is at the latest version
+    yum:
+      name: httpd
+      state: latest
+#+END_SRC
+* Elpy                                                  :python:IDE:disabled:
 Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
 From the readme:
 #+BEGIN_SRC shell :tangle no
