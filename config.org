@@ -687,7 +687,20 @@ just that.
 ;; Handy key definition
 (define-key global-map (kbd "M-Q") 'unfill-paragraph)
 #+END_SRC
-* Double spacing navigation                                :usability:locale:
+** Ansible snippets
+Using =ansible= package, see [[https://github.com/k1LoW/emacs-ansible][Github link]].
+Provides a gazillion snippets for ansible-related yaml scripts
+
+#+BEGIN_SRC emacs-lisp
+(use-package ansible
+  :config
+  (add-hook 'yaml-mode-hook '(lambda () (ansible 1))))
+#+END_SRC
+* Locale                                                             :locale:
+:PROPERTIES:
+:CREATED:  [2017-10-12 Thu 17:33]
+:END:
+** Double spacing navigation
 By default emacs assumes the American typist system of 2 spaces after
 a sentence-ending character (like ~.~). This makes using ~M-e~
 navigation difficult, as I only space my sentences once, as europeans
