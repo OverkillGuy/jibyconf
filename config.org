@@ -674,18 +674,24 @@ From [[https://github.com/masayuko/ox-rst][ox-rst Github page]]:
 (use-package markdown-mode)
 #+END_SRC
 ** LDAP
-For syntax highlighting of LDAP entries
 #+BEGIN_SRC emacs-lisp
 (use-package ldap)
 #+END_SRC
 ** Ansible
 Using =ansible= package, see [[https://github.com/k1LoW/emacs-ansible][Github link]].
 Provides a gazillion snippets for ansible-related yaml scripts
-
 #+BEGIN_SRC emacs-lisp
-(use-package ansible
-  :config
-  (add-hook 'yaml-mode-hook '(lambda () (ansible 1))))
+(use-package ansible)
+#+END_SRC
+Disabled auto-enabling with the hook:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-hook 'yaml-mode-hook '(lambda () (ansible 1))))
+#+END_SRC
+
+** Docker-compose
+#+BEGIN_SRC emacs-lisp
+(use-package docker-compose)
 #+END_SRC
 
 * Editing
