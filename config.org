@@ -663,7 +663,7 @@ Preview pane should be enabled by default on Latex documents
   :config
   (latex-preview-pane-enable))
 #+END_SRC
-* Markup languages
+* Major modes
 ** Restructured text
 From [[https://github.com/masayuko/ox-rst][ox-rst Github page]]:
 #+BEGIN_SRC emacs-lisp
@@ -673,6 +673,21 @@ From [[https://github.com/masayuko/ox-rst][ox-rst Github page]]:
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode)
 #+END_SRC
+** LDAP
+For syntax highlighting of LDAP entries
+#+BEGIN_SRC emacs-lisp
+(use-package ldap)
+#+END_SRC
+** Ansible
+Using =ansible= package, see [[https://github.com/k1LoW/emacs-ansible][Github link]].
+Provides a gazillion snippets for ansible-related yaml scripts
+
+#+BEGIN_SRC emacs-lisp
+(use-package ansible
+  :config
+  (add-hook 'yaml-mode-hook '(lambda () (ansible 1))))
+#+END_SRC
+
 * Editing
 ** Unfill
 When editing text, sometimes I need to revert the line truncation that
@@ -702,15 +717,6 @@ just that.
 
 ;; Handy key definition
 (define-key global-map (kbd "M-Q") 'unfill-paragraph)
-#+END_SRC
-** Ansible snippets
-Using =ansible= package, see [[https://github.com/k1LoW/emacs-ansible][Github link]].
-Provides a gazillion snippets for ansible-related yaml scripts
-
-#+BEGIN_SRC emacs-lisp
-(use-package ansible
-  :config
-  (add-hook 'yaml-mode-hook '(lambda () (ansible 1))))
 #+END_SRC
 * Locale                                                             :locale:
 :PROPERTIES:
