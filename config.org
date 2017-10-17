@@ -842,10 +842,15 @@ Make projectile use helm for project-switching (rather than ido)
 ;; asks for file to open when project is switched
 (setq projectile-switch-project-action 'helm-projectile-find-file)
 #+END_SRC
-Use =F7= to jump files and shift-F7 to switch project
+Use =F7= to jump files and =shift-F7= to switch project
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "<f7>") 'helm-projectile-find-file-dwim)
 (global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
+#+END_SRC
+
+Search amongst the project with =C-c s=
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c s") 'helm-projectile-ag)
 #+END_SRC
 
 * Kill this buffer                                 :keybinding:controversial:
