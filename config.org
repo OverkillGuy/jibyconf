@@ -1,4 +1,6 @@
 #+PROPERTY: header-args :tangle init.el :results silent
+#+LINK: ddgo https://duckduckgo.com/html/?q=
+#+LINK: google https://duckduckgo.com/html/?q=!g
 This is my Emacs configuration file.
 It is the fruit of months of daily use and "what if I could make it
 better/faster/automated ?"
@@ -11,6 +13,10 @@ Great resources for any emacs setup:
 - [[http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php][An other init.el sample]]
 - [[https://ilikewhenit.works/blog/6][Simple system via use-package]]
 - [[https://zeekat.nl/articles/making-emacs-work-for-me.html][Yet another guy's emacs setup]]
+- [[https://www.reddit.com/r/unixporn/comments/3lp961/exwm_so_emacs_is_now_my_window_manager/cv844gf/][Cool config]]
+- [[http://doc.rix.si/cce/cce-org.html][Some other config]] incl google dork for [[google: site:doc.rix.si/cce]]
+
+
 * Config file setup
 This file is part of a git repository that I sync across devices.
 ** TODO Make the .emacs file point to this file			   :initfile:
