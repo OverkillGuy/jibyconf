@@ -761,11 +761,20 @@ by binding ~M-p~ to it (faster than default).
   :config
   (global-set-key (kbd "C-;") 'ace-window))
 #+END_SRC
-** Jump around buffer
+** Jump around buffer                                              :disabled:
+:PROPERTIES:
+:CREATED:  [2017-10-23 Mon 10:31]
+:END:
+:LOGBOOK:
+- Note taken on [2017-10-23 Mon 10:31] \\
+  Disabled since the =C-s= override is driving me nuts: type the first
+  letters of search too slow and you jump around.
+  We'll see if I re-enable it later bound to a different place.
+:END:
 Use =ace-iseach=[fn::[[https://github.com/tam17aki/ace-isearch]]] for
 replacing ISearch with a jump-around-buffer thing. When typing =C-s=,
 it dispatches the right search system.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package ace-isearch
   :config
   (global-ace-isearch-mode +1))
