@@ -350,19 +350,21 @@ Using [[https://github.com/yjwen/org-reveal][ox-reveal]] package.
 #+END_SRC
 ** Parenthesis matching				       :cosmetic:readability:
 Using =rainbow-delimiters= for top-level visibility of braces and
-parens.
+parens. Copying colors from from [[https://ericscrivner.me/2015/06/better-emacs-rainbow-delimiters-color-scheme/][better color scheme for
+rainbow-delimiters]] article.
 
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
   :init
-  (setq rainbow-delimiters-max-face-count 6)
+  (setq rainbow-delimiters-max-face-count 7)
   :config
-  (set-face-foreground 'rainbow-delimiters-depth-1-face "#ffffff")
-  (set-face-foreground 'rainbow-delimiters-depth-2-face "#32ccc0")
-  (set-face-foreground 'rainbow-delimiters-depth-3-face "#00cd00")
-  (set-face-foreground 'rainbow-delimiters-depth-4-face "#0000cd")
-  (set-face-foreground 'rainbow-delimiters-depth-5-face "#cdcd00")
-  (set-face-foreground 'rainbow-delimiters-depth-6-face "#cd00cd")
+  (set-face-foreground 'rainbow-delimiters-depth-1-face "dark orange")
+  (set-face-foreground 'rainbow-delimiters-depth-2-face "deep pink")
+  (set-face-foreground 'rainbow-delimiters-depth-3-face "chartreuse")
+  (set-face-foreground 'rainbow-delimiters-depth-4-face "deep sky blue")
+  (set-face-foreground 'rainbow-delimiters-depth-5-face "yellow")
+  (set-face-foreground 'rainbow-delimiters-depth-6-face	"orchid")
+  (set-face-foreground 'rainbow-delimiters-depth-7-face	"spring green")
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
