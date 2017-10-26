@@ -878,6 +878,10 @@ Search amongst the project with =C-c s=
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c s") 'helm-projectile-ag)
 #+END_SRC
+Find-and-replace over project with =C-c %=
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c %") 'projectile-replace)
+#+END_SRC
 
 * Kill this buffer                                 :keybinding:controversial:
 When pressing the usual buffer-kill keychord, always want to kill the
