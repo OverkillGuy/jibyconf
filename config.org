@@ -159,10 +159,25 @@ they're polluting my working directory.
   :kept-old-versions 5    ; and how many of the old
   )
 #+END_SRC
-** TODO Sasha Chuan's ALWAYS BACKUP NEVER DELETE policy
 
+* Projectile                                            :projectile:disabled:
+:PROPERTIES:
+:CREATED:  [2017-10-23 Mon 13:45]
+:END:
+Enable =projectile=, a super smart way to manage projects, using =C-c
+p= as prefix for a bunch of cool tools.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package projectile
+  :config
+  (projectile-mode 1))
+#+END_SRC
+Disabled because it disrupts existing cool features like using =F7= for
+file opening now has incorrect current directory from buffer, pointing
+to the project root instead. This means I can't just jump to a file
+and explore its parent folder in dired.
 * Orgmode								:org:
 ** Fill paragraphs automatically in org-mode			  :usability:
+
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook 'auto-fill-mode)
 #+END_SRC
