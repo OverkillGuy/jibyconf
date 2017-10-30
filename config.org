@@ -376,7 +376,7 @@ Show paren mode for showing matching brace under the cursor
 Also, change the colors of mismatched parens to be more visible (bright red
 in inverse colors from background)
 #+BEGIN_SRC emacs-lisp
-(set-face-attribute 'rainbow-delimiters-unmatched-face t
+(set-face-attribute 'rainbow-delimiters-unmatched-face nil
 		    :inverse-video t
 		    :foreground "red"
 		    :inherit 'rainbow-delimiters-base-face)
