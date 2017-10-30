@@ -1251,7 +1251,14 @@ Done with this:
 	 :parse-entry org-feed-parse-atom-entry
 	 :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
 	;; TODO Use    :filter to only insert entries >30 minutes = the whole show, not snippets
-	; (string-match "[ \t]*$" test-str)
+					; (string-match "[ \t]*$" test-str)
+	("Planet Emacs"
+	 "http://planet.emacsen.org/atom.xml"
+	 "~/org/rss-podcasts.org"
+	 "Planet Emacs"
+	 :parse-feed org-feed-parse-atom-feed
+	 :parse-entry org-feed-parse-atom-entry
+	 :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
 	))
 #+END_SRC
 *** DONE Remove items from modeline
