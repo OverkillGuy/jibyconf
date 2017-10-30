@@ -1043,7 +1043,9 @@ From [[https://github.com/jaypei/emacs-neotree][Neotree Github]]. a modern alter
 (use-package neotree
   :ensure t
   :bind (([f8] . neotree-toggle))
-  :config (setq neo-autorefresh nil))
+  :config
+  (setq neo-autorefresh nil)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 #+END_SRC
 See [[https://github.com/jaypei/emacs-neotree/issues/149][Github issue : Projectile interaction]], [[https://emacs.stackexchange.com/questions/33632/stopping-neotree-from-constantly-switching-to-the-open-files-directory][SO similar question]]
 
