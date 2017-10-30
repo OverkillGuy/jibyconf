@@ -711,6 +711,11 @@ Disabled auto-enabling with the hook:
 (use-package docker-compose)
 #+END_SRC
 
+** Vagrantfiles
+Vagrantfiles need to open with =ruby-mode=
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("Vagrantfile\\'" . ruby-mode))
+#+END_SRC
 * Editing
 ** Unfill
 When editing text, sometimes I need to revert the line truncation that
