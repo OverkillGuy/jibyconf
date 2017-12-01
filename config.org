@@ -617,6 +617,14 @@ int main(int argc, char **argv)
       name: httpd
       state: latest
 #+END_SRC
+
+#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/python-mode/shebang :mkdirp yes
+# -*- mode: snippet -*-
+#name : Python shebang
+#key : shebang
+# --
+#!/usr/bin/env python
+#+END_SRC
 * Elpy                                                  :python:IDE:disabled:
 Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
 From the readme:
