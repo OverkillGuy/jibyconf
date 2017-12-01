@@ -380,6 +380,10 @@ rainbow-delimiters]] article.
   (set-face-foreground 'rainbow-delimiters-depth-5-face "yellow")
   (set-face-foreground 'rainbow-delimiters-depth-6-face	"orchid")
   (set-face-foreground 'rainbow-delimiters-depth-7-face	"spring green")
+  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+		      :inverse-video t
+		      :foreground "red"
+		      :inherit 'rainbow-delimiters-base-face)
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
