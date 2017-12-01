@@ -380,6 +380,8 @@ Using =rainbow-delimiters= for top-level visibility of braces and
 parens. Copying colors from from [[https://ericscrivner.me/2015/06/better-emacs-rainbow-delimiters-color-scheme/][better color scheme for
 rainbow-delimiters]] article.
 
+Also, change the colors of mismatched parens to be more visible (bright red
+in inverse colors from background)
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
   :init
@@ -404,14 +406,6 @@ Show paren mode for showing matching brace under the cursor
 (add-hook 'prog-mode-hook 'show-paren-mode)
 #+END_SRC
 
-Also, change the colors of mismatched parens to be more visible (bright red
-in inverse colors from background)
-#+BEGIN_SRC emacs-lisp
-(set-face-attribute 'rainbow-delimiters-unmatched-face nil
-		    :inverse-video t
-		    :foreground "red"
-		    :inherit 'rainbow-delimiters-base-face)
-#+END_SRC
 
 ** GTAGS integration to helm					 :helm:gtags:
 #+BEGIN_SRC emacs-lisp
