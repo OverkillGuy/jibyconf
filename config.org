@@ -653,6 +653,13 @@ an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][s
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 #+END_SRC
+** Ediff no separate window
+The conflict resolution tool, by default in GUI Emacs, opens a
+separate tiny frame (<5x5 chars) to control the diff buffer. This is often
+easy to miss, isn't pretty. See [[info:ediff#Window%20and%20Frame%20Configuration][Ediff Manual]] for details.
+#+BEGIN_SRC emacs-lisp
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+#+END_SRC
 ** Magit                                                              :magit:
 *** Show word-diff                                                 :cosmetic:
 Shows the equivalent of =git diff --word-diff=
