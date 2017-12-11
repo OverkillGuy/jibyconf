@@ -786,6 +786,25 @@ just that.
 ;; Handy key definition
 (define-key global-map (kbd "M-Q") 'unfill-paragraph)
 #+END_SRC
+** Identify non-ASCII chars
+Found this really handy when debugging a file with non-obvious UTF8 chars that isn't handled by code
+#+BEGIN_SRC emacs-lisp
+(defun find-first-non-ascii-char ()
+  "Find the first non-ascii character from point onwards."
+  (interactive)
+  (let (point)
+    (save-excursion
+      (setq point
+            (catch 'non-ascii
+              (while (not (eobp))
+                (or (eq (char-charset (following-char))
+                        'ascii)
+                    (throw 'non-ascii (point)))
+                (forward-char 1)))))
+    (if point
+        (goto-char point)
+        (message "No non-ascii characters."))))
+#+END_SRC
 * Locale                                                             :locale:
 :PROPERTIES:
 :CREATED:  [2017-10-12 Thu 17:33]
