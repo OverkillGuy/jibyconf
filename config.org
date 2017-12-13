@@ -1,6 +1,7 @@
 #+PROPERTY: header-args :tangle init.el :results silent
 #+LINK: ddgo https://duckduckgo.com/html/?q=
 #+LINK: google https://duckduckgo.com/html/?q=!g
+#+EXCLUDE_TAGS: noexport disabled
 This is my Emacs configuration file.
 It is the fruit of months of daily use and "what if I could make it
 better/faster/automated ?"
