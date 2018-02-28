@@ -159,6 +159,15 @@ Also, hide the === markers around such ~things~.
 		    'shadow)
 (setq org-hide-emphasis-markers t)
 #+END_SRC
+** Display ANSI colors
+Using ~less -RS~ is perfect to see files with ANSI color codes. Emacs
+can do that too, with the macro =display-ansi-colors= (from [[https://stackoverflow.com/a/23382008][stackoverflow]]).
+#+BEGIN_SRC emacs-lisp
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+#+END_SRC
 * Backup files                                              :backup:disabled:
 These files are supposed to save my life, but I can't stand them when
 they're polluting my working directory.
