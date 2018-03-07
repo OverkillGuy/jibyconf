@@ -241,23 +241,13 @@ Load all my common languages
 #+END_SRC
 
 ** Capture
-From [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org-capture-templates/][Sasha Chuan blog]].
+From [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org-capture-templates/][Sasha Chuan blog]], tweaked for what I commonly do.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
-      '(("l" "Ledger entries")
-		("lr" "RBS" plain
-		 (file "~/org/ledger.org")
-		 "%(org-read-date) %^{Payee}\n  Liabilities:RBS\n  Expenses:%^{Account}  %^{Amount}\n")
-		("lf" "CIC FR" plain
-		 (file "~/org/ledger.org")
-		 "%(org-read-date) %^{Payee}\n  Liabilities:CIC\n  Expenses:%^{Account}  %^{Amount}\n")
-		("ls" "SOCGEN FR" plain
-		 (file "~/org/ledger.org")
-		 "%(org-read-date) %^{Payee}\n  Liabilities:SOCGEN\n  Expenses:%^{Account}  %^{Amount}\n")
-		("lc" "Cash" plain
-		(file "~/org/ledger.org")
-		"%(org-read-date) * %^{Payee}\n  Expenses:Cash\n  Expenses:%^{Account}  %^{Amount}")))
+      '(("h" "Command line trick idea" entry
+	 (file "~/dev/notes/command_line_tricks.org")
+	 "* FLUFF %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n\n#+BEGIN_SRC shell\n%i\n#+END_SRC\n  %a")))
 #+END_SRC
 
 
