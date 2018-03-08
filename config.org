@@ -631,6 +631,20 @@ int main(int argc, char **argv)
 # --
 #!/usr/bin/env python
 #+END_SRC
+
+**** Code blocks in phabricator
+Using the same keybinding as org-mode's shortcut for code blocks.
+#+CAPTION:  snippet creating a phabricator code block
+#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/markdown-mode/blk :mkdirp yes
+# -*- mode: snippet -*-
+#name : Phabricator Code block
+#key : <s
+# --
+\`\`\`lang=${1:py},name="${2:block name}"
+$0
+\`\`\`
+#+END_SRC
+
 * Elpy                                                  :python:IDE:disabled:
 Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
 From the readme:
