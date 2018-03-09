@@ -705,6 +705,12 @@ Vagrantfiles need to open with =ruby-mode=
 (add-to-list 'auto-mode-alist '("Vagrantfile\\'" . ruby-mode))
 #+END_SRC
 
+** JSON
+Sometimes, all you need is fiddling with JSON data.
+#+BEGIN_SRC emacs-lisp
+(use-package 'json-mode)
+#+END_SRC
+
 ** PHP
 For some admin work with Phabricator, I need to edit PHP files.
 Install the related mode to fulfill the requirement.
