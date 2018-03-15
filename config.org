@@ -350,9 +350,14 @@ Stop orgmode from interpreting something_underscore into a subscript.
 #+END_SRC
 ** Presentation generator
 Using [[https://github.com/yjwen/org-reveal][ox-reveal]] package.
+Customize the title slide to show title, author, and date.
 #+BEGIN_SRC emacs-lisp
 (use-package ox-reveal
-  :ensure)
+  :ensure
+  :config
+  (setq org-reveal-title-slide "<h1>%t</h1>
+<h3>%a</h3>
+<p>%d</p>"))
 #+END_SRC
 
 * C++									:cpp:
