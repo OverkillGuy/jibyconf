@@ -262,8 +262,8 @@ Do not show me section numbers in export (HTML or \latex)
 I want daily notes of my projects. Simple things like words and timestamp.
 By default org-mode adds logged data (with z in the agenda) at the root of the relevant section.
 #+BEGIN_SRC emacs-lisp
-     (setq org-todo-keywords
-       '((sequence "TODO(t)" "WAIT(w@/!)" "DOING(i!)" "|" "DONE(d!)" "CANCELED(c@)")))
+(setq org-todo-keywords
+      '((sequence "TODO(t@)" "WAIT(w@/!)" "DOING(i!)" "|" "DONE(d!@)" "CANCELED(c@)")))
 #+END_SRC
 
 Such timestamps and messages should only go in the *:LOGBOOK:* drawer.
