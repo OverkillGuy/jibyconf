@@ -843,6 +843,19 @@ Found this really handy when debugging a file with non-obvious UTF8 chars that i
         (goto-char point)
         (message "No non-ascii characters."))))
 #+END_SRC
+** Editing HTML textarea from Firefox
+From my browser, I can press F8 on textareas to jump to emacs for
+longform text editing. This is awesome to edit tickets comfortably.
+This done by using the [[https://addons.mozilla.org/en-US/firefox/addon/its-all-text/][It's All Text]] add-on to Firefox. Too bad the
+extension doesn't work post-quantum (forcing me to stay on
+firefox-ESR). The configuration on the extension is ridiculously
+simple:
+
+#+BEGIN_SRC conf :tangle no
+editor=/usr/local/bin/emacsclient
+hotkey=F8
+#+END_SRC
+
 * Locale                                                             :locale:
 :PROPERTIES:
 :CREATED:  [2017-10-12 Thu 17:33]
