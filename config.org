@@ -856,6 +856,24 @@ editor=/usr/local/bin/emacsclient
 hotkey=F8
 #+END_SRC
 
+*** Markdown for Phabricator buffers edited via server-mode
+By default, files are opened by =emacsclient= in =text-mode= via
+=server.el=. Since Phabricator, the thing I use most, is using
+[[https://secure.phabricator.com/book/phabricator/article/remarkup/][Remarkup]], a variant of markdown, I want to edit in =markdown-mode=.
+This can be done via hooks in =server.el=. Inspired by [[https://emacs.stackexchange.com/questions/16537/set-edit-with-emacs-major-mode-to-markdown-mode][stackoverflow]].
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-hook 'server-switch-hook
+	  (lambda ()
+	    (when (and server-buffer-clients
+		       (string-match "^phabricator\." (buffer-name)))
+	      (markdown-mode))))
+#+END_SRC
+The variable =server-buffer-clients= is meant to be buffer-local, and
+set to non-nil values when the current buffer is edited via
+=server-mode=.
+Checking the buffer name/file name for the "phabricator" prefix works
+because the extension I'm using creates local filenames by using the
+url encoded (replacing slashes with underscores).
 * Locale                                                             :locale:
 :PROPERTIES:
 :CREATED:  [2017-10-12 Thu 17:33]
