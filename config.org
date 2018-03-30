@@ -576,6 +576,7 @@ Effectively giving user a template system.
 #+END_SRC
 
 Separate file with snippets at [[file:snippets.org]] (in this folder).
+#+INCLUDE: snippets.org
 
 * Elpy                                                  :python:IDE:disabled:
 Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
