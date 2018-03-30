@@ -712,6 +712,14 @@ Install the related mode to fulfill the requirement.
 (use-package php-mode)
 #+END_SRC
 
+** Gherkin
+I love Behaviour-driven development, and its main weapon: Gherkin
+language. A good soul created feature-mode, to enable editing Gherkin
+feature files.
+#+BEGIN_SRC emacs-lisp
+(use-package feature)
+#+END_SRC
+
 * Editing
 ** Unfill
 When editing text, sometimes I need to revert the line truncation that
