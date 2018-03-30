@@ -547,19 +547,35 @@ Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]
 ** TODO Uncomment region binding				 :keybinding:
 Command exists (~M-x uncomment-region~) but is by default not bound.
 Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
-** DONE Yasnippets module
-CLOSED: [2017-07-29 Sat 20:24]
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2017-07-29 Sat 20:24]
-:END:
+** RTags for navigation
+From [[https://github.com/dfrib/emacs_setup][this guide]]. Need to export the =compile-commands.json= file from
+a CMake invokation, which requires small changes to the projects.
+
+*** Installing RTags
+
+Clone repo
+#+BEGIN_SRC shell :tangle no
+git clone --recursive https://github.com/Andersbakken/rtags.git
+cd rtags
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+#+END_SRC
+
+
+
+* Yasnippets
+Text macros, expanding short snippets into arbitrary length text.
+Effectively giving user a template system.
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
   :config
   (yas-global-mode 1))
 #+END_SRC
 
-*** My snippets
-See [[file:snippets.org]] in this folder.
+Separate file with snippets at [[file:snippets.org]] (in this folder).
 
 * Elpy                                                  :python:IDE:disabled:
 Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
