@@ -366,6 +366,18 @@ Customize the title slide to show title, author, and date.
 #+END_SRC
 
 * C++									:cpp:
+** Modern C++ font-lock
+:PROPERTIES:
+:SOURCE:   [[https://github.com/ludwigpacifici/modern-cpp-font-lock][Github]]
+:END:
+By default, some of the C++14 and C++17 niceties aren't well
+font-locked. Fixed by adding this module.
+
+#+BEGIN_SRC emacs-lisp
+(use-package modern-cpp-font-lock
+  :ensure t
+  :config (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
+#+END_SRC
 ** Indentation							  :codestyle:
 #+BEGIN_SRC emacs-lisp
 
