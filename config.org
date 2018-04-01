@@ -241,7 +241,9 @@ Load all my common languages
 #+END_SRC
 
 ** Capture
-From [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org-capture-templates/][Sasha Chuan blog]], tweaked for what I commonly do.
+:PROPERTIES:
+:SOURCE:   [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org-capture-templates/][Sasha Chuan blog]]
+:END:
 
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
@@ -673,7 +675,9 @@ Preview pane should be enabled by default on Latex documents
 * Major modes
 Major emacs modes I use mostly for syntax highlighting
 ** Restructured text
-From [[https://github.com/masayuko/ox-rst][ox-rst Github page]]:
+:PROPERTIES:
+:SOURCE:   [[https://github.com/masayuko/ox-rst][ox-rst Github page]]
+:END:
 #+BEGIN_SRC emacs-lisp
 (use-package ox-rst)
 #+END_SRC
@@ -859,8 +863,10 @@ it dispatches the right search system.
   (global-ace-isearch-mode +1))
 #+END_SRC
 ** Hide-show blocks
-From [[https://writequit.org/articles/working-with-logs-in-emacs.html][viewing logs in emacs]] article, allow hiding blocks like json or
-C++ functions.
+:PROPERTIES:
+:SOURCE:   [[https://writequit.org/articles/working-with-logs-in-emacs.html][viewing logs in emacs]]
+:END:
+Allow hiding blocks like json or C++ functions.
 
 #+BEGIN_SRC emacs-lisp
 (use-package hideshow
@@ -1059,17 +1065,21 @@ Good syntax but bad configuration, from [[https://github.com/aborn/emacs.d/blob/
 
 * Dired customizations                                                :dired:
 ** Dired change permissions
-From [[http://pragmaticemacs.com/emacs/batch-edit-file-permissions-in-dired/][pragmaticemacs blog]], I can change the permissions of files in a
-dired buffer by setting the buffer as editable (disable read-only,
-bound to =C-x C-q=)
+:PROPERTIES:
+:SOURCE:   [[http://pragmaticemacs.com/emacs/batch-edit-file-permissions-in-dired/][pragmaticemacs blog]]
+:END:
+I can change the permissions of files in a dired buffer by setting the
+buffer as editable (disable read-only, bound to =C-x C-q=)
 #+BEGIN_SRC emacs-lisp
 (setq wdired-allow-to-change-permissions t)
 #+END_SRC
 ** Dired search via narrow
-From [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][pragmaticemacs blog]], I can do a live-filter of a dired buffer
-akin to searching that narrows the buffer to my selection. Coupled
-with other dired commands, this allows to perform actions on a
-regex-based subset of a folder.
+:PROPERTIES:
+:SOURCE:   [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][pragmaticemacs blog]]
+:END:
+I can do a live-filter of a dired buffer akin to searching that
+narrows the buffer to my selection. Coupled with other dired commands,
+this allows to perform actions on a regex-based subset of a folder.
 
 #+BEGIN_SRC emacs-lisp
 ;;narrow dired to match filter
@@ -1079,8 +1089,11 @@ regex-based subset of a folder.
               ("/" . dired-narrow)))
 #+END_SRC
 ** Dired-X enable
-From [[info:dired-x#Installation][Dired-X info page]], load the dired extensions (including pressing
-I/N on an info/man page to open with info/man mode, and much more)
+:PROPERTIES:
+:SOURCE:   [[info:dired-x#Installation][Dired-X info page]]
+:END:
+Load the dired extensions (including pressing I/N on an info/man page
+to open with info/man mode, and much more)
 #+BEGIN_SRC emacs-lisp
 (add-hook 'dired-load-hook
                (lambda ()
@@ -1101,7 +1114,10 @@ is sometimes overriden by the XMPP client I use at work)
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 #+END_SRC
 ** Neotree?                                                        :disabled:
-From [[https://github.com/jaypei/emacs-neotree][Neotree Github]]. a modern alternative to sr-speedbar
+:PROPERTIES:
+:SOURCE:   [[https://github.com/jaypei/emacs-neotree][Neotree Github]]
+:END:
+A modern alternative to sr-speedbar
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package neotree
   :ensure t
@@ -1166,7 +1182,9 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 * Emacs calendar						   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events                              :disabled:
-From [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up-alarms-audio-visual-triggered-by-org-mode-events][StackOverflow]]:
+:PROPERTIES:
+:SOURCE:   [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up-alarms-audio-visual-triggered-by-org-mode-events][StackOverflow]]
+:END:
 
 #+NAME: emacs-system-notify
 #+BEGIN_SRC emacs-lisp :tangle no
