@@ -247,7 +247,10 @@ From [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org
 (setq org-capture-templates
       '(("h" "Command line trick idea" entry
 	 (file "~/dev/notes/command_line_tricks.org")
-	 "* FLUFF %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n\n#+BEGIN_SRC shell\n%i\n#+END_SRC\n  %a")))
+	 "* FLUFF %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n\n#+BEGIN_SRC shell\n%i\n#+END_SRC\n  %a")
+	("p" "Dev project idea" entry
+	 (file "~/org/dev_projects.org")
+	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")))
 #+END_SRC
 
 
