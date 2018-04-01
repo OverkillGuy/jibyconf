@@ -1195,17 +1195,24 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events                              :disabled:
 :PROPERTIES:
-:SOURCE:   [[http://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up-alarms-audio-visual-triggered-by-org-mode-events][StackOverflow]]
+:SOURCE:   [[http://irreal.org/blog/?p=6910][Irreal blog]]
 :END:
+Use =org-wild-notifier.el=, which uses =alert.el= under the hood.
 
-#+NAME: emacs-system-notify
 #+BEGIN_SRC emacs-lisp :tangle no
-(require 'notifications)
+(use-package org-wild-notifier
+  :ensure t
+  :config (setq 'alert-default-style 'libnotify))
+#+END_SRC
 
-(notifications-notify :title "Achtung!"
-		      :body (format "You have an appointment in %d minutes" 10)
-		      :app-name "Emacs: Org"
-		      :sound-name "alarm-clock-elapsed")
+An example item
+#+BEGIN_SRC org
+,* TODO Super important thing
+:PROPERTIES:
+:WILD_NOTIFIER_NOTIFY_BEFORE: 60 10 5 3 1
+:END:
+Do that thing super soon !!!
+<2018-04-01 Sun 18:40>
 #+END_SRC
 
 * TODO Org-mode contacts database
