@@ -727,7 +727,7 @@ Vagrantfiles need to open with =ruby-mode=
 ** JSON
 Sometimes, all you need is fiddling with JSON data.
 #+BEGIN_SRC emacs-lisp
-(use-package 'json-mode)
+(use-package json-mode)
 #+END_SRC
 
 ** PHP
