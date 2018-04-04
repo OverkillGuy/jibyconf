@@ -1206,7 +1206,7 @@ Use =org-wild-notifier.el=, which uses =alert.el= under the hood.
 #+END_SRC
 
 An example item
-#+BEGIN_SRC org
+#+BEGIN_SRC org :tangle no
 ,* TODO Super important thing
 :PROPERTIES:
 :WILD_NOTIFIER_NOTIFY_BEFORE: 60 10 5 3 1
