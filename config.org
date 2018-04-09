@@ -252,7 +252,10 @@ Load all my common languages
 	 "* FLUFF %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n\n#+BEGIN_SRC shell\n%i\n#+END_SRC\n  %a")
 	("p" "Dev project idea" entry
 	 (file "~/org/dev_projects.org")
-	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")))
+	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
+	("c" "Calendar entry" entry
+	 (file "~/dev/notes/calendar.org")
+	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")))
 #+END_SRC
 
 
