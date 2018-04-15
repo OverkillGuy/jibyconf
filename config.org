@@ -20,7 +20,7 @@ Great resources for any emacs setup:
 
 * Config file setup
 This file is part of a git repository that I sync across devices.
-** TODO Make the .emacs file point to this file			   :initfile:
+** TODO Make the .emacs file point to this file                    :initfile:
 ** TODO [#A] Use this orgfile as init.el
 ** TODO [#A] Use this orgfile as init.el                           :disabled:
 Allows autoloading it.
@@ -30,7 +30,7 @@ Uses the following code:
 (require 'org)
 (org-babel-load-file
  (expand-file-name "init.el"
-		   user-emacs-directory))
+                   user-emacs-directory))
 #+END_SRC
 Would need to make this a symlink to this file.
 * Packages
@@ -38,8 +38,8 @@ Would need to make this a symlink to this file.
 Official repos for emacs packages
 #+BEGIN_SRC emacs-lisp
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-;			 ("marmalade" . "https://marmalade-repo.org/packages/")
-			 ("melpa" . "https://melpa.org/packages/")))
+;                        ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 #+END_SRC
 ** Use-package
 Package-manager frontend called =use-package=. Setup as described on
@@ -51,7 +51,7 @@ the [[https://github.com/jwiegley/use-package/blob/master/README.md][README.md o
 #+END_SRC
 
 
-* Cosmetic							   :cosmetic:
+* Cosmetic                                                         :cosmetic:
 ** Theme
 I use ~tango-dark~ and it looks great !
 #+BEGIN_SRC emacs-lisp
@@ -90,9 +90,9 @@ symbols that my coding fonts don't cover. Tip from [[http://endlessparentheses.c
 
 #+BEGIN_SRC emacs-lisp
 (set-fontset-font "fontset-default" nil
-		  (font-spec :name "Symbola"))
+                  (font-spec :name "Symbola"))
 #+END_SRC
-** Disable graphical bars						:GUI:
+** Disable graphical bars                                               :GUI:
 Remove all the GUI tools (open,save etc) including the helpful menu
 bar (which takes an entire character row !).
 #+BEGIN_SRC emacs-lisp
@@ -109,9 +109,9 @@ Idea came from [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fan
   :config
   (powerline-default-theme)
   (set-face-attribute 'mode-line nil
-		      :foreground "White"
-		      :background "DarkBlue"
-		      :box nil))
+                      :foreground "White"
+                      :background "DarkBlue"
+                      :box nil))
 #+END_SRC
 Because I wanted to feel like I'm actually customizing rather than
 copying and pasting, I changed the colors to my liking (blue !)
@@ -164,10 +164,10 @@ Also, hide the === markers around such ~things~.
 
 #+BEGIN_SRC emacs-lisp :tangle no
 (set-face-attribute 'org-verbatim nil
-		    :box
-		    '(:line-width 2 :color "grey75" :style released-button)
-		    :inherit
-		    'shadow)
+                    :box
+                    '(:line-width 2 :color "grey75" :style released-button)
+                    :inherit
+                    'shadow)
 (setq org-hide-emphasis-markers t)
 #+END_SRC
 ** Display ANSI colors
@@ -208,13 +208,13 @@ Disabled because it disrupts existing cool features like using =F7= for
 file opening now has incorrect current directory from buffer, pointing
 to the project root instead. This means I can't just jump to a file
 and explore its parent folder in dired.
-* Orgmode								:org:
-** Fill paragraphs automatically in org-mode			  :usability:
+* Orgmode                                                               :org:
+** Fill paragraphs automatically in org-mode                      :usability:
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook 'auto-fill-mode)
 #+END_SRC
-** Enable orgmode shortcuts					:keybindings:
+** Enable orgmode shortcuts                                     :keybindings:
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
@@ -224,7 +224,7 @@ and explore its parent folder in dired.
 (global-set-key (kbd "C-c C-x C-j") 'org-clock-jump-to-current-clock)
 #+END_SRC
 
-** Org-babel load languages					   :orgbabel:
+** Org-babel load languages                                        :orgbabel:
 Load all my common languages
 #+BEGIN_SRC emacs-lisp
 ;; Orgmode code-execution support my languages
@@ -259,14 +259,14 @@ Load all my common languages
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
       '(("h" "Command line trick idea" entry
-	 (file "~/dev/notes/command_line_tricks.org")
-	 "* FLUFF %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n\n#+BEGIN_SRC shell\n%i\n#+END_SRC\n  %a")
-	("p" "Dev project idea" entry
-	 (file "~/org/dev_projects.org")
-	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
-	("c" "Calendar entry" entry
-	 (file "~/dev/notes/calendar.org")
-	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")))
+         (file "~/dev/notes/command_line_tricks.org")
+         "* FLUFF %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n\n#+BEGIN_SRC shell\n%i\n#+END_SRC\n  %a")
+        ("p" "Dev project idea" entry
+         (file "~/org/dev_projects.org")
+         "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
+        ("c" "Calendar entry" entry
+         (file "~/dev/notes/calendar.org")
+         "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")))
 #+END_SRC
 
 
@@ -277,7 +277,7 @@ Do not show me section numbers in export (HTML or \latex)
 (setq org-export-with-section-numbers nil)
 #+END_SRC
 
-** Task tracking							:log:
+** Task tracking                                                        :log:
 I want daily notes of my projects. Simple things like words and timestamp.
 By default org-mode adds logged data (with z in the agenda) at the root of the relevant section.
 #+BEGIN_SRC emacs-lisp
@@ -298,7 +298,7 @@ documentation]].
 #+BEGIN_SRC emacs-lisp
 (setq org-time-clocksum-use-effort-durations t)
 #+END_SRC
-** Org-babel source coloring			    :orgbabel:syntaxcoloring:
+** Org-babel source coloring                        :orgbabel:syntaxcoloring:
 #+CAPTION: Make org-babel colorize source code
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t
@@ -318,7 +318,7 @@ And the (never-tested via code, only customize-interface) associated trigger cod
 (setq org-src-block-faces '(("emacs-lisp" org-block-background)))
 #+END_SRC
 **** TODO Apply the color-coding to other languages as appropriate
-** Set PlantUML jar path						:UML:
+** Set PlantUML jar path                                                :UML:
 It's usually done via ~M-x customize~.
 #+BEGIN_SRC emacs-lisp
 (setq org-plantuml-jar-path
@@ -379,7 +379,7 @@ Customize the title slide to show title, author, and date.
 <p>%d</p>"))
 #+END_SRC
 
-* C++									:cpp:
+* C++                                                                   :cpp:
 ** Modern C++ font-lock
 :PROPERTIES:
 :SOURCE:   [[https://github.com/ludwigpacifici/modern-cpp-font-lock][Github]]
@@ -392,17 +392,17 @@ font-locked. Fixed by adding this module.
   :ensure t
   :config (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 #+END_SRC
-** Indentation							  :codestyle:
+** Indentation                                                    :codestyle:
 #+BEGIN_SRC emacs-lisp
 
 ;; style I want to use in c++ mode
 (c-add-style "my-style"
-	     '("stroustrup"
-	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
-	       (c-basic-offset . 2)            ; indent by two spaces
-	       (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
-				   (brace-list-open . 0)
-				   (statement-case-open . +)))))
+             '("stroustrup"
+               (indent-tabs-mode . nil)        ; use spaces rather than tabs
+               (c-basic-offset . 2)            ; indent by two spaces
+               (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
+                                   (brace-list-open . 0)
+                                   (statement-case-open . +)))))
 
 (defun my-c++-mode-hook ()
   (c-set-style "my-style")        ; use my-style defined above
@@ -411,7 +411,7 @@ font-locked. Fixed by adding this module.
 ;; Trigger my-style when entering c++-mode
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 #+END_SRC
-** Parenthesis matching				       :cosmetic:readability:
+** Parenthesis matching                                :cosmetic:readability:
 Using =rainbow-delimiters= for top-level visibility of braces and
 parens. Copying colors from from [[https://ericscrivner.me/2015/06/better-emacs-rainbow-delimiters-color-scheme/][better color scheme for
 rainbow-delimiters]] article.
@@ -428,12 +428,12 @@ in inverse colors from background)
   (set-face-foreground 'rainbow-delimiters-depth-3-face "chartreuse")
   (set-face-foreground 'rainbow-delimiters-depth-4-face "deep sky blue")
   (set-face-foreground 'rainbow-delimiters-depth-5-face "yellow")
-  (set-face-foreground 'rainbow-delimiters-depth-6-face	"orchid")
-  (set-face-foreground 'rainbow-delimiters-depth-7-face	"spring green")
+  (set-face-foreground 'rainbow-delimiters-depth-6-face "orchid")
+  (set-face-foreground 'rainbow-delimiters-depth-7-face "spring green")
   (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-		      :inverse-video t
-		      :foreground "red"
-		      :inherit 'rainbow-delimiters-base-face)
+                      :inverse-video t
+                      :foreground "red"
+                      :inherit 'rainbow-delimiters-base-face)
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
@@ -443,7 +443,7 @@ Show paren mode for showing matching brace under the cursor
 #+END_SRC
 
 
-** GTAGS integration to helm					 :helm:gtags:
+** GTAGS integration to helm                                     :helm:gtags:
 #+BEGIN_SRC emacs-lisp
 ;; Enable Helm with GTAGS in C and C++ mode
 (add-hook 'c-mode-hook 'helm-gtags-mode)
@@ -493,7 +493,7 @@ Disabled coz breaks things
 - State "DONE"       from "TODO"       [2016-12-16 Fri 10:55]
 :END:
 Feasible with ~M-x occur~ or ~projectile-multi-occur~.
-** Compilation							:compilation:
+** Compilation                                                  :compilation:
 *** Compilation buffer coloring support
 Make compilation buffers support ANSI terminal coloring (eg: CMake)
 #+BEGIN_SRC elisp
@@ -572,10 +572,10 @@ triggering c-mode.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 #+END_SRC
-** TODO Go to method/variable definition			       :helm:
+** TODO Go to method/variable definition                               :helm:
 Find a way to go to definition of that method.
 Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]].
-** TODO Uncomment region binding				 :keybinding:
+** TODO Uncomment region binding                                 :keybinding:
 Command exists (~M-x uncomment-region~) but is by default not bound.
 Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
 ** RTags for navigation
@@ -643,9 +643,9 @@ an option to "take both versions" (From [[http://stackoverflow.com/a/29757750][s
 (defun ediff-copy-both-to-C ()
   (interactive)
   (ediff-copy-diff ediff-current-difference nil 'C nil
-		   (concat
-		    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
-		    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+                   (concat
+                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 #+END_SRC
@@ -782,8 +782,8 @@ just that.
   "Takes a multi-line paragraph and makes it into a single line of text."
   (interactive (progn (barf-if-buffer-read-only) '(t)))
   (let ((fill-column (point-max))
-	;; This would override `fill-column' if it's an integer.
-	(emacs-lisp-docstring-fill-column t))
+        ;; This would override `fill-column' if it's an integer.
+        (emacs-lisp-docstring-fill-column t))
     (fill-paragraph nil region)))
 
 ;; Handy key definition
@@ -828,10 +828,10 @@ By default, files are opened by =emacsclient= in =text-mode= via
 This can be done via hooks in =server.el=. Inspired by [[https://emacs.stackexchange.com/questions/16537/set-edit-with-emacs-major-mode-to-markdown-mode][stackoverflow]].
 #+BEGIN_SRC emacs-lisp :tangle no
 (add-hook 'server-switch-hook
-	  (lambda ()
-	    (when (and server-buffer-clients
-		       (string-match "^phabricator\." (buffer-name)))
-	      (markdown-mode))))
+          (lambda ()
+            (when (and server-buffer-clients
+                       (string-match "^phabricator\." (buffer-name)))
+              (markdown-mode))))
 #+END_SRC
 The variable =server-buffer-clients= is meant to be buffer-local, and
 set to non-nil values when the current buffer is edited via
@@ -952,7 +952,7 @@ to make it less likely to exit. See [[https://www.gnu.org/software/emacs/manual/
    (global-set-key (kbd "C-x b") 'helm-mini)
 #+END_SRC
 
-*** Helm-projectile integration				    :helm:projectile:
+*** Helm-projectile integration                             :helm:projectile:
 Enable helm first:
 #+BEGIN_SRC emacs-lisp
 (require 'helm-config)
@@ -1053,9 +1053,9 @@ buffer history.
 #+BEGIN_SRC emacs-lisp
 (setq term-bind-key-alist
         (list
-	 (cons "C-c C-j" 'term-line-mode)
-	 (cons "C-c C-k" 'term-char-mode)
-	 (cons "C-c C-l" 'comint-clear-buffer)
+         (cons "C-c C-j" 'term-line-mode)
+         (cons "C-c C-k" 'term-char-mode)
+         (cons "C-c C-l" 'comint-clear-buffer)
        (cons "C-c C-c"  'term-interrupt-subjob)
        (cons "C-p" 'previous-line)
        (cons "C-n" 'next-line)
@@ -1184,7 +1184,7 @@ Encrypt the text of an org entry but not headline or properties.
   (org-crypt-use-before-save-magic)
   (setq org-tags-exclude-from-inheritance (quote ("crypt")))
   (setq org-crypt-key nil)
-					; (setq auto-save-default nil)
+                                        ; (setq auto-save-default nil)
   (setq org-crypt-disable-auto-save: 'ask))
 #+END_SRC
 Now, anything that has a =:crypt:= tag will be saved as GPG armored
@@ -1205,7 +1205,7 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 =6LdW
 -----END PGP MESSAGE-----
 
-* Emacs calendar						   :calendar:
+* Emacs calendar                                                   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events                              :disabled:
 :PROPERTIES:
@@ -1348,32 +1348,32 @@ Done with this:
 #+BEGIN_SRC emacs-lisp :tangle-no
 (setq org-feed-alist
       '(("Affaires Étrangères"
-	 "http://radiofrance-podcast.net/podcast09/rss_12841.xml"
-	 "~/org/rss-podcasts.org"
-	 "Affaires Étrangères"
-	 :template "* %h\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
-	("L'esprit public"
-	 "http://radiofrance-podcast.net/podcast09/rss_16119.xml"
-	 "~/org/rss-podcasts.org"
-	 "L'esprit public"
-	 :template "* %h\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
-	("C dans l'air"
-	 "https://www.youtube.com/feeds/videos.xml?channel_id=UCvg4_wSz4Cmo4xRPXaKU47A"
-	 "~/org/rss-podcasts.org"
-	 "C dans l'air"
-	 :parse-feed org-feed-parse-atom-feed
-	 :parse-entry org-feed-parse-atom-entry
-	 :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
-	;; TODO Use    :filter to only insert entries >30 minutes = the whole show, not snippets
-					; (string-match "[ \t]*$" test-str)
-	("Planet Emacs"
-	 "http://planet.emacsen.org/atom.xml"
-	 "~/org/rss-podcasts.org"
-	 "Planet Emacs"
-	 :parse-feed org-feed-parse-atom-feed
-	 :parse-entry org-feed-parse-atom-entry
-	 :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
-	))
+         "http://radiofrance-podcast.net/podcast09/rss_12841.xml"
+         "~/org/rss-podcasts.org"
+         "Affaires Étrangères"
+         :template "* %h\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
+        ("L'esprit public"
+         "http://radiofrance-podcast.net/podcast09/rss_16119.xml"
+         "~/org/rss-podcasts.org"
+         "L'esprit public"
+         :template "* %h\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
+        ("C dans l'air"
+         "https://www.youtube.com/feeds/videos.xml?channel_id=UCvg4_wSz4Cmo4xRPXaKU47A"
+         "~/org/rss-podcasts.org"
+         "C dans l'air"
+         :parse-feed org-feed-parse-atom-feed
+         :parse-entry org-feed-parse-atom-entry
+         :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
+        ;; TODO Use    :filter to only insert entries >30 minutes = the whole show, not snippets
+                                        ; (string-match "[ \t]*$" test-str)
+        ("Planet Emacs"
+         "http://planet.emacsen.org/atom.xml"
+         "~/org/rss-podcasts.org"
+         "Planet Emacs"
+         :parse-feed org-feed-parse-atom-feed
+         :parse-entry org-feed-parse-atom-entry
+         :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
+        ))
 #+END_SRC
 *** DONE Remove items from modeline
 :LOGBOOK:
