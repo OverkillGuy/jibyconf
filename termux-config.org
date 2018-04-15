@@ -19,8 +19,12 @@ is purple. This is because termux's 256 colors don't map well to the
 RGB values defined in Magit. Fix those color issues
 
 #+BEGIN_SRC emacs-lisp
+  ; Colors when hunk is selected
   (set-face-attribute 'magit-diff-added-highlight nil  :background "color-28")
   (set-face-attribute 'magit-diff-removed-highlight nil  :background "color-88")
+  ; Colors when hunk is not selected
+  (set-face-attribute 'magit-diff-added nil  :background "color-71")
+  (set-face-attribute 'magit-diff-removed nil  :background "color-124")
 #+END_SRC
 * Man directories							:man:
 By default the manual pages are searched in ~/usr~.
