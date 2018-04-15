@@ -1,0 +1,12 @@
+#+TITLE: Termux-specific Emacs configuration
+#+PROPERTY: header-args :tangle termux-init.el :results silent
+
+A few adjustments to Emacs on Android via the amazing Termux.
+
+* Man directories							:man:
+By default the manual pages are searched in ~/usr~.
+Fix this by adding the termux prefix path to  Woman manual page
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-to-list 'woman-manpath "/data/data/com.termux/files/usr/share/man")
+#+END_SRC
