@@ -13,6 +13,15 @@ add a raw support for opening links outside Emacs.
               (lambda (url &rest args)
                 (start-process-shell-command "open-url" nil (concat "termux-open-url " url))))
 #+END_SRC
+* Magit-diff colors 					       :cosmetic:git:
+Magit's diff color green seems a little subdued on Termux, and its red
+is purple. This is because termux's 256 colors don't map well to the
+RGB values defined in Magit. Fix those color issues
+
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'magit-diff-added-highlight nil  :background "color-28")
+  (set-face-attribute 'magit-diff-removed-highlight nil  :background "color-88")
+#+END_SRC
 * Man directories							:man:
 By default the manual pages are searched in ~/usr~.
 Fix this by adding the termux prefix path to  Woman manual page
