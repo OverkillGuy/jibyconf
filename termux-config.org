@@ -3,6 +3,16 @@
 
 A few adjustments to Emacs on Android via the amazing Termux.
 
+* Android web-browser							:web:
+Emacs knows only so many browsers, and termux's ~termux-open-url~
+shortcut is not one of those. Let's use elisp's =advice= feature to
+add a raw support for opening links outside Emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (advice-add 'browse-url-default-browser :override
+              (lambda (url &rest args)
+                (start-process-shell-command "open-url" nil (concat "termux-open-url " url))))
+#+END_SRC
 * Man directories							:man:
 By default the manual pages are searched in ~/usr~.
 Fix this by adding the termux prefix path to  Woman manual page
