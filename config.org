@@ -862,10 +862,13 @@ confort tool that saves time.
 #+BEGIN_SRC emacs-lisp
 (use-package json-snatcher)
 #+END_SRC
-** Minimap
+** Minimap                                                         :disabled:
+:PROPERTIES:
+:CREATED:  [2018-04-22 Sun 22:48]
+:END:
 Similar to the Sublime minimap, triggers using =minimap-mode= in
 programming modes
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package minimap-mode)
 #+END_SRC
 ** Silver searcher
