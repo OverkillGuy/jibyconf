@@ -1,0 +1,125 @@
+#+PROPERTY: header-args :tangle init-x11.el :results silent
+
+The side of my configuration that requires an X11 server, spun off
+from the main configuration file to have clean config loading on non-X
+devices like Termux.
+
+* Change default font                                         :cosmetic:font:
+I like Monaco as a font, but it's not installed on all my boxes.
+#+BEGIN_SRC emacs-lisp
+; Test char and monospace:
+; 0123456789abcdefghijklmnopqrstuvwxyz [] () :;,. !@#$^&*
+; 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ {} <> "'`  ~-_/|\?
+(cond
+ ((find-font (font-spec :name "Monaco"))
+  (set-frame-font "Monaco-14"))
+ ((find-font (font-spec :name "inconsolata"))
+  (set-frame-font "inconsolata-14"))
+ ((find-font (font-spec :name "Lucida Console"))
+  (set-frame-font "Lucida Console-14"))
+ ((find-font (font-spec :name "courier"))
+  (set-frame-font "courier-14")))
+#+END_SRC
+
+* UTF8 support
+** Clipboard UTF8
+#+BEGIN_SRC emacs-lisp
+;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+#+END_SRC
+
+** Symbola fallback
+Use Symbola font ([[http://www.fonts2u.com/symbola.font][download link]]) as fallback font, for those UTF8
+symbols that my coding fonts don't cover. Tip from [[http://endlessparentheses.com/manually-choose-a-fallback-font-for-unicode.html][endless-parentheses]]
+
+#+BEGIN_SRC emacs-lisp
+(set-fontset-font "fontset-default" nil
+                  (font-spec :name "Symbola"))
+#+END_SRC
+
+* Powerline                                                  :GUIonly:
+I want my emacs to look cool, so I changed the mode line accordingly.
+Idea came from [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]].
+#+BEGIN_SRC emacs-lisp
+;; Cosmetic : change modeline aspect
+(use-package powerline
+  :config
+  (powerline-default-theme)
+  (set-face-attribute 'mode-line nil
+                      :foreground "White"
+                      :background "DarkBlue"
+                      :box nil))
+#+END_SRC
+Because I wanted to feel like I'm actually customizing rather than
+copying and pasting, I changed the colors to my liking (blue !)
+** Remove useless mode descriptors
+Clean up the mode line to hide the modes I use all the time.
+#+BEGIN_SRC emacs-lisp
+(require 'diminish)
+(mapcar 'diminish
+	'(undo-tree-mode git-gutter-mode helm-mode beacon-mode
+			'(projectile-mode " [P]")
+			'(helm-gtags-mode " G")
+			'(auto-revert-mode " Rev")))
+#+END_SRC
+
+* Mouse avoids cursor
+Using [[help:avoid][avoid package]], moves mouse out of my way when the mouse is
+visible (not in a terminal):
+#+BEGIN_SRC emacs-lisp
+(if (display-mouse-p) (mouse-avoidance-mode 'banish))
+#+END_SRC
+
+
+* Editing HTML textarea from Firefox
+From my browser, I can press F8 on textareas to jump to emacs for
+longform text editing. This is awesome to edit tickets comfortably.
+This done by using the [[https://addons.mozilla.org/en-US/firefox/addon/its-all-text/][It's All Text]] add-on to Firefox. Too bad the
+extension doesn't work post-quantum (forcing me to stay on
+firefox-ESR). The configuration on the extension is ridiculously
+simple:
+
+#+BEGIN_SRC conf :tangle no
+editor=/usr/local/bin/emacsclient
+hotkey=F8
+#+END_SRC
+
+** Markdown for Phabricator buffers edited via server-mode
+By default, files are opened by =emacsclient= in =text-mode= via
+=server.el=. Since Phabricator, the thing I use most, is using
+[[https://secure.phabricator.com/book/phabricator/article/remarkup/][Remarkup]], a variant of markdown, I want to edit in =markdown-mode=.
+This can be done via hooks in =server.el=. Inspired by [[https://emacs.stackexchange.com/questions/16537/set-edit-with-emacs-major-mode-to-markdown-mode][stackoverflow]].
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-hook 'server-switch-hook
+          (lambda ()
+            (when (and server-buffer-clients
+                       (string-match "^phabricator\." (buffer-name)))
+              (markdown-mode))))
+#+END_SRC
+The variable =server-buffer-clients= is meant to be buffer-local, and
+set to non-nil values when the current buffer is edited via
+=server-mode=.
+Checking the buffer name/file name for the "phabricator" prefix works
+because the extension I'm using creates local filenames by using the
+url encoded (replacing slashes with underscores).
+
+* Force enabling dead keys
+My French keyboard on emacs won't type dead keys by default, this fixes it.
+#+BEGIN_SRC emacs-lisp
+(require 'iso-transl)
+#+END_SRC
+
+* Remap C-x C-c to avoid accidentally exiting :keybinding:controversial:
+CLOSED: [2016-12-16 Fri]
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-12-16 Fri]
+:END:
+I don't /want/ to exit emacs often (open all day for logging project
+progress and edit code, and close it usually once a day before closing
+down computer to make sure all files are saved) Use an other binding
+to make it less likely to exit. See [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Rebinding.html][Emacs manual online on rebinding]].
+#+CAPTION: Rebind exit to C-x C-c ESC
+#+BEGIN_SRC emacs-lisp
+(global-unset-key (kbd "C-x C-c"))
+(global-set-key (kbd "C-x C-c ESC") 'save-buffers-kill-terminal)
+#+END_SRC
