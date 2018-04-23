@@ -286,7 +286,7 @@ different background-color to them to make delimitation visual.
   '((t (:background "#444")))
   "Face used for the source block background.")
 #+END_SRC
-And the (never-tested via code, only customize-interface) associated trigger code:
+And the associated trigger code:
 #+BEGIN_SRC emacs-lisp
 (setq org-src-block-faces '(("emacs-lisp" org-block-background)))
 #+END_SRC
@@ -541,16 +541,13 @@ like yaml-mode to be used when opening them, for the syntax-highlight.
 #+END_SRC
 ** Use c++-mode for .h files                                 :usability:mode:
 At work we use .h files for C++ headers, but emacs insists on
-triggering c-mode.
+triggering =c-mode=.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 #+END_SRC
 ** TODO Go to method/variable definition                               :helm:
 Find a way to go to definition of that method.
 Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]].
-** TODO Uncomment region binding                                 :keybinding:
-Command exists (~M-x uncomment-region~) but is by default not bound.
-Its reverse (~M-x comment-region~) is bound to  (~C-c C-c~) in C++ mode.
 ** RTags for navigation
 From [[https://github.com/dfrib/emacs_setup][this guide]]. Need to export the =compile-commands.json= file from
 a CMake invokation, which requires small changes to the projects.
@@ -583,7 +580,7 @@ Separate file with snippets at [[file:snippets.org]] (in this folder).
 #+INCLUDE: snippets.org
 
 * Elpy                                                  :python:IDE:disabled:
-Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
+(Don't) Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
 From the readme:
 #+BEGIN_SRC shell :tangle no
 pip install jedi flake8 importmagic autopep8
@@ -599,6 +596,14 @@ then install the package =elpy=, and use the following conf
 (elpy-enable)
 #+END_SRC
 
+Reason for disabling is it: takes over much of the native python mode
+(making it harder to use a blank emacs anymore) and gives very little
+useful features. It does turn emacs into an IDE experience, but at the
+expense of everything that matters: speed (blocking syntax analysis
+slows emacs to a crawl) and lack of configurability. It feels like
+installing spacemacs: features are all in there, maybe, but I lose the
+incremental feature-building "build-your-own-editor kit" that made me
+choose Emacs in the first place.
 * Git                                                                   :git:
 ** Git gutter
 Show diff-lines by the file fringe
@@ -698,7 +703,7 @@ Provides a gazillion snippets for ansible-related yaml scripts
 Disabled auto-enabling with the hook:
 
 #+BEGIN_SRC emacs-lisp :tangle no
-(add-hook 'yaml-mode-hook '(lambda () (ansible 1))))
+(add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
 #+END_SRC
 
 ** Docker-compose
@@ -851,7 +856,9 @@ Allow hiding blocks like json or C++ functions.
                   (javascript-mode  "{" "}" "/[*/]" nil)))))
 #+END_SRC
 ** Path in json block
-
+Use with =jsons-print-path= when in a json object, reveals the path to
+go through it. Only used it a couple of times, but that's the kind of
+confort tool that saves time.
 #+BEGIN_SRC emacs-lisp
 (use-package json-snatcher)
 #+END_SRC
@@ -947,8 +954,8 @@ modification).
 
 Use ~C-x u~ to open the undo-tree view, optionally ~d~ to view the
 diff of each change to undo. ~q~ quits the session.
-
-** TODO Persist the buffer undo-history over
+Note that the original keybinding of =C-/= still points to default
+undo, making the occasional undo-tree freeze tolerable.
 
 * Multiple terminals                                               :terminal:
 Use ~multi-term~ for cool terminals in emacs, using [[http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/][this
@@ -1069,7 +1076,7 @@ is sometimes overriden by the XMPP client I use at work)
 :PROPERTIES:
 :SOURCE:   [[https://github.com/jaypei/emacs-neotree][Neotree Github]]
 :END:
-A modern alternative to sr-speedbar
+A modern alternative to sr-speedbar, but it's not quite useful yet.
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package neotree
   :ensure t
@@ -1105,6 +1112,7 @@ See [[info:org#org-crypt][Orgmode manual on org-crypt]]
 Encrypt the text of an org entry but not headline or properties.
 
 #+BEGIN_SRC emacs-lisp
+(require 'org-crypt)
 (use-package org-crypt
   :config
   (org-crypt-use-before-save-magic)
@@ -1115,7 +1123,8 @@ Encrypt the text of an org entry but not headline or properties.
 #+END_SRC
 Now, anything that has a =:crypt:= tag will be saved as GPG armored
 blob.
-See next subheadline for checking that.
+See next subheadline for checking that, use
+=org-decrypt-entry= to get cleartext.
 
 *** Super secret field here                                           :crypt:
 :PROPERTIES:
@@ -1204,8 +1213,12 @@ forcing it by using a directory variable:
 ((nil (eval . (if (string-match ".txt$" (buffer-file-name))(irfc-mode)))))
 #+END_SRC
 
+This has an infortunate side effect when opening the directory itself
+in dired, where the buffer is empty until refreshed with ==g==
 * TODO Writing RFC documents
 I want to be able to write down RFC-like documents via org-mode.
+Equivalent via org-spec template: See https://github.com/thi-ng/org-spec
+See [[file:/home/jean-baptiste.doyon/Documents/dev-local/org-spec/README.org][README.md of clone of org-spec]].
 
 * DocView
 Keep scrolling across pages when viewing PDFs (from [[info:emacs#DocView%20Navigation][DocView manual]])
@@ -1271,7 +1284,7 @@ Which makes :
 See [[info:org#RSS%20feeds][Org mode documentation about org-rss]].
 
 Done with this:
-#+BEGIN_SRC emacs-lisp :tangle-no
+#+BEGIN_SRC emacs-lisp :tangle no
 (setq org-feed-alist
       '(("Affaires Étrangères"
          "http://radiofrance-podcast.net/podcast09/rss_12841.xml"
