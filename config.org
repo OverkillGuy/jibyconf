@@ -888,7 +888,17 @@ Installing =silver-searcher= for quick code lookup instead of
 #+BEGIN_SRC emacs-lisp
 (use-package helm-ag)
 #+END_SRC
+** Debugging                                                       :disabled:
+:PROPERTIES:
+:CREATED:  [2017-12-12 Tue 11:23]
 :END:
+Experiment with =realgud= ([[https://github.com/realgud/realgud][Github link]]), a modern debugger interface
+improving upon the native Emacs one. Somehow I got used to the weird
+keyboard shortcuts of the default debugger, so the new shortcuts are
+bugging me.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package realgud)
 #+END_SRC
 *** DONE Rebinding C-x b to helm-mini                       :keybinding:helm:
 :LOGBOOK:
