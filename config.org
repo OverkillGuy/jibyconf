@@ -738,6 +738,16 @@ feature files.
 (use-package feature)
 #+END_SRC
 
+Because I believe in using Gherkin even without the frameworks behind
+it, I'd like to be able to take a C++ test, annotate with Gherkin in
+comments, and review it too. Provided I use CAPS for keywords.
+#+BEGIN_SRC emacs-lisp
+(defun show-gherkin ()
+  "Show the gherkin features of this buffer in a separate window"
+  (interactive)
+  (occur "GIVEN\\|WHEN\\|THEN\\|AND\\|BUT\\|SCENARIO\\|BACKGROUND\\|FEATURE"))
+#+END_SRC
+
 * Editing
 ** Unfill
 When editing text, sometimes I need to revert the line truncation that
