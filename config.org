@@ -37,10 +37,21 @@ Would need to make this a symlink to this file.
 ** Emacs repositories
 Official repos for emacs packages
 #+BEGIN_SRC emacs-lisp
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+(setq package-archives '(("Gnu" . "https://elpa.gnu.org/packages/")
 ;                        ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+                         ("Melpa" . "https://melpa.org/packages/")
+			 ("Org" . "https://orgmode.org/elpa/")))
 #+END_SRC
+A fancy aspect of this is [[https://emacs.stackexchange.com/questions/2969/is-it-possible-to-use-both-melpa-and-melpa-stable-at-the-same-time/2976#2976][repository priority]]:
+#+BEGIN_SRC emacs-lisp
+(setq package-archive-priorities
+      '(("Org"    . 10)
+        ("Melpa"  . 5)
+        ("Gnu"    . 0)))
+#+END_SRC
+The reasoning is that the Orgmode repository (serving only one
+package, =org= at latest version) should take priority in any case,
+and I trust melpa more than the (full of stale) Gnu repo.
 ** Use-package
 Package-manager frontend called =use-package=. Setup as described on
 the [[https://github.com/jwiegley/use-package/blob/master/README.md][README.md on Github]].
@@ -50,6 +61,13 @@ the [[https://github.com/jwiegley/use-package/blob/master/README.md][README.md o
     (require 'use-package))
 #+END_SRC
 
+Since this package doesn't automatically download packages when they
+aren't available (choosing instead to skip the package entirely),
+toggle on that feature.
+
+#+BEGIN_SRC emacs-lisp
+(setq use-package-always-ensure t)
+#+END_SRC
 
 * Cosmetic                                                         :cosmetic:
 ** Theme
