@@ -925,12 +925,13 @@ Enable helm first:
 
 Enable the projectile integration:
 #+BEGIN_SRC emacs-lisp
-(helm-projectile-on)
+(use-package helm-projectile
+  :config (helm-projectile-on)
+  ;; asks for file to open when project is switched
+  (setq projectile-switch-project-action 'helm-projectile-find-file))
 #+END_SRC
 Make projectile use helm for project-switching (rather than ido)
 #+BEGIN_SRC emacs-lisp
-;; asks for file to open when project is switched
-(setq projectile-switch-project-action 'helm-projectile-find-file)
 #+END_SRC
 Use =F7= to jump files and =shift-F7= to switch project
 #+BEGIN_SRC emacs-lisp
