@@ -174,8 +174,9 @@ they're polluting my working directory.
 :END:
 Enable =projectile=, a super smart way to manage projects, using =C-c
 p= as prefix for a bunch of cool tools.
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
 (use-package projectile
+  :ensure t
   :config
   (projectile-mode 1))
 #+END_SRC
