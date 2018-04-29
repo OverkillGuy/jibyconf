@@ -737,7 +737,7 @@ I love Behaviour-driven development, and its main weapon: Gherkin
 language. A good soul created feature-mode, to enable editing Gherkin
 feature files.
 #+BEGIN_SRC emacs-lisp
-(use-package feature)
+(use-package feature-mode)
 #+END_SRC
 
 Because I believe in using Gherkin even without the frameworks behind
