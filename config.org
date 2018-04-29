@@ -954,12 +954,12 @@ current buffer (for larger killings I use ~C-x C-b~).
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 #+END_SRC
 * Same-frame speedbar                                             :speedbar:
-A neat project tree system:
+A neat project tree system that doesn't invade into a different frame.
 #+BEGIN_SRC emacs-lisp
-;; File manager docked by default
-(require 'sr-speedbar)
-;; speedbar : show all filetypes (not just indexed ones)
-(setq speedbar-show-unknown-files t)
+(use-package sr-speedbar
+  :config
+  ; show all filetypes (not just indexed ones)
+  (setq speedbar-show-unknown-files t))
 #+END_SRC
 *** Speedbar in projectile                              :speedbar:projectile:
 Use ~projectile-speedbar~ package (see [[https://github.com/anshulverma/projectile-speedbar#projectile--speedbar][Github project page]])
