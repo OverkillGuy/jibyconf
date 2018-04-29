@@ -104,7 +104,9 @@ bar (which takes an entire character row !).
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(scroll-bar-mode -1)
+; scroll bar only available in graphics mode
+(if (display-graphic-p)
+    (scroll-bar-mode -1))
 #+END_SRC
 ** Beacon
 Show the cursor's position when scrolling the window, also rebind the
