@@ -710,7 +710,7 @@ Disabled auto-enabling with the hook:
 
 ** Docker-compose
 #+BEGIN_SRC emacs-lisp
-(use-package docker-compose)
+(use-package docker-compose-mode)
 #+END_SRC
 
 ** Vagrantfiles
