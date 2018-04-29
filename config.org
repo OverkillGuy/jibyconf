@@ -355,6 +355,14 @@ Customize the title slide to show title, author, and date.
 <p>%d</p>"))
 #+END_SRC
 
+** Remove validate link in unstyled HTML exports
+When exporting to HTML from Org, especially when I don't use a styling
+package, there's this big HTML validate link that annoys me. Toggle it
+off.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-html-validation-link nil)
+#+END_SRC
 * C++                                                                   :cpp:
 ** Modern C++ font-lock
 :PROPERTIES:
