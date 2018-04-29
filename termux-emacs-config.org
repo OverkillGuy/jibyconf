@@ -33,3 +33,105 @@ Fix this by adding the termux prefix path to  Woman manual page
 #+BEGIN_SRC emacs-lisp :tangle no
 (add-to-list 'woman-manpath "/data/data/com.termux/files/usr/share/man")
 #+END_SRC
+* Magit diff error
+Issue when trying to stage hunks inside emacs:
+#+BEGIN_EXAMPLE
+smerge-refine-subst: Unexpected patch hunk header: ---  /data/data/com.termux/files/usr/tmp/diff126440YcZ
+#+END_EXAMPLE
+
+This is really annoying as it prevents me from committing anything
+from Termux in my preffered workflow.
+
+Someone figured out the issue in this [[https://emacs.stackexchange.com/questions/28912/diff-refine-hunk-with-unified-diff][SO answer]].
+
+Busybox diff output in normal invokation generates a unified diff,
+which smerge does not expect as it did not pass the =-u= flag.
+Workaround is a script that wraps diff to generate what is expected by
+smerge and a decorator (function "advice" in emacs-speak) to smerge to
+invoke the modified version of diff
+
+#+BEGIN_SRC shell :shebang "#!/bin/bash" :tangle ~/../usr/bin/bnudiff
+# Copyright (C) 2016-12-06 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+diff -U0 "$@" \
+| sed '1,2 d; s/^-/< /; s/^+/> /; /^[^@]/ { s/%/%1/g; s/@/%2/g; }' \
+| tr '\0' @ \
+| awk '
+   /^>/ {
+    if(op ~ "^c$")
+    {
+     print "---"
+    }
+    op = ""
+   }
+   /^@/ {
+    op = ""
+    split(substr($2, 2), old, ",")
+    split(substr($3, 2), new, ",")
+    old[3] = old[1] + old[2] - 1
+    if(old[3] > old[1])
+    {
+     old[3] = old[1] "," old[3]
+    }
+    else
+    {
+     if(old[2] ~ "^0$")
+     {
+      op = "a"
+     }
+     old[3] = old[1]
+    }
+    new[3] = new[1] + new[2] - 1
+    if(new[3] > new[1])
+    {
+     new[3] = new[1] "," new[3]
+    }
+    else
+    {
+     if(new[2] ~ "^0$")
+     {
+      op = "d"
+     }
+     new[3] = new[1]
+    }
+    if(op ~ "^$")
+    {
+     op = "c"
+    }
+    $0 = old[3] op new[3]
+   }
+   { print }
+  ' \
+| tr @ '\0' \
+| sed 's/%2/@/g; s/%1/%/g'
+#+END_SRC
+Because termux has a weird location for its interpreter, we need to
+make sure we post-process the script to fix its shebang making it
+properly executable:
+
+#+BEGIN_SRC shell
+termux-fix-shebang ~/../usr/bin/bnudiff
+#+END_SRC
+
+Lastly we define an elisp advice wrapping the system diff invokation to call
+our variant instead of the normal diff utility which caused issues.
+#+BEGIN_SRC emacs-lisp
+(defun smerge-refine-subst-wrapper (smerge-refine-subst-real &rest arguments)
+  (let ((diff-command "bnudiff"))
+    (apply smerge-refine-subst-real arguments)))
+
+(advice-add 'smerge-refine-subst :around #'smerge-refine-subst-wrapper)
+#+END_SRC
+All fixed now!
