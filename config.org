@@ -748,6 +748,12 @@ comments, and review it too. Provided I use CAPS for keywords.
   (occur "GIVEN\\|WHEN\\|THEN\\|AND\\|BUT\\|SCENARIO\\|BACKGROUND\\|FEATURE"))
 #+END_SRC
 
+** Protobuf
+Recently started using Protobuf at work, so here goes the major mode.
+
+#+BEGIN_SRC emacs-lisp
+(use-package protobuf-mode)
+#+END_SRC
 * Editing
 ** Unfill
 When editing text, sometimes I need to revert the line truncation that
