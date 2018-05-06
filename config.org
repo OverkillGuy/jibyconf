@@ -647,6 +647,9 @@ easy to miss, isn't pretty. See [[info:ediff#Window%20and%20Frame%20Configuratio
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 #+END_SRC
 ** Magit                                                              :magit:
+#+BEGIN_SRC emacs-lisp
+(use-package magit)
+#+END_SRC
 *** Show word-diff                                                 :cosmetic:
 Shows the equivalent of =git diff --word-diff=
 #+BEGIN_SRC emacs-lisp
