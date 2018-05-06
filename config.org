@@ -1248,14 +1248,11 @@ mkdir -p ~/dev/doc/rfc
 #+END_SRC
 
 Opening RFCs does not automatically trigger the =irfc-mode=, so I'm
-forcing it by using a directory variable:
-
-#+BEGIN_SRC emacs-lisp :tangle ~/dev/doc/rfc/.dir-locals.el
-((nil (eval . (if (string-match ".txt$" (buffer-file-name))(irfc-mode)))))
+forcing it via filename recognition, forcing use of the correct mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+(when (featurep 'irfc)
+  (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode)))
 #+END_SRC
-
-This has an infortunate side effect when opening the directory itself
-in dired, where the buffer is empty until refreshed with ==g==
 * TODO Writing RFC documents
 I want to be able to write down RFC-like documents via org-mode.
 Equivalent via org-spec template: See https://github.com/thi-ng/org-spec
