@@ -1149,7 +1149,10 @@ GPG)
 See [[https://emacs.stackexchange.com/questions/20824/how-to-use-minibuffer-instead-of-pop-up-window-for-gpg-files][GPG pin entry via emacs]] to avoid GPG popup.
 
 See [[info:org#org-crypt][Orgmode manual on org-crypt]]
-** Org-crypt
+** Org-crypt                                                       :disabled:
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 Encrypt the text of an org entry but not headline or properties.
 
 #+BEGIN_SRC emacs-lisp
