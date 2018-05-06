@@ -121,7 +121,7 @@ Because termux has a weird location for its interpreter, we need to
 make sure we post-process the script to fix its shebang making it
 properly executable:
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC shell :tangle no
 termux-fix-shebang ~/../usr/bin/bnudiff
 #+END_SRC
 
