@@ -1268,7 +1268,7 @@ mkdir -p ~/dev/doc/rfc
 
 Opening RFCs does not automatically trigger the =irfc-mode=, so I'm
 forcing it via filename recognition, forcing use of the correct mode
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
 (when (featurep 'irfc)
   (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode)))
 #+END_SRC
