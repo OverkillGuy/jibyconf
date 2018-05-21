@@ -477,58 +477,6 @@ Disabled coz breaks things
 - State "DONE"       from "TODO"       [2016-12-16 Fri 10:55]
 :END:
 Feasible with ~M-x occur~ or ~projectile-multi-occur~.
-** Compilation                                                  :compilation:
-*** Compilation buffer coloring support
-Make compilation buffers support ANSI terminal coloring (eg: CMake)
-#+BEGIN_SRC elisp
-;; Adds ANSI Color support to Compilation window
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region compilation-filter-start (point))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-#+END_SRC
-
-*** DONE Compilation of project (using makefile)
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2016-12-16 Fri 10:55]
-:END:
-While in one file 3 level down the project root, call =compile=
-without specifying project root (with relative path). ~M-x compile~
-then specify ~-C ~/dev/workspace/project-name~. Projectile could help
-there too
-
-*** Compilation keybinding                                       :keybinding:
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<f9>") 'recompile)
-(global-set-key (kbd "S-<f9>") 'compile)
-#+END_SRC
-*** Jump to error files                                            :disabled:
-There's a minor mode that allows to auto-jump to error locations in
-compilations buffers : ~next-error-follow-minor-mode~. (It also works
-in search buffers). See [[info:emacs#Compilation%20Mode]].
-#+BEGIN_SRC emacs-lisp :tangle no
-(add-hook 'compilation-mode-hook 'next-error-follow-minor-mode)
-#+END_SRC
-Disabled because all my code is compiled within docker which causes
-the jump to fail, requesting me to find the adequate path.
-Until I can make it understand that =/catkin_ws= is equal to
-=~/dev/workspace/=, no point enabling this
-*** Auto-follow till error
-See [[info:emacs#Compilation][Emacs manual]].
-#+BEGIN_SRC emacs-lisp
-(setq compilation-scroll-output 'first-error)
-#+END_SRC
-*** TODO System-wide notification of completion                    :disabled:
-Using [[http://emacs.stackexchange.com/a/14188][Stackoverflow answer]] and notification
-#+BEGIN_SRC emacs-lisp :tangle no
-(defun my-compilation-finish-function (buffer desc)
-  (message "Buffer %s: %s" buffer desc))
-(add-hook 'compilation-finish-functions 'my-compilation-finish-function)
-#+END_SRC
-
-
 ** Source parsing                                                  :disabled:
 #+BEGIN_SRC emacs-lisp :tangle no
 (add-hook 'c++-mode-hook 'irony-mode)
@@ -580,6 +528,72 @@ make
 sudo make install
 #+END_SRC
 
+
+* Compilation                                                  :compilation:
+*** Compilation buffer coloring support
+Make compilation buffers support ANSI terminal coloring (eg: CMake)
+#+BEGIN_SRC elisp
+;; Adds ANSI Color support to Compilation window
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+#+END_SRC
+
+*** DONE Compilation of project (using makefile)
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-12-16 Fri 10:55]
+:END:
+While in one file 3 level down the project root, call =compile=
+without specifying project root (with relative path). ~M-x compile~
+then specify ~-C ~/dev/workspace/project-name~. Projectile could help
+there too
+
+*** Compilation keybinding                                       :keybinding:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<f9>") 'recompile)
+(global-set-key (kbd "S-<f9>") 'compile)
+#+END_SRC
+*** Jump to error files                                            :disabled:
+There's a minor mode that allows to auto-jump to error locations in
+compilations buffers : ~next-error-follow-minor-mode~. (It also works
+in search buffers). See [[info:emacs#Compilation%20Mode]].
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-hook 'compilation-mode-hook 'next-error-follow-minor-mode)
+#+END_SRC
+Disabled because all my code is compiled within docker which causes
+the jump to fail, requesting me to find the adequate path.
+Until I can make it understand that =/catkin_ws= is equal to
+=~/dev/workspace/=, no point enabling this
+*** Auto-follow till error
+See [[info:emacs#Compilation][Emacs manual]].
+#+BEGIN_SRC emacs-lisp
+(setq compilation-scroll-output 'first-error)
+#+END_SRC
+*** System-wide notification of completion
+:PROPERTIES:
+:SOURCE:   http://emacs.stackexchange.com/a/14188
+:END:
+On compilation complete, when the compilation window is not front and
+center, throw a popup with compilation information.
+#+BEGIN_SRC emacs-lisp
+(defun compilation-finished-unfocused-notify (buffer desc)
+  "Popup via libnotify on compilation finished with unfocused window"
+  (interactive)
+  (if (not (eq buffer
+	       (window-buffer (selected-window))))
+      (alert
+       (format "Compilation %s"
+	       (if (string-equal "finished\n" desc)
+		   "succeeded"
+		 "failed"))
+       :title "Emacs"
+       :category 'emacs :style 'libnotify
+       :icon "gnome-inhibit-applet")))
+(add-hook 'compilation-finish-functions 'compilation-finished-unfocused-notify)
+#+END_SRC
 
 
 * Yasnippets
