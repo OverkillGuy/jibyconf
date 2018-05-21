@@ -504,13 +504,17 @@ there too
 (global-set-key (kbd "<f9>") 'recompile)
 (global-set-key (kbd "S-<f9>") 'compile)
 #+END_SRC
-*** Jump to error files
+*** Jump to error files                                            :disabled:
 There's a minor mode that allows to auto-jump to error locations in
 compilations buffers : ~next-error-follow-minor-mode~. (It also works
 in search buffers). See [[info:emacs#Compilation%20Mode]].
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (add-hook 'compilation-mode-hook 'next-error-follow-minor-mode)
 #+END_SRC
+Disabled because all my code is compiled within docker which causes
+the jump to fail, requesting me to find the adequate path.
+Until I can make it understand that =/catkin_ws= is equal to
+=~/dev/workspace/=, no point enabling this
 *** Auto-follow till error
 See [[info:emacs#Compilation][Emacs manual]].
 #+BEGIN_SRC emacs-lisp
