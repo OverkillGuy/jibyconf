@@ -71,6 +71,12 @@ visible (not in a terminal):
 #+END_SRC
 
 
+* Use Firefox for browsing URLs
+My favourite browser!
+#+BEGIN_SRC emacs-lisp
+(setq browse-url-browser-function: 'browse-url-firefox)
+#+END_SRC
+
 * Editing HTML textarea from Firefox
 From my browser, I can press F8 on textareas to jump to emacs for
 longform text editing. This is awesome to edit tickets comfortably.
