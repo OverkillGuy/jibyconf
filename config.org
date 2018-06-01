@@ -595,6 +595,10 @@ center, throw a popup with compilation information.
 (add-hook 'compilation-finish-functions 'compilation-finished-unfocused-notify)
 #+END_SRC
 
+*** Hide async processes when no output
+#+BEGIN_SRC emacs-lisp
+(setq async-shell-command-display-buffer nil)
+#+END_SRC
 
 * Yasnippets
 Text macros, expanding short snippets into arbitrary length text.
