@@ -74,7 +74,7 @@ visible (not in a terminal):
 * Use Firefox for browsing URLs
 My favourite browser!
 #+BEGIN_SRC emacs-lisp
-(setq browse-url-browser-function: 'browse-url-firefox)
+(setq browse-url-browser-function 'browse-url-firefox)
 #+END_SRC
 
 * Editing HTML textarea from Firefox
