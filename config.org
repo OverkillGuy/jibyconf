@@ -803,6 +803,11 @@ comments, and review it too. Provided I use CAPS for keywords.
 
 ** Protobuf
 Recently started using Protobuf at work, so here goes the major mode.
+#+BEGIN_SRC emacs-lisp
+(use-package cmake-mode)
+#+END_SRC
+** CMake
+Editing CMake files via =cmake-mode=
 
 #+BEGIN_SRC emacs-lisp
 (use-package protobuf-mode)
