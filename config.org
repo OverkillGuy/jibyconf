@@ -1289,7 +1289,20 @@ An example item
 Do that thing super soon !!!
 <2018-04-01 Sun 18:40>
 #+END_SRC
+** Calfw                                                           :disabled:
+:PROPERTIES:
+:SOURCE:   [[https://github.com/kiwanami/emacs-calfw][Github]]
+:END:
 
+#+BEGIN_SRC emacs-lisp :tangle no
+(require 'calfw)
+(require 'calfw-org)
+#+END_SRC
+
+Use org-mode bindings:
+#+BEGIN_SRC emacs-lisp :tangle no
+(setq cfw:org-overwrite-default-keybinding t)
+#+END_SRC
 * TODO Org-mode contacts database
 Single file for contacts, each headline a person, tags for clustering,
 properties for mapping data (phone number etc). Tailored column view
