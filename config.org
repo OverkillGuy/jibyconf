@@ -1203,6 +1203,9 @@ A modern alternative to sr-speedbar, but it's not quite useful yet.
 See [[https://github.com/jaypei/emacs-neotree/issues/149][Github issue : Projectile interaction]], [[https://emacs.stackexchange.com/questions/33632/stopping-neotree-from-constantly-switching-to-the-open-files-directory][SO similar question]]
 
 Can also use all-the-icons-fonts
+#+BEGIN_SRC emacs-lisp :tangle no
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+#+END_SRC
 *** All-the-icons.el                                               :disabled:
 See [[https://github.com/domtronn/all-the-icons.el][Github all-the-icons.el]], a repository aggregating font-awesome and
 equivalents and integrating it to emacs font property system.
