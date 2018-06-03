@@ -1213,9 +1213,9 @@ equivalents and integrating it to emacs font property system.
 (use-package all-the-icons)
 #+END_SRC
 Need to do the font download once
-#+BEGIN_EXAMPLE emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (all-the-icons-install-fonts)
-#+END_EXAMPLE
+#+END_SRC
 * Encryption and secrets handling                                    :crypto:
 GPG, passwordstore setup etc
 
