@@ -1230,10 +1230,15 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 :END:
 Use =org-wild-notifier.el=, which uses =alert.el= under the hood.
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
 (use-package org-wild-notifier
   :ensure t
-  :config (setq 'alert-default-style 'libnotify))
+  :config
+  ;; Any even in calendar should ring me up
+  (setq org-wild-notifier-keyword-whitelist nil)
+
+  ;; Toggle alerts on launch
+  (org-wild-notifier-mode))
 #+END_SRC
 
 An example item
