@@ -1334,17 +1334,17 @@ See also [[https://mrblog.nl/emacs/config.html][blog entry about the answer]].
 
 I would also add the org id creation if not set:
 
-#+BEGIN_EXAMPLE  emacs-lisp
+#+BEGIN_EXAMPLE emacs-lisp  :tangle no
 (org-id-get-create)
 #+END_EXAMPLE
 Add the hook to it at the end:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (add-hook 'org-insert-heading-hook 'mrb/insert-created-timestamp)
 #+END_SRC
 
 Which makes :
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (require 'org-expiry)
 (require 'org-id)
 
