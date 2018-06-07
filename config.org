@@ -91,6 +91,14 @@ toggle on that feature.
 (setq use-package-always-ensure t)
 #+END_SRC
 
+** Refresh org mode version
+By default, emacs uses a fairly old version of org mode.  Since we
+just defined our package repository preferences to make org's own
+repository first, let's "install" it again to upgrade if needed.
+
+#+BEGIN_SRC emacs-lisp
+(package-install 'org)
+#+END_SRC
 * Cosmetic                                                         :cosmetic:
 ** Theme
 I use ~tango-dark~ and it looks great !
