@@ -69,12 +69,21 @@ and I trust melpa more than the (full of stale) Gnu repo.
 Package-manager frontend called =use-package=. Setup as described on
 the [[https://github.com/jwiegley/use-package/blob/master/README.md][README.md on Github]].
 
+First, make sure it's available (by installing it if needed)
 #+BEGIN_SRC emacs-lisp
-  (eval-when-compile
-    (require 'use-package))
+(package-initialize)
+(if (not (locate-library "use-package"))
+    (progn
+      (package-refresh-contents)
+      (package-install 'use-package)))
 #+END_SRC
 
-Since this package doesn't automatically download packages when they
+A more hardcore check by trying to load it.
+#+BEGIN_SRC emacs-lisp
+(require 'use-package)
+#+END_SRC
+
+Since use-package doesn't automatically download packages when they
 aren't available (choosing instead to skip the package entirely),
 toggle on that feature.
 
