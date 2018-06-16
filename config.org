@@ -939,6 +939,22 @@ function to cycle forward to more recent kills and bind it to =M-Y=.
 (global-set-key "\M-Y" 'yank-pop-forwards)
 #+END_SRC
 
+** Control-W from terminal
+:PROPERTIES:
+:SOURCE:   https://www.emacswiki.org/emacs/KillingAndYanking#toc2
+:END:
+I find very handy the behaviour of =C-w= in the terminal, and it's
+very sad that emacs does not use the same heuristic. Of course, since
+the behaviour of C-w when mark is active is correct, leave it as is.
+#+BEGIN_SRC emacs-lisp
+(defun unix-werase-or-kill (arg)
+  (interactive "*p")
+  (if (and transient-mark-mode
+           mark-active)
+      (kill-region (region-beginning) (region-end))
+    (backward-kill-word arg)))
+(global-set-key (kbd "C-w") 'unix-werase-or-kill)
+#+END_SRC
 
 * Locale                                                             :locale:
 :PROPERTIES:
