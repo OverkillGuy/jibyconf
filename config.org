@@ -848,6 +848,13 @@ Editing CMake files via =cmake-mode=
 #+BEGIN_SRC emacs-lisp
 (use-package protobuf-mode)
 #+END_SRC
+** Geiser
+For editing Scheme code. To avoid org mode pestering me about choice
+of implementation, tell it to use guile always.
+#+BEGIN_SRC emacs-lisp
+(use-package geiser
+  :config (setq geiser-default-implementation 'guile))
+#+END_SRC
 * Editing
 ** Unfill
 When editing text, sometimes I need to revert the line truncation that
