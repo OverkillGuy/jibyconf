@@ -925,6 +925,20 @@ to
     (downcase-region (region-beginning) (region-end)))
     (replace-regexp "\s" "_" nil (region-beginning) (region-end)))
 #+END_SRC
+** Kill buffer forward-cycle
+:PROPERTIES:
+:SOURCE:   https://www.emacswiki.org/emacs/KillingAndYanking#toc1
+:END:
+When yanking, =M-y= cycles backward the kill buffer. Declare a
+function to cycle forward to more recent kills and bind it to =M-Y=.
+#+BEGIN_SRC emacs-lisp
+(defun yank-pop-forwards (arg)
+  (interactive "p")
+  (yank-pop (- arg)))
+
+(global-set-key "\M-Y" 'yank-pop-forwards)
+#+END_SRC
+
 
 * Locale                                                             :locale:
 :PROPERTIES:
