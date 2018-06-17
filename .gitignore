@@ -51,6 +51,8 @@ flycheck_*.el
 
 # ban .el files in this folder (since everything important is .org)
 *.el
+# but not elisp files under the packages/ folder
+!packages/*.el
 
 # ban PDFs, gz and .bundles (used to send diffs over sneakernet)
 *.pdf
