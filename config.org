@@ -201,6 +201,42 @@ Disabled because it disrupts existing cool features like using =F7= for
 file opening now has incorrect current directory from buffer, pointing
 to the project root instead. This means I can't just jump to a file
 and explore its parent folder in dired.
+* Helm
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm
+  :config
+  (helm-mode 1)
+  (global-set-key (kbd "C-x b") 'helm-mini))
+#+END_SRC
+
+** Helm-projectile integration                              :helm:projectile:
+Enable the projectile integration:
+#+BEGIN_SRC emacs-lisp
+(use-package helm-projectile
+  :config (helm-projectile-on)
+  ;; asks for file to open when project is switched
+  (setq projectile-switch-project-action 'helm-projectile-find-file))
+#+END_SRC
+Make projectile use helm for project-switching (rather than ido)
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+Use =F7= to jump files and =shift-F7= to switch project
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<f7>") 'helm-projectile-find-file-dwim)
+(global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
+#+END_SRC
+
+Search amongst the project with =C-c s=
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c s") 'helm-projectile-ag)
+#+END_SRC
+Find-and-replace over project with =C-c %=
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c %") 'projectile-replace)
+#+END_SRC
+
+
 * Orgmode                                                               :org:
 ** Fill paragraphs automatically in org-mode                      :usability:
 
@@ -990,45 +1026,6 @@ bugging me.
 
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package realgud)
-#+END_SRC
-*** DONE Rebinding C-x b to helm-mini                       :keybinding:helm:
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2016-12-16 Fri 10:57]
-:END:
-#+BEGIN_SRC elisp
-   (global-set-key (kbd "C-x b") 'helm-mini)
-#+END_SRC
-
-*** Helm-projectile integration                             :helm:projectile:
-Enable helm first:
-#+BEGIN_SRC emacs-lisp
-(require 'helm-config)
-(helm-mode 1)
-#+END_SRC
-
-Enable the projectile integration:
-#+BEGIN_SRC emacs-lisp
-(use-package helm-projectile
-  :config (helm-projectile-on)
-  ;; asks for file to open when project is switched
-  (setq projectile-switch-project-action 'helm-projectile-find-file))
-#+END_SRC
-Make projectile use helm for project-switching (rather than ido)
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
-Use =F7= to jump files and =shift-F7= to switch project
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<f7>") 'helm-projectile-find-file-dwim)
-(global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
-#+END_SRC
-
-Search amongst the project with =C-c s=
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c s") 'helm-projectile-ag)
-#+END_SRC
-Find-and-replace over project with =C-c %=
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c %") 'projectile-replace)
 #+END_SRC
 
 * Kill this buffer                                 :keybinding:controversial:
