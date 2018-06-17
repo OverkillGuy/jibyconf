@@ -1063,8 +1063,8 @@ de-select and append typed text. I'd rather have it replace the text.
 Enable it everywhere (replacing the common undo into a tree of file
 modification).
 #+BEGIN_SRC emacs-lisp
-(require 'undo-tree)
-(global-undo-tree-mode)
+(use-package undo-tree
+ :config (global-undo-tree-mode))
 #+END_SRC
 
 Use ~C-x u~ to open the undo-tree view, optionally ~d~ to view the
