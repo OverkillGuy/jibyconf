@@ -1,0 +1,24 @@
+#+TITLE: Bootstrapping an Emacs configuration
+
+In order for my Emacs configuration to become +sentient+ useful, I
+need to be able to launch a single command which bootstraps the entire
+emacs environment.
+
+This involves reading my config files, and toggling the ones that are
+relevant, like enabling X11-related config when the screen supports
+graphics.
+
+My config files are laid out in Org mode files, contained inside code
+snippets, surrounded by the reasoning surrounding them.
+The ideal bootstrapping system would load these text files, parse the
+code blocks and load them. This is what I attempt to do here.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(require 'org)
+(org-babel-load-file "config.org")
+(if (display-graphic-p)
+    (org-babel-load-file "config-X11.org"))
+;; Android package-level usernames
+(if (string-match "u[0-9]_a[0-9+]" (user-login-name))
+    (org-babel-load-file "termux-emacs-config.org"))
+#+END_SRC
