@@ -132,6 +132,6 @@ our variant instead of the normal diff utility which caused issues.
   (let ((diff-command "bnudiff"))
     (apply smerge-refine-subst-real arguments)))
 
-(advice-add 'smerge-refine-subst :around #'smerge-refine-subst-wrapper)
+(advice-add 'smerge-refine-regions :around #'smerge-refine-subst-wrapper)
 #+END_SRC
 All fixed now!
