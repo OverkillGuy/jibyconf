@@ -34,6 +34,14 @@ Fix this by adding the termux prefix path to  Woman manual page
 (require 'woman)
 (add-to-list 'woman-manpath "/data/data/com.termux/files/usr/share/man")
 #+END_SRC
+
+Same for info pages
+
+#+BEGIN_SRC emacs-lisp
+(require 'info)
+(add-to-list 'Info-directory-list "/data/data/com.termux/files/home/dev/doc/info")
+#+END_SRC
+
 * Magit diff error
 Issue when trying to stage hunks inside emacs:
 #+BEGIN_EXAMPLE
