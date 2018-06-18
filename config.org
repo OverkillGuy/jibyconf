@@ -1339,10 +1339,15 @@ Use org-mode bindings:
 #+BEGIN_SRC emacs-lisp :tangle no
 (setq cfw:org-overwrite-default-keybinding t)
 #+END_SRC
-* TODO Org-mode contacts database
+* Org-mode contacts database
 Single file for contacts, each headline a person, tags for clustering,
 properties for mapping data (phone number etc). Tailored column view
 for visual inspection.
+Using org-vcard for import.
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-vcard)
+#+END_SRC
 
 * Offline documentation                                                 :doc:
 ** Helm-dash
