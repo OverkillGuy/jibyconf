@@ -29,7 +29,7 @@ $0
 I use ROS a lot, and there's a lot of overhead to simple actions.
 
 #+CAPTION:  ROS_INFO snippet
-#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/c++-mode/rosinfo
+#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/c++-mode/rosinfo :mkdirp yes
 # -*- mode: snippet -*-
 #name : ROS INFO
 #key : info
@@ -163,7 +163,7 @@ $0
 * Org-mode
 
 #+CAPTION:  UML diagram snippet using plantuml
-#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/org-mode/uml
+#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/org-mode/uml :mkdirp yes
 # -*- mode: snippet -*-
 #name : uml
 #key : uml
