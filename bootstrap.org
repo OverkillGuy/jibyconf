@@ -23,4 +23,5 @@ code blocks and load them. This is what I attempt to do here.
 ;; Android package-level usernames
 (if (string-match "u[0-9]_a[0-9+]" (user-login-name))
     (org-babel-load-file "termux-emacs-config.org"))
+(org-babel-tangle-file "snippets.org")
 #+END_SRC
