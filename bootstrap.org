@@ -14,6 +14,8 @@ The ideal bootstrapping system would load these text files, parse the
 code blocks and load them. This is what I attempt to do here.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+;; Make sure we tangle from this folder
+(cd buffer-file-name)
 (require 'org)
 (org-babel-load-file "config.org")
 (if (display-graphic-p)
