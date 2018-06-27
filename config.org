@@ -171,6 +171,20 @@ can do that too, with the macro =display-ansi-colors= (from [[https://stackoverf
   (interactive)
   (ansi-color-apply-on-region (point-min) (point-max)))
 #+END_SRC
+* Feature discoverability
+:PROPERTIES:
+:SOURCE:   https://github.com/Wilfred/helpful
+:END:
+Using =helpful= to enhance feature discoverability.
+This package allows us to discover the trace function, toggling debug
+on error, and many other improvements of quality of life.
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-h f") #'helpful-callable)
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+#+END_SRC
+
 * Backup files                                              :backup:disabled:
 These files are supposed to save my life, but I can't stand them when
 they're polluting my working directory.
