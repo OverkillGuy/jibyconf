@@ -435,13 +435,13 @@ mkdir -p ~/dev/doc/rfc
 #+END_SRC
 
 Opening RFCs does not automatically trigger the =irfc-mode=, so I'm
-forcing it via filename recognition, forcing use of the correct mode
+forcing it via filename recognition, forcing use of the correct mode.
+Also, define a more convenient alias for the name =rfc=.
 #+BEGIN_SRC emacs-lisp
 (when (featurep 'irfc)
-  (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode)))
+  (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
+  (defalias 'rfc 'irfc-visit))
 #+END_SRC
-
-
 * DocView
 :PROPERTIES:
 :SOURCE:   info:emacs#DocView
