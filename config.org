@@ -185,6 +185,21 @@ on error, and many other improvements of quality of life.
 (global-set-key (kbd "C-h k") #'helpful-key)
 #+END_SRC
 
+* Remap C-x C-c to avoid accidentally exiting      :keybinding:controversial:
+CLOSED: [2016-12-16 Fri]
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-12-16 Fri]
+:END:
+I don't /want/ to exit emacs often (open all day for logging project
+progress and edit code, and close it usually once a day before closing
+down computer to make sure all files are saved) Use an other binding
+to make it less likely to exit. See [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Rebinding.html][Emacs manual online on rebinding]].
+#+CAPTION: Rebind exit to C-x C-c ESC
+#+BEGIN_SRC emacs-lisp
+(global-unset-key (kbd "C-x C-c"))
+(global-set-key (kbd "C-x C-c ESC") 'save-buffers-kill-terminal)
+#+END_SRC
+
 * Backup files                                              :backup:disabled:
 These files are supposed to save my life, but I can't stand them when
 they're polluting my working directory.
