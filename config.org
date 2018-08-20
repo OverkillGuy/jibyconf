@@ -230,7 +230,7 @@ Enable the projectile integration:
 (use-package helm-projectile
   :config (helm-projectile-on)
   ;; asks for file to open when project is switched
-  (setq projectile-switch-project-action 'helm-projectile-find-file))
+  (setq projectile-switch-project-action 'helm-projectile-ag))
 #+END_SRC
 Make projectile use helm for project-switching (rather than ido)
 #+BEGIN_SRC emacs-lisp
