@@ -1,0 +1,436 @@
+#+TITLE: Config-changes subset of my Emacs init
+#+PROPERTY: header-args :tangle nopkg.el :results silent
+
+This file contains the subset of my emacs config files that apply on
+any emacs-enabled machine.
+No extra emacs package allowed, no external tool required, no platform
+specific hack.
+
+
+
+* Cosmetic
+** Theme
+I use ~tango-dark~ and it looks great !
+#+BEGIN_SRC emacs-lisp
+(load-theme 'tango-dark t)
+#+END_SRC
+
+** Disable toolbars
+Remove all the GUI tools (open,save etc) including the helpful menu
+bar (which takes an entire character row !).
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+; scroll bar only available in graphics mode
+(if (display-graphic-p)
+    (scroll-bar-mode -1))
+#+END_SRC
+
+** Display ANSI colors                                                :color:
+Using ~less -RS~ is perfect to see files with ANSI color codes. Emacs
+can do that too, with the macro =display-ansi-colors= (from [[https://stackoverflow.com/a/23382008][stackoverflow]]).
+#+BEGIN_SRC emacs-lisp
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+#+END_SRC
+
+* Locale                                                             :locale:
+** Double spacing navigation
+By default emacs assumes the American typist system of 2 spaces after
+a sentence-ending character (like ~.~). This makes using ~M-e~ navigation
+difficult, as I only space my sentences once, as europeans (the
+French?) do.
+
+#+CAPTION: Make emacs use single-spaced sentences
+#+BEGIN_SRC emacs-lisp
+(setq sentence-end-double-space nil)
+#+END_SRC
+
+** UTF8 everywhere
+Force the use of UTF8 everywhere in emacs.
+#+BEGIN_SRC emacs-lisp
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+#+END_SRC
+
+
+
+
+* Orgmode verbatim font                                                 :org:
+=Verbatim text= in org-mode should be grey, surrounded by beveled box.
+Also, hide the === markers around such ~things~.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(set-face-attribute 'org-verbatim nil
+		    :box
+		    '(:line-width 2 :color "grey75" :style released-button)
+		    :inherit
+		    'shadow)
+(setq org-hide-emphasis-markers t)
+#+END_SRC
+
+
+
+* Go to URLs
+:PROPERTIES:
+:SOURCE:   http://xenodium.com/#actionable-urls-in-emacs-buffers
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package goto-addr
+  :hook ((compilation-mode . goto-address-mode)
+	 (prog-mode . goto-address-prog-mode)
+	 (eshell-mode . goto-address-mode)
+	 (shell-mode . goto-address-mode)
+	 (term-mode . goto-address-mode))
+  :bind (:map goto-address-highlight-keymap
+	      ("<RET>" . goto-address-at-point)
+	      ("M-<RET>" . newline))
+  :commands (goto-address-prog-mode
+	     goto-address-mode))
+#+END_SRC
+
+
+* Remap C-x C-c to avoid accidentally exiting      :keybinding:controversial:
+I don't /want/ to exit emacs often (open all day for logging project
+progress and edit code, and close it usually once a day before closing
+down computer to make sure all files are saved) Use an other binding
+to make it less likely to exit. See [[info:emacs#Rebinding][info:emacs#Rebinding]].
+#+CAPTION: Rebind exit to C-x C-c ESC
+#+BEGIN_SRC emacs-lisp
+(global-unset-key (kbd "C-x C-c"))
+(global-set-key (kbd "C-x C-c ESC") 'save-buffers-kill-terminal)
+#+END_SRC
+
+
+* C++                                                                   :cpp:
+** indentation
+
+#+BEGIN_SRC emacs-lisp
+;; style I want to use in c++ mode
+(c-add-style "my-style"
+	     '("stroustrup"
+	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
+	       (c-basic-offset . 2)            ; indent by two spaces
+	       (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
+				   (brace-list-open . 0)
+				   (statement-case-open . +)))))
+
+(defun my-c++-mode-hook ()
+  (c-set-style "my-style")        ; use my-style defined above
+  (auto-fill-mode)
+  (c-toggle-auto-hungry-state -1))
+;; Trigger my-style when entering c++-mode
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+#+END_SRC
+
+** Use c++-mode for .h files                                 :usability:mode:
+At work we use =.h= files for C++ headers, but emacs insists on
+triggering =c-mode=.
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+#+END_SRC
+
+
+* Show paren in programming modes
+Showing matching brace under the cursor when programming.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'show-paren-mode)
+#+END_SRC
+
+
+* Compilation                                                  :compilation:
+*** Compilation buffer coloring support
+Make compilation buffers support ANSI terminal coloring (eg: CMake)
+#+BEGIN_SRC elisp
+;; Adds ANSI Color support to Compilation window
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+#+END_SRC
+
+*** Compilation keybinding                                       :keybinding:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<f9>") 'recompile)
+(global-set-key (kbd "S-<f9>") 'compile)
+#+END_SRC
+
+*** Jump to error files                                            :disabled:
+There's a minor mode that allows to auto-jump to error locations in
+compilations buffers : ~next-error-follow-minor-mode~. (It also works
+in search buffers). See [[info:emacs#Compilation%20Mode]].
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-hook 'compilation-mode-hook 'next-error-follow-minor-mode)
+#+END_SRC
+Disabled because all my code is compiled within docker which causes
+the jump to fail, requesting me to find the adequate path.
+Until I can make it understand that =/catkin_ws= is equal to
+=~/dev/workspace/=, no point enabling this
+
+*** Auto-follow compile trace till first error
+See [[info:emacs#Compilation][Emacs manual]].
+#+BEGIN_SRC emacs-lisp
+(setq compilation-scroll-output 'first-error)
+#+END_SRC
+
+* Hide async processes when no output
+See [[info:emacs#Single%20Shell][info:emacs#Single Shell]].
+#+BEGIN_SRC emacs-lisp
+(setq async-shell-command-display-buffer nil)
+#+END_SRC
+
+
+* Ediff
+Default merge tool in Emacs.
+** Merge-tool "take both" option
+:PROPERTIES:
+:SOURCE:   http://stackoverflow.com/a/29757750
+:END:
+While using emerge (merge conflict resolution tool), I sometimes need
+an option to "take both versions".
+
+#+CAPTION: Adds a "take both" option to merge conflict resolution and bind it to d
+#+BEGIN_SRC emacs-lisp
+(defun ediff-copy-both-to-C ()
+  (interactive)
+  (ediff-copy-diff ediff-current-difference nil 'C nil
+		   (concat
+		    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+		    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+(defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
+(add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
+#+END_SRC
+** Ediff no separate window
+The conflict resolution tool, by default in GUI Emacs, opens a
+separate tiny frame (<5x5 chars) to control the diff buffer. This is often
+easy to miss, isn't pretty. See [[info:ediff#Window%20and%20Frame%20Configuration][Ediff Manual]] for details.
+#+BEGIN_SRC emacs-lisp
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+#+END_SRC
+
+
+* Gherkin highlight
+Because I believe in using Gherkin even without the frameworks behind
+it, I'd like to be able to take a C++ test, annotate with Gherkin in
+comments, and review it too. This function allows me to visualize the
+lines of gherkin scattered in a program.
+#+BEGIN_SRC emacs-lisp
+(defun show-gherkin ()
+  "Show the gherkin features of this buffer in a separate window"
+  (interactive)
+  (occur "// \\(given\\|when\\|then\\|and\\|but\\|scenario\\|background\\|feature\\)"))
+#+END_SRC
+
+* Editing
+Enhancements to my text-editing workflow
+** Unfill
+:PROPERTIES:
+:SOURCE:   https://www.emacswiki.org/emacs/UnfillParagraph
+:END:
+When editing text, sometimes I need to revert the line truncation that
+=fill-mode= provides.
+
+#+BEGIN_SRC emacs-lisp
+(defun unfill-region (beg end)
+  "Unfill the region, joining text paragraphs into a single
+    logical line.  This is useful, e.g., for use with
+    `visual-line-mode'."
+  (interactive "*r")
+  (let ((fill-column (point-max)))
+    (fill-region beg end)))
+
+;; Handy key definition
+(define-key global-map (kbd "C-M-Q") 'unfill-region)
+
+    ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+	;; This would override `fill-column' if it's an integer.
+	(emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+
+;; Handy key definition
+(define-key global-map (kbd "M-Q") 'unfill-paragraph)
+#+END_SRC
+** Identify non-ASCII chars
+Found this really handy when debugging a file with non-obvious UTF8 chars that isn't handled by code
+#+BEGIN_SRC emacs-lisp
+(defun find-first-non-ascii-char ()
+  "Find the first non-ascii character from point onwards."
+  (interactive)
+  (let (point)
+    (save-excursion
+      (setq point
+	    (catch 'non-ascii
+	      (while (not (eobp))
+		(or (eq (char-charset (following-char))
+			'ascii)
+		    (throw 'non-ascii (point)))
+		(forward-char 1)))))
+    (if point
+	(goto-char point)
+	(message "No non-ascii characters."))))
+#+END_SRC
+Of course there are alternatives, but they're not Emacsy. Using =grep=
+on the region comes to mind to search for characters in range [1,127].
+** CamelCase to snake_case convert
+:PROPERTIES:
+:SOURCE:   [[https://stackoverflow.com/questions/9288181/converting-from-camelcase-to-in-emacs]]
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(defun to-snakecase ()
+  (interactive)
+  (progn
+    (replace-regexp "\\([A-Z]\\)" "_\\1" nil (region-beginning) (region-end))
+    (downcase-region (region-beginning) (region-end))))
+#+END_SRC
+*** Transform gherkin steps to snake_case
+For my hackish gherkin step implementations, I need to transform this:
+:  Given a schedule recorded in database
+to
+: given_a_schedule_recorded_in_database
+
+#+BEGIN_SRC emacs-lisp
+(defun to-snakecase ()
+  (interactive)
+  (progn
+    (replace-regexp "\\([A-Z]\\)" "_\\1" nil (region-beginning) (region-end))
+    (downcase-region (region-beginning) (region-end)))
+    (replace-regexp "\s" "_" nil (region-beginning) (region-end)))
+#+END_SRC
+** Kill buffer forward-cycle
+:PROPERTIES:
+:SOURCE:   https://www.emacswiki.org/emacs/KillingAndYanking#toc1
+:END:
+When yanking, =M-y= cycles backward the kill buffer. Declare a
+function to cycle forward to more recent kills and bind it to =M-Y=.
+#+BEGIN_SRC emacs-lisp
+(defun yank-pop-forwards (arg)
+  (interactive "p")
+  (yank-pop (- arg)))
+
+(global-set-key "\M-Y" 'yank-pop-forwards)
+#+END_SRC
+
+** Control-W from terminal
+:PROPERTIES:
+:SOURCE:   https://www.emacswiki.org/emacs/KillingAndYanking#toc2
+:END:
+I find very handy the behaviour of =C-w= in the terminal, and it's
+very sad that emacs does not use the same heuristic. Of course, since
+the behaviour of C-w when mark is active is correct, leave it as is.
+#+BEGIN_SRC emacs-lisp
+(defun unix-werase-or-kill (arg)
+  (interactive "*p")
+  (if (and transient-mark-mode
+	   mark-active)
+      (kill-region (region-beginning) (region-end))
+    (backward-kill-word arg)))
+(global-set-key (kbd "C-w") 'unix-werase-or-kill)
+#+END_SRC
+
+** Typing text over selection deletes selection
+Default emacs behavior on typing inside selected region is to
+de-select and append typed text. I'd rather have it replace the text.
+#+BEGIN_SRC emacs-lisp
+(delete-selection-mode t)
+#+END_SRC
+
+* Kill this buffer                                 :keybinding:controversial:
+When pressing the usual buffer-kill keychord, always want to kill the
+current buffer (for larger killings I use ~C-x C-b~).
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x k") 'kill-this-buffer)
+#+END_SRC
+
+
+* Dired
+** Dired make editable
+:PROPERTIES:
+:SOURCE:   [[http://pragmaticemacs.com/emacs/batch-edit-file-permissions-in-dired/][pragmaticemacs blog]]
+:END:
+I can change the permissions of files in a dired buffer by setting the
+buffer as editable (disable read-only, bound to =C-x C-q=)
+#+BEGIN_SRC emacs-lisp
+(setq wdired-allow-to-change-permissions t)
+#+END_SRC
+
+** Dired-X enable
+:PROPERTIES:
+:SOURCE:   [[info:dired-x#Installation][Dired-X info page]]
+:END:
+Load the dired extensions (including pressing I/N on an info/man page
+to open with info/man mode, and much more)
+#+BEGIN_SRC emacs-lisp
+(add-hook 'dired-load-hook
+               (lambda ()
+                 (load "dired-x")
+                 ;; Set dired-x global variables here.  For example:
+                 ;; (setq dired-guess-shell-gnutar "gtar")
+                 ;; (setq dired-x-hands-off-my-keys nil)
+                 ))
+     ;; (add-hook 'dired-mode-hook
+     ;;           (lambda ()
+     ;;             ;; Set dired-x buffer-local variables here.  For example:
+     ;;             ;; (dired-omit-mode 1)
+     ;;             ))
+#+END_SRC
+Also force-enable the =dired-jump= keybinding in all modes (its prefix
+is sometimes overriden by the XMPP client I use at work)
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x C-j") 'dired-jump)
+#+END_SRC
+
+
+* RFC                                                               :rfc:doc:
+:PROPERTIES:
+:SOURCE:   https://www.emacswiki.org/emacs/Irfc
+:END:
+Browsing RFCs in emacs
+The package is only available through the emacswiki, a fairly
+unreliable package source that I can't =use-package= from. Since the
+library has not been changed in years, I've committed it in this
+repository under =packages/irfc.el=.
+#+CAPTION: Create the RFC folder path if needed
+#+BEGIN_SRC shell :tangle no
+mkdir -p ~/dev/doc/rfc
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp
+(load-file "packages/irfc.el")
+(setq irfc-directory "~/dev/doc/rfc/")
+(setq irfc-assoc-mode t)
+#+END_SRC
+
+#+CAPTION: Change the font face for some options to match my theme
+#+BEGIN_SRC emacs-lisp
+;; (setq irfc-head-name-face :foreground "orange red")
+(set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
+#+END_SRC
+
+Opening RFCs does not automatically trigger the =irfc-mode=, so I'm
+forcing it via filename recognition, forcing use of the correct mode
+#+BEGIN_SRC emacs-lisp
+(when (featurep 'irfc)
+  (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode)))
+#+END_SRC
+
+
+* DocView
+:PROPERTIES:
+:SOURCE:   info:emacs#DocView
+:END:
+Keep scrolling across pages when viewing PDFs
+#+BEGIN_SRC emacs-lisp
+(setq doc-view-continuous t)
+#+END_SRC

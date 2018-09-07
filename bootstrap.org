@@ -17,6 +17,9 @@ code blocks and load them. This is what I attempt to do here.
 ;; Make sure we tangle from this folder
 (cd buffer-file-name)
 (require 'org)
+; Load first what requires no extra module
+(org-babel-load-file "vanilla-config.org")
+;; Then what requires modules
 (org-babel-load-file "config.org")
 (if (display-graphic-p)
     (org-babel-load-file "config-X11.org"))
