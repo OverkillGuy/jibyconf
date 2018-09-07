@@ -797,6 +797,14 @@ orgit:/path/to/repo/           links to a magit-status buffer
 orgit-log:/path/to/repo/::REV  links to a magit-log buffer
 orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
 #+END_EXAMPLE
+*** Bash shortcut
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/9b1bhs/emacsshell_protip_alias_magit/
+:END:
+Type =magit= to get a terminal showing the repo
+#+BEGIN_SRC shell :tangle no
+alias magit='emacsclient -nw -a emacs -e "(magit-status \"$(git rev-parse --show-toplevel)\")"'
+#+END_SRC
 
 * Latex                                                               :latex:
 Use =auctex= and =preview-latex-mode=. Using =xetex= backend
