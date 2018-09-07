@@ -889,7 +889,7 @@ comments, and review it too. Provided I use CAPS for keywords.
 (defun show-gherkin ()
   "Show the gherkin features of this buffer in a separate window"
   (interactive)
-  (occur "GIVEN\\|WHEN\\|THEN\\|AND\\|BUT\\|SCENARIO\\|BACKGROUND\\|FEATURE"))
+  (occur "// \\(given\\|when\\|then\\|and\\|but\\|scenario\\|background\\|feature\\)"))
 #+END_SRC
 
 ** Protobuf
