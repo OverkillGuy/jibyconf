@@ -15,7 +15,7 @@ code blocks and load them. This is what I attempt to do here.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Make sure we tangle from this folder
-(cd buffer-file-name)
+;; (cd buffer-file-name)
 (require 'org)
 ; Load first what requires no extra module
 (org-babel-load-file "vanilla-config.org")
