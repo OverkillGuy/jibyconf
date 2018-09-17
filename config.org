@@ -688,6 +688,20 @@ of implementation, tell it to use guile always.
   :config (setq geiser-default-implementation 'guile))
 #+END_SRC
 
+* Presenting
+Use =impatient-mode=. To serve a buffer over HTTP, use =httpd-start=,
+then in the buffer you want to serve run =impatient-mode=. This will
+serve files on http://localhost:8080/imp/.
+#+BEGIN_SRC emacs-lisp
+(use-package impatient-mode
+ :config (setq httpd-host "0.0.0.0"))
+#+END_SRC
+
+By default, =httpd-host= is =nil=, which seems to mean only serve
+files to localhost. This is not why I use this mode: I want to show
+others something, hence need the HTTP server to be available over
+network, not just locally.
+
 * Navigation                                           :usability:keybinding:
 ** Window movement
 Switching emacs windows with ~C-x o~ works with two windows, but with
