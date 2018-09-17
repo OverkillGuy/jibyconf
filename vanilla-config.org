@@ -85,7 +85,8 @@ Also, hide the === markers around such ~things~.
 	 (prog-mode . goto-address-prog-mode)
 	 (eshell-mode . goto-address-mode)
 	 (shell-mode . goto-address-mode)
-	 (term-mode . goto-address-mode))
+	 (term-mode . goto-address-mode)
+	 (magit-revision-mode . goto-address-mode))
   :bind (:map goto-address-highlight-keymap
 	      ("<RET>" . goto-address-at-point)
 	      ("M-<RET>" . newline))
