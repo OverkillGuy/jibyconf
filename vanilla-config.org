@@ -1,5 +1,5 @@
 #+TITLE: Config-changes subset of my Emacs init
-#+PROPERTY: header-args :tangle nopkg.el :results silent
+#+PROPERTY: header-args :tangle vanilla.el :results silent
 
 This file contains the subset of my emacs config files that apply on
 any emacs-enabled machine.

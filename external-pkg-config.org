@@ -1,0 +1,342 @@
+#+TITLE: Configuration requiring external packages
+#+PROPERTY: header-args :tangle external-pkg.el :results silent
+
+This is the subset of my emacs configuration files that require
+external (non-emacs) packages. Contrast with [[file:vanilla-config.org]]
+and (future) emacs-only packages sections.
+
+* RTags for C++ navigation                                     :cpp:disabled:
+From [[https://github.com/dfrib/emacs_setup][this guide]]. Need to export the =compile-commands.json= file from
+a CMake invokation, which requires small changes to the projects.
+
+*** Installing RTags
+
+Clone repo
+#+BEGIN_SRC shell :tangle no
+git clone --recursive https://github.com/Andersbakken/rtags.git
+cd rtags
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+#+END_SRC
+
+
+* Elpy                                                  :python:IDE:disabled:
+(Don't) Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
+From the readme:
+#+BEGIN_SRC shell :tangle no
+pip install jedi flake8 importmagic autopep8
+#+END_SRC
+and on the emacs side of things, install their repository
+#+BEGIN_SRC emacs-lisp :tangle no
+(require 'package)
+(add-to-list 'package-archives
+             '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+#+END_SRC
+then install the package =elpy=, and use the following conf
+#+BEGIN_SRC emacs-lisp :tangle no
+(elpy-enable)
+#+END_SRC
+
+Reason for disabling is it: takes over much of the native python mode
+(making it harder to use a blank emacs anymore) and gives very little
+useful features. It does turn emacs into an IDE experience, but at the
+expense of everything that matters: speed (blocking syntax analysis
+slows emacs to a crawl) and lack of configurability. It feels like
+installing spacemacs: features are all in there, maybe, but I lose the
+incremental feature-building "build-your-own-editor kit" that made me
+choose Emacs in the first place.
+
+
+* Silver searcher
+Installing =silver-searcher= for quick code lookup instead of
+=projectile-grep=. [[https://github.com/ggreer/the_silver_searcher][Ag link]]
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm-ag)
+#+END_SRC
+
+
+* Email                                                               :email:
+Use =mbsync= to download server-to-maildir, =mu4e= to index/read it,
+emacs SMTP client to send email back, (future) littleredflag for triggering
+syncs. Password cached with =pass=.
+
+See [[http://www.macs.hw.ac.uk/~rs46/posts/2014-01-13-mu4e-email-client.html][Good tutorial mbsync + mu4e + smtp emacs package]].
+
+
+** Mbsync (maildir downloader)
+:PROPERTIES:
+:CREATED:  [2017-05-26 Fri 11:29]
+:END:
+
+Using part of [[https://wiki.archlinux.org/index.php/Isync][Archlinux wiki on mbsync]] for setup and some
+try-and-fail. I've chosen to use =mbsync= (package name "isync")
+instead of the more popular but slower =offlineimap=.
+
+*** Install
+:PROPERTIES:
+:CREATED:  [2017-05-26 Fri 11:29]
+:END:
+You need to build from source to support SSL correctly (=apt-get= has
+an old version of mbsync)
+#+BEGIN_SRC shell :dir ~/Documents/dev-local/ :tangle no
+git clone https://git.code.sf.net/p/isync/isync
+#+END_SRC
+
+Build from source
+#+BEGIN_SRC shell :tangle no
+cd ~/Documents/dev-local/isync
+./autogen.sh
+./configure
+make
+sudo make install
+#+END_SRC
+
+*** Setup
+
+Create new file =~/.mbsyncrc=
+
+
+Create the mailboxes just in case it didn't exist.
+#+BEGIN_SRC shell :tangle no
+mkdir -p ~/mail/some_mailbox/
+#+END_SRC
+Then run a test sync:
+#+BEGIN_SRC shell :tangle no
+mbsync -a
+#+END_SRC
+
+Should show no error, with instead a lot of folders being downloaded
+
+*** TODO Cronjob for sync every 5 min
+
+*** TODO (Optional) IMAP IDLE script
+For instant sync (rather than 5min rolling window).
+See [[https://github.com/rlue/little_red_flag][little-red-flag]] or all alternatives
+** mu/mu4e (mail reader)
+I want to use =mu= (similar to =mutt= but recent implementation) as
+mail reader. The reasons are mostly because of =mu4e=, the Emacs
+integration package of =mu=.
+
+It's a glorified searching database and file editor. Doesn't allow to
+compose emails though (use any supported SMTP client)
+
+*** Install
+Get it from https://github.com/djcb/mu/releases/, needs some
+libraries (=libxapian-dev=, =libgmime-dev= etc),
+
+#+BEGIN_SRC shell :tangle no
+./configure && make & make info && sudo make install
+#+END_SRC
+
+Make sure that mu4e is accessible in emacs now. If not, copy the
+=mu4e/= folder to your custom lisp folder and add the following in
+emacs:
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/lisp/mu4e/")
+#+END_SRC
+*** Use
+Index the maildir once
+
+#+BEGIN_SRC shell :tangle no
+mu index --maildir=~/mail/something
+#+END_SRC
+Then start using it !
+
+#+BEGIN_SRC shell :tangle no
+mu find some_keywords
+#+END_SRC
+*** Configure mu4e (emacs interface)
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/lisp/mu4e/")
+(require 'mu4e)
+#+END_SRC
+
+Don't keep message buffers around
+
+#+BEGIN_SRC emacs-lisp
+(setq message-kill-buffer-on-exit t)
+#+END_SRC
+
+
+Don't use cool icons for display (they are cool but are not of correct
+length, messing up layouts)
+#+BEGIN_SRC emacs-lisp
+(setq mu4e-use-fancy-chars nil)
+#+END_SRC
+
+Get email every 5 minutes
+#+BEGIN_SRC emacs-lisp
+(setq mu4e-update-interval 300)
+#+END_SRC
+
+Put email attachments in Downloads folder
+#+BEGIN_SRC emacs-lisp
+(setq mu4e-attachment-dir  "~/Downloads")
+#+END_SRC
+Use =format=flowed= to wrap lines softly
+#+BEGIN_SRC emacs-lisp
+(setq mu4e-compose-format-flowed t)
+#+END_SRC
+
+Enable inline images
+#+BEGIN_SRC emacs-lisp
+(setq mu4e-view-show-images t)
+;; use imagemagick, if available
+(when (fboundp 'imagemagick-register-types)
+  (imagemagick-register-types))
+#+END_SRC
+
+Make mu4e default email user agent:
+#+BEGIN_SRC emacs-lisp
+(setq mail-user-agent 'mu4e-user-agent)
+#+END_SRC
+
+Add =mu4e= keybinding:
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-M-4") 'mu4e)
+#+END_SRC
+
+Allow HTML email to be read via PDF when text rendering fails:
+#+BEGIN_SRC emacs-lisp
+(setq mu4e-msg2pdf "/usr/bin/msg2pdf")
+#+END_SRC
+This needs the extra debian package =maildir-utils-extra=.
+Seems the variable is not bound properly.
+
+Let me view HTML email ... in the browser.
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'mu4e-view-actions
+  '("bBrowser View" . mu4e-action-view-in-browser) t)
+#+END_SRC
+
+Hide the stupid empty update buffer when fetching mail:
+#+BEGIN_SRC emacs-lisp
+(add-hook 'mu4e~update-mail-mode-hook 'bury-buffer)
+#+END_SRC
+
+*** Email attachments
+
+From [[info:mu4e#Dired][mu4e manual on dired interaction]], add support for attaching files
+from marked files in =dired=:
+#+BEGIN_SRC emacs-lisp
+(require 'gnus-dired)
+;; make the `gnus-dired-mail-buffers' function also work on
+;; message-mode derived modes, such as mu4e-compose-mode
+(defun gnus-dired-mail-buffers ()
+  "Return a list of active message buffers."
+  (let (buffers)
+    (save-current-buffer
+      (dolist (buffer (buffer-list t))
+        (set-buffer buffer)
+        (when (and (derived-mode-p 'message-mode)
+		   (null message-sent-message-via))
+          (push (buffer-name buffer) buffers))))
+    (nreverse buffers)))
+
+(setq gnus-dired-mail-mode 'mu4e-user-agent)
+(add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+#+END_SRC
+
+*** Configure org-mu4e
+Integration of =orgmode= and =mu4e=.
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-mu4e)
+#+END_SRC
+
+Allows to make email links now.
+*** Notifications
+Using [[https://github.com/iqbalansari/mu4e-alert][mu4e-alert]] package.
+
+#+BEGIN_SRC emacs-lisp
+;; Choose the style you prefer for desktop notifications
+;; If you are on Linux you can use
+;; 1. notifications - Emacs lisp implementation of the Desktop Notifications API
+;; 2. libnotify     - Notifications using the `notify-send' program, requires `notify-send' to be in PATH
+;;
+(mu4e-alert-set-default-style 'libnotify)
+(mu4e-alert-enable-notifications)
+#+END_SRC
+
+Also show number of emails unread via mode line:
+#+BEGIN_SRC emacs-lisp
+(mu4e-alert-enable-mode-line-display)
+#+END_SRC
+*** Capture invitations to calendar
+Using [[https://github.com/asoroa/ical2org.py][ical2org-py]] to convert the file to org mode. Using [[info:mu4e#Attachment%20actions][mu4e
+Attachment actions]] to define a key for it.
+
+#+BEGIN_SRC shell :results verbatim :tangle no
+ical2orgpy --help
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Usage: ical2orgpy [OPTIONS] ICS_FILE ORG_FILE
+
+  Convert ICAL format into org-mode.
+
+  Files can be set as explicit file name, or `-` for stdin or stdout::
+
+      $ ical2orgpy in.ical out.org
+
+      $ ical2orgpy in.ical - > out.org
+
+      $ cat in.ical | ical2orgpy - out.org
+
+      $ cat in.ical | ical2orgpy - - > out.org
+
+Options:
+  -p, --print-timezones     Print acceptable timezone names and exit.
+  -d, --days INTEGER RANGE  Window length in days (left & right from current
+                            time). Has to be positive.
+  -t, --timezone TEXT       Timezone to use. (local timezone by default)
+  -h, --help                Show this message and exit.
+#+end_example
+
+#+BEGIN_SRC emacs-lisp
+(defun convert-to-org-calendar-attachment (msg attachnum)
+  "Converts to org format an (ical) attachment"
+  (mu4e-view-pipe-attachment msg attachnum "ical2orgpy - - >> ~/dev/notes/calendar.org"))
+
+;; defining 'n' as the shortcut
+(add-to-list 'mu4e-view-attachment-actions
+	     '("cSave to calendar" . convert-to-org-calendar-attachment) t)
+#+END_SRC
+
+
+*** Remove HTML email backgrounds
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/9ep5o1/mu4e_stop_emails_setting_backgroundforeground/
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(require 'mu4e-contrib)
+(setq mu4e-html2text-command 'mu4e-shr2text)
+(setq shr-color-visible-luminance-min 60)
+(setq shr-color-visible-distance-min 5)
+(setq shr-use-colors nil)
+(advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
+#+END_SRC
+
+** SMTP package to compose emails
+Emacs's =smtp= package or independent tool =msmtp= which I've heard
+good things about, such as support for offline email queues.
+
+Extract from mu4e manual, adapted to my server
+#+BEGIN_SRC emacs-lisp :tangle no
+(require 'smtpmail)
+(setq message-send-mail-function 'smtpmail-send-it
+   starttls-use-gnutls t
+   smtpmail-starttls-credentials '(("smtp.someserver.com" 587 nil nil))
+   smtpmail-auth-credentials
+     '(("smtp.someserver.com" 587 "my.username" nil))
+   smtpmail-default-smtp-server "smtp.someserver.com"
+   smtpmail-smtp-server "smtp.someserver.com"
+   smtpmail-smtp-service 587)
+#+END_SRC
