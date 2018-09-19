@@ -185,15 +185,15 @@ Enable the projectile integration:
 #+BEGIN_SRC emacs-lisp
 (use-package helm-projectile
   :config (helm-projectile-on)
-  ;; asks for file to open when project is switched
-  (setq projectile-switch-project-action 'helm-projectile-ag))
+  ;; Show git status when project is switched
+  (setq projectile-switch-project-action 'magit-status))
 #+END_SRC
 Make projectile use helm for project-switching (rather than ido)
 #+BEGIN_SRC emacs-lisp
 #+END_SRC
 Use =F7= to jump files and =shift-F7= to switch project
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<f7>") 'helm-projectile-find-file-dwim)
+(global-set-key (kbd "<f7>") 'helm-projectile-find-file)
 (global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
 #+END_SRC
 
