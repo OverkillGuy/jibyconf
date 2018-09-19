@@ -938,8 +938,7 @@ See [[info:org#org-crypt][Orgmode manual on org-crypt]]
 :END:
 Encrypt the text of an org entry but not headline or properties.
 
-#+BEGIN_SRC emacs-lisp
-(require 'org-crypt)
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package org-crypt
   :config
   (org-crypt-use-before-save-magic)
