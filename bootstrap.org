@@ -22,7 +22,7 @@ code blocks and load them. This is what I attempt to do here.
 ;; Then what requires modules
 (org-babel-load-file "config.org")
 ;; Optionally what requires non-emacs packages
-(org-babel-load-file "external-pkg.el")
+(org-babel-load-file "external-pkg-config.org")
 (if (display-graphic-p)
     (org-babel-load-file "config-X11.org"))
 ;; Android package-level usernames
