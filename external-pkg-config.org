@@ -354,3 +354,27 @@ Then use =C-c C-x C-l= to enable latex preview in orgmode.
 Try it on the following equation
 
 $e^{2\pi i} \cos{\theta{x}+ \lambda} = -1$
+
+** Auto-preview
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/9h44lk/i_can_finally_preview_latex_in_orgmode_took_me/e6asgu9/
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package cdlatex)
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp
+(defun auto-preview-org-latex ()
+  "Toggles latex-preview when a dollar (latex equation) is followed by space"
+  (when (looking-back (rx "$\n"))
+    (save-excursion
+      (backward-char 1)
+      (org-toggle-latex-fragment))))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (org-cdlatex-mode)
+            (add-hook 'post-self-insert-hook #'auto-preview-org-latex 'append 'local)))
+#+END_SRC
