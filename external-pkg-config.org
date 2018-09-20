@@ -340,3 +340,17 @@ Extract from mu4e manual, adapted to my server
    smtpmail-smtp-server "smtp.someserver.com"
    smtpmail-smtp-service 587)
 #+END_SRC
+
+* Latex previews                                                        :org:
+We can preview LaTeX equations in =org-mode=, but this requires a few
+external packages:
+
+#+BEGIN_SRC shell
+sudo apt-get install dvipng
+#+END_SRC
+
+Then use =C-c C-x C-l= to enable latex preview in orgmode.
+
+Try it on the following equation
+
+$e^{2\pi i} \cos{\theta{x}+ \lambda} = -1$
