@@ -308,6 +308,21 @@ to
     (downcase-region (region-beginning) (region-end)))
     (replace-regexp "\s" "_" nil (region-beginning) (region-end)))
 #+END_SRC
+** Smarter casing
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/9ghpb4/was_anyone_ever_impressed_by_your_emacs_skills/e64no7a/
+:END:
+For all of =upcase-word=, =downcase-word=, =capitalize-word=, a =dwim=
+version works better when a region is set, but identical when it isn't.
+#+BEGIN_SRC emacs-lisp
+(global-unset-key (kbd "M-u"))
+(global-unset-key (kbd "M-l"))
+(global-unset-key (kbd "M-c"))
+(global-set-key (kbd "M-u") 'upcase-dwim)
+(global-set-key (kbd "M-l") 'downcase-dwim)
+(global-set-key (kbd "M-c") 'capitalize-dwim)
+#+END_SRC
+
 ** Kill buffer forward-cycle
 :PROPERTIES:
 :SOURCE:   https://www.emacswiki.org/emacs/KillingAndYanking#toc1
