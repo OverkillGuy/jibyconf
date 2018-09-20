@@ -204,6 +204,7 @@ Search amongst the project with =C-c s=
 Find-and-replace over project with =C-c %=
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c %") 'projectile-replace)
+(global-set-key (kbd "C-c M-%") 'projectile-replace-regexp)
 #+END_SRC
 
 
