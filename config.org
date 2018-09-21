@@ -842,27 +842,14 @@ directory, Control + Pageup/Pagedown to switch between running
 terminals .
 
 #+BEGIN_SRC emacs-lisp
-(when (require 'multi-term nil t)
+(use-package multi-term
+  :config
   (global-set-key (kbd "<f5>") 'multi-term)
   (global-set-key (kbd "<C-next>") 'multi-term-next)
   (global-set-key (kbd "<C-prior>") 'multi-term-prev)
   (setq multi-term-buffer-name "term"
-        multi-term-program "/bin/bash"))
-#+END_SRC
-
-Some extra configuration for when I'm in the terminal itself:
-Switching term mode to line (from char by default) means emacs only
-sends text to terminal at newlines, which allows for the regular emacs
-text-editing experience, but disables handy things like autocomplete
-(since the terminal never sees your half-written file path until you
-press enter). Comint-clear-buffer tells emacs to erase all the current
-buffer, which is a little more extreme than just calling =clean= from
-within (or using =C-l=), which only jumps a line and tells the
-emulator to scroll up to here. Since our terminal buffer history is
-unlimited in size (see below), this allows us to clear megabytes-long
-buffer history.
-#+BEGIN_SRC emacs-lisp
-(setq term-bind-key-alist
+        multi-term-program "/bin/bash")
+	term-bind-key-alist
         (list
          (cons "C-c C-j" 'term-line-mode)
          (cons "C-c C-k" 'term-char-mode)
@@ -881,6 +868,18 @@ buffer history.
        (cons "M-y" 'term-send-raw-meta)
        (cons "C-y" 'term-send-raw)))
 #+END_SRC
+
+Some extra configuration for when I'm in the terminal itself:
+Switching term mode to line (from char by default) means emacs only
+sends text to terminal at newlines, which allows for the regular emacs
+text-editing experience, but disables handy things like autocomplete
+(since the terminal never sees your half-written file path until you
+press enter). Comint-clear-buffer tells emacs to erase all the current
+buffer, which is a little more extreme than just calling =clean= from
+within (or using =C-l=), which only jumps a line and tells the
+emulator to scroll up to here. Since our terminal buffer history is
+unlimited in size (see below), this allows us to clear megabytes-long
+buffer history.
 
 Good syntax but bad configuration, from [[https://github.com/aborn/emacs.d/blob/master/utils/multi-term-config.el][alternate configuration]]
 #+BEGIN_SRC emacs-lisp :tangle no
