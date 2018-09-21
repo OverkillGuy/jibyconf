@@ -54,7 +54,7 @@ Because I wanted to feel like I'm actually customizing rather than
 copying and pasting, I changed the colors to my liking (blue !)
 ** Remove useless mode descriptors
 Clean up the mode line to hide the modes I use all the time.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (require 'diminish)
 (mapcar 'diminish
 	'(undo-tree-mode git-gutter-mode helm-mode beacon-mode
