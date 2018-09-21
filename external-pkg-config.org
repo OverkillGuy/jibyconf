@@ -251,25 +251,23 @@ Integration of =orgmode= and =mu4e=.
 
 Allows to make email links now.
 *** Notifications
-Using [[https://github.com/iqbalansari/mu4e-alert][mu4e-alert]] package.
+:PROPERTIES:
+:SOURCE:   https://github.com/iqbalansari/mu4e-alert
+:END:
 
 #+BEGIN_SRC emacs-lisp
-;; Choose the style you prefer for desktop notifications
-;; If you are on Linux you can use
-;; 1. notifications - Emacs lisp implementation of the Desktop Notifications API
-;; 2. libnotify     - Notifications using the `notify-send' program, requires `notify-send' to be in PATH
-;;
-(mu4e-alert-set-default-style 'libnotify)
-(mu4e-alert-enable-notifications)
-#+END_SRC
-
-Also show number of emails unread via mode line:
-#+BEGIN_SRC emacs-lisp
-(mu4e-alert-enable-mode-line-display)
+(use-package mu4e-alert
+  :config
+  (mu4e-alert-set-default-style 'libnotify)
+  (mu4e-alert-enable-notifications)
+  (mu4e-alert-enable-mode-line-display))
 #+END_SRC
 *** Capture invitations to calendar
-Using [[https://github.com/asoroa/ical2org.py][ical2org-py]] to convert the file to org mode. Using [[info:mu4e#Attachment%20actions][mu4e
-Attachment actions]] to define a key for it.
+:PROPERTIES:
+:SOURCE:   https://github.com/asoroa/ical2org.py
+:END:
+Using =ical2org-py= to convert the file to org mode. 
+Binding [[info:mu4e#Attachment%20actions][mu4e Attachment actions]] to define a key for it.
 
 #+BEGIN_SRC shell :results verbatim :tangle no
 ical2orgpy --help
