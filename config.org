@@ -535,6 +535,16 @@ center, throw a popup with compilation information.
 (add-hook 'compilation-finish-functions 'compilation-finished-unfocused-notify)
 #+END_SRC
 
+* RMSbolt
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/9jz68r/rmsbolt_a_powerful_assemblybytecode_viewer_for/
+:END:
+Like Godbolt but within emacs, no more sending out the code to other
+servers.
+
+#+BEGIN_SRC emacs-lisp
+(use-package rmsbolt)
+#+END_SRC
 
 * Yasnippets
 Text macros, expanding short snippets into arbitrary length text.
@@ -839,7 +849,7 @@ undo, making the occasional undo-tree freeze tolerable.
 Use ~multi-term~ for cool terminals in emacs, using [[http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/][this
 configuration]]. Press F5 to open a terminal in the current buffer's
 directory, Control + Pageup/Pagedown to switch between running
-terminals .
+terminals.
 
 #+BEGIN_SRC emacs-lisp
 (use-package multi-term
