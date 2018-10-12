@@ -1,12 +1,22 @@
 #+TITLE: Config-changes subset of my Emacs init
-#+PROPERTY: header-args :tangle vanilla.el :results silent
-
+#+PROPERTY: header-args:emacs-lisp :tangle vanilla.el :results silent
+#+PROPERTY: header-args:shell :tangle ~/.jb_emacs_profile
 This file contains the subset of my emacs config files that apply on
 any emacs-enabled machine.
 No extra emacs package allowed, no external tool required, no platform
 specific hack.
 
+* Emacs aliases in bash
+I sometimes want to open emacs (server-mode) from the command line,
+and typing "emacsclient" is annoying.
 
+#+BEGIN_SRC shell
+alias e="emacsclient -nw"
+#+END_SRC
+** Calculator
+#+BEGIN_SRC shell
+alias calc="emacsclient -nw -e '(calc)'"
+#+END_SRC
 
 * Cosmetic
 ** Theme
