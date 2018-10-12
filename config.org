@@ -848,7 +848,7 @@ terminals .
   (global-set-key (kbd "<C-next>") 'multi-term-next)
   (global-set-key (kbd "<C-prior>") 'multi-term-prev)
   (setq multi-term-buffer-name "term"
-        multi-term-program "/bin/bash")
+        multi-term-program "/bin/bash"
 	term-bind-key-alist
         (list
          (cons "C-c C-j" 'term-line-mode)
@@ -866,7 +866,7 @@ terminals .
        (cons "C-r" 'term-send-reverse-search-history)
        (cons "M-p" 'term-send-raw-meta)
        (cons "M-y" 'term-send-raw-meta)
-       (cons "C-y" 'term-send-raw)))
+       (cons "C-y" 'term-send-raw))))
 #+END_SRC
 
 Some extra configuration for when I'm in the terminal itself:
