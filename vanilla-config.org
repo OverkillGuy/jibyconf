@@ -95,6 +95,15 @@ Also, hide the === markers around such ~things~.
 #+END_SRC
 
 
+* Simplify yes/no questions
+:PROPERTIES:
+:SOURCE:   https://www.emacswiki.org/emacs/YesOrNoP
+:END:
+Can't stand the long-winded way emacs expects me to answer. Simplify
+it down to a simple press of =y= or =n=.
+#+BEGIN_SRC emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
 
 * Go to URLs
 :PROPERTIES:
