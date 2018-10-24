@@ -560,10 +560,18 @@ Separate file with snippets at [[file:snippets.org]] (in this folder).
 
 * Git                                                                   :git:
 ** Git gutter
-Show diff-lines by the file fringe
+:PROPERTIES:
+:SOURCE:   https://puntoblogspot.blogspot.com/2018/10/staging-hunks-without-magit.html
+:END:
+Show diff-lines by the file fringe, and create a shortcut for staging
+hunks directly from there.
 #+BEGIN_SRC emacs-lisp
 (use-package git-gutter
-  :config (global-git-gutter-mode +1))
+  :config (global-git-gutter-mode +1)
+  :bind
+  ("C-x v s" .  git-gutter:stage-hunk)
+  ("C-x v n" .  git-gutter:next-hunk)
+  ("C-x v p" .  git-gutter:previous-hunk))
 #+END_SRC
 
 More info at https://github.com/syohex/emacs-git-gutter
