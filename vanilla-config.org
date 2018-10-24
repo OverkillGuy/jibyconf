@@ -104,6 +104,18 @@ Also, hide the === markers around such ~things~.
 	     goto-address-mode))
 #+END_SRC
 
+* Eshell customizations
+:PROPERTIES:
+:SOURCE:   https://www.emacswiki.org/emacs/EshellVisualCommands
+:END:
+Make =eshell= work better with interactive (curses) commands. While I
+usually don't use =eshell= at all, making it a more welcoming home is
+still cool.
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'eshell-visual-commands
+	     "htop"
+	     "watch")
+#+END_SRC
 
 * Remap C-x C-c to avoid accidentally exiting      :keybinding:controversial:
 I don't /want/ to exit emacs often (open all day for logging project
