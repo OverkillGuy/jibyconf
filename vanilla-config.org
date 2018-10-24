@@ -464,6 +464,26 @@ Also, define a more convenient alias for the name =rfc=.
   (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
   (defalias 'rfc 'irfc-visit))
 #+END_SRC
+* Open documentation folder read-only
+:PROPERTIES:
+:SOURCE:   https://dev.to/bravotan/how-to-set-up-emacs-to-open-read-only-depending-on-file-location-5g6m
+:END:
+Make any files opened in the =~/dev/doc/= folder read-only
+automatically, because I don't want to edit my reference
+documentations!
+
+#+BEGIN_SRC emacs-lisp
+(defun set-docs-as-readonly ()
+  "Make buffers readonly by default when folder matches pattern"
+  (dolist (pattern '("~/dev/doc/.*"
+					; Anything else?
+		     ))
+    (if (string-match (expand-file-name pattern) buffer-file-name)
+        (read-only-mode))))
+
+(add-hook 'find-file-hook 'set-docs-as-readonly)
+#+END_SRC
+
 * DocView
 :PROPERTIES:
 :SOURCE:   info:emacs#DocView
