@@ -133,8 +133,15 @@ usually don't use =eshell= at all, making it a more welcoming home is
 still cool.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'eshell-visual-commands
-	     "htop"
+	     "htop")
+(add-to-list 'eshell-visual-commands
 	     "watch")
+#+END_SRC
+Also, my =git graph= alias should be recognized.
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'eshell-visual-subcommands
+	     '("git" "log" "diff" "graph"))
 #+END_SRC
 
 * Remap C-x C-c to avoid accidentally exiting      :keybinding:controversial:
