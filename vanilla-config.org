@@ -11,6 +11,7 @@ I sometimes want to open emacs (server-mode) from the command line,
 and typing "emacsclient" is annoying.
 
 #+BEGIN_SRC shell :tangle ~/.jb_profile.sh
+export EDITOR="emacsclient -a '' -nw"
 alias e="emacsclient -nw"
 #+END_SRC
 ** Calculator
