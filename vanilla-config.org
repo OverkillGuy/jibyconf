@@ -127,6 +127,7 @@ it down to a simple press of =y= or =n=.
 * Eshell customizations
 :PROPERTIES:
 :SOURCE:   https://www.emacswiki.org/emacs/EshellVisualCommands
+:header-args:emacs-lisp: :tangle no
 :END:
 Make =eshell= work better with interactive (curses) commands. While I
 usually don't use =eshell= at all, making it a more welcoming home is
