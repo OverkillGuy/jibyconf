@@ -515,6 +515,19 @@ like yaml-mode to be used when opening them, for the syntax-highlight.
 Find a way to go to definition of that method.
 Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]].
 
+* SLIME
+Lisp editing environment
+
+#+BEGIN_SRC emacs-lisp
+(use-package slime
+  :config
+  (setq inferior-lisp-program "/usr/bin/sbcl")
+  (setq slime-contribs '(slime-fancy)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package common-lisp-snippets)
+#+END_SRC
 
 * Compilation                                                  :compilation:
 *** System-wide notification of completion
