@@ -81,6 +81,15 @@ Force the use of UTF8 everywhere in emacs.
 
 
 
+* Documentation
+I ship a lot of unusual info manuals in =~/dev/doc/info/=, so add it to
+load path of info-mode.
+#+BEGIN_SRC emacs-lisp
+(require 'info)
+(add-to-list 'Info-directory-list "~/dev/doc/info")
+#+END_SRC
+
+
 
 * Orgmode verbatim font                                                 :org:
 =Verbatim text= in org-mode should be grey, surrounded by beveled box.
