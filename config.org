@@ -833,6 +833,15 @@ bugging me.
 (use-package realgud)
 #+END_SRC
 
+** Access files in Docker via TRAMP
+:PROPERTIES:
+:SOURCE:   https://ligerlearn.com/using-emacs-edit-files-within-docker-containers/
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package docker-tramp)
+#+END_SRC
+
 * Same-frame speedbar                                     :speedbar:disabled:
 A neat project tree system that doesn't invade into a different frame.
 #+BEGIN_SRC emacs-lisp :tangle no
