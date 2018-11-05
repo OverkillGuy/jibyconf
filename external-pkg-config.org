@@ -55,8 +55,14 @@ Installing =silver-searcher= for quick code lookup instead of
 =projectile-grep=. [[https://github.com/ggreer/the_silver_searcher][Ag link]]
 
 #+BEGIN_SRC emacs-lisp
+(use-package ag)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
 (use-package helm-ag)
 #+END_SRC
+
+
 
 
 * Email                                                               :email:
