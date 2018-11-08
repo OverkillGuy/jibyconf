@@ -67,7 +67,7 @@ Clean up the mode line to hide the modes I use all the time.
 Using [[help:avoid][avoid package]], moves mouse out of my way when the mouse is
 visible (not in a terminal):
 #+BEGIN_SRC emacs-lisp
-(if (display-mouse-p) (mouse-avoidance-mode 'banish))
+(if (display-mouse-p) (mouse-avoidance-mode 'animate))
 #+END_SRC
 
 
