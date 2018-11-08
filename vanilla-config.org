@@ -206,13 +206,14 @@ Showing matching brace under the cursor when programming.
 * Compilation                                                  :compilation:
 *** Compilation buffer coloring support
 Make compilation buffers support ANSI terminal coloring (eg: CMake)
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; Adds ANSI Color support to Compilation window
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
   (toggle-read-only)
   (ansi-color-apply-on-region compilation-filter-start (point))
   (toggle-read-only))
+
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 #+END_SRC
 
