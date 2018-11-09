@@ -385,3 +385,9 @@ $e^{2\pi i} \cos{\theta{x}+ \lambda} = -1$
 
 (add-hook 'org-mode-hook 'preview-org-latex-hook)
 #+END_SRC
+
+Preview is small, so we make it twice bigger
+
+#+BEGIN_SRC emacs-lisp
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+#+END_SRC
