@@ -377,8 +377,11 @@ $e^{2\pi i} \cos{\theta{x}+ \lambda} = -1$
       (backward-char 1)
       (org-toggle-latex-fragment))))
 
-(add-hook 'org-mode-hook
-          (lambda ()
-            (org-cdlatex-mode)
-            (add-hook 'post-self-insert-hook #'auto-preview-org-latex 'append 'local)))
+(defun preview-org-latex-hook ()
+  "Hook to auto-preview latex fragments in org buffers"
+  (org-cdlatex-mode)
+  (add-hook 'post-self-insert-hook #'auto-preview-org-latex 'append 'local))
+
+
+(add-hook 'org-mode-hook 'preview-org-latex-hook)
 #+END_SRC
