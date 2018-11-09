@@ -372,7 +372,7 @@ $e^{2\pi i} \cos{\theta{x}+ \lambda} = -1$
 #+BEGIN_SRC emacs-lisp
 (defun auto-preview-org-latex ()
   "Toggles latex-preview when a dollar (latex equation) is followed by space"
-  (when (looking-back (rx "$\n"))
+  (when (looking-back (rx "$"))
     (save-excursion
       (backward-char 1)
       (org-toggle-latex-fragment))))
