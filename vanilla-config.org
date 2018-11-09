@@ -422,6 +422,12 @@ de-select and append typed text. I'd rather have it replace the text.
 (delete-selection-mode t)
 #+END_SRC
 
+** Default line length
+Using [[info:emacs#Fill%20Commands][Fill Commands]] to set a 79 character line length, instead of default 70.
+
+#+BEGIN_SRC emacs-lisp
+(setq fill-column 79)
+#+END_SRC
 * Kill this buffer                                 :keybinding:controversial:
 When pressing the usual buffer-kill keychord, always want to kill the
 current buffer (for larger killings I use ~C-x C-b~).
