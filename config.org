@@ -522,13 +522,9 @@ Lisp editing environment
 (use-package slime
   :config
   (setq inferior-lisp-program "/usr/bin/sbcl")
-  (setq slime-contribs '(slime-fancy)))
+  (setq slime-contribs '(slime-fancy slime-asdf)))
 #+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(use-package common-lisp-snippets)
-#+END_SRC
-
+Loading ASDF definitions is a contrib package, see [[info:slime#ASDF][info:slime#ASDF]].
 * Compilation                                                  :compilation:
 *** System-wide notification of completion
 :PROPERTIES:
