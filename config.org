@@ -573,6 +573,7 @@ hunks directly from there.
 #+BEGIN_SRC emacs-lisp
 (use-package git-gutter
   :config (global-git-gutter-mode +1)
+  :demand t  ;; no lazy-loading allowed!
   :bind
   ("C-x v s" .  git-gutter:stage-hunk)
   ("C-x v n" .  git-gutter:next-hunk)
