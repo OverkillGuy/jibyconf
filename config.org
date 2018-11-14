@@ -1006,7 +1006,7 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 
 * Emacs calendar                                                   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
-** TODO Calendar reminders for events                              :disabled:
+** TODO Calendar reminders for events
 :PROPERTIES:
 :SOURCE:   [[http://irreal.org/blog/?p=6910][Irreal blog]]
 :END:
@@ -1014,7 +1014,7 @@ Use =org-wild-notifier.el=, which uses =alert.el= under the hood.
 
 #+BEGIN_SRC emacs-lisp
 (use-package org-wild-notifier
-  :ensure t
+  :demand t
   :config
   ;; Any even in calendar should ring me up
   (setq org-wild-notifier-keyword-whitelist nil)
