@@ -332,6 +332,11 @@ Edit the path for the PlantUML major mode too
 (setq plantuml-jar-path
       (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'plantuml-mode-hook 'rainbow-mode)
+#+END_SRC
+
 ** Ditaa diagrams
 Pointing emacs to the ditaa executable
 #+BEGIN_SRC emacs-lisp
