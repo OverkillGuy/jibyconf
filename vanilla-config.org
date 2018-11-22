@@ -428,6 +428,14 @@ Using [[info:emacs#Fill%20Commands][Fill Commands]] to set a 79 character line l
 #+BEGIN_SRC emacs-lisp
 (setq fill-column 79)
 #+END_SRC
+** Spell-checker for text buffers
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
+#+END_SRC
+
 * Kill this buffer                                 :keybinding:controversial:
 When pressing the usual buffer-kill keychord, always want to kill the
 current buffer (for larger killings I use ~C-x C-b~).
