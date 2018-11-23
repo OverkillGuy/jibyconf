@@ -10,8 +10,8 @@
 ;; Copyright (C) 2010, Niels Widger, all rights reserved.
 ;; Created: 2009-01-14 08:13:15
 ;; Version: 0.5.6
-;; Last-Updated: Fri Aug 17 19:42:29 2012 (-0400)
-;;           By: Samuel Bronson
+;; Last-Updated: Fri Nov 23 22:55:30 2018 (+0100)
+;;           By: Jb Doyon
 ;; URL: http://www.emacswiki.org/emacs/download/irfc.el
 ;; Keywords: RFC, IETF
 ;; Compatibility: GNU Emacs 22 ~ 23
@@ -187,6 +187,11 @@
 ;;
 
 ;;; Change log:
+;; 2018/11/23
+;;   * Jb Doyon:
+;;      * Changed default url to use HTTPS since IETF website now
+;;        redirects (302) to HTTPS anyway, causing garbage files on
+;;        `irfc-download'
 ;; 2012/08/17
 ;;   * Samuel Bronson:
 ;;      * Added `autoload' cookies in key locations.
@@ -366,7 +371,7 @@ Default is nil."
   :type 'string
   :group 'irfc)
 
-(defcustom irfc-download-base-url "http://www.ietf.org/rfc/"
+(defcustom irfc-download-base-url "https://www.ietf.org/rfc/"
   "The base URL for downloading RFC documents."
   :type 'string
   :group 'irfc)
