@@ -19,6 +19,19 @@ and (future) emacs-only packages sections.
 	org-plantuml-jar-path plantuml-jar-path))
 #+END_SRC
 
+** Download the executable if needed
+:PROPERTIES:
+:SOURCE:   https://hub.docker.com/r/think/plantuml/~/dockerfile/
+:END:
+
+#+BEGIN_SRC makefile :tangle PlantUML.Makefile
+PLANTUML_VERSION=1.2018.13
+PLANTUML_URL=http://downloads.sourceforge.net/project/plantuml/${PLANTUML_VERSION}/plantuml.${PLANTUML_VERSION}.jar
+
+plantuml.jar:
+	wget "${PLANTUML_URL}" -O plantuml.jar
+#+END_SRC
+
 * RTags for C++ navigation                                     :cpp:disabled:
 From [[https://github.com/dfrib/emacs_setup][this guide]]. Need to export the =compile-commands.json= file from
 a CMake invokation, which requires small changes to the projects.
