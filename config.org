@@ -320,23 +320,6 @@ And the associated trigger code:
 (setq org-src-block-faces '(("emacs-lisp" org-block-background)))
 #+END_SRC
 **** TODO Apply the color-coding to other languages as appropriate
-** Set PlantUML jar path                                                :UML:
-It's usually done via ~M-x customize~.
-#+BEGIN_SRC emacs-lisp
-(setq org-plantuml-jar-path
-      (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
-#+END_SRC
-Edit the path for the PlantUML major mode too
-#+BEGIN_SRC emacs-lisp
-;; Install Plantuml mode first
-(setq plantuml-jar-path
-      (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(add-hook 'plantuml-mode-hook 'rainbow-mode)
-#+END_SRC
-
 ** Ditaa diagrams
 Pointing emacs to the ditaa executable
 #+BEGIN_SRC emacs-lisp

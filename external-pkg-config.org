@@ -5,6 +5,20 @@ This is the subset of my emacs configuration files that require
 external (non-emacs) packages. Contrast with [[file:vanilla-config.org]]
 and (future) emacs-only packages sections.
 
+* PlantUml
+:PROPERTIES:
+:SOURCE:   http://plantuml.com/
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package plantuml-mode
+  :config
+  (add-hook 'plantuml-mode-hook 'rainbow-mode)
+  (setq plantuml-jar-path
+	(expand-file-name "~/scripts/plantuml.jar")
+	org-plantuml-jar-path plantuml-jar-path))
+#+END_SRC
+
 * RTags for C++ navigation                                     :cpp:disabled:
 From [[https://github.com/dfrib/emacs_setup][this guide]]. Need to export the =compile-commands.json= file from
 a CMake invokation, which requires small changes to the projects.
