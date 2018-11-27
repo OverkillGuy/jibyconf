@@ -412,6 +412,15 @@ Using [[info:emacs#Fill%20Commands][Fill Commands]] to set a 79 character line l
 (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
 #+END_SRC
 
+The spell-checker does not check the whole buffer on file opened, only
+the text that's been typed.
+
+#+CAPTION: Auto-check the buffer on flyspell-mode enter
+#+BEGIN_SRC emacs-lisp :tangle no
+;; Disabled because slow and intrusive
+(add-hook 'flyspell-mode-hook 'flyspell-buffer)
+#+END_SRC
+
 * Kill this buffer                                 :keybinding:controversial:
 When pressing the usual buffer-kill keychord, always want to kill the
 current buffer (for larger killings I use ~C-x C-b~).
