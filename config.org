@@ -625,6 +625,11 @@ Preview pane should be enabled by default on Latex documents
   :config
   (latex-preview-pane-enable))
 #+END_SRC
+* Lorem ipsum
+#+BEGIN_SRC emacs-lisp
+(use-package lorem-ipsum)
+#+END_SRC
+
 * Major modes
 Major emacs modes I use mostly for syntax highlighting
 ** Restructured text
