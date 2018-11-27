@@ -1032,7 +1032,9 @@ Use =org-wild-notifier.el=, which uses =alert.el= under the hood.
   ;; Any even in calendar should ring me up
   (setq org-wild-notifier-keyword-whitelist nil
 	;; Use property NOTIFY to specify when to remind me (n minutes before)
-	org-wild-notifier-alert-times-property "NOTIFY")
+	org-wild-notifier-alert-times-property "NOTIFY"
+	;; By default, notify X minutes before event
+	org-wild-notifier-alert-time 3)
   ;; Toggle alerts on launch
   (org-wild-notifier-mode))
 #+END_SRC
