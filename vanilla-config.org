@@ -421,6 +421,13 @@ the text that's been typed.
 (add-hook 'flyspell-mode-hook 'flyspell-buffer)
 #+END_SRC
 
+Disable some of the annoying behaviour of =ispell= and configure a
+custom dictionary
+#+BEGIN_SRC emacs-lisp
+(setq ispell-quietly t
+      ispell-silently-savep t
+      ispell-personal-dictionary "~/.jb_dictionary")
+#+END_SRC
 * Kill this buffer                                 :keybinding:controversial:
 When pressing the usual buffer-kill keychord, always want to kill the
 current buffer (for larger killings I use ~C-x C-b~).
