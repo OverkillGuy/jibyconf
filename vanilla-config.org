@@ -428,6 +428,12 @@ custom dictionary
       ispell-silently-savep t
       ispell-personal-dictionary "~/.jb_dictionary")
 #+END_SRC
+Make exceptions for Org mode oddities (code block and property blocks)
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+(add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+#+END_SRC
+
 * Kill this buffer                                 :keybinding:controversial:
 When pressing the usual buffer-kill keychord, always want to kill the
 current buffer (for larger killings I use ~C-x C-b~).
