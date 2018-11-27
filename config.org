@@ -1039,6 +1039,14 @@ Use =org-wild-notifier.el=, which uses =alert.el= under the hood.
   (org-wild-notifier-mode))
 #+END_SRC
 
+Configure package so that alerts of title "Agenda" go to the system
+wide notification system
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'alert-user-configuration
+'(((:title . "Agenda"))
+   libnotify nil))
+#+END_SRC
+
 An example item
 #+BEGIN_SRC org :tangle no
 ,* TODO Super important thing
