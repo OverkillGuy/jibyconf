@@ -1,6 +1,33 @@
 #+TITLE: Bash utilities
 #+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755)
 
+* Emacs aliases in bash
+See more bash aliases and utilities in file:bash_utilities.org.
+I sometimes want to open emacs (server-mode) from the command line,
+and typing "emacsclient" is annoying.
+
+#+BEGIN_SRC shell :tangle ~/.jb_profile.sh
+export EDITOR="emacsclient -a '' -nw"
+alias e="emacsclient -nw"
+#+END_SRC
+** Calculator
+#+BEGIN_SRC shell :tangle ~/.jb_profile.sh
+alias calc="emacsclient -nw -e '(calc)'"
+#+END_SRC
+
+** Magit
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/9b1bhs/emacsshell_protip_alias_magit/
+:END:
+Type =magit= to get a terminal showing the repo.
+See the [[file:config.org::*Magit][magit]] entry for what the hell =magit= is.
+
+#+BEGIN_SRC shell :tangle ~/.jb_profile.sh
+alias magit='emacsclient -nw -a emacs -e "(progn (magit-status) (delete-other-windows))"'
+#+END_SRC
+
+
+
 * De-google repo
 I have an aversion to google repo tool, which breaks all my stuff.
 
