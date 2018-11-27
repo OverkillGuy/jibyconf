@@ -17,8 +17,10 @@ code blocks and load them. This is what I attempt to do here.
 ;; Make sure we tangle from this folder
 ;; (cd buffer-file-name)
 (require 'org)
-; Load first what requires no extra module
+;; Load first what requires no extra module
 (org-babel-load-file "vanilla-config.org")
+; Handy bash things I like too
+(org-babel-load-file "bash_utilities.org")
 ;; Then what requires modules
 (org-babel-load-file "config.org")
 ;; Optionally what requires non-emacs packages

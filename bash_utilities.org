@@ -1,0 +1,60 @@
+#+TITLE: Bash utilities
+#+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755)
+
+* De-google repo
+I have an aversion to google repo tool, which breaks all my stuff.
+
+#+BEGIN_SRC shell :tangle ~/bin/degooglerepo
+#!/usr/bin/env bash
+# AUTHOR: jean-baptiste.doyon@seebyte.com
+
+function usage() {
+    cat  <<EOF
+Usage: $0 manifest
+
+Converts a Google repo manifest.xml to a list of git clone commands printed to stdout
+EOF
+    exit 1
+
+}
+
+[ -z $1 ] && { usage; }
+
+# Assumptions:
+# - manifest uses regex project on each of the repo xml lines
+# - manifest xml entries are each on their own lines
+# - xml tags for entries are doublequote-separated string fields
+# - xml tag fields are ordered REPO-PATH-TAG
+
+
+awk -F'"' '/project/ {print $2 " " $6 " " $4}'  $1 | sed 's|refs/tags/||' \
+	 | awk '{print "git clone ssh://git/" $1 " -b " $2 " " $3}'
+#+END_SRC
+
+
+* Tangle in bash
+From Org manual [[info:org#Batch%20execution][info:org#Batch execution]].
+#+BEGIN_SRC shell :tangle ~/bin/tangle
+#!/bin/sh
+# -*- mode: shell-script -*-
+#
+# tangle files with org-mode
+#
+DIR=`pwd`
+FILES=""
+
+# wrap each argument in the code required to call tangle on it
+for i in $@; do
+    FILES="$FILES \"$i\""
+done
+
+emacs -Q --batch \
+--eval "(progn
+(add-to-list 'load-path (expand-file-name \"~/src/org/lisp/\"))
+(add-to-list 'load-path (expand-file-name \"~/src/org/contrib/lisp/\" t))
+(require 'org)(require 'org-exp)(require 'ob)(require 'ob-tangle)
+(mapc (lambda (file)
+       (find-file (expand-file-name file \"$DIR\"))
+       (org-babel-tangle)
+       (kill-buffer)) '($FILES)))" 2>&1 |grep tangled
+#+END_SRC

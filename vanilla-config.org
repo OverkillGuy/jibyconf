@@ -7,6 +7,7 @@ No extra emacs package allowed, no external tool required, no platform
 specific hack.
 
 * Emacs aliases in bash
+See more bash aliases and utilities in file:bash_utilities.org.
 I sometimes want to open emacs (server-mode) from the command line,
 and typing "emacsclient" is annoying.
 
