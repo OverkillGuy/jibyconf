@@ -20,7 +20,7 @@ code blocks and load them. This is what I attempt to do here.
 ;; Load first what requires no extra module
 (org-babel-load-file "vanilla-config.org")
 ; Handy bash things I like too
-(org-babel-load-file "bash_utilities.org")
+(org-babel-tangle-file "bash_utilities.org")
 ;; Then what requires modules
 (org-babel-load-file "config.org")
 ;; Optionally what requires non-emacs packages
