@@ -47,15 +47,25 @@ then
     usage
 fi
 
+#+END_SRC
+Let's document some of the assumptions we have which might break down
+for other uses.
+
+#+BEGIN_SRC shell :tangle ~/bin/degooglerepo
 # Assumptions:
 # - manifest uses regex project on each of the repo xml lines
 # - manifest xml entries are each on their own lines
 # - xml tags for entries are doublequote-separated string fields
 # - xml tag fields are ordered REPO-PATH-TAG
+# - all repos live under ssh://git/ (whatever your ~/.ssh/config says about it)
+#+END_SRC
 
+Now the usage and documentation is out of the way, here's the real function
 
-awk -F'"' '/project/ {print $2 " " $6 " " $4}'  $1 | sed 's|refs/tags/||' \
-	 | awk '{print "git clone ssh://git/" $1 " -b " $2 " " $3}'
+#+BEGIN_SRC shell :tangle ~/bin/degooglerepo
+awk -F'"' '/project/ {print $2 " " $6 " " $4}'  $1 \
+    | sed 's|refs/tags/||' \
+    | awk '{print "git clone ssh://git/" $1 " -b " $2 " " $3}'
 #+END_SRC
 
 
