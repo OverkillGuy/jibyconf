@@ -4,10 +4,12 @@
 * Emacs aliases in bash
 See more bash aliases and utilities in file:bash_utilities.org.
 I sometimes want to open emacs (server-mode) from the command line,
-and typing "emacsclient" is annoying.
+and typing "emacsclient" is annoying. Use =VISUAL= for curses-based text
+editor, with fallback to vim
 
 #+BEGIN_SRC shell :tangle ~/.jb_profile.sh
-export EDITOR="emacsclient -a '' -nw"
+export VISUAL="emacsclient -a '' -nw"
+export EDITOR="vim"
 alias e="emacsclient -nw"
 #+END_SRC
 ** Calculator
