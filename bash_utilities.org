@@ -68,16 +68,135 @@ awk -F'"' '/project/ {print $2 " " $6 " " $4}'  $1 \
     | awk '{print "git clone ssh://git/" $1 " -b " $2 " " $3}'
 #+END_SRC
 
-
-* Tangle in bash
+* Tangle org-mode files in bash
 From Org manual [[info:org#Batch%20execution][info:org#Batch execution]].
 #+BEGIN_SRC shell :tangle ~/bin/emacs-tangle
 # tangle files with org-mode
-#
+
 emacs -Q --batch --eval "
     (progn
       (require 'ob-tangle)
       (dolist (file command-line-args-left)
-        (with-current-buffer (find-file-noselect file)
-          (org-babel-tangle))))" "$@"
+	(with-current-buffer (find-file-noselect file)
+	  (org-babel-tangle))))" "$@"
 #+END_SRC
+* Exfil scripts
+Scripts for facilitating Bluetooth-based git repo exfiltration. I do
+this to and from work for my Emacs config repo.
+
+I do this by generating a git bundle, naming it with an extension
+compatible with Android Bluetooth file-sending[fn::mimetypes allowed
+are PDF, audio files, and image files], and sending it across to my
+mobile via Bluetooth.
+
+On the other side, once I receive such a bundle file, I need to move
+it to the correct folder, symlink/rename it to =latest.bundle= (my pet
+name for such a file-based git remote) and fetch from it.
+
+
+** Exfil
+
+Assuming we're already in the correct folder.
+#+BEGIN_SRC shell :tangle ~/bin/btexfil
+function usage() {
+    cat  <<EOF
+Usage: $0 prefix refspec
+
+Send a few commits from a git repo via bluetooth
+
+
+Generates a git bundle from given refspec with filename using given prefix
+Then sends it to an interactively selected Bluetooth target
+EOF
+    exit 1
+
+}
+
+if [[ $# -lt 2 ]];
+then
+    usage
+fi
+#+END_SRC
+
+Let's document our variables
+#+BEGIN_SRC shell :tangle ~/bin/btexfil
+FILE_PREFIX=$1
+FILENAME=$FILE_PREFIX-$(date +%Y%m%d)_bundle.pdf
+#+END_SRC
+
+We've used our file parameter so we can remove it from args, leaving
+room for the refspec, which can use up multiple words (like =-b master=)
+
+#+BEGIN_SRC shell :tangle ~/bin/btexfil
+shift
+#+END_SRC
+
+Make a git bundle, which is like exporting git branches or commits as
+files, which you can use as git remote to pull and clone from. Note
+that one cannot push to a bundle.
+
+#+BEGIN_SRC shell :tangle ~/bin/btexfil
+git bundle create "$FILENAME" $*
+#+END_SRC
+
+Send the file to the target via bluetooth. Depending on the system
+(gnome-bluetooth package or blueman), the command might vary, so try both.
+
+#+BEGIN_SRC shell :tangle ~/bin/btexfil
+blueman-sendto "$FILENAME" || \
+    bluetooth-sendto "$FILENAME"
+#+END_SRC
+
+** Extract
+#+BEGIN_SRC shell :tangle ~/bin/btextract
+function usage() {
+    cat  <<EOF
+Usage: $0 bundle path
+
+Load a bundle file in git repository at path
+
+
+Moves a git bundle file to git repository at path filename
+Then creates symlink as latest.bundle and git fetch it
+EOF
+    exit 1
+
+}
+
+if [[ $# -lt 2 ]];
+then
+    usage
+fi
+#+END_SRC
+
+Explicit the variables we'll use
+#+BEGIN_SRC shell :tangle ~/bin/btextract
+FILENAME=$1
+REPOPATH=$2
+
+#+END_SRC
+Displace the file to repo
+#+BEGIN_SRC shell :tangle ~/bin/btextract
+mv "$FILENAME" "$REPOPATH"
+cd $REPOPATH
+#+END_SRC
+
+Create (override) a symbolic link to latest.bundle, a file name
+shorthand I use to define file-based git remotes to fetch from.
+#+BEGIN_SRC shell :tangle ~/bin/btextract
+ln -s -f "$FILENAME" latest.bundle
+
+#+END_SRC
+
+figure out how the remote name is in this repo (usually called bundy,
+bundy the bundle)
+#+BEGIN_SRC shell :tangle ~/bin/btextract
+REMOTE=$(git remote -v | awk '/latest.bundle \(fetch/{print $1}')
+#+END_SRC
+
+Lastly we fetch from that remote.
+#+BEGIN_SRC shell :tangle ~/bin/btextract
+git fetch $REMOTE
+#+END_SRC
+
+We don't remove the file, in case we mucked up some step.
