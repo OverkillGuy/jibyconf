@@ -1,5 +1,5 @@
 #+TITLE: Bash utilities
-#+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755)
+#+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755) :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\nset -euo pipefail\n"
 
 * Emacs aliases in bash
 See more bash aliases and utilities in file:bash_utilities.org.
@@ -32,9 +32,6 @@ alias magit='emacsclient -nw -a emacs -e "(progn (magit-status) (delete-other-wi
 I have an aversion to google repo tool, which breaks all my stuff.
 
 #+BEGIN_SRC shell :tangle ~/bin/degooglerepo
-#!/usr/bin/env bash
-# AUTHOR: jean-baptiste.doyon@seebyte.com
-
 function usage() {
     cat  <<EOF
 Usage: $0 manifest
@@ -62,7 +59,6 @@ awk -F'"' '/project/ {print $2 " " $6 " " $4}'  $1 | sed 's|refs/tags/||' \
 * Tangle in bash
 From Org manual [[info:org#Batch%20execution][info:org#Batch execution]].
 #+BEGIN_SRC shell :tangle ~/bin/emacs-tangle
-#!/bin/sh
 # tangle files with org-mode
 #
 emacs -Q --batch --eval "
