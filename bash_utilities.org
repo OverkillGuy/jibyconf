@@ -7,13 +7,13 @@ I sometimes want to open emacs (server-mode) from the command line,
 and typing "emacsclient" is annoying. Use =VISUAL= for curses-based text
 editor, with fallback to vim
 
-#+BEGIN_SRC shell :tangle ~/.jb_profile.sh
+#+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
 export VISUAL="emacsclient -a '' -nw"
 export EDITOR="vim"
 alias e="emacsclient -nw"
 #+END_SRC
 ** Calculator
-#+BEGIN_SRC shell :tangle ~/.jb_profile.sh
+#+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
 alias calc="emacsclient -nw -e '(calc)'"
 #+END_SRC
 
@@ -24,7 +24,7 @@ alias calc="emacsclient -nw -e '(calc)'"
 Type =magit= to get a terminal showing the repo.
 See the [[file:config.org::*Magit][magit]] entry for what the hell =magit= is.
 
-#+BEGIN_SRC shell :tangle ~/.jb_profile.sh
+#+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
 alias magit='emacsclient -nw -a emacs -e "(progn (magit-status) (delete-other-windows))"'
 #+END_SRC
 
