@@ -1,8 +1,14 @@
 #+TITLE: Bash utilities
 #+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755) :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\nset -euo pipefail\n"
 
-* Emacs aliases in bash
-See more bash aliases and utilities in file:bash_utilities.org.
+* Common bash aliases
+
+#+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
+alias ll='ls -al --color=auto'
+#+END_SRC
+
+
+* Emacs aliases
 I sometimes want to open emacs (server-mode) from the command line,
 and typing "emacsclient" is annoying. Use =VISUAL= for curses-based text
 editor, with fallback to vim
