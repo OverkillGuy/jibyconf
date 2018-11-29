@@ -42,7 +42,10 @@ EOF
 
 }
 
-[ -z $1 ] && { usage; }
+if [[ $# -lt 1 ]];
+then
+    usage
+fi
 
 # Assumptions:
 # - manifest uses regex project on each of the repo xml lines
