@@ -223,6 +223,11 @@ Enable inline images
   (imagemagick-register-types))
 #+END_SRC
 
+Show email addresses:
+#+BEGIN_SRC emacs-lisp
+(setq mu4e-view-show-addresses t)
+#+END_SRC
+
 Make mu4e default email user agent:
 #+BEGIN_SRC emacs-lisp
 (setq mail-user-agent 'mu4e-user-agent)
