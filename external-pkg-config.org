@@ -144,8 +144,6 @@ mbsync -a
 
 Should show no error, with instead a lot of folders being downloaded
 
-*** TODO Cronjob for sync every 5 min
-
 *** TODO (Optional) IMAP IDLE script
 For instant sync (rather than 5min rolling window).
 See [[https://github.com/rlue/little_red_flag][little-red-flag]] or all alternatives
@@ -170,6 +168,34 @@ Make sure that mu4e is accessible in emacs now. If not, copy the
 emacs:
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'load-path "~/.emacs.d/lisp/mu4e/")
+#+END_SRC
+
+#+CAPTION Sample ~/.mbsyncrc
+#+BEGIN_SRC conf :tangle no
+IMAPAccount jibytech
+# Address to connect to
+Host imap.fastmail.com
+User jb@jiby.tech
+PassCmd "pass jiby.tech/fastmail/emacs_hally"
+SSLType IMAPS
+
+IMAPStore jibytech-remote
+Account jibytech
+
+MaildirStore jibytech-local
+Subfolders Verbatim
+# The trailing "/" is important
+Path ~/.mail/jiby.tech/
+Inbox ~/.mail/jiby.tech/Inbox
+
+Channel jibytech
+Master :jibytech-remote:
+Slave :jibytech-local:
+Patterns *
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+# Save the synchronization state files in the relevant directory
+SyncState *
 #+END_SRC
 *** Use
 Index the maildir once
@@ -358,6 +384,20 @@ Options:
 (setq shr-color-visible-distance-min 5)
 (setq shr-use-colors nil)
 (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
+#+END_SRC
+
+#+CAPTION: Mailbox-specific setup
+#+BEGIN_SRC emacs-lisp
+(setq mu4e-maildir (expand-file-name "~/.mail/jiby.tech"))
+(setq mu4e-drafts-folder "/Drafts")
+(setq mu4e-sent-folder   "/Sent")
+(setq mu4e-trash-folder  "/Trash")
+
+(setq mu4e-maildir-shortcuts
+      '(("/INBOX"        . ?i)
+        ("/Sent"         . ?s)
+        ("/Trash"        . ?t)
+        ("/Drafts"       . ?d)))
 #+END_SRC
 
 ** SMTP package to compose emails
