@@ -229,7 +229,8 @@ length, messing up layouts)
 
 Get email every 5 minutes
 #+BEGIN_SRC emacs-lisp
-(setq mu4e-update-interval 300)
+(setq mu4e-update-interval 300
+      mu4e-get-mail-command "mbsync -aq")
 #+END_SRC
 
 Put email attachments in Downloads folder
