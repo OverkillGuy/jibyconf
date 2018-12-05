@@ -405,15 +405,15 @@ Emacs's =smtp= package or independent tool =msmtp= which I've heard
 good things about, such as support for offline email queues.
 
 Extract from mu4e manual, adapted to my server
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
 (require 'smtpmail)
-(setq message-send-mail-function 'smtpmail-send-it
-   starttls-use-gnutls t
-   smtpmail-starttls-credentials '(("smtp.someserver.com" 587 nil nil))
+(setq user-mail-address "FILLMEHERE@jb.jiby.tech"
+   message-send-mail-function 'smtpmail-send-it
+   smtpmail-starttls-credentials '(("smtp.fastmail.com" 465 nil nil))
    smtpmail-auth-credentials
-     '(("smtp.someserver.com" 587 "my.username" nil))
-   smtpmail-default-smtp-server "smtp.someserver.com"
-   smtpmail-smtp-server "smtp.someserver.com"
+     '(("smtp.fastmail.com" 587 "jb@jiby.tech" nil))
+   smtpmail-default-smtp-server "smtp.fastmail.com"
+   smtpmail-smtp-server "smtp.fastmail.com"
    smtpmail-smtp-service 587)
 #+END_SRC
 
