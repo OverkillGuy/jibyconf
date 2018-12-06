@@ -1,6 +1,23 @@
 #+TITLE: Bash utilities
 #+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755) :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\nset -euo pipefail\n"
 
+* Ensure =~/bin= is in =$PATH=                                         :disabled:
+:PROPERTIES:
+:SOURCE:   https://stackoverflow.com/a/9661116/4576325
+:END:
+
+You've gotta be sure! Not ready for prime time though
+
+#+BEGIN_SRC shell :tangle no
+BIN_IN_PATH=$(echo :$PATH: | grep -qx ':$HOME/bin/?:')
+
+if [[ -z $BIN_IN_PATH  ]];
+then
+   echo "~/bin/ is not in the UNIX path"
+else
+   echo "~/bin/ is in the UNIX path"
+fi
+#+END_SRC
 * Common bash aliases
 
 #+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
