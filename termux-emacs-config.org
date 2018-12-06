@@ -144,3 +144,12 @@ our variant instead of the normal diff utility which caused issues.
 (advice-add 'smerge-refine-regions :around #'smerge-refine-subst-wrapper)
 #+END_SRC
 All fixed now!
+* Alerts in Termux
+:PROPERTIES:
+:SOURCE:   https://github.com/gergelypolonkai/alert-termux
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package alert
+  :config
+  (setq alert-default-style 'termux))
+#+END_SRC
