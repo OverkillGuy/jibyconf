@@ -669,6 +669,11 @@ Disabled auto-enabling with the hook:
 (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
 #+END_SRC
 
+** Dockerfile
+#+BEGIN_SRC emacs-lisp
+(use-package dockerfile-mode)
+#+END_SRC
+
 ** Docker-compose
 #+BEGIN_SRC emacs-lisp
 (use-package docker-compose-mode)
