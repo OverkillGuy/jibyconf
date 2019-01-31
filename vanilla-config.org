@@ -479,6 +479,16 @@ is sometimes overriden by the XMPP client I use at work)
 (global-set-key (kbd "C-x C-j") 'dired-jump)
 #+END_SRC
 
+** Dired 2-pane support
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/aja311/first_trial_of_a_weekly_emacs_tipstricksetc_thread/eetygzg/
+:END:
+Given 2 dired panes are open, When a file move/copy action is
+triggered then guess the target directory based on other panels' path.
+
+#+BEGIN_SRC emacs-lisp
+(setq dired-dwim-target t)
+#+END_SRC
 
 * RFC                                                               :rfc:doc:
 :PROPERTIES:
