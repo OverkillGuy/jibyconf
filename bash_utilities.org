@@ -181,9 +181,23 @@ Explicit the variables we'll use
 #+BEGIN_SRC shell :tangle ~/bin/btextract
 FILENAME=$1
 REPOPATH=$2
-
 #+END_SRC
-Displace the file to repo
+
+First stop: if the given repo path doesn't exist, create it by cloning
+the repo there from given bundle.
+
+#+BEGIN_SRC shell :tangle ~/bin/btextract
+if [[ ! -d $REPOPATH ]]
+then
+    echo "Cloning..."
+    git clone $FILENAME $REPOPATH
+    cd $REPOPATH
+    git remote add bundy $REPOPATH/latest.bundle
+    exit 0
+fi
+#+END_SRC
+
+Otherwise displace the file to repo
 #+BEGIN_SRC shell :tangle ~/bin/btextract
 mv "$FILENAME" "$REPOPATH"
 cd $REPOPATH
