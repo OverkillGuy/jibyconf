@@ -404,9 +404,9 @@ Using [[info:emacs#Fill%20Commands][Fill Commands]] to set a 79 character line l
 #+BEGIN_SRC emacs-lisp
 (setq fill-column 79)
 #+END_SRC
-** Spell-checker for text buffers
+** Spell-checker for text buffers                                  :disabled:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (add-hook 'org-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
@@ -423,13 +423,13 @@ the text that's been typed.
 
 Disable some of the annoying behaviour of =ispell= and configure a
 custom dictionary
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (setq ispell-quietly t
       ispell-silently-savep t
       ispell-personal-dictionary "~/.jb_dictionary")
 #+END_SRC
 Make exceptions for Org mode oddities (code block and property blocks)
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
 (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
 #+END_SRC
