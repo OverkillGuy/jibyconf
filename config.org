@@ -833,6 +833,26 @@ bugging me.
 (use-package docker-tramp)
 #+END_SRC
 
+** Go to URLs
+:PROPERTIES:
+:SOURCE:   http://xenodium.com/#actionable-urls-in-emacs-buffers
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package goto-addr
+  :hook ((compilation-mode . goto-address-mode)
+	 (prog-mode . goto-address-prog-mode)
+	 (eshell-mode . goto-address-mode)
+	 (shell-mode . goto-address-mode)
+	 (term-mode . goto-address-mode)
+	 (magit-revision-mode . goto-address-mode))
+  :bind (:map goto-address-highlight-keymap
+	      ("<RET>" . goto-address-at-point)
+	      ("M-<RET>" . newline))
+  :commands (goto-address-prog-mode
+	     goto-address-mode))
+#+END_SRC
+
+
 * Same-frame speedbar                                     :speedbar:disabled:
 A neat project tree system that doesn't invade into a different frame.
 #+BEGIN_SRC emacs-lisp :tangle no
