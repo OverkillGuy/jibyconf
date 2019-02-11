@@ -25,7 +25,7 @@ and (future) emacs-only packages sections.
 :END:
 
 #+BEGIN_SRC makefile :tangle PlantUML.Makefile
-PLANTUML_VERSION=1.2018.13
+PLANTUML_VERSION=1.2019.1
 PLANTUML_URL=http://downloads.sourceforge.net/project/plantuml/${PLANTUML_VERSION}/plantuml.${PLANTUML_VERSION}.jar
 
 plantuml.jar:
