@@ -364,10 +364,15 @@ Stop orgmode from interpreting something_underscore into a subscript.
 (setq org-export-with-sub-superscripts "{}")
 (setq org-use-sub-superscripts "{}")
 #+END_SRC
-** Presentation generator
+** Presentation generator                                          :disabled:
+:LOGBOOK:
+- Note taken on [2019-02-11 Mon 11:20] \\
+  Disabled due since unmaintained.
+  Conflicts with <s since Org 9.2. [[Https://github.com/yjwen/org-reveal/issues/363][Upstream issue]] shows pkg seems abandoned
+:END:
 Using [[https://github.com/yjwen/org-reveal][ox-reveal]] package.
 Customize the title slide to show title, author, and date.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package ox-reveal
   :ensure
   :config
