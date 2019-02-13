@@ -34,6 +34,15 @@ can do that too, with the macro =display-ansi-colors= (from [[https://stackoverf
   (ansi-color-apply-on-region (point-min) (point-max)))
 #+END_SRC
 
+** No beeping
+:PROPERTIES:
+:SOURCE:   https://stackoverflow.com/a/24526435
+:END:
+Avoid gnome beeps
+#+BEGIN_SRC emacs-lisp
+(setq ring-bell-function 'ignore)
+#+END_SRC
+
 * Locale                                                             :locale:
 ** Double spacing navigation
 By default emacs assumes the American typist system of 2 spaces after
