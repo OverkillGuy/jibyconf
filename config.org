@@ -389,6 +389,14 @@ off.
 #+BEGIN_SRC emacs-lisp
 (setq org-html-validation-link nil)
 #+END_SRC
+** Quick templates
+Enable the [[info:org#Structure%20Templates][quick-template]] system.
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-tempo)
+#+END_SRC
+
+
 * C++                                                                   :cpp:
 ** Modern C++ font-lock
 :PROPERTIES:
