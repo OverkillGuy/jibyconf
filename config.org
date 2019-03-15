@@ -863,6 +863,17 @@ bugging me.
 	     goto-address-mode))
 #+END_SRC
 
+* Web browsing
+Improving upon =M-x eww= (see [[info:emacs#EWW][info:emacs#EWW]]) by having the numbered
+navigation:
+
+#+BEGIN_SRC emacs-lisp
+(use-package eww-lnum
+  :config
+  (eval-after-load "eww"
+    '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
+	    (define-key eww-mode-map "F" 'eww-lnum-universal))))
+#+END_SRC
 
 * Same-frame speedbar                                     :speedbar:disabled:
 A neat project tree system that doesn't invade into a different frame.
