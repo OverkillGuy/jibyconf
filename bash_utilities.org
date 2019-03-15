@@ -222,3 +222,31 @@ git fetch $REMOTE
 #+END_SRC
 
 We don't remove the file, in case we mucked up some step.
+
+
+* Emacs daemon systemd
+:PROPERTIES:
+:SOURCE:   https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/sect-managing_services_with_systemd-unit_files#exam-Managing_Services_with_systemd-Emacs_Service
+:END:
+
+
+Copying [[info:emacs#Emacs%20Server][manual's service]] to file:~/.config/systemd/user/
+Or =/etc/systemd/system/emacs.service=
+
+#+BEGIN_SRC conf :tangle emacs.service
+[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/emacs --fg-daemon
+ExecStop=/usr/local/bin/emacsclient --eval "(kill-emacs)"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+#+END_SRC
+
+
