@@ -148,20 +148,6 @@ on error, and many other improvements of quality of life.
  (global-set-key (kbd "C-h k") #'helpful-key))
 #+END_SRC
 
-* Backup files                                              :backup:disabled:
-These files are supposed to save my life, but I can't stand them when
-they're polluting my working directory.
-#+BEGIN_SRC emacs-lisp :tangle no
-;; Make all backups out of sight !
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-  :backup-by-copying t    ; Don't delink hardlinks
-  :version-control t      ; Use version numbers on backups
-  :delete-old-versions t  ; Automatically delete excess backups
-  :kept-new-versions 20   ; how many of the newest versions to keep
-  :kept-old-versions 5    ; and how many of the old
-  )
-#+END_SRC
-
 * Projectile                                            :projectile:disabled:
 :PROPERTIES:
 :CREATED:  [2017-10-23 Mon 13:45]

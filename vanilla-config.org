@@ -89,6 +89,13 @@ Also, hide the === markers around such ~things~.
 (setq org-hide-emphasis-markers t)
 #+END_SRC
 
+* Backup files                                                       :backup:
+These files are supposed to save my life, but I can't stand them when
+they're polluting my working directory.
+#+BEGIN_SRC emacs-lisp :tangle no
+;; NO BACKUPS
+(setq make-backup-files nil)
+#+END_SRC
 
 * Simplify yes/no questions
 :PROPERTIES:
