@@ -126,6 +126,11 @@ Use the form-feed package to draw horizontal lines instead of ~^L~
   (add-hook 'prog-mode-hook 'nyan-mode)
   (setq nyan-animate-nyancat t))
 #+END_SRC
+** Hex RGB Color
+Colorize hexadecimal RGB colors in text.
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-mode)
+#+END_SRC
 
 * Feature discoverability
 :PROPERTIES:
