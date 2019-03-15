@@ -423,6 +423,16 @@ Preview is small, so we make it twice bigger
 #+BEGIN_SRC emacs-lisp
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 #+END_SRC
+* RFC export                                                   :rfc:disabled:
+:PROPERTIES:
+:SOURCE:   https://github.com/choppsv1/org-rfc-export
+:END:
+
+Export org-mode notes as RFC. Requires =xml2rfc=.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package ox-rfc)
+#+END_SRC
+
 * Tridactyl (firefox control)
 Vimperator successor: [[https://addons.mozilla.org/en-GB/firefox/addon/tridactyl-vim][Tridactyl]] ([[https://github.com/tridactyl/tridactyl][Github]]).
 
