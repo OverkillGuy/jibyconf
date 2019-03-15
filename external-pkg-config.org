@@ -5,6 +5,12 @@ This is the subset of my emacs configuration files that require
 external (non-emacs) packages. Contrast with [[file:vanilla-config.org]]
 and (future) emacs-only packages sections.
 
+* Ledger
+
+#+BEGIN_SRC emacs-lisp
+(use-package ledger-mode)
+#+END_SRC
+
 * PlantUml
 :PROPERTIES:
 :SOURCE:   http://plantuml.com/
