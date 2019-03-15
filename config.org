@@ -203,12 +203,19 @@ Find-and-replace over project with =C-c %=
 * Searching
 ** Wgrep
 #+BEGIN_SRC emacs-lisp
-(use-package wgrep
+(use-package wgrep)
+#+END_SRC
+Still have to find a way to bind =ag='s =C-c C-p= to the same binding as
+=wgrep='s =e=.
+
+Use the extension that works with ag.
+#+BEGIN_SRC emacs-lisp
+(use-package wgrep-ag
   :config
   (autoload 'wgrep-ag-setup "wgrep-ag")
   (add-hook 'ag-mode-hook 'wgrep-ag-setup))
 #+END_SRC
-Still have to find a way to bind =ag='s =C-c C-p= to the same binding as =wgrep='s =e=.
+
 * Orgmode                                                               :org:
 ** Fill paragraphs automatically in org-mode                      :usability:
 
