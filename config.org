@@ -1048,6 +1048,12 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 =6LdW
 -----END PGP MESSAGE-----
 
+* Alerts
+#+BEGIN_SRC emacs-lisp
+(use-package alert)
+#+END_SRC
+
+
 * Emacs calendar                                                   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
 ** TODO Calendar reminders for events
