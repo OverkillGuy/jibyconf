@@ -423,3 +423,27 @@ Preview is small, so we make it twice bigger
 #+BEGIN_SRC emacs-lisp
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 #+END_SRC
+* Tridactyl (firefox control)
+Vimperator successor: [[https://addons.mozilla.org/en-GB/firefox/addon/tridactyl-vim][Tridactyl]] ([[https://github.com/tridactyl/tridactyl][Github]]).
+
+See sample [[https://github.com/skeeto/dotfiles/blob/master/_tridactylrc][tridactylrc on Github]] for config.
+
+#+begin_src conf :tangle .tridactylrc
+bind <A-x> fillcmdline_notrail
+
+" L is already bound to (history) forward
+bind l back
+
+bind <C-n> scrollline +3
+bind <C-p> scrollline -3
+
+bind <C-v> scrollpage
+bind <C-A-v> scrollpage -1
+
+
+quickmark n https://news.ycombinator.com/
+quickmark y https://youtube.com/
+set searchurls.s       https://duckduckgo.com/?q=%s
+
+set editorcmd emacsclient
+#+end_src
