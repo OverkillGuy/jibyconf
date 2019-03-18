@@ -1142,6 +1142,27 @@ Use org-mode bindings:
 #+BEGIN_SRC emacs-lisp :tangle no
 (setq cfw:org-overwrite-default-keybinding t)
 #+END_SRC
+* Riot-im
+:PROPERTIES:
+:SOURCE:   https://github.com/alphapapa/matrix-client.el
+:END:
+Experiment with Matrix
+
+Needs QUELPA
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package quelpa-use-package)
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package matrix-client
+  :quelpa ((matrix-client :fetcher github :repo "alphapapa/matrix-client.el"
+                          :files (:defaults "logo.png" "matrix-client-standalone.el.sh"))))
+#+END_SRC
+
+Error first time until I try to =M-x quelpa= once.
+
+Try next via interactive loading of =M-x matrix-client-connect=.
 * Org-mode contacts database
 Single file for contacts, each headline a person, tags for clustering,
 properties for mapping data (phone number etc). Tailored column view
