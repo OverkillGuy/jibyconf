@@ -478,6 +478,26 @@ Org mode's export to PDF option through PDFLatex
 sudo apt-get install texlive-latex-basetex live-fonts-recommended texlive-fonts-extra
 #+end_src
 
+** Export to pdf code highlighting
+:PROPERTIES:
+:SOURCE:   https://joonro.github.io/blog/posts/org-mode-outputdir-minted-latex-export.html
+:END:
+Using =minted=. Source mixed with variable docstring for =org-latex-listings=.
+#+BEGIN_SRC emacs-lisp
+(require 'ox-latex)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+
+(setq org-latex-pdf-process
+      '("pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f"
+        "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f"
+        "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+
+#+begin_src shell
+sudo pip install pygment
+#+end_src
+
 * RFC export                                                   :rfc:disabled:
 :PROPERTIES:
 :SOURCE:   https://github.com/choppsv1/org-rfc-export
