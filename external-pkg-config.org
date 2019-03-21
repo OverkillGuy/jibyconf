@@ -424,7 +424,8 @@ Extract from mu4e manual, adapted to my server
    smtpmail-smtp-service 587)
 #+END_SRC
 
-* Latex previews                                                        :org:
+* Latex                                                                 :org:
+** Live previews
 We can preview LaTeX equations in =org-mode=, but this requires a few
 external packages:
 
@@ -470,6 +471,13 @@ Preview is small, so we make it twice bigger
 #+BEGIN_SRC emacs-lisp
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 #+END_SRC
+
+** Export to PDF
+Org mode's export to PDF option through PDFLatex
+#+begin_src shell
+sudo apt-get install texlive-latex-basetex live-fonts-recommended texlive-fonts-extra
+#+end_src
+
 * RFC export                                                   :rfc:disabled:
 :PROPERTIES:
 :SOURCE:   https://github.com/choppsv1/org-rfc-export
