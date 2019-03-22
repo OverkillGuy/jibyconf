@@ -304,4 +304,33 @@ pass show "$password" | { IFS= read -r pass; printf %s "$pass"; } \
     | xdotool type --clearmodifiers --file -
 #+end_src
 
+* Org to Remarkup
 
+Copied from  [[https://github.com/ajtulloch/phabricator.el/blob/master/org_to_remarkup][github]]
+#+begin_src shell :tangle no
+
+# A hacky script that converts org-mode documents to an old-style
+# Remarkup dialect, used by Phabricator and other tools.
+
+
+
+#set -x
+set -e
+
+pandoc --read=org --write=markdown  \
+    | sed -e "s/-\+-/ \| /g; s/\|\s*$//g"
+#         -e "s/^\|//g" \
+    # --atx-headers $1 \
+    # | sed -e "s/\{\.(.*)\}/lang=\1/g" \
+    # -e "s/\[(.*)\]\((.*)\)/[[\2 | \1]]/g" \
+    # -e "s/^####\s/====\s/g" \
+    # -e "s/^###\s/===\s/g" \
+    # -e "s/^##\s/==\s/g" \
+    # -e "s/^#\s/=\s/g"
+
+
+# "``` {.\\([a-z]+\\)}" to lang=\1
+# <span class=\"label\">\\([[:ascii:]]+?\\)</span> to name="\1",
+#+end_src
+
+#+RESULTS:
