@@ -222,8 +222,9 @@ cd $REPOPATH
 
 Create (override) a symbolic link to latest.bundle, a file name
 shorthand I use to define file-based git remotes to fetch from.
+Separate the file name from a potential file path using =basename(1)=.
 #+BEGIN_SRC shell :tangle ~/bin/btextract
-ln -s -f "$FILENAME" latest.bundle
+ln -s -f $(basename "$FILENAME") latest.bundle
 
 #+END_SRC
 
