@@ -62,3 +62,6 @@ flycheck_*.el
 # ban HTML and tex, potential exported bits of my config.org file
 *.html
 *.tex
+
+# Tangled files like systemd services
+/generated/
