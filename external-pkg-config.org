@@ -532,3 +532,37 @@ set searchurls.s       https://duckduckgo.com/?q=%s
 
 set editorcmd emacsclient
 #+end_src
+* Borg backup
+[[https://www.borgbackup.org/][Borg]] is a backup system that does all I want: chunking, deduplication,
+compression, and encryption.
+
+#+begin_src shell :tangle no
+sudo apt-get install borgbackup
+pip install borgbackup
+#+end_src
+
+See [[https://gitlab.com/WoJ/systemd-borg/tree/master][Example systemd unit+timer]] using for Borg regularly.
+
+#+begin_src conf :tangle generated/borg.unit
+[Unit]
+Description=borg backup
+
+[Service]
+Type=oneshot
+Environment=BORG_REPO=/services/backup/borg/
+Environment=BORG_HOSTNAME_IS_UNIQUE=yes
+ExecStart=/usr/bin/borg create --exclude-from=/services/backup/borg-exclude-srv.txt --list --stats ::srv-${INVOCATION_ID} /
+ExecStartPost=/usr/bin/borg prune -v --list --keep-daily=7 --keep-weekly=4 --keep-within 2d --stats
+#+end_src
+
+
+#+begin_src conf :tangle generated/borg.timer
+[Unit]
+Description=Run borg
+
+[Timer]
+OnCalendar=*-*-* 00/3:00:00
+
+[Install]
+WantedBy=timers.target
+#+end_src
