@@ -92,7 +92,8 @@ Installing =silver-searcher= for quick code lookup instead of
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(use-package helm-ag)
+(use-package helm-ag
+  :after ag helm)
 #+END_SRC
 
 

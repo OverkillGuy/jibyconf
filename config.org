@@ -213,7 +213,8 @@ Use the extension that works with ag.
 (use-package wgrep-ag
   :config
   (autoload 'wgrep-ag-setup "wgrep-ag")
-  (add-hook 'ag-mode-hook 'wgrep-ag-setup))
+  (add-hook 'ag-mode-hook 'wgrep-ag-setup)
+  :after wgrep ag)
 #+END_SRC
 
 * Orgmode                                                               :org:
