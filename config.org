@@ -1191,22 +1191,6 @@ Using org-vcard for import.
 (use-package org-vcard)
 #+END_SRC
 
-* Offline documentation                                                 :doc:
-** Helm-dash
-Use =helm-dash= in Emacs and bind it to =F6=
-
-#+BEGIN_SRC emacs-lisp
-(use-package helm-dash
-  :config
-  (helm-dash-activate-docset "C++")
-  (helm-dash-activate-docset "Python 2")
-  (helm-dash-activate-docset "Docker")
-  (helm-dash-activate-docset "Ansible")
-  (helm-dash-activate-docset "Vagrant")
-  :bind
-  (("<f6>" . helm-dash-at-point)))
-#+END_SRC
-
 * TODO Writing RFC documents
 I want to be able to write down RFC-like documents via org-mode.
 Equivalent via org-spec template: See https://github.com/thi-ng/org-spec

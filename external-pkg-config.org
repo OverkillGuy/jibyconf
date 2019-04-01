@@ -98,6 +98,24 @@ Installing =silver-searcher= for quick code lookup instead of
 
 
 
+* Offline documentation                                                 :doc:
+** Helm-dash                                                       :disabled:
+Use =helm-dash= in Emacs and bind it to =F6=. This actually requires
+=sqlite= which isn't there by default everywhere. Disabled because I
+haven't used it for a while and it's easily broken (very stateful!)
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package helm-dash
+  :config
+  (helm-dash-activate-docset "C++")
+  (helm-dash-activate-docset "Python 2")
+  (helm-dash-activate-docset "Docker")
+  (helm-dash-activate-docset "Ansible")
+  (helm-dash-activate-docset "Vagrant")
+  :bind
+  (("<f6>" . helm-dash-at-point)))
+#+END_SRC
+
 * Email                                                               :email:
 Use =mbsync= to download server-to-maildir, =mu4e= to index/read it,
 emacs SMTP client to send email back, (future) littleredflag for triggering
