@@ -251,7 +251,7 @@ We don't remove the file, in case we mucked up some step.
 Copying [[info:emacs#Emacs%20Server][manual's service]] to file:~/.config/systemd/user/
 Or =/etc/systemd/system/emacs.service=
 
-#+BEGIN_SRC conf :tangle generated/emacs.service
+#+BEGIN_SRC conf :tangle generated/emacs.service :mkdirp yes
 [Unit]
 Description=Emacs text editor
 Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
