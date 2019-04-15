@@ -725,6 +725,12 @@ of implementation, tell it to use guile always.
 (use-package geiser
   :config (setq geiser-default-implementation 'guile))
 #+END_SRC
+** Groovy
+For those sweet, sweet Jenkinsfiles.
+
+#+BEGIN_SRC emacs-lisp
+(use-package groovy-mode)
+#+END_SRC
 
 * REST Client
 Testing HTTP requests via =restclient-mode=
