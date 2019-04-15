@@ -198,8 +198,10 @@ Channel jibytech
 Master :jibytech-remote:
 Slave :jibytech-local:
 Patterns *
-# Automatically create missing mailboxes, both locally and on the server
+# Automatically create missing mailboxes both sides, as well as deletions
 Create Both
+Remove Both
+
 # Save the synchronization state files in the relevant directory
 SyncState *
 #+END_SRC
