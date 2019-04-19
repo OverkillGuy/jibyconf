@@ -575,6 +575,12 @@ Effectively giving user a template system.
   :config
   (yas-global-mode 1))
 #+END_SRC
+And the default snippets:
+
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet-snippets
+  :after (yasnippet))
+#+END_SRC
 
 Separate file with snippets at [[file:snippets.org]] (in this folder).
 #+INCLUDE: snippets.org
