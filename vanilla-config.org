@@ -522,6 +522,17 @@ Also, define a more convenient alias for the name =rfc=.
   (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
   (defalias 'rfc 'irfc-visit))
 #+END_SRC
+
+* Manpages link
+:PROPERTIES:
+:SOURCE:   https://orgmode.org/manual/Adding-hyperlink-types.html
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(load-file "packages/org-man.el")
+(require 'org-man)
+#+END_SRC
+
 * Open documentation folder read-only
 :PROPERTIES:
 :SOURCE:   https://dev.to/bravotan/how-to-set-up-emacs-to-open-read-only-depending-on-file-location-5g6m
