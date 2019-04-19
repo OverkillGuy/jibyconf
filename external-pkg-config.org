@@ -547,7 +547,7 @@ Vimperator successor: [[https://addons.mozilla.org/en-GB/firefox/addon/tridactyl
 
 See sample [[https://github.com/skeeto/dotfiles/blob/master/_tridactylrc][tridactylrc on Github]] for config.
 
-#+begin_src conf :tangle .tridactylrc
+#+begin_src conf :tangle generated/.tridactylrc
 bind <A-x> fillcmdline_notrail
 
 " L is already bound to (history) forward
