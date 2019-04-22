@@ -23,14 +23,14 @@ code blocks and load them. This is what I attempt to do here.
 (org-babel-tangle-file "bash_utilities.org")
 ;; Then what requires modules
 (org-babel-load-file "config.org")
-;; Optionally what requires non-emacs packages
-(org-babel-load-file "external-pkg-config.org")
 (if (display-graphic-p)
     (org-babel-load-file "config-X11.org"))
 ;; Android package-level usernames
 (if (string-match "u[0-9]_a[0-9+]" (user-login-name))
     (org-babel-load-file "termux-emacs-config.org"))
 (org-babel-tangle-file "snippets.org")
+;; Optionally what requires non-emacs packages
+(org-babel-load-file "external-pkg-config.org")
 #+END_SRC
 
 
