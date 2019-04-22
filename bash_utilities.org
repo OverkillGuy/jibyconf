@@ -226,11 +226,13 @@ git bundle create "$FILENAME" $*
 #+END_SRC
 
 Send the file to the target via bluetooth. Depending on the system
-(gnome-bluetooth package or blueman), the command might vary, so try both.
+(gnome-bluetooth package, blueman or termux's share), the command
+might vary, so try all.
 
 #+BEGIN_SRC shell :tangle ~/bin/btexfil
 blueman-sendto "$FILENAME" || \
-    bluetooth-sendto "$FILENAME"
+    bluetooth-sendto "$FILENAME" || \
+    termux-share -a send "$FILENAME"
 #+END_SRC
 
 ** Extract
