@@ -24,7 +24,30 @@ fi
 alias ll='ls -al --color=auto'
 #+END_SRC
 
-* Git diff for documentation
+* Git configurations
+** Git graph option
+For newbies and experts alike, git is a bit hard to visualize.
+Here's a handy alias to make understanding git easier.
+
+
+#+begin_src conf
+[alias]
+	graph = log --decorate --oneline --graph
+#+end_src
+
+Invoke with
+
+: git graph
+
+Show graph for all branches via
+
+: git graph --all
+
+When this isn't set on a machine (coworkers or servers I am just
+passing through), I usually remember it by the mnemonic device =git DOG=
+(like a puppy!).
+
+** Git diff for prose
 :PROPERTIES:
 :SOURCE:   https://scripter.co/git-diff-minified-js-and-css/
 :END:
@@ -53,7 +76,7 @@ change. All thanks to the magic of [[man:gitattributes][gitattributes(5)]] and [
 *.txt diff=sentences
 #+end_src
 
-** CHANGELOG "take both"
+** CHANGELOG.md "take both" option
 Similarly, merging changelogs is a pain, as conflicts usually need
 manual fixing. Exploit the default merge driver "union" to
 automatically "take both changesets".
@@ -62,6 +85,7 @@ automatically "take both changesets".
 #+begin_src conf :tangle no
 CHANGELOG.md merge=union
 #+end_src
+
 * Emacs aliases
 I sometimes want to open emacs (server-mode) from the command line,
 and typing "emacsclient" is annoying. Use =VISUAL= for curses-based text
