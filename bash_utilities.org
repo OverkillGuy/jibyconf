@@ -24,6 +24,34 @@ fi
 alias ll='ls -al --color=auto'
 #+END_SRC
 
+* Git diff for documentation
+:PROPERTIES:
+:SOURCE:   https://scripter.co/git-diff-minified-js-and-css/
+:END:
+
+Replace period+whitespace with newlines, to help with git diffing
+long lines in prose text, like documentation.
+
+#+begin_src shell :tangle ~/bin/breaksentences
+sed -r -e 's/\. +/.\n/g' $*
+#+end_src
+
+This script just breaks sentences into lines. Once added to path, the
+script can be added as a diff driver in a git config (either
+=~/.gitconfig= or =.git/config=. Once driver exists, it can be referenced
+in a =.gitattributes= file to show diffs on a super long line as tiny
+change. All thanks to the magic of [[man:gitattributes][gitattributes(5)]] and [[man:git-config][git-config(5)]].
+
+#+CAPTION: Adding a new diff driver in ~/.gitconfig
+#+begin_src conf :tangle no
+[diff "sentences"]
+	textconv = breaksentences
+#+end_src
+
+#+CAPTION: Using new diff driver in .gitattributes
+#+begin_src conf :tangle no
+*.txt diff=sentences
+#+end_src
 
 * Emacs aliases
 I sometimes want to open emacs (server-mode) from the command line,
