@@ -90,13 +90,16 @@ Also, hide the === markers around such ~things~.
 #+END_SRC
 
 * Backup files                                                       :backup:
-These files are supposed to save my life, but I can't stand them when
-they're polluting my working directory.
-#+BEGIN_SRC emacs-lisp :tangle no
-;; NO BACKUPS
+These [[info:emacs#Backup][backup files]] (named like the file with appended =~=) are supposed
+to save my life, but I can't stand them when they're polluting my
+working directory. I either use =git=, or don't care about the file's
+non-finished status.
+#+BEGIN_SRC emacs-lisp
 (setq make-backup-files nil)
 #+END_SRC
 
+Not to mistake backup files with [[info:emacs#Auto%20Save][auto-saves]] (=#= appended before and
+after normal file name), which I kind of like.
 * Simplify yes/no questions
 :PROPERTIES:
 :SOURCE:   https://www.emacswiki.org/emacs/YesOrNoP
