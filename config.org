@@ -400,7 +400,16 @@ Enable the [[info:org#Structure%20Templates][quick-template]] system.
 #+BEGIN_SRC emacs-lisp
 (require 'org-tempo)
 #+END_SRC
+** Ox-hugo
+Export org files to markdown for [[https://gohugo.io][Hugo]]. Lets me do that blog I always
+wanted to start.
+#+BEGIN_SRC emacs-lisp
+(use-package ox-hugo
+  :after ox
+  :config (setq org-hugo-section "post"))
+#+END_SRC
 
+Checking out the org-customize aspect for org-export-hugo
 
 * C++                                                                   :cpp:
 ** Modern C++ font-lock
