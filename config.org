@@ -112,7 +112,7 @@ Pause key to make the cursor blink
   :bind ("<pause>" . beacon-blink))
 #+END_SRC
 ** Hlines                                                          :disabled:
-Use the form-feed package to draw horizontal lines instead of ~^L~
+Use the form-feed package to draw horizontal lines instead of ~^L~.
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package form-feed
   :config
@@ -347,8 +347,7 @@ this, I make ediff expand the whole file (show all):
 #+BEGIN_SRC emacs-lisp
 (add-hook 'ediff-prepare-buffer-hook #'show-all)
 #+END_SRC
-** TODO Autolist
-See [[https://github.com/calvinwyoung/org-autolist][Github page]]
+
 ** Async code execution
 Via [[https://github.com/astahlman/ob-async][ob-async package]] available via MELPA. All code blocks with
 ~:async~ are now executed non-blockingly.
@@ -532,7 +531,7 @@ like yaml-mode to be used when opening them, for the syntax-highlight.
 Find a way to go to definition of that method.
 Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]].
 
-* SLIME
+* SLIME                                                                :lisp:
 Lisp editing environment
 
 #+BEGIN_SRC emacs-lisp
@@ -915,7 +914,7 @@ bugging me.
 	     goto-address-mode))
 #+END_SRC
 
-* Web browsing
+* Web browsing                                                          :web:
 Improving upon =M-x eww= (see [[info:emacs#EWW][info:emacs#EWW]]) by having the numbered
 navigation:
 
@@ -959,10 +958,12 @@ Note that the original keybinding of =C-/= still points to default
 undo, making the occasional undo-tree freeze tolerable.
 
 * Multiple terminals                                               :terminal:
-Use ~multi-term~ for cool terminals in emacs, using [[http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/][this
-configuration]]. Press F5 to open a terminal in the current buffer's
-directory, Control + Pageup/Pagedown to switch between running
-terminals.
+:PROPERTIES:
+:SOURCE:   http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/
+:END:
+Use ~multi-term~ for cool terminals in emacs. Press F5 to open a
+terminal in the current buffer's directory, Control + Pageup/Pagedown
+to switch between running terminals.
 
 #+BEGIN_SRC emacs-lisp
 (use-package multi-term
@@ -1119,7 +1120,7 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 
 * Emacs calendar                                                   :calendar:
 ** TODO Set computer location for sunrise-sunset in calendar
-** TODO Calendar reminders for events
+** Calendar reminders for events
 :PROPERTIES:
 :SOURCE:   [[http://irreal.org/blog/?p=6910][Irreal blog]]
 :END:
@@ -1127,7 +1128,6 @@ Use =org-wild-notifier.el=, which uses =alert.el= under the hood.
 
 #+BEGIN_SRC emacs-lisp
 (use-package org-wild-notifier
-  :demand t
   :config
   ;; Any even in calendar should ring me up
   (setq org-wild-notifier-keyword-whitelist nil
@@ -1160,7 +1160,7 @@ Do that thing super soon !!!
 :PROPERTIES:
 :SOURCE:   [[https://github.com/kiwanami/emacs-calfw][Github]]
 :END:
-
+Really cute UI, but not necessarily adapted to my workflows?
 #+BEGIN_SRC emacs-lisp :tangle no
 (require 'calfw)
 (require 'calfw-org)
@@ -1170,11 +1170,12 @@ Use org-mode bindings:
 #+BEGIN_SRC emacs-lisp :tangle no
 (setq cfw:org-overwrite-default-keybinding t)
 #+END_SRC
-* Riot-im
+* Riot-im                                                          :disabled:
 :PROPERTIES:
 :SOURCE:   https://github.com/alphapapa/matrix-client.el
 :END:
-Experiment with Matrix
+Experiment with Matrix. Disabled till it's actually useful (matrix
+instance running).
 
 Needs QUELPA
 #+BEGIN_SRC emacs-lisp :tangle no
@@ -1200,11 +1201,6 @@ Using org-vcard for import.
 #+BEGIN_SRC emacs-lisp
 (use-package org-vcard)
 #+END_SRC
-
-* TODO Writing RFC documents
-I want to be able to write down RFC-like documents via org-mode.
-Equivalent via org-spec template: See https://github.com/thi-ng/org-spec
-See [[file:/home/jean-baptiste.doyon/Documents/dev-local/org-spec/README.org][README.md of clone of org-spec]].
 
 * Room for improvement
 *** Automated timestamp and ID generation on new header
@@ -1367,3 +1363,5 @@ This would be one more step towards Emacs-only setup (no need for
 Thunderbird calendar).
 
 See existing [[https://github.com/novoid/Memacs/blob/master/memacs/ical.py][ical support in memacs]], and [[http://stackoverflow.com/a/31036500][SO reading CalDAV in Python]].
+
+This has totally been done since then. See [[file:external-pkg-config.org::*Capture%20invitations%20to%20calendar][ical2orgpy]].
