@@ -169,7 +169,9 @@ $0
 #key : uml
 # --
 ,#+BEGIN_SRC plantuml :file ${1:image_path}.png
+@startuml
 $0
+@enduml
 ,#+END_SRC
 #+END_SRC
 
