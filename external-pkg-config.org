@@ -32,7 +32,7 @@ and (future) emacs-only packages sections.
 
 #+BEGIN_SRC makefile :tangle PlantUML.Makefile
 PLANTUML_VERSION=1.2019.1
-PLANTUML_URL=http://downloads.sourceforge.net/project/plantuml/${PLANTUML_VERSION}/plantuml.${PLANTUML_VERSION}.jar
+PLANTUML_URL=https://downloads.sourceforge.net/project/plantuml/${PLANTUML_VERSION}/plantuml.${PLANTUML_VERSION}.jar
 
 plantuml.jar:
 	wget "${PLANTUML_URL}" -O plantuml.jar
