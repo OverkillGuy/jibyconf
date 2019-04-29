@@ -18,21 +18,6 @@ Great resources for any emacs setup:
 - [[http://doc.rix.si/cce/cce-org.html][Some other config]] incl google dork for [[google: site:doc.rix.si/cce]]
 
 
-* Organisation
-While this git repository contains many files, this specific one is a
-generic emacs configuration, applicable to all of my devices,
-containing only the reasonably public elements of information.
-A separate file contains more personal information such as email
-configuration, chat systems, etc.
-
-As an avid terminal user, I use [[https://termux.com/][Termux]], an Android terminal emulator.
-This allows me to get Emacs on the go as well as all my CLI tools. A
-dedicated emacs+termux config file is [[file:termux-emacs-config.org]].
-
-As the number of snippets I use grew, I spun them out into
-[[file:snippets.org]].
-
-
 * Config file setup
 This file is part of a git repository that I sync across devices.
 ** TODO [#A] Use this orgfile as init.el                           :disabled:

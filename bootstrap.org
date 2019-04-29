@@ -1,4 +1,5 @@
 #+TITLE: Bootstrapping an Emacs configuration
+#+PROPERTY: header-args :tangle yes :results silent
 
 In order for my Emacs configuration to become +sentient+ useful, I
 need to be able to launch a single command which bootstraps the entire
@@ -6,45 +7,96 @@ emacs environment.
 
 This involves reading my config files, and toggling the ones that are
 relevant, like enabling X11-related config when the screen supports
-graphics.
+graphics. While this git repository contains many files, this specific
+one is only the one that points to each of them.
 
 My config files are laid out in Org mode files, contained inside code
-snippets, surrounded by the reasoning surrounding them.
-The ideal bootstrapping system would load these text files, parse the
-code blocks and load them. This is what I attempt to do here.
+snippets, surrounded by the reasoning explaining them. The ideal
+bootstrapping system would load these text files, parse the code
+blocks and load them. I'm close enough for now.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+- [[file:bootstrap.org][bootstrap.org]] :: Bootstraps the config system!
+- [[file:bash_utilities.org][bash_utilities.org]] :: Bash scripts and aliases I love to use
+- [[file:vanilla-config.org][vanilla-config.org]] :: Portable settings for standard Emacs
+- [[file:config.org][config.org]] :: Setup using Emacs packages
+- [[file:config-X11.org][config-X11.org]] :: Setup for when a X11 server is available
+- [[file:termux-config.org][termux-config.org]] :: Only applicable to Termux
+- [[file:snippets.org][snippets.org]] :: Various Yasnippets templates
+- [[file:external-pkg-config.org][external-pkg-config.org]] :: Requires external (system) packages
+
+I want to make it so a single load-file bootstraps everything. This is
+currently OK by loading =bootstrap.el= (generated from code below), but
+so far only works manually by loading (pressing =L= in dired).
+
+#+BEGIN_SRC emacs-lisp
 ;; Make sure we tangle from this folder
+;; Disabled due to bugs
 ;; (cd buffer-file-name)
+#+END_SRC
+
+To enable the bootstrapping, we need to be able to parse org files. So
+first we force-load =org= (if it wasn't used before). Org mode is
+installed by default in Emacs, albeit a stale version.
+#+BEGIN_SRC emacs-lisp
 (require 'org)
-;; Load first what requires no extra module
+#+END_SRC
+
+Then load first what requires no extra module.
+#+BEGIN_SRC emacs-lisp
 (org-babel-load-file "vanilla-config.org")
-; Handy bash things I like too
+#+END_SRC
+
+=org-babel-load-file= reads the org file and tangles elisp, then runs
+that code.
+
+Next up is regenerating my bash utilities
+#+BEGIN_SRC emacs-lisp
 (org-babel-tangle-file "bash_utilities.org")
-;; Then what requires modules
+#+END_SRC
+
+Then what requires modules (fetched from the internet)
+#+BEGIN_SRC emacs-lisp
 (org-babel-load-file "config.org")
+#+END_SRC
+Check if we're in a GUI and load the adequate config accordingly.
+#+BEGIN_SRC emacs-lisp
 (if (display-graphic-p)
     (org-babel-load-file "config-X11.org"))
+#+END_SRC
+
+As an avid terminal user, I use [[https://termux.com/][Termux]], an Android terminal emulator.
+This allows me to get Emacs on the go as well as all my CLI tools.
+
+#+BEGIN_SRC emacs-lisp
 ;; Android package-level usernames
 (if (string-match "u[0-9]_a[0-9+]" (user-login-name))
-    (org-babel-load-file "termux-emacs-config.org"))
+    (org-babel-load-file "termux-config.org"))
+#+END_SRC
+
+As the number of snippets I use grew, I spun them out into their own
+file. This allows me to load them exclusively.
+#+BEGIN_SRC emacs-lisp
 (org-babel-tangle-file "snippets.org")
-;; Optionally what requires non-emacs packages
+#+END_SRC
+
+Lastly, load what requires non-emacs (system) packages, such as email
+clients and fancy code searching tools.
+#+BEGIN_SRC emacs-lisp
 (org-babel-load-file "external-pkg-config.org")
 #+END_SRC
 
-
+* Allow git pushes on master
 This repository is stored as git repo, which is set to receive new
 versions of master as updates (instead of rejecting the push to
 checked out branch.
-#+begin_src shell
+#+begin_src shell :tangle no
 git config --local  receive.denyCurrentBranch updateInstead
 #+end_src
 
 More info in the git-config manual:
 
 #+CAPTION: man git-config(1)
-#+begin_example
+#+begin_example :tangle no
        receive.denyCurrentBranch
 	   [...]
 
