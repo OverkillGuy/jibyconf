@@ -131,6 +131,25 @@ Colorize hexadecimal RGB colors in text.
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode)
 #+END_SRC
+** Remove useless mode descriptors
+Clean up the mode line to hide the modes I use all the time.
+#+BEGIN_SRC emacs-lisp
+(use-package diminish
+  :config
+  (mapcar 'diminish
+	  '(undo-tree-mode
+	    org-cdlatex-mode
+	    yas-minor-mode
+	    git-gutter-mode
+	    helm-mode
+	    helm-gtags-mode
+	    beacon-mode
+	    auto-revert-mode
+	    projectile-mode
+	    hs-minor-mode
+	    eldoc-mode
+	    auto-fill-function)))
+#+END_SRC
 
 * Feature discoverability
 :PROPERTIES:
