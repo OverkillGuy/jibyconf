@@ -8,7 +8,7 @@ specific hack.
 
 * Cosmetic
 ** Theme
-I use ~tango-dark~ and it looks great !
+I use ~tango-dark~ and it looks great!
 #+BEGIN_SRC emacs-lisp
 (load-theme 'tango-dark t)
 #+END_SRC
@@ -19,9 +19,14 @@ bar (which takes an entire character row !).
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-; scroll bar only available in graphics mode
+#+END_SRC
+
+Scroll bar is only available in graphics mode, so we remove it if it
+is on.
+#+BEGIN_SRC emacs-lisp
 (if (display-graphic-p)
     (scroll-bar-mode -1))
+
 #+END_SRC
 
 ** Display ANSI colors                                                :color:
@@ -64,8 +69,6 @@ Force the use of UTF8 everywhere in emacs.
 (set-keyboard-coding-system 'utf-8)
 #+END_SRC
 
-
-
 * Documentation
 I ship a lot of unusual info manuals in =~/dev/doc/info/=, so add it to
 load path of info-mode.
@@ -73,8 +76,6 @@ load path of info-mode.
 (require 'info)
 (add-to-list 'Info-directory-list "~/dev/doc/info")
 #+END_SRC
-
-
 
 * Orgmode verbatim font                                                 :org:
 =Verbatim text= in org-mode should be grey, surrounded by beveled box.
@@ -143,10 +144,9 @@ to make it less likely to exit. See [[info:emacs#Rebinding][info:emacs#Rebinding
 
 
 * C++                                                                   :cpp:
-** indentation
-
+** Indentation
+Style I want to use in c++ mode
 #+BEGIN_SRC emacs-lisp
-;; style I want to use in c++ mode
 (c-add-style "my-style"
 	     '("stroustrup"
 	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
@@ -170,13 +170,11 @@ triggering =c-mode=.
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 #+END_SRC
 
-
 * Show paren in programming modes
 Showing matching brace under the cursor when programming.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'prog-mode-hook 'show-paren-mode)
 #+END_SRC
-
 
 * Compilation                                                  :compilation:
 *** Compilation buffer coloring support
@@ -206,9 +204,9 @@ in search buffers). See [[info:emacs#Compilation%20Mode]].
 (add-hook 'compilation-mode-hook 'next-error-follow-minor-mode)
 #+END_SRC
 Disabled because all my code is compiled within docker which causes
-the jump to fail, requesting me to find the adequate path.
-Until I can make it understand that =/catkin_ws= is equal to
-=~/dev/workspace/=, no point enabling this
+the jump to fail, requesting me to find the adequate path. Until I can
+make it understand that =/catkin_ws= is equal to =~/dev/workspace/=, no
+point enabling this.
 
 *** Auto-follow compile trace till first error
 See [[info:emacs#Compilation][Emacs manual]].
@@ -221,7 +219,6 @@ See [[info:emacs#Single%20Shell][info:emacs#Single Shell]].
 #+BEGIN_SRC emacs-lisp
 (setq async-shell-command-display-buffer nil)
 #+END_SRC
-
 
 * Ediff
 Default merge tool in Emacs.
@@ -243,6 +240,7 @@ an option to "take both versions".
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 #+END_SRC
+
 ** Ediff no separate window
 The conflict resolution tool, by default in GUI Emacs, opens a
 separate tiny frame (<5x5 chars) to control the diff buffer. This is often
@@ -250,7 +248,6 @@ easy to miss, isn't pretty. See [[info:ediff#Window%20and%20Frame%20Configuratio
 #+BEGIN_SRC emacs-lisp
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 #+END_SRC
-
 
 * Gherkin highlight
 Because I believe in using Gherkin even without the frameworks behind
@@ -298,7 +295,8 @@ When editing text, sometimes I need to revert the line truncation that
 (define-key global-map (kbd "M-Q") 'unfill-paragraph)
 #+END_SRC
 ** Identify non-ASCII chars
-Found this really handy when debugging a file with non-obvious UTF8 chars that isn't handled by code
+Found this really handy when debugging a file with non-obvious unicode
+chars that isn't handled by code
 #+BEGIN_SRC emacs-lisp
 (defun find-first-non-ascii-char ()
   "Find the first non-ascii character from point onwards."
@@ -377,9 +375,10 @@ function to cycle forward to more recent kills and bind it to =M-Y=.
 :PROPERTIES:
 :SOURCE:   https://www.emacswiki.org/emacs/KillingAndYanking#toc2
 :END:
-I find very handy the behaviour of =C-w= in the terminal, and it's
-very sad that emacs does not use the same heuristic. Of course, since
-the behaviour of C-w when mark is active is correct, leave it as is.
+I find very handy the behaviour of =C-w= in the terminal (cut word), and
+it's very sad that emacs does not use the same heuristic. Of course,
+since the behaviour of =C-w= when mark is active is correct, leave it as
+is.
 #+BEGIN_SRC emacs-lisp
 (defun unix-werase-or-kill (arg)
   (interactive "*p")
@@ -440,7 +439,6 @@ current buffer (for larger killings I use ~C-x C-b~).
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 #+END_SRC
 
-
 * Dired
 ** Dired make editable
 :PROPERTIES:
@@ -482,22 +480,27 @@ is sometimes overriden by the XMPP client I use at work)
 :PROPERTIES:
 :SOURCE:   https://www.reddit.com/r/emacs/comments/aja311/first_trial_of_a_weekly_emacs_tipstricksetc_thread/eetygzg/
 :END:
-Given 2 dired panes are open, When a file move/copy action is
+Given 2 dired panes are open, when a file move/copy action is
 triggered then guess the target directory based on other panels' path.
 
 #+BEGIN_SRC emacs-lisp
 (setq dired-dwim-target t)
 #+END_SRC
 
+This behaviour emulates cool two-panel systems like midnight
+commander.
+
 * RFC                                                               :rfc:doc:
 :PROPERTIES:
 :SOURCE:   https://www.emacswiki.org/emacs/Irfc
 :END:
-Browsing RFCs in emacs
-The package is only available through the emacswiki, a fairly
-unreliable package source that I can't =use-package= from. Since the
-library has not been changed in years, I've committed it in this
-repository under =packages/irfc.el=.
+Browsing RFCs in emacs. The package is only available through the
+emacswiki, a fairly unreliable package source that I can't =use-package=
+from. Since the library has not been changed in years, I've committed
+it in this repository under =packages/irfc.el=. I even ended up making a
+fix to the lib to use HTTPS by default when the site stopped serving
+HTTP.
+
 #+CAPTION: Create the RFC folder path if needed
 #+BEGIN_SRC shell :tangle no
 mkdir -p ~/dev/doc/rfc

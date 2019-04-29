@@ -29,17 +29,21 @@ I like Monaco as a font, but it's not installed on all my boxes.
 #+END_SRC
 
 ** Symbola fallback
-Use Symbola font ([[http://www.fonts2u.com/symbola.font][download link]]) as fallback font, for those UTF8
-symbols that my coding fonts don't cover. Tip from [[http://endlessparentheses.com/manually-choose-a-fallback-font-for-unicode.html][endless-parentheses]]
-
+:PROPERTIES:
+:SOURCE:   [[http://endlessparentheses.com/manually-choose-a-fallback-font-for-unicode.html][endless-parentheses]]
+:END:
+Use Symbola font ([[http://www.fonts2u.com/symbola.font][download link]]) as fallback font, for those Unicode
+symbols that my coding fonts don't cover.
 #+BEGIN_SRC emacs-lisp
 (set-fontset-font "fontset-default" nil
                   (font-spec :name "Symbola"))
 #+END_SRC
 
 * Powerline                                                  :GUIonly:
-I want my emacs to look cool, so I changed the mode line accordingly.
-Idea came from [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]].
+:PROPERTIES:
+:SOURCE:   [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]]
+:END:
+I want my Emacs to look cool, so I changed the mode line accordingly.
 #+BEGIN_SRC emacs-lisp
 ;; Cosmetic : change modeline aspect
 (use-package powerline
@@ -55,11 +59,10 @@ copying and pasting, I changed the colors to my liking (blue !)
 
 * Mouse avoids cursor
 Using [[help:avoid][avoid package]], moves mouse out of my way when the mouse is
-visible (not in a terminal):
+visible (not in a terminal).
 #+BEGIN_SRC emacs-lisp
 (if (display-mouse-p) (mouse-avoidance-mode 'animate))
 #+END_SRC
-
 
 * Use Firefox for browsing URLs
 My favourite browser!
@@ -72,7 +75,7 @@ My favourite browser!
 - Note taken on [2019-04-29 Mon 22:01] \\
   Doesn't work post-quantum. See [[file:external-pkg-config.org::*Tridactyl%20(firefox%20control)][Tridactyl (firefox control)}]]
 :END:
-From my browser, I can press F8 on textareas to jump to emacs for
+From my browser, I can press =F8= on textareas to jump to emacs for
 longform text editing. This is awesome to edit tickets comfortably.
 This done by using the [[https://addons.mozilla.org/en-US/firefox/addon/its-all-text/][It's All Text]] add-on to Firefox. Too bad the
 extension doesn't work post-quantum (forcing me to stay on
@@ -85,10 +88,13 @@ hotkey=F8
 #+END_SRC
 
 ** Markdown for Phabricator buffers edited via server-mode
+:PROPERTIES:
+:SOURCE:   [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]]
+:END:
 By default, files are opened by =emacsclient= in =text-mode= via
 =server.el=. Since Phabricator, the thing I use most, is using
 [[https://secure.phabricator.com/book/phabricator/article/remarkup/][Remarkup]], a variant of markdown, I want to edit in =markdown-mode=.
-This can be done via hooks in =server.el=. Inspired by [[https://emacs.stackexchange.com/questions/16537/set-edit-with-emacs-major-mode-to-markdown-mode][stackoverflow]].
+This can be done via hooks in =server.el=.
 #+BEGIN_SRC emacs-lisp :tangle no
 (add-hook 'server-switch-hook
           (lambda ()
@@ -98,10 +104,9 @@ This can be done via hooks in =server.el=. Inspired by [[https://emacs.stackexch
 #+END_SRC
 The variable =server-buffer-clients= is meant to be buffer-local, and
 set to non-nil values when the current buffer is edited via
-=server-mode=.
-Checking the buffer name/file name for the "phabricator" prefix works
-because the extension I'm using creates local filenames by using the
-url encoded (replacing slashes with underscores).
+=server-mode=. Checking the buffer name/file name for the "phabricator"
+prefix works because the extension I'm using creates local filenames
+by using the url encoded (replacing slashes with underscores).
 
 * Force enabling dead keys
 My French keyboard on emacs won't type dead keys by default, this fixes it.
