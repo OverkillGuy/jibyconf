@@ -77,7 +77,11 @@ My favourite browser!
 (setq browse-url-browser-function 'browse-url-firefox)
 #+END_SRC
 
-* Editing HTML textarea from Firefox
+* Editing HTML textarea from Firefox                               :disabled:
+:LOGBOOK:
+- Note taken on [2019-04-29 Mon 22:01] \\
+  Doesn't work post-quantum. See [[file:external-pkg-config.org::*Tridactyl%20(firefox%20control)][Tridactyl (firefox control)}]]
+:END:
 From my browser, I can press F8 on textareas to jump to emacs for
 longform text editing. This is awesome to edit tickets comfortably.
 This done by using the [[https://addons.mozilla.org/en-US/firefox/addon/its-all-text/][It's All Text]] add-on to Firefox. Too bad the
