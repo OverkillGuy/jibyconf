@@ -12,7 +12,6 @@ Great resources for any emacs setup:
 - [[http://doc.norang.ca/org-mode.html][NORANG init.el]]
 - [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chuan's setup]]
 - [[http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php][An other init.el sample]]
-- [[https://ilikewhenit.works/blog/6][Simple system via use-package]]
 - [[https://zeekat.nl/articles/making-emacs-work-for-me.html][Yet another guy's emacs setup]]
 - [[https://www.reddit.com/r/unixporn/comments/3lp961/exwm_so_emacs_is_now_my_window_manager/cv844gf/][Cool config]]
 - [[http://doc.rix.si/cce/cce-org.html][Some other config]] incl google dork for [[google: site:doc.rix.si/cce]]
