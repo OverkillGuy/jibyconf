@@ -296,6 +296,11 @@ Load all my common languages
 #+END_SRC
 
 
+** Org separator lines
+Only one line between an entry and the next.
+#+BEGIN_SRC emacs-lisp
+(setq org-cycle-separator-lines 1)
+#+END_SRC
 
 ** Org export
 Do not show me section numbers in export (HTML or \latex)
@@ -1351,21 +1356,6 @@ Bonus points for popping the "IDE perspective" from a cold-boot.
 :END:
 Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
 
-*** Some setups
-
-#+CAPTION: Org-mode setup from https://news.ycombinator.com/reply?id=12863388&goto=item%3Fid%3D12862608%2312863388
-#+BEGIN_SRC emacs-lisp :tangle no
-  (use-package org
-    :bind ("C-c a" . org-agenda)
-    :config
-    (progn
-      (setq org-agenda-files '("~/org"))
-      (setq org-cycle-separator-lines 1)
-      (setq org-todo-keywords '((type "TODO" "PROG" "WAIT" "|" "DONE")))
-      (setq org-todo-keyword-faces '(("TODO" . "brightblack") ("WAIT" . "yellow")))))
-#+END_SRC
-
-- [[https://tuhdo.github.io/helm-intro.html][Helm intro]]
 *** TODO Registers                                               :keybinding:
 Binding files I access often to Emacs registers for quick access.
 * Small project ideas                                           :projectidea:
