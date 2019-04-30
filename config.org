@@ -426,7 +426,19 @@ wanted to start.
 #+END_SRC
 
 Checking out the org-customize aspect for org-export-hugo
+** Bibliography
+:PROPERTIES:
+:SOURCE:   http://kitchingroup.cheme.cmu.edu/blog/2014/05/13/Using-org-ref-for-citations-and-references/
+:END:
 
+#+BEGIN_SRC emacs-lisp
+(use-package org-ref
+  :config
+  (setq org-ref-insert-cite-key "C-c )"))
+#+END_SRC
+
+See [[file:external-pkg-config.org::*Export%20of%20bibliography][Export of bibliography in external-pkg-config]] for fixing the
+bibtex export issue.
 * C++                                                                   :cpp:
 ** Modern C++ font-lock
 :PROPERTIES:

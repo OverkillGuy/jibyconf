@@ -551,6 +551,22 @@ Using =minted=. Source mixed with variable docstring for =org-latex-listings=.
 sudo pip install pygment
 #+end_src
 
+** Export of bibliography
+From [[file:config.org::*Bibliography][Bibliography]] entry, we use =org-ref= to support bibliography in Org
+mode. By default, exporting from org-mode to PDF won't work when
+references are present due to bibtex not being run. [[https://tex.stackexchange.com/questions/114864/how-to-get-bibtex-to-work-with-org-mode-latex-export][Stackoverflow]] has
+found a solution by tweaking the command being run. This requires the
+latexmk package: put in this file due to external (system) package
+required.
+
+
+#+BEGIN_SRC emacs-lisp
+; Old value:
+; ("pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f")
+(setq org-latex-pdf-process (list
+   "latexmk  -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -bibtex -f  %f"))
+#+END_SRC
+
 * RFC export                                                   :rfc:disabled:
 :PROPERTIES:
 :SOURCE:   https://github.com/choppsv1/org-rfc-export
