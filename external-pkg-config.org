@@ -392,6 +392,7 @@ Allows to make email links now.
 :END:
 Using =ical2org-py= to convert the file to org mode. 
 Binding [[info:mu4e#Attachment%20actions][mu4e Attachment actions]] to define a key for it.
+Install via pipsi in github repo. It's easiest.
 
 #+BEGIN_SRC shell :results verbatim :tangle no
 ical2orgpy --help
