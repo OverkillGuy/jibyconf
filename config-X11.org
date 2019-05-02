@@ -4,6 +4,12 @@ The side of my configuration that requires an X11 server, spun off
 from the main configuration file to have clean config loading on non-X
 devices like Termux.
 
+* Disable toolbar
+Remove the GUI tools (open,save etc) that take up a lot of space.
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1)
+#+END_SRC
+
 * Change default font                                         :cosmetic:font:
 I like Monaco as a font, but it's not installed on all my boxes.
 #+BEGIN_SRC emacs-lisp

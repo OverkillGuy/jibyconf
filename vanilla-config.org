@@ -14,10 +14,8 @@ I use ~tango-dark~ and it looks great!
 #+END_SRC
 
 ** Disable toolbars
-Remove all the GUI tools (open,save etc) including the helpful menu
-bar (which takes an entire character row !).
+Remove the helpful menu bar (which takes an entire character row !).
 #+BEGIN_SRC emacs-lisp
-(tool-bar-mode -1)
 (menu-bar-mode -1)
 #+END_SRC
 
