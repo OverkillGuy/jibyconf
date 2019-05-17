@@ -37,6 +37,18 @@ plantuml.jar:
 	wget "${PLANTUML_URL}" -O plantuml.jar
 #+END_SRC
 
+** Disable electric-indent-mode for PlantUML
+:PROPERTIES:
+:SOURCE:   https://stackoverflow.com/a/21183089
+:END:
+It incorrectly tries to put every newline two tabs away, messing up
+all indentation. Disable the electric minor mode in this specific
+language.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'plantuml-mode-hook (lambda () (electric-indent-local-mode -1)))
+#+END_SRC
+
 ** RGB colors
 Toggle RGB coloring in plantuml when rainbow-mode is loaded.
 #+BEGIN_SRC emacs-lisp
