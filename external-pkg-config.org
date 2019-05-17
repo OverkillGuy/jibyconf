@@ -19,7 +19,6 @@ and (future) emacs-only packages sections.
 #+BEGIN_SRC emacs-lisp
 (use-package plantuml-mode
   :config
-  (add-hook 'plantuml-mode-hook 'rainbow-mode)
   (setq plantuml-jar-path
 	(expand-file-name "~/scripts/plantuml.jar")
 	org-plantuml-jar-path plantuml-jar-path))
@@ -37,6 +36,16 @@ PLANTUML_URL=https://downloads.sourceforge.net/project/plantuml/${PLANTUML_VERSI
 plantuml.jar:
 	wget "${PLANTUML_URL}" -O plantuml.jar
 #+END_SRC
+
+** RGB colors
+Toggle RGB coloring in plantuml when rainbow-mode is loaded.
+#+BEGIN_SRC emacs-lisp
+(if (and
+  (featurep 'plantuml-mode)
+  (featurep 'rainbow-mode))
+    (add-hook 'plantuml-mode-hook 'rainbow-mode))
+#+END_SRC
+
 
 * RTags for C++ navigation                                     :cpp:disabled:
 From [[https://github.com/dfrib/emacs_setup][this guide]]. Need to export the =compile-commands.json= file from
