@@ -108,3 +108,31 @@ More info in the git-config manual:
 	   in handy when developing inside a VM to test and fix code on different
 	   Operating Systems.
 #+end_example
+
+* Tangle via Makefile
+:PROPERTIES:
+:header-args:makefile-gmake: :tangle Makefile
+:END:
+Want to be able to use =make= to build my config once and just load it
+every other time.
+
+First we define how to run emacs (which can be overriden during =make=
+invocation). Default value is a normal (no customization) Emacs.
+#+begin_src makefile-gmake
+EMACS=emacs -Q
+#+end_src
+
+Now let's define the generic rule for tangling any file (called a
+[[info:make#Static%20Usage][Static pattern in make docs]]). To build =file.el= we use =file.org=.
+
+#+begin_src makefile-gmake
+%.el: %.org
+	${EMACS} --batch -l org --eval '(org-babel-tangle-file "$<")'
+#+end_src
+
+We can now define the byte-compilation process:
+
+#+begin_src makefile-gmake
+%.elc: %.el
+	${EMACS} --batch '(byte-compile-file "$<")'
+#+end_src
