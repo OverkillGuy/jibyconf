@@ -504,7 +504,7 @@ Extract from mu4e manual, adapted to my server
 We can preview LaTeX equations in =org-mode=, but this requires a few
 external packages:
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC shell :tangle no
 sudo apt-get install dvipng
 #+END_SRC
 
@@ -549,7 +549,7 @@ Preview is small, so we make it twice bigger
 
 ** Export to PDF
 Org mode's export to PDF option through PDFLatex
-#+begin_src shell
+#+begin_src shell :tangle no
 sudo apt-get install texlive-latex-basetex live-fonts-recommended texlive-fonts-extra
 #+end_src
 
@@ -569,7 +569,7 @@ Using =minted=. Source mixed with variable docstring for =org-latex-listings=.
         "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f"))
 #+END_SRC
 
-#+begin_src shell
+#+begin_src shell :tangle no
 sudo pip install pygment
 #+end_src
 
