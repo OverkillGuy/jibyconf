@@ -1,5 +1,5 @@
 #+TITLE: Config-changes subset of my Emacs init
-#+PROPERTY: header-args:emacs-lisp :tangle vanilla.el :results silent
+#+PROPERTY: header-args:emacs-lisp :tangle yes :results silent
 #+PROPERTY: header-args:shell :tangle ~/.jb_emacs_profile
 This file contains the subset of my emacs config files that apply on
 any emacs-enabled machine.

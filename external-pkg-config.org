@@ -1,5 +1,5 @@
 #+TITLE: Configuration requiring external packages
-#+PROPERTY: header-args :tangle external-pkg.el :results silent
+#+PROPERTY: header-args :tangle yes :results silent
 
 This is the subset of my emacs configuration files that require
 external (non-emacs) packages. Contrast with [[file:vanilla-config.org]]

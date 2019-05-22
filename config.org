@@ -1,4 +1,4 @@
-#+PROPERTY: header-args :tangle init.el :results silent
+#+PROPERTY: header-args :tangle yes :results silent
 #+LINK: ddgo https://duckduckgo.com/html/?q=
 #+LINK: google https://duckduckgo.com/html/?q=!g
 #+EXCLUDE_TAGS: noexport disabled
