@@ -95,6 +95,8 @@ editor, with fallback to vim
 export VISUAL="emacsclient -a '' -nw"
 export EDITOR="vim"
 alias e="emacsclient -nw"
+alias emd="emacs --daemon"
+alias emk="killall emacs"
 #+END_SRC
 ** Calculator
 #+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
