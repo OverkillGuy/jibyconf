@@ -444,6 +444,16 @@ Checking out the org-customize aspect for org-export-hugo
 
 See [[file:external-pkg-config.org::*Export%20of%20bibliography][Export of bibliography in external-pkg-config]] for fixing the
 bibtex export issue.
+** ID generation on new header
+=org-id-get-create= allows to get or create a UUID for the current
+ heading, using =org-id= module packaged as part of org mode. See
+ =org-modules= variable for more such modules
+
+#+CAPTION: Generate UUID on heading insertion
+#+BEGIN_SRC emacs-lisp
+(require 'org-id)
+(add-hook 'org-insert-heading-hook #'org-id-get-create)
+#+END_SRC
 * C++                                                                   :cpp:
 ** Modern C++ font-lock
 :PROPERTIES:
