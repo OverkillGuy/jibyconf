@@ -7,6 +7,11 @@
 alias ll='ls -al --color=auto'
 #+END_SRC
 
+#+CAPTION: Show files above 128MB
+#+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
+alias fbig="find . -size +128M -type f -exec ls -sSh {} +"
+#+END_SRC
+
 * Git configurations
 ** Git graph option
 For newbies and experts alike, git is a bit hard to visualize.
