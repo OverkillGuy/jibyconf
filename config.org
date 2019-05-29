@@ -823,6 +823,12 @@ For those sweet, sweet Jenkinsfiles.
 #+BEGIN_SRC emacs-lisp
 (use-package groovy-mode)
 #+END_SRC
+** Apache-conf
+
+#+BEGIN_SRC emacs-lisp
+(use-package apache-mode)
+#+END_SRC
+
 
 * REST Client
 Testing HTTP requests via =restclient-mode=
