@@ -678,3 +678,164 @@ OnCalendar=*-*-* 00/3:00:00
 [Install]
 WantedBy=timers.target
 #+end_src
+
+** Systematize it with borgmatic
+Borgmatic is a yaml-based wrapper around =borgbackup=. It means to
+automate the backing up, validating, culling old backups into a single
+command that can be run as systemd service on a timer. Install via
+=pip=.
+
+#+CAPTION: Generate a config file
+#+begin_src shell :tangle no
+sudo generate-borgmatic-config
+#+end_src
+
+File generated at =/etc/borgmatic/config.yaml=.
+
+
+#+begin_src yaml :tangle no
+location:
+    # List of source directories to backup (required). Globs and tildes are expanded.
+    source_directories:
+        - /home/jiby/
+
+    # Stay in same file system (do not cross mount points).
+    one_file_system: true
+
+    # Paths to local or remote repositories (required). Tildes are expanded. Multiple
+    # repositories are backed up to in sequence. See ssh_command for SSH options like
+    # identity file or port.
+    repositories:
+        - /run/media/jiby/Tony/backup/
+
+    # Alternate Borg local executable. Defaults to "borg".
+    local_path: /usr/bin/borg
+
+    # Any paths matching these patterns are excluded from backups. Globs and tildes
+    # are expanded. See the output of "borg help patterns" for more details.
+    exclude_patterns:
+        - '*.pyc'
+        - ~/*/.cache
+        - /etc/ssl
+        - '*.log'
+
+    # Exclude directories that contain a CACHEDIR.TAG file. See
+    # http://www.brynosaurus.com/cachedir/spec.html for details.
+    exclude_caches: true
+
+    # Exclude directories that contain a file with the given filename.
+    exclude_if_present: .nobackup
+
+# Repository storage options. See
+# https://borgbackup.readthedocs.io/en/stable/usage.html#borg-create and
+# https://borgbackup.readthedocs.io/en/stable/usage/general.html#environment-variables for
+# details.
+storage:
+    # The standard output of this command is used to unlock the encryption key. Only
+    # use on repositories that were initialized with passcommand/repokey encryption.
+    # Note that if both encryption_passcommand and encryption_passphrase are set,
+    # then encryption_passphrase takes precedence.
+    encryption_passcommand: pass show backup/borg/tony
+
+
+    # Type of compression to use when creating archives. See
+    # https://borgbackup.readthedocs.org/en/stable/usage.html#borg-create for details.
+    # Defaults to no compression.
+    # Zstd is meant to be modern = fast and compresses well, good for
+    # new repos w/o/ compatibility issues
+    compression: zstd
+
+    # Umask to be used for borg create.
+    umask: 77
+
+    # Name of the archive. Borg placeholders can be used. See the output of
+    # "borg help placeholders" for details. Default is
+    # "{hostname}-{now:%Y-%m-%dT%H:%M:%S.%f}". If you specify this option, you must
+    # also specify a prefix in the retention section to avoid accidental pruning of
+    # archives with a different archive name format.
+    archive_name_format: 'hally-documents-{now}'
+
+# Retention policy for how many backups to keep in each category. See
+# https://borgbackup.readthedocs.org/en/stable/usage.html#borg-prune for details.
+# At least one of the "keep" options is required for pruning to work.
+retention:
+    # Keep all archives within this time interval.
+    keep_within: 3H
+
+    # Number of hourly archives to keep.
+    keep_hourly: 24
+
+    # Number of daily archives to keep.
+    keep_daily: 7
+
+    # Number of weekly archives to keep.
+    keep_weekly: 4
+
+    # Number of monthly archives to keep.
+    keep_monthly: 6
+
+    # Number of yearly archives to keep.
+    keep_yearly: 1
+
+    # When pruning, only consider archive names starting with this prefix.
+    # Borg placeholders can be used. See the output of "borg help placeholders" for
+    # details. Default is "{hostname}-".
+    prefix: hally
+
+# Consistency checks to run after backups. See
+# https://borgbackup.readthedocs.org/en/stable/usage.html#borg-check and
+# https://borgbackup.readthedocs.org/en/stable/usage.html#borg-extract for details.
+consistency:
+    # List of one or more consistency checks to run: "repository", "archives", and/or
+    # "extract". Defaults to "repository" and "archives". Set to "disabled" to disable
+    # all consistency checks. "repository" checks the consistency of the repository,
+    # "archive" checks all of the archives, and "extract" does an extraction dry-run
+    # of just the most recent archive.
+    checks:
+        - repository
+        - archives
+
+    # Restrict the number of checked archives to the last n. Applies only to the "archives" check.
+    check_last: 3
+
+# Shell commands or scripts to execute before and after a backup or if an error has occurred.
+# IMPORTANT: All provided commands and scripts are executed with user permissions of borgmatic.
+# Do not forget to set secure permissions on this file as well as on any script listed (chmod 0700) to
+# prevent potential shell injection or privilege escalation.
+hooks:
+    # List of one or more shell commands or scripts to execute before creating a backup.
+    before_backup:
+        - echo "`date` - Starting a backup job."
+
+    # List of one or more shell commands or scripts to execute after creating a backup.
+    after_backup:
+        - echo "`date` - Backup created."
+
+    # List of one or more shell commands or scripts to execute in case an exception has occurred.
+    on_error:
+        - echo "`date` - Error while creating a backup."
+#+end_src
+
+
+Let's try to launch via oneshot of systemd service, [[https://torsion.org/borgmatic/docs/how-to/set-up-backups/#systemd][using their sample file]].
+Except we want to use a non-root systemd job.
+
+#+begin_src conf :tangle no
+[Unit]
+Description=borgmatic backup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/borgmatic --config /home/jiby/.config/borgmatic/config.yaml
+#+end_src
+
+Move that file to a systemd user folder and load it to prime it.
+#+begin_src shell :tangle no
+mv borgmatic.service .config/systemd/user/
+systemctl --user load borgmatic.service 
+#+end_src
+
+Running the oneshot service
+#+begin_src shell :tangle no
+systemctl --user start borgmatic.service
+#+end_src
