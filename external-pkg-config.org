@@ -616,7 +616,8 @@ required.
 
 Export org-mode notes as RFC. Requires =xml2rfc=.
 #+BEGIN_SRC emacs-lisp :tangle no
-(use-package ox-rfc)
+(use-package ox-rfc
+  :if '(executable-find "xml2rfc"))
 #+END_SRC
 
 * Tridactyl (firefox control)
