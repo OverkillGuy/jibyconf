@@ -173,7 +173,6 @@ Enable =projectile=, a super smart way to manage projects, using =C-c
 p= as prefix for a bunch of cool tools.
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
-  :ensure t
   :config
   (projectile-mode 1))
 #+END_SRC
@@ -374,9 +373,7 @@ this, I make ediff expand the whole file (show all):
 Via [[https://github.com/astahlman/ob-async][ob-async package]] available via MELPA. All code blocks with
 ~:async~ are now executed non-blockingly.
 #+BEGIN_SRC emacs-lisp
-(use-package ob-async
-  :ensure ob-async)
-
+(use-package ob-async)
 #+END_SRC
 ** Subscript and superscript
 Stop orgmode from interpreting something_underscore into a subscript.
@@ -491,7 +488,6 @@ font-locked. Fixed by adding this module.
 
 #+BEGIN_SRC emacs-lisp
 (use-package modern-cpp-font-lock
-  :ensure t
   :config (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 #+END_SRC
 #+END_SRC
@@ -1115,7 +1111,6 @@ this allows to perform actions on a regex-based subset of a folder.
 #+BEGIN_SRC emacs-lisp
 ;;narrow dired to match filter
 (use-package dired-narrow
-  :ensure t
   :bind (:map dired-mode-map
               ("/" . dired-narrow)))
 #+END_SRC
@@ -1126,7 +1121,6 @@ this allows to perform actions on a regex-based subset of a folder.
 A modern alternative to sr-speedbar, but it's not quite useful yet.
 #+BEGIN_SRC emacs-lisp :tangle no
 (use-package neotree
-  :ensure t
   :bind (([f8] . neotree-toggle))
   :config
   (setq neo-autorefresh nil)
