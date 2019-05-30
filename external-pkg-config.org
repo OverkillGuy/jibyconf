@@ -582,6 +582,7 @@ Using =minted=. Source mixed with variable docstring for =org-latex-listings=.
 (add-to-list 'org-latex-packages-alist '("" "minted"))
 (setq org-latex-listings 'minted)
 
+; NOTE: Intentionally overridden below if latexmk (bibliography support) is available
 (setq org-latex-pdf-process
       '("pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f"
         "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f"
@@ -602,10 +603,10 @@ required.
 
 
 #+BEGIN_SRC emacs-lisp
-; Old value:
-; ("pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f" "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f")
-(setq org-latex-pdf-process (list
-   "latexmk  -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -bibtex -f  %f"))
+(if (executable-find "latexmk")
+    (setq org-latex-pdf-process
+	  (list
+	   "latexmk  -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -bibtex -f  %f")))
 #+END_SRC
 
 * RFC export                                                   :rfc:disabled:
