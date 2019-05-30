@@ -25,7 +25,8 @@ Return nil if COMMAND is not found anywhere in `exec-path'."
 * Ledger
 
 #+BEGIN_SRC emacs-lisp
-(use-package ledger-mode)
+(use-package ledger-mode
+  :if '(executable-find "ledger"))
 #+END_SRC
 
 * PlantUml
@@ -35,6 +36,7 @@ Return nil if COMMAND is not found anywhere in `exec-path'."
 
 #+BEGIN_SRC emacs-lisp
 (use-package plantuml-mode
+  :if (file-exists-p "~/scripts/plantuml.jar")
   :config
   (setq plantuml-jar-path
 	(expand-file-name "~/scripts/plantuml.jar")
@@ -126,9 +128,11 @@ Installing =silver-searcher= for quick code lookup instead of
 =projectile-grep=. [[https://github.com/ggreer/the_silver_searcher][Ag link]]
 
 #+BEGIN_SRC emacs-lisp
-(use-package ag)
+(use-package ag
+  :if '(executable-find "ag"))
 #+END_SRC
 
+Using [[info:use-package#after][:after]] keyword to check
 #+BEGIN_SRC emacs-lisp
 (use-package helm-ag
   :after ag helm)
@@ -178,7 +182,7 @@ instead of the more popular but slower =offlineimap=.
 :END:
 You need to build from source to support SSL correctly (=apt-get= has
 an old version of mbsync)
-#+BEGIN_SRC shell :dir ~/Documents/dev-local/ :tangle no
+#+BEGIN_SRC shell :tangle no
 git clone https://git.code.sf.net/p/isync/isync
 #+END_SRC
 
@@ -259,11 +263,7 @@ make -f mu.Makefile
 
 *** Post-build configure steps
 Make sure that mu4e is accessible in emacs now. If not, copy the
-=mu4e/= folder to your custom lisp folder and add the following in
-emacs:
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/lisp/mu4e/")
-#+END_SRC
+=mu4e/= folder to your custom lisp folder and sprinkle config.
 
 #+CAPTION Sample ~/.mbsyncrc
 #+BEGIN_SRC conf :tangle no
@@ -307,8 +307,8 @@ mu find some_keywords
 #+END_SRC
 *** Configure mu4e (emacs interface)
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/lisp/mu4e/")
-(require 'mu4e)
+(use-package mu4e
+ :load-path "~/.emacs.d/lisp/mu4e/")
 #+END_SRC
 
 Don't keep message buffers around
@@ -365,7 +365,8 @@ Add =mu4e= keybinding:
 
 Allow HTML email to be read via PDF when text rendering fails:
 #+BEGIN_SRC emacs-lisp
-(setq mu4e-msg2pdf "/usr/bin/msg2pdf")
+(if-let (msg2pdf "/usr/bin/msg2pdf")
+    (setq mu4e-msg2pdf msg2pdf))
 #+END_SRC
 This needs the extra debian package =maildir-utils-extra=.
 Seems the variable is not bound properly.
