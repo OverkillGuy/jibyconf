@@ -537,10 +537,8 @@ $e^{2\pi i} \cos{\theta{x}+ \lambda} = -1$
 :SOURCE:   https://www.reddit.com/r/emacs/comments/9h44lk/i_can_finally_preview_latex_in_orgmode_took_me/e6asgu9/
 :END:
 
-#+BEGIN_SRC emacs-lisp
-(use-package cdlatex)
-#+END_SRC
-
+We define a preview function that, if enabled as hook, auto-renders
+equations.
 
 #+BEGIN_SRC emacs-lisp
 (defun auto-preview-org-latex ()
@@ -554,16 +552,19 @@ $e^{2\pi i} \cos{\theta{x}+ \lambda} = -1$
   "Hook to auto-preview latex fragments in org buffers"
   (org-cdlatex-mode)
   (add-hook 'post-self-insert-hook #'auto-preview-org-latex 'append 'local))
-
-
-(add-hook 'org-mode-hook 'preview-org-latex-hook)
 #+END_SRC
 
-Preview is small, so we make it twice bigger
-
+Finally, we enable the package =cdlatex= which toggles our hook if the
+executable =dvipng= is found in path. Preview is small, so we make it
+twice bigger.
 #+BEGIN_SRC emacs-lisp
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+(use-package cdlatex
+  :if '(executable-find "dvipng")
+  :config (setq org-format-latex-options
+		(plist-put org-format-latex-options :scale 2.0))
+  :hook (org-mode . preview-org-latex-hook))
 #+END_SRC
+
 
 ** Export to PDF
 Org mode's export to PDF option through PDFLatex
