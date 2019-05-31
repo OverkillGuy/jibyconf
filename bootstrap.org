@@ -25,13 +25,21 @@ blocks and load them. I'm close enough for now.
 - [[file:external-pkg-config.org][external-pkg-config.org]] :: Requires external (system) packages
 
 I want to make it so a single load-file bootstraps everything. This is
-currently OK by loading =bootstrap.el= (generated from code below), but
-so far only works manually by loading (pressing =L= in dired).
+currently OK by loading =bootstrap.el= (generated from code below) +but
+so far only works manually by loading (pressing =L= in dired)+.
 
+Here's what I manually append to my =~/.emacs= file to auto-load.
+#+BEGIN_SRC emacs-lisp :tangle no
+(cd "~/dev/conf/emacs-conf")
+(load-file "bootstrap.el")
+#+END_SRC
+
+We'll need to tangle things later from any folder, so we define here
+our config folder.
 #+BEGIN_SRC emacs-lisp
-;; Make sure we tangle from this folder
-;; Disabled due to bugs
-;; (cd buffer-file-name)
+(defcustom jb/config-repo-path
+  "~/dev/conf/emacs-conf/"
+  "Where to find my (Jb) config repository")
 #+END_SRC
 
 To enable the bootstrapping, we need to be able to parse org files. So
@@ -58,10 +66,19 @@ Then what requires modules (fetched from the internet)
 #+BEGIN_SRC emacs-lisp
 (org-babel-load-file "config.org")
 #+END_SRC
+
 Check if we're in a GUI and load the adequate config accordingly.
+Except we do this by asking to run the check-and-load function after
+each Emacs frame is created. This ensures new frames have GUI loaded
 #+BEGIN_SRC emacs-lisp
-(if (display-graphic-p)
-    (org-babel-load-file "config-X11.org"))
+(defun jb/post-frame-config-load (&optional frame)
+  "Make frame- and/or terminal-local changes."
+  (with-selected-frame (or frame (selected-frame))
+    (if (display-graphic-p)
+	(org-babel-load-file
+	 (concat jb/config-repo-path "config-X11.org")))))
+
+(add-hook 'after-make-frame-functions 'jb/post-frame-config-load)
 #+END_SRC
 
 As an avid terminal user, I use [[https://termux.com/][Termux]], an Android terminal emulator.
