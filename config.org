@@ -31,31 +31,13 @@ Uses the following code:
 #+END_SRC
 Would need to make this a symlink to this file.
 * Packages
-** Emacs repositories
-Official repos for emacs packages
-#+BEGIN_SRC emacs-lisp
-(setq package-archives '(("Gnu" . "https://elpa.gnu.org/packages/")
-;                        ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("Melpa" . "https://melpa.org/packages/")
-			 ("Org" . "https://orgmode.org/elpa/")))
-#+END_SRC
-A fancy aspect of this is [[https://emacs.stackexchange.com/questions/2969/is-it-possible-to-use-both-melpa-and-melpa-stable-at-the-same-time/2976#2976][repository priority]]:
-#+BEGIN_SRC emacs-lisp
-(setq package-archive-priorities
-      '(("Org"    . 10)
-        ("Melpa"  . 5)
-        ("Gnu"    . 0)))
-#+END_SRC
-The reasoning is that the Orgmode repository (serving only one
-package, =org= at latest version) should take priority in any case,
-and I trust melpa more than the (full of stale) Gnu repo.
 ** Use-package
 Package-manager frontend called =use-package=. Setup as described on
 the [[https://github.com/jwiegley/use-package/blob/master/README.md][README.md on Github]].
 
 First, make sure it's available (by installing it if needed)
 #+BEGIN_SRC emacs-lisp
-(package-initialize)
+
 (if (not (locate-library "use-package"))
     (progn
       (package-refresh-contents)
