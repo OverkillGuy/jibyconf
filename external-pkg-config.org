@@ -517,6 +517,12 @@ Extract from mu4e manual, adapted to my server
    smtpmail-smtp-service 587)
 #+END_SRC
 
+** Push Notification via IDLE
+Using IMAP's IDLE verb to get push-style notifications.
+Code is in python.
+
+See =scripts/= folder with the file:scripts/imap_idle_notify.py
+Missing only a systemd service to run it.
 * Latex                                                                 :org:
 ** Live previews
 We can preview LaTeX equations in =org-mode=, but this requires a few
