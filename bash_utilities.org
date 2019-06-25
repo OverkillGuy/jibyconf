@@ -86,6 +86,28 @@ alias e="emacsclient -nw"
 alias emd="emacs --daemon"
 alias emk="killall emacs"
 #+END_SRC
+
+** Pipe to emacs
+:PROPERTIES:
+:CREATED:  [2019-06-12 Wed 11:09]
+:ID:       6fc51204-bdbd-480a-832f-ce82595514ef
+:SOURCE:   https://stackoverflow.com/a/48301066
+:END:
+
+
+#+begin_src shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
+emp () {
+    f=$(mktemp)
+    cat > $f
+    emacsclient $f
+    rm -v $f
+}
+#+end_src
+
+#+begin_src shell :tangle no
+svn diff | emp
+#+end_src
+
 ** Calculator
 #+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
 alias calc="emacsclient -nw -e '(calc)'"
