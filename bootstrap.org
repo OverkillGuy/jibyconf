@@ -127,6 +127,11 @@ clients and fancy code searching tools.
 #+END_SRC
 
 * Allow git pushes on master
+:PROPERTIES:
+:CREATED:  [2019-04-19 Thu 23:21]
+:ID:       6fa38e90-c065-449a-8481-bfac9ea985c8
+:END:
+
 This repository is stored as git repo, which is set to receive new
 versions of master as updates (instead of rejecting the push to
 checked out branch.

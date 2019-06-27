@@ -74,6 +74,16 @@ automatically "take both changesets".
 CHANGELOG.md merge=union
 #+end_src
 
+** Push-on-master updates alias
+:PROPERTIES:
+:CREATED:  [2019-06-27 Thu 01:14]
+:ID:       3a7d9734-2bab-4f0e-b328-87c92ccaa355
+:END:
+As used in [[file:bootstrap.org::*Allow%20git%20pushes%20on%20master][Allow git pushes on master]] of bootstrap.
+
+#+begin_src shell  :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
+alias git-allow-master-push='git config --local  receive.denyCurrentBranch updateInstead'
+#+end_src
 * Emacs aliases
 I sometimes want to open emacs (server-mode) from the command line,
 and typing "emacsclient" is annoying. Use =VISUAL= for curses-based text
