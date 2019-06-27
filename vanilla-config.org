@@ -476,6 +476,42 @@ triggered then guess the target directory based on other panels' path.
 This behaviour emulates cool two-panel systems like midnight
 commander.
 
+** Ediff from marked files
+:PROPERTIES:
+:CREATED:  [2019-06-13 Thu 22:36]
+:ID:       d271390f-d6bb-4c22-9102-f2cb6b4580fc
+:SOURCE:   https://oremacs.com/2017/03/18/dired-ediff/
+:END:
+Convert dired marks to use ediff.
+
+#+BEGIN_SRC emacs-lisp
+;; -*- lexical-binding: t -*-
+(defun ora-ediff-files ()
+  (interactive)
+  (let ((files (dired-get-marked-files))
+	(wnd (current-window-configuration)))
+    (if (<= (length files) 2)
+	(let ((file1 (car files))
+	      (file2 (if (cdr files)
+			 (cadr files)
+		       (read-file-name "file: "
+				       (dired-dwim-target-directory)))))
+	  (if (file-newer-than-file-p file1 file2)
+	      (ediff-files file2 file1)
+	    (ediff-files file1 file2))
+	  (add-hook 'ediff-after-quit-hook-internal
+		    (lambda ()
+		      (setq ediff-after-quit-hook-internal nil)
+		      (set-window-configuration wnd))))
+      (error "no more than 2 files should be marked"))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(define-key dired-mode-map "e" 'ora-ediff-files)
+#+END_SRC
+
+Does not work well for dired marks in multiple panels. Maybe this [[https://stackoverflow.com/questions/18121808/emacs-ediff-marked-files-in-different-dired-buffers][SO answer]]?
+
 * RFC                                                               :rfc:doc:
 :PROPERTIES:
 :SOURCE:   https://www.emacswiki.org/emacs/Irfc
