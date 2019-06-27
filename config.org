@@ -501,20 +501,21 @@ in inverse colors from background)
 
 
 
-** GTAGS integration to helm                                     :helm:gtags:
-#+BEGIN_SRC emacs-lisp
+** GTAGS integration to helm                            :helm:gtags:disabled:
+Unconfigured at system level = disabled. Too much trouble.
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Enable Helm with GTAGS in C and C++ mode
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Enable Helm with GTAGS in C and C++ mode
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Helm-gtags settings (unsure what they do)
 (setq
  helm-gtags-ignore-case t
@@ -527,7 +528,7 @@ in inverse colors from background)
  )
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Adds keybindings for helm
 (eval-after-load "helm-gtags"
   '(progn
