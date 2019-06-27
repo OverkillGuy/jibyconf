@@ -198,6 +198,23 @@ Find-and-replace over project with =C-c %=
 (global-set-key (kbd "C-c M-%") 'projectile-replace-regexp)
 #+END_SRC
 
+** Allow TAB in Helm
+:PROPERTIES:
+:CREATED:  [2019-06-14 Fri 00:32]
+:ID:       e8c3c7b6-c7f3-4372-886b-6a6c39984d4d
+:SOURCE:   https://emacs.stackexchange.com/questions/33727/how-does-spacemacs-allow-tab-completion-in-helm#38235
+:END:
+Untested
+#+BEGIN_SRC emacs-lisp
+;; Remap TAB for completion
+;; Source: https://emacs.stackexchange.com/questions/33727/how-does-spacemacs-allow-tab-completion-in-helm#38235
+;; https://writequit.org/denver-emacs/presentations/2016-03-01-helm.html
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
+;; ;; make TAB works in terminal, C-i is tha same as TAB
+;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+#+END_SRC
+
 * Searching
 ** Wgrep
 #+BEGIN_SRC emacs-lisp
