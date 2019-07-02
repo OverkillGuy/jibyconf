@@ -507,7 +507,9 @@ Convert dired marks to use ediff.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(define-key dired-mode-map "e" 'ora-ediff-files)
+(add-hook 'dired-load-hook
+	  (lambda ()
+	    (define-key dired-mode-map "e" 'ora-ediff-files)))
 #+END_SRC
 
 Does not work well for dired marks in multiple panels. Maybe this [[https://stackoverflow.com/questions/18121808/emacs-ediff-marked-files-in-different-dired-buffers][SO answer]]?
