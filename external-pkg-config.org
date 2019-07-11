@@ -626,7 +626,22 @@ Export org-mode notes as RFC. Requires =xml2rfc=.
   :if '(executable-find "xml2rfc"))
 #+END_SRC
 
-* Tridactyl (firefox control)
+* Firefox control
+:PROPERTIES:
+:CREATED:  [2019-07-11 Thu 11:16]
+:ID:       7125ed01-2c00-4cab-a205-711904296480
+:END:
+
+Reduce mouse usage by using a key (usually =F=) to highlight clickable
+areas in the firefox page.
+
+Tried tridactyl, it's great and does textarea editing in editors too
+but it takes over everything not just these functions.
+** CANCELED Tridactyl
+:LOGBOOK:
+- State "CANCELED"   from              [2019-07-11 Thu 12:35] \\
+  Takes over too much of the screen.
+:END:
 Vimperator successor: [[https://addons.mozilla.org/en-GB/firefox/addon/tridactyl-vim][Tridactyl]] ([[https://github.com/tridactyl/tridactyl][Github]]).
 
 See sample [[https://github.com/skeeto/dotfiles/blob/master/_tridactylrc][tridactylrc on Github]] for config.
