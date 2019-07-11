@@ -98,23 +98,9 @@ Colorize hexadecimal RGB colors in text.
 (use-package rainbow-mode)
 #+END_SRC
 ** Remove useless mode descriptors
-Clean up the mode line to hide the modes I use all the time.
+Clean up the mode line to hide modes I use all the time.
 #+BEGIN_SRC emacs-lisp
-(use-package diminish
-  :config
-  (mapcar 'diminish
-	  '(undo-tree-mode
-	    org-cdlatex-mode
-	    yas-minor-mode
-	    git-gutter-mode
-	    helm-mode
-	    helm-gtags-mode
-	    beacon-mode
-	    auto-revert-mode
-	    projectile-mode
-	    hs-minor-mode
-	    eldoc-mode
-	    auto-fill-function)))
+(use-package diminish)
 #+END_SRC
 
 * Feature discoverability
@@ -166,6 +152,7 @@ and explore its parent folder in dired.
 
 #+BEGIN_SRC emacs-lisp
 (use-package helm
+  :diminish 'helm-mode
   :config
   (helm-mode 1)
   (global-set-key (kbd "C-x b") 'helm-mini))
@@ -648,6 +635,7 @@ Text macros, expanding short snippets into arbitrary length text.
 Effectively giving user a template system.
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
+  :diminish yas-minor-mode
   :config
   (yas-global-mode 1))
 #+END_SRC
@@ -672,6 +660,7 @@ hunks directly from there.
 (use-package git-gutter
   :config (global-git-gutter-mode +1)
   :demand t  ;; no lazy-loading allowed!
+  :diminish 'git-gutter-mode
   :bind
   ("C-x v s" .  git-gutter:stage-hunk)
   ("M-n" .  git-gutter:next-hunk)
@@ -1025,7 +1014,8 @@ Enable it everywhere (replacing the common undo into a tree of file
 modification).
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree
- :config (global-undo-tree-mode))
+  :config (global-undo-tree-mode)
+  :diminish 'undo-tree-mode)
 #+END_SRC
 
 Use ~C-x u~ to open the undo-tree view, optionally ~d~ to view the
