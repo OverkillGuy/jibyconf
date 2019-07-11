@@ -689,6 +689,27 @@ map <c-b> scrollLeft
 map <c-y> yank
 #+end_src
 
+** WithExEditor
+:PROPERTIES:
+:CREATED:  [2019-07-11 Thu 12:36]
+:ID:       9a0b571a-06e7-46fe-bda2-d6f99c5e9f79
+:END:
+
+[[https://addons.mozilla.org/en-US/firefox/addon/withexeditor/][WithExEditor Firefox addon]] to Edit textarea from external text editor.
+
+Set up host side needed.
+
+#+begin_src shell
+VERSION=5.1.3
+mkdir -p dev/foss/WithExEditor
+cd dev/foss/WithExEditor
+wget https://github.com/asamuzaK/withExEditorHost/releases/download/v${VERSION}/linux-x86_64.zip
+unzip linux-x86_64.zip
+chmod u+x index
+./index setup --browser firefox
+#+end_src
+
+
 * Borg backup
 [[https://www.borgbackup.org/][Borg]] is a backup system that does all I want: chunking, deduplication,
 compression, and encryption.
