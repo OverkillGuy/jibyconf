@@ -88,11 +88,14 @@ alias git-allow-master-push='git config --local  receive.denyCurrentBranch updat
 I sometimes want to open emacs (server-mode) from the command line,
 and typing "emacsclient" is annoying. I wish I could use =VISUAL= for
 curses-based text editor, but most systems hardcode use of =EDITOR=
-instead.
+instead. Separate shortcuts for in-terminal client (=e=), or potentially
+GUI one (=ev=).
+
 
 #+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
 export EDITOR="emacsclient -nw"
 alias e="emacsclient -nw"
+alias ev="emacsclient"
 alias emd="emacs --daemon"
 alias emk="killall emacs"
 #+END_SRC
