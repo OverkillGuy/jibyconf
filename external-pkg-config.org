@@ -665,6 +665,30 @@ set searchurls.s       https://duckduckgo.com/?q=%s
 
 set editorcmd emacsclient
 #+end_src
+** Vimium-FF
+:PROPERTIES:
+:CREATED:  [2019-07-11 Thu 11:19]
+:ID:       5b864d1d-b51a-40b7-ac3c-39f56c9168f4
+:END:
+
+The [[https://addons.mozilla.org/en-GB/firefox/addon/vimium-ff][vimium-FF addon]] to move around using vim-style bindings. Defined a
+few Emacs ones below:
+#+begin_src conf
+map <c-v> scrollPageDown
+map <a-v> scrollPageUp
+unmap H
+unmap l
+map l goBack
+
+# Already used in Firefox
+#map <c-p> scrollUp
+# map <c-n> scrollDown
+
+map <c-f> scrollRight
+map <c-b> scrollLeft
+map <c-y> yank
+#+end_src
+
 * Borg backup
 [[https://www.borgbackup.org/][Borg]] is a backup system that does all I want: chunking, deduplication,
 compression, and encryption.
