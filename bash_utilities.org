@@ -86,12 +86,12 @@ alias git-allow-master-push='git config --local  receive.denyCurrentBranch updat
 #+end_src
 * Emacs aliases
 I sometimes want to open emacs (server-mode) from the command line,
-and typing "emacsclient" is annoying. Use =VISUAL= for curses-based text
-editor, with fallback to vim
+and typing "emacsclient" is annoying. I wish I could use =VISUAL= for
+curses-based text editor, but most systems hardcode use of =EDITOR=
+instead.
 
 #+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
-export VISUAL="emacsclient -a '' -nw"
-export EDITOR="vim"
+export EDITOR="emacsclient -nw"
 alias e="emacsclient -nw"
 alias emd="emacs --daemon"
 alias emk="killall emacs"
