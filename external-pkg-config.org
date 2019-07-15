@@ -537,7 +537,7 @@ Using =icalendar-import-file= library:
 Tweak it to support importing to Org mode instead.
 
 * Latex                                                                 :org:
-** Live previews
+** Live previews for equations
 We can preview LaTeX equations in =org-mode=, but this requires a few
 external packages:
 
@@ -585,7 +585,7 @@ twice bigger.
 #+END_SRC
 
 
-** Export to PDF
+** Export to PDF on Ubuntu
 Org mode's export to PDF option through PDFLatex
 #+begin_src shell :tangle no
 sudo apt-get install texlive-latex-basetex live-fonts-recommended texlive-fonts-extra
@@ -626,6 +626,27 @@ required.
     (setq org-latex-pdf-process
 	  (list
 	   "latexmk  -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -bibtex -f  %f")))
+#+END_SRC
+
+** Latex-PDF live sync
+:PROPERTIES:
+:CREATED:  [2019-07-15 Mon 23:12]
+:ID:       c23b24c1-31fe-45dc-bd93-099629cf3a92
+:SOURCE:   https://www.reddit.com/r/emacs/comments/7ux1qj/using_auctex_mode_to_sync_latex_documents_and/
+:SOURCE:   http://pragmaticemacs.com/emacs/view-and-annotate-pdfs-in-emacs-with-pdf-tools/
+:END:
+Uses =pdf-tools=
+
+#+BEGIN_SRC emacs-lisp
+(use-package pdf-tools
+  :config
+  (pdf-tools-install)
+  ;; open pdfs scaled to fit page
+  (setq-default pdf-view-display-size 'fit-page)
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+	TeX-source-correlate-start-server t)
+  ;; revert pdf-view after compilation
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer))
 #+END_SRC
 
 * RFC export                                                   :rfc:disabled:
