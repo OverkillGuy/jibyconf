@@ -37,12 +37,8 @@
   "Words to highlight"
   :group 'fic-mode)
 
-(defcustom fic-foreground-color "Red"
+(defcustom fic-foreground-color "orange red"
   "Font foreground colour"
-  :group 'fic-mode)
-
-(defcustom fic-background-color  "Yellow"
-  "Font background color"
   :group 'fic-mode)
 
 (defcustom font-lock-fic-face 'font-lock-fic-face
@@ -51,7 +47,7 @@
 
 (make-face 'font-lock-fic-face)
 (modify-face 'font-lock-fic-face fic-foreground-color
-             fic-background-color nil t nil t nil nil)
+             nil nil t nil t nil nil)
 
 (defvar fic-search-list-re (regexp-opt fic-highlighted-words 'words)
   "regexp constructed from 'fic-highlighted-words")
