@@ -649,8 +649,8 @@ And the default snippets:
 Separate file with snippets at [[file:snippets.org]] (in this folder).
 #+INCLUDE: snippets.org
 
-* Git                                                                   :git:
-** Git gutter
+
+* Git gutter                                                            :git:
 :PROPERTIES:
 :SOURCE:   https://puntoblogspot.blogspot.com/2018/10/staging-hunks-without-magit.html
 :END:
@@ -668,17 +668,17 @@ hunks directly from there.
 #+END_SRC
 
 More info at https://github.com/syohex/emacs-git-gutter
-** Magit                                                              :magit:
+* Magit                                                                 :git:
 #+BEGIN_SRC emacs-lisp
 (use-package magit)
 #+END_SRC
-*** Show word-diff                                                 :cosmetic:
+** Show word-diff                                                  :cosmetic:
 Shows the equivalent of =git diff --word-diff=
 #+BEGIN_SRC emacs-lisp
 (setq magit-diff-refine-hunk 'all)
 #+END_SRC
 
-*** Git graph shortcuts                                         :keybindings:
+** Git graph shortcuts                                          :keybindings:
 #+CAPTION: Rebind Alt-F12 to magit-status
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-<f12>") 'magit-status)
@@ -687,7 +687,7 @@ Shows the equivalent of =git diff --word-diff=
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
 #+END_SRC
-*** Orgit                                                               :org:
+** Orgit                                                                :org:
 Link to magit buffers from Org documents.
 Install the package ~orgit~. See the documentation in [[https://github.com/magit/orgit][package Github page]].
 
