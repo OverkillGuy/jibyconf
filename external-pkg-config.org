@@ -425,53 +425,6 @@ Allows to make email links now.
   (mu4e-alert-enable-notifications)
   (mu4e-alert-enable-mode-line-display))
 #+END_SRC
-*** Capture invitations to calendar
-:PROPERTIES:
-:SOURCE:   https://github.com/asoroa/ical2org.py
-:END:
-Using =ical2org-py= to convert the file to org mode. 
-Binding [[info:mu4e#Attachment%20actions][mu4e Attachment actions]] to define a key for it.
-Install via pipsi in github repo. It's easiest.
-
-#+BEGIN_SRC shell :results verbatim :tangle no
-ical2orgpy --help
-#+END_SRC
-
-#+RESULTS:
-#+begin_example
-Usage: ical2orgpy [OPTIONS] ICS_FILE ORG_FILE
-
-  Convert ICAL format into org-mode.
-
-  Files can be set as explicit file name, or `-` for stdin or stdout::
-
-      $ ical2orgpy in.ical out.org
-
-      $ ical2orgpy in.ical - > out.org
-
-      $ cat in.ical | ical2orgpy - out.org
-
-      $ cat in.ical | ical2orgpy - - > out.org
-
-Options:
-  -p, --print-timezones     Print acceptable timezone names and exit.
-  -d, --days INTEGER RANGE  Window length in days (left & right from current
-                            time). Has to be positive.
-  -t, --timezone TEXT       Timezone to use. (local timezone by default)
-  -h, --help                Show this message and exit.
-#+end_example
-
-#+BEGIN_SRC emacs-lisp
-(defun convert-to-org-calendar-attachment (msg attachnum)
-  "Converts to org format an (ical) attachment"
-  (mu4e-view-pipe-attachment msg attachnum "ical2orgpy - - >> ~/dev/notes/calendar.org"))
-
-;; defining 'n' as the shortcut
-(add-to-list 'mu4e-view-attachment-actions
-	     '("cSave to calendar" . convert-to-org-calendar-attachment) t)
-#+END_SRC
-
-
 *** Remove HTML email backgrounds
 :PROPERTIES:
 :SOURCE:   https://www.reddit.com/r/emacs/comments/9ep5o1/mu4e_stop_emails_setting_backgroundforeground/
@@ -523,6 +476,66 @@ Code is in python.
 
 See =scripts/= folder with the file:scripts/imap_idle_notify.py
 Missing only a systemd service to run it.
+* Calendar management
+** Capture invitations to calendar
+:PROPERTIES:
+:SOURCE:   https://github.com/asoroa/ical2org.py
+:END:
+Using =ical2org-py= to convert the file to org mode. 
+Binding [[info:mu4e#Attachment%20actions][mu4e Attachment actions]] to define a key for it.
+Install via pipsi in github repo. It's easiest.
+
+#+BEGIN_SRC shell :results verbatim :tangle no
+ical2orgpy --help
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Usage: ical2orgpy [OPTIONS] ICS_FILE ORG_FILE
+
+  Convert ICAL format into org-mode.
+
+  Files can be set as explicit file name, or `-` for stdin or stdout::
+
+      $ ical2orgpy in.ical out.org
+
+      $ ical2orgpy in.ical - > out.org
+
+      $ cat in.ical | ical2orgpy - out.org
+
+      $ cat in.ical | ical2orgpy - - > out.org
+
+Options:
+  -p, --print-timezones     Print acceptable timezone names and exit.
+  -d, --days INTEGER RANGE  Window length in days (left & right from current
+                            time). Has to be positive.
+  -t, --timezone TEXT       Timezone to use. (local timezone by default)
+  -h, --help                Show this message and exit.
+#+end_example
+
+#+BEGIN_SRC emacs-lisp
+(defun convert-to-org-calendar-attachment (msg attachnum)
+  "Converts to org format an (ical) attachment"
+  (mu4e-view-pipe-attachment msg attachnum "ical2orgpy - - >> ~/dev/notes/calendar.org"))
+
+;; defining 'n' as the shortcut
+(add-to-list 'mu4e-view-attachment-actions
+	     '("cSave to calendar" . convert-to-org-calendar-attachment) t)
+#+END_SRC
+*** TODO Via elisp
+:PROPERTIES:
+:CREATED:  [2019-07-15 Mon 12:14]
+:ID:       75455f3f-419c-4a46-9f48-a51bff42c154
+:END:
+
+Using =icalendar-import-file= library:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(icalendar-import-file ICAL-FILENAME DIARY-FILENAME &optional NON-MARKING)
+#+END_SRC
+
+Tweak it to support importing to Org mode instead.
+
 * Latex                                                                 :org:
 ** Live previews
 We can preview LaTeX equations in =org-mode=, but this requires a few
