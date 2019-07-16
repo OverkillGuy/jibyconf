@@ -670,7 +670,10 @@ hunks directly from there.
 More info at https://github.com/syohex/emacs-git-gutter
 * Magit                                                                 :git:
 #+BEGIN_SRC emacs-lisp
-(use-package magit)
+(use-package magit
+  :custom
+  ; don't ask before saving files
+  (magit-save-repository-buffers 'dontask))
 #+END_SRC
 ** Show word-diff                                                  :cosmetic:
 Shows the equivalent of =git diff --word-diff=
