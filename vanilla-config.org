@@ -552,6 +552,20 @@ Also, define a more convenient alias for the name =rfc=.
   (defalias 'rfc 'irfc-visit))
 #+END_SRC
 
+* Show TODO and FIXMEs
+:PROPERTIES:
+:CREATED:  [2019-07-16 Tue 17:54]
+:ID:       f5369a7e-5a2a-4e16-9160-eb76b9960afb
+:END:
+Using =fic-mode=, an old minor mode found in Emacs wiki. It has no home,
+so I adopted it.
+
+#+BEGIN_SRC emacs-lisp
+(load-file "packages/fic-mode.el")
+(add-hook 'prog-mode-hook 'turn-on-fic-mode)
+#+END_SRC
+
+
 * Manpages link
 :PROPERTIES:
 :SOURCE:   https://orgmode.org/manual/Adding-hyperlink-types.html
