@@ -219,3 +219,21 @@ sudo aptitude install $0
 # --
 #!/usr/bin/env python
 #+END_SRC
+
+* Bash
+:PROPERTIES:
+:CREATED:  [2019-07-16 Tue 11:55]
+:ID:       df0d2be1-deb5-4302-80ed-235c76c7c476
+:END:
+
+
+#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/sh-mode/strict :mkdirp yes
+# -*- mode: snippet -*-
+#name : Bash strict mode
+#key : euo
+# --
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+
+#+END_SRC
+
