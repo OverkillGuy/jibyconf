@@ -720,6 +720,7 @@ Use =auctex= and =preview-latex-mode=. Using =xetex= backend
 Preview pane should be enabled by default on Latex documents
 #+BEGIN_SRC emacs-lisp
 (use-package latex-preview-pane
+  :after tex-mode
   :config
   (latex-preview-pane-enable))
 #+END_SRC

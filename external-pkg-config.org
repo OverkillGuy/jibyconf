@@ -639,6 +639,7 @@ Uses =pdf-tools=
 
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
+  :after tex-mode latex-preview-pane
   :config
   (pdf-tools-install)
   ;; open pdfs scaled to fit page
