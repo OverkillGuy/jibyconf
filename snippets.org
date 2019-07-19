@@ -237,3 +237,28 @@ set -euo pipefail
 
 #+END_SRC
 
+
+#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/sh-mode/usage :mkdirp yes
+# -*- mode: snippet -*-
+#name : Script Usage
+#key : usage
+# --
+
+function usage () {
+    cat << EOF
+Usage: \$0 [options]
+
+-h| --help           this is some help text.
+                     this is more help text.
+-1|--first-option    this is my first option
+-2|--second-option   this is my second option
+EOF
+}
+
+
+if [[ "$#" -lt  ${1:number_of_args} ]] ;
+then
+    usage
+    exit 1
+fi
+#+END_SRC
