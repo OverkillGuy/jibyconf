@@ -19,7 +19,11 @@ Great resources for any emacs setup:
 
 * Config file setup
 This file is part of a git repository that I sync across devices.
-** TODO [#A] Use this orgfile as init.el                           :disabled:
+** DONE [#A] Use this orgfile as init.el                           :disabled:
+:LOGBOOK:
+- Note taken on [2019-07-21 Sun 13:28] \\
+  See bootstrap.org
+:END:
 Allows autoloading it.
 See [[http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file][Stackoverflow post on the topic]].
 Uses the following code:
@@ -581,7 +585,11 @@ like yaml-mode to be used when opening them, for the syntax-highlight.
 (add-to-list 'auto-mode-alist '("\\.srv\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.msg\\'" . yaml-mode))
 #+END_SRC
-** TODO Go to method/variable definition                               :helm:
+** CANCELED Go to method/variable definition                           :helm:
+:LOGBOOK:
+- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:29] \\
+  Three years later I don't miss it
+:END:
 Find a way to go to definition of that method.
 Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]].
 
@@ -1186,7 +1194,11 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 
 
 * Emacs calendar                                                   :calendar:
-** TODO Set computer location for sunrise-sunset in calendar
+** CANCELED Set computer location for sunrise-sunset in calendar
+:LOGBOOK:
+- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:29] \\
+  Who cares
+:END:
 ** Calendar reminders for events
 :PROPERTIES:
 :SOURCE:   [[http://irreal.org/blog/?p=6910][Irreal blog]]
@@ -1318,7 +1330,11 @@ There is a mode called Diminish mode that solves it. See [[http://emacs.stackexc
 Need to evaluate what is useless in modeline depending on what I do.
 
 See also: Smart-modeline !
-*** TODO Orgmode buffer switch
+*** CANCELED Orgmode buffer switch
+:LOGBOOK:
+- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:30] \\
+  Who cares
+:END:
 When orgmode opens a buffer it's in the next buffer.
 I want it to happen in a specific place to avoid messing my setup.
 
@@ -1335,5 +1351,9 @@ Bonus points for popping the "IDE perspective" from a cold-boot.
 :END:
 Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
 
-*** TODO Registers                                               :keybinding:
+*** CANCELED Registers                                           :keybinding:
+:LOGBOOK:
+- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:30] \\
+  Who cares
+:END:
 Binding files I access often to Emacs registers for quick access.
