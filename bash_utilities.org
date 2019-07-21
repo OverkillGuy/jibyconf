@@ -138,6 +138,16 @@ alias magit='emacsclient -nw -a emacs -e "(progn (magit-status) (delete-other-wi
 #+END_SRC
 
 
+** Web browser
+:PROPERTIES:
+:CREATED:  [2019-07-21 Sun 13:00]
+:ID:       8ede2f65-8504-4220-bccd-7f86dfd975c2
+:END:
+#+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
+function eww () {
+    emacsclient -nw -e "(eww \"$@\")"
+}
+#+END_SRC
 
 * De-google repo
 I have an aversion to google repo tool, which breaks all my stuff.
