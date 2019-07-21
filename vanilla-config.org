@@ -426,6 +426,11 @@ current buffer (for larger killings I use ~C-x C-b~).
 #+END_SRC
 
 * Dired
+Ensure the mode is loaded for the next bits to happen smoothly
+#+BEGIN_SRC emacs-lisp
+(require 'dired)
+#+END_SRC
+
 ** Dired make editable
 :PROPERTIES:
 :SOURCE:   [[http://pragmaticemacs.com/emacs/batch-edit-file-permissions-in-dired/][pragmaticemacs blog]]
