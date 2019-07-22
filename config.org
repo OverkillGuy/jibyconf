@@ -224,6 +224,17 @@ Use the extension that works with ag.
 #+END_SRC
 
 * Orgmode                                                               :org:
+** Resize inline images
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:38]
+:ID:       ad888ae1-7092-41b1-9a8a-1d44f415d88f
+:SOURCE:   https://emacs.stackexchange.com/a/27916
+:END:
+Don't display images as is, resize as needed.
+#+BEGIN_SRC emacs-lisp
+(setq org-image-actual-width nil)
+#+END_SRC
+
 ** Fill paragraphs automatically in org-mode                      :usability:
 
 #+BEGIN_SRC emacs-lisp
