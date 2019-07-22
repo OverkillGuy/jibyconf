@@ -234,6 +234,18 @@ Instead of hiding all.
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-folded nil)
 #+END_SRC
+** Indenting files
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:41]
+:ID:       9445460f-99bc-4c44-a944-973d68cf8c32
+:SOURCE: [[info:org#Clean%20View][info:org#Clean View]]
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-indented t)
+#+END_SRC
+
+
 ** Resize inline images
 :PROPERTIES:
 :CREATED:  [2019-07-22 Mon 23:38]
