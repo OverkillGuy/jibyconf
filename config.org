@@ -267,6 +267,15 @@ Don't display images as is, resize as needed.
 (setq org-src-ask-before-returning-to-edit-buffer nil)
 #+END_SRC
 
+** Show images by default
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:58]
+:ID:       fb314096-4676-4c45-a5f0-d3c4196c7414
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-with-inline-images t)
+#+END_SRC
+
 ** Fill paragraphs automatically in org-mode                      :usability:
 
 #+BEGIN_SRC emacs-lisp
