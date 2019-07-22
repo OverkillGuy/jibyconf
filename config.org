@@ -245,6 +245,16 @@ Don't display images as is, resize as needed.
 (setq org-image-actual-width nil)
 #+END_SRC
 
+** Don't ask for confirmation on src buffer exit
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:49]
+:ID:       399c0836-2d2f-4bff-87b8-2e7c87b0ac42
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-ask-before-returning-to-edit-buffer nil)
+#+END_SRC
+
 ** Fill paragraphs automatically in org-mode                      :usability:
 
 #+BEGIN_SRC emacs-lisp
