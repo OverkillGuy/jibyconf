@@ -681,7 +681,9 @@ More info at https://github.com/syohex/emacs-git-gutter
 (use-package magit
   :custom
   ; don't ask before saving files
-  (magit-save-repository-buffers 'dontask))
+  (magit-save-repository-buffers 'dontask)
+  ;; Only use 10 chars for log margin (not 18)
+  (magit-log-margin '(t age magit-log-margin-width t 10)))
 #+END_SRC
 ** Show word-diff                                                  :cosmetic:
 Shows the equivalent of =git diff --word-diff=
