@@ -208,6 +208,55 @@ sudo aptitude install $0
 ,#+END_SRC
 #+END_SRC
 
+#+CAPTION:  Org-re-reveal presentations
+#+BEGIN_SRC snippet :tangle ~/.emacs.d/snippets/org-mode/prez :mkdirp yes
+# -*- mode: snippet -*-
+#name : New Org-re-reveal presentation
+#key : prez
+# --
+,#+title: $1
+,#+author: Jb Doyon
+,#+email: $2
+
+,#+OPTIONS: toc:nil
+,#+REVEAL_THEME: blood
+
+
+,* COMMENT Orga
+$0
+
+,* Press =S= for speaker notes
+
+,#+REVEAL: split
+
+By
+
+,*doing the thing I pitch*
+
+you
+
+,*get richer and happier*
+
+,* Three arguments
+
+,** Argument 1
+
+,** Argument 2
+
+,** Argument 3
+
+
+
+
+,* COMMENT Local variables                                           :ARCHIVE:
+:PROPERTIES:
+:END:
+For auto-exporting the presentation on saved file in Emacs.
+# Local Variables:
+# eval: (add-hook 'after-save-hook #'org-re-reveal-export-to-html :append :local)
+# End:
+#+END_SRC
+
 
 * Python
 
