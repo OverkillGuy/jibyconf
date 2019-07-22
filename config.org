@@ -224,6 +224,16 @@ Use the extension that works with ag.
 #+END_SRC
 
 * Orgmode                                                               :org:
+** Start showing all file
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:38]
+:ID:       446e94ed-1436-49c2-9ce4-24507757f34c
+:SOURCE: [[info:org#Initial%20visibility][info:org#Initial visibility]]
+:END:
+Instead of hiding all.
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-folded nil)
+#+END_SRC
 ** Resize inline images
 :PROPERTIES:
 :CREATED:  [2019-07-22 Mon 23:38]
