@@ -5,23 +5,6 @@ This is the subset of my emacs configuration files that require
 external (non-emacs) packages. Contrast with [[file:vanilla-config.org]]
 and (future) emacs-only packages sections.
 
-* Featuregating
-:PROPERTIES:
-:SOURCE:   https://emacs.stackexchange.com/a/26081
-:END:
-Let's define a check for executable in =$PATH=, so we can featuregate
-the package loading based on it, following the [[info:use-package#if%20when%20unless][use-package "if"]]
-statement.
-
-#+BEGIN_SRC emacs-lisp
-(defun executable-find (command)
-  "Search for COMMAND in `exec-path' and return the absolute file name.
-Return nil if COMMAND is not found anywhere in `exec-path'."
-  ;; Use 1 rather than file-executable-p to better match the behavior of
-  ;; call-process.
-  (locate-file command exec-path exec-suffixes 1))
-#+END_SRC
-
 * Ledger
 
 #+BEGIN_SRC emacs-lisp
