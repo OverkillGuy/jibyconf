@@ -67,6 +67,17 @@ Force the use of UTF8 everywhere in emacs.
 (set-keyboard-coding-system 'utf-8)
 #+END_SRC
 
+** Week starts on Monday
+:PROPERTIES:
+:CREATED:  [2019-07-23 Tue 22:45]
+:ID:       03447e6c-e6b9-4bec-b811-a45e264e6c80
+:END:
+Bloody americans.
+
+#+BEGIN_SRC emacs-lisp
+(setq calendar-week-start-day 1)
+#+END_SRC
+
 * Documentation
 I ship a lot of unusual info manuals in =~/dev/doc/info/=, so add it to
 load path of info-mode.
