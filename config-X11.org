@@ -137,3 +137,30 @@ My French keyboard on emacs won't type dead keys by default, this fixes it.
 (require 'iso-transl)
 #+END_SRC
 
+* Advanced PDF viewer
+:PROPERTIES:
+:CREATED:  [2019-07-15 Mon 23:12]
+:ID:       c23b24c1-31fe-45dc-bd93-099629cf3a92
+:SOURCE:   https://www.reddit.com/r/emacs/comments/7ux1qj/using_auctex_mode_to_sync_latex_documents_and/
+:SOURCE:   http://pragmaticemacs.com/emacs/view-and-annotate-pdfs-in-emacs-with-pdf-tools/
+:END:
+Use =pdf-tools= for latex review
+
+#+BEGIN_SRC emacs-lisp
+(use-package pdf-tools
+  :when '
+  :after tex-mode latex-preview-pane
+  :config
+  (pdf-loader-install)
+  ;; open pdfs scaled to fit page
+  (setq-default pdf-view-display-size 'fit-page)
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+	TeX-source-correlate-start-server t)
+  ;; revert pdf-view after compilation
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+  ;; Fix pdf-tools not updating properly in latex-preview-pane
+  ;; Workaround of https://github.com/jsinglet/latex-preview-pane/issues/47
+  (advice-add 'doc-view-revert-buffer :before
+	    'pdf-view-revert-buffer))
+
+#+END_SRC
