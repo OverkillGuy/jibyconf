@@ -624,7 +624,7 @@ Uses =pdf-tools=
 (use-package pdf-tools
   :after tex-mode latex-preview-pane
   :config
-  (pdf-tools-install)
+  (pdf-loader-install)
   ;; open pdfs scaled to fit page
   (setq-default pdf-view-display-size 'fit-page)
   (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
