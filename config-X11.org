@@ -148,7 +148,6 @@ Use =pdf-tools= for latex review
 
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
-  :when '
   :after tex-mode latex-preview-pane
   :config
   (pdf-loader-install)

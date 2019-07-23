@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#name : New Ubuntu package
+#key : apt
+# --
+#+BEGIN_SRC shell
+sudo aptitude install $0
+#+END_SRC

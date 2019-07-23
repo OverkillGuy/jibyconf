@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# key: the
+# name: Then assertion is true
+# --
+// THEN ${1:assertion is true}
+$0

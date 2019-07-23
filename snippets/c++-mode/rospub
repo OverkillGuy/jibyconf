@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name : ROS Publisher
+#key : pub
+# --
+${1: varname} = m_nodeHandle.advertise<${2:message type}>("${3:topic}", ${4:queuesize});

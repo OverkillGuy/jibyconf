@@ -1,0 +1,34 @@
+# -*- mode: snippet -*-
+#name : New Org-re-reveal presentation
+#key : prez
+# --
+#+title: $1
+#+author: Jb Doyon
+#+email: $2
+
+#+OPTIONS: toc:nil
+#+REVEAL_THEME: blood
+
+
+* COMMENT Orga
+$0
+
+* Press =S= for speaker notes
+
+#+REVEAL: split
+
+By
+
+*doing the thing I pitch*
+
+you
+
+*get richer and happier*
+
+* Three arguments
+
+** Argument 1
+
+** Argument 2
+
+** Argument 3

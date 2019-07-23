@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# key: whe
+# name: When a trigger is pulled
+# --
+// WHEN ${1:a trigger is pulled}
+$0

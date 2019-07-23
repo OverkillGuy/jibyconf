@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name : ROS INFO
+#key : info
+# --
+ROS_INFO_STREAM("$1" << $0);

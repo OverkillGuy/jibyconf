@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#name : Phabricator Code block
+#key : <s
+# --
+\`\`\`lang=${1:py},name="${2:block name}"
+$0
+\`\`\`

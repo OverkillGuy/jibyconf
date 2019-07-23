@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# key: fea
+# name: Feature
+# --
+// FEATURE: $0
