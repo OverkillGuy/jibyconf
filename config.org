@@ -107,6 +107,34 @@ Clean up the mode line to hide modes I use all the time.
 (use-package diminish)
 #+END_SRC
 
+** Parenthesis matching                               :cosmetic:readability:
+Using =rainbow-delimiters= for top-level visibility of braces and
+parens. Copying colors from from [[https://ericscrivner.me/2015/06/better-emacs-rainbow-delimiters-color-scheme/][better color scheme for
+rainbow-delimiters]] article.
+
+Also, change the colors of mismatched parens to be more visible (bright red
+in inverse colors from background)
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :init
+  (setq rainbow-delimiters-max-face-count 7)
+  :config
+  (set-face-foreground 'rainbow-delimiters-depth-1-face "dark orange")
+  (set-face-foreground 'rainbow-delimiters-depth-2-face "deep pink")
+  (set-face-foreground 'rainbow-delimiters-depth-3-face "chartreuse")
+  (set-face-foreground 'rainbow-delimiters-depth-4-face "deep sky blue")
+  (set-face-foreground 'rainbow-delimiters-depth-5-face "yellow")
+  (set-face-foreground 'rainbow-delimiters-depth-6-face "orchid")
+  (set-face-foreground 'rainbow-delimiters-depth-7-face "spring green")
+  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                      :inverse-video t
+                      :foreground "red"
+                      :inherit 'rainbow-delimiters-base-face)
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+#+END_SRC
+
+
+
 * Feature discoverability
 :PROPERTIES:
 :SOURCE:   https://github.com/Wilfred/helpful
@@ -538,34 +566,6 @@ font-locked. Fixed by adding this module.
   :config (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 #+END_SRC
 #+END_SRC
-** Parenthesis matching                                :cosmetic:readability:
-Using =rainbow-delimiters= for top-level visibility of braces and
-parens. Copying colors from from [[https://ericscrivner.me/2015/06/better-emacs-rainbow-delimiters-color-scheme/][better color scheme for
-rainbow-delimiters]] article.
-
-Also, change the colors of mismatched parens to be more visible (bright red
-in inverse colors from background)
-#+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters
-  :init
-  (setq rainbow-delimiters-max-face-count 7)
-  :config
-  (set-face-foreground 'rainbow-delimiters-depth-1-face "dark orange")
-  (set-face-foreground 'rainbow-delimiters-depth-2-face "deep pink")
-  (set-face-foreground 'rainbow-delimiters-depth-3-face "chartreuse")
-  (set-face-foreground 'rainbow-delimiters-depth-4-face "deep sky blue")
-  (set-face-foreground 'rainbow-delimiters-depth-5-face "yellow")
-  (set-face-foreground 'rainbow-delimiters-depth-6-face "orchid")
-  (set-face-foreground 'rainbow-delimiters-depth-7-face "spring green")
-  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-                      :inverse-video t
-                      :foreground "red"
-                      :inherit 'rainbow-delimiters-base-face)
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
-#+END_SRC
-
-
-
 ** GTAGS integration to helm                            :helm:gtags:disabled:
 Unconfigured at system level = disabled. Too much trouble.
 #+BEGIN_SRC emacs-lisp :tangle no
