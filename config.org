@@ -135,14 +135,15 @@ on error, and many other improvements of quality of life.
 #+END_SRC
 
 
-* Projectile                                            :projectile:disabled:
+* Projectile                                                     :projectile:
 :PROPERTIES:
 :CREATED:  [2017-10-23 Mon 13:45]
 :END:
-Enable =projectile=, a super smart way to manage projects, using =C-c
-p= as prefix for a bunch of cool tools.
+Enable =projectile=, a super smart way to manage projects, using =F7= as prefix for a bunch of cool tools.
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
+  :bind-keymap
+  ("<f7>" . projectile-command-map)
   :config
   (projectile-mode 1))
 #+END_SRC
@@ -168,12 +169,8 @@ Enable the projectile integration:
   ;; Show git status when project is switched
   (setq projectile-switch-project-action 'magit-status))
 #+END_SRC
-Make projectile use helm for project-switching (rather than ido)
+Use =shift-F7= to switch project.
 #+BEGIN_SRC emacs-lisp
-#+END_SRC
-Use =F7= to jump files and =shift-F7= to switch project
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<f7>") 'helm-projectile-find-file)
 (global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
 #+END_SRC
 
