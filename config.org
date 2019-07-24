@@ -513,6 +513,18 @@ will not be modified."
 (add-hook 'org-insert-heading-hook #'org-set-created-property)
 #+END_SRC
 
+* Autocomplete
+:PROPERTIES:
+:CREATED:  [2019-07-24 Wed 21:29]
+:ID:       050ab1fc-2014-4d84-9a4f-0f1fe1e4e269
+:SOURCE:   https://tuhdo.github.io/c-ide.html#orgheadline13
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package company
+  :config (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
+
 * C++                                                                   :cpp:
 ** Modern C++ font-lock
 :PROPERTIES:
