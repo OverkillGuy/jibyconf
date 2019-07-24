@@ -4,6 +4,13 @@ The side of my configuration that requires an X11 server, spun off
 from the main configuration file to have clean config loading on non-X
 devices like Termux.
 
+* Reload theme
+Already done as part of vanilla. Redo since it's giving me a black
+cursor instead of gold.
+#+BEGIN_SRC emacs-lisp
+(load-theme 'tango-dark t)
+#+END_SRC
+
 * Disable toolbar
 Remove the GUI tools (open,save etc) that take up a lot of space. This
 is technically already done in vanilla config, but this file is
