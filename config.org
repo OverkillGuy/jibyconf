@@ -123,19 +123,17 @@ on error, and many other improvements of quality of life.
   (global-set-key (kbd "C-h k") #'helpful-key))
 #+END_SRC
 
-** Guide key on complex choices
-:PROPERTIES:
-:SOURCE:   http://pages.sachachua.com/.emacs.d/Sacha.html#org35d1e86
-:END:
+** Which-key for complex keyboard shortcuts
 
 #+BEGIN_SRC emacs-lisp
-(use-package guide-key
-  :diminish guide-key-mode
+(use-package which-key
+  :custom
+  (which-key-popup-type 'side-window)
+  (which-key-side-window-location '(right bottom))
   :config
-  (progn
-    (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-c"))
-    (guide-key-mode 1)))  ; Enable guide-key-mode
+  (which-key-mode))
 #+END_SRC
+
 
 * Projectile                                            :projectile:disabled:
 :PROPERTIES:
@@ -244,7 +242,6 @@ Instead of hiding all.
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-indented t)
 #+END_SRC
-
 
 ** Resize inline images
 :PROPERTIES:
