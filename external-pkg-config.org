@@ -291,78 +291,36 @@ mu find some_keywords
 *** Configure mu4e (emacs interface)
 #+BEGIN_SRC emacs-lisp
 (use-package mu4e
- :load-path "~/.emacs.d/lisp/mu4e/")
-#+END_SRC
-
-Don't keep message buffers around
-
-#+BEGIN_SRC emacs-lisp
-(setq message-kill-buffer-on-exit t)
-#+END_SRC
-
-
-Don't use cool icons for display (they are cool but are not of correct
-length, messing up layouts)
-#+BEGIN_SRC emacs-lisp
-(setq mu4e-use-fancy-chars nil)
-#+END_SRC
-
-Get email every 5 minutes
-#+BEGIN_SRC emacs-lisp
-(setq mu4e-update-interval 300
-      mu4e-get-mail-command "mbsync -aq")
-#+END_SRC
-
-Put email attachments in Downloads folder
-#+BEGIN_SRC emacs-lisp
-(setq mu4e-attachment-dir  "~/Downloads")
-#+END_SRC
-Use =format=flowed= to wrap lines softly
-#+BEGIN_SRC emacs-lisp
-(setq mu4e-compose-format-flowed t)
-#+END_SRC
-
-Enable inline images
-#+BEGIN_SRC emacs-lisp
-(setq mu4e-view-show-images t)
-;; use imagemagick, if available
-(when (fboundp 'imagemagick-register-types)
-  (imagemagick-register-types))
-#+END_SRC
-
-Show email addresses:
-#+BEGIN_SRC emacs-lisp
-(setq mu4e-view-show-addresses t)
-#+END_SRC
-
-Make mu4e default email user agent:
-#+BEGIN_SRC emacs-lisp
-(setq mail-user-agent 'mu4e-user-agent)
-#+END_SRC
-
-Add =mu4e= keybinding:
-
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-M-4") 'mu4e)
-#+END_SRC
-
-Allow HTML email to be read via PDF when text rendering fails:
-#+BEGIN_SRC emacs-lisp
-(if-let (msg2pdf "/usr/bin/msg2pdf")
-    (setq mu4e-msg2pdf msg2pdf))
-#+END_SRC
-This needs the extra debian package =maildir-utils-extra=.
-Seems the variable is not bound properly.
-
-Let me view HTML email ... in the browser.
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'mu4e-view-actions
-  '("bBrowser View" . mu4e-action-view-in-browser) t)
-#+END_SRC
-
-Hide the stupid empty update buffer when fetching mail:
-#+BEGIN_SRC emacs-lisp
-(add-hook 'mu4e~update-mail-mode-hook 'bury-buffer)
+  :load-path "~/.emacs.d/lisp/mu4e/"
+  :if (executable-find "mu")
+  :bind
+  ("C-M-4" . mu4e)
+  :config
+  ;; use imagemagick, if available
+  (when (fboundp 'imagemagick-register-types)
+    (imagemagick-register-types))
+  ;; Allow HTML email to be read via PDF when text rendering fails
+  (if-let (msg2pdf (executable-find "msg2pdf"))
+      (setq mu4e-msg2pdf msg2pdf))
+  (add-to-list 'mu4e-view-actions
+	       '("bBrowser View" . mu4e-action-view-in-browser) t)
+  ;; Hide the stupid empty update buffer when fetching mail
+  (add-hook 'mu4e~update-mail-mode-hook 'bury-buffer)
+  :custom
+  ;; Don't keep message buffers around
+  (message-kill-buffer-on-exit t)
+  ;; Don't use cool icons for display (they are cool but are not of
+  ;; correct length, messing up layouts)
+  (mu4e-use-fancy-chars nil)
+  ;; Get email every 5 minutes
+  (mu4e-update-interval 300)
+  (mu4e-get-mail-command "mbsync -aq")
+  (mu4e-attachment-dir  "~/Downloads")
+  (mu4e-view-show-images t)
+  ;; Wrap lines softly via format=flowed
+  (mu4e-compose-format-flowed t)
+  (mu4e-view-show-addresses t)
+  (mail-user-agent 'mu4e-user-agent))
 #+END_SRC
 
 *** Email attachments
