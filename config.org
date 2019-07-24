@@ -618,21 +618,27 @@ Disabled coz breaks things
 :END:
 Feasible with ~M-x occur~ or ~projectile-multi-occur~.
 ** Source parsing                                                  :disabled:
-#+BEGIN_SRC emacs-lisp :tangle no
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
-
-;; replace the `completion-at-point' and `complete-symbol' bindings in
-;; irony-mode's buffers by irony-mode's function
-(defun my-irony-mode-hook ()
-  (define-key irony-mode-map [remap completion-at-point]
-    'irony-completion-at-point-async)
-  (define-key irony-mode-map [remap complete-symbol]
-    'irony-completion-at-point-async))
-(add-hook 'irony-mode-hook 'my-irony-mode-hook)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+:PROPERTIES:
+:SOURCE:   http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html#irony
+:END:
+Irony parses C++ code using libclang and cmake. Needs some heavy setup
+#+BEGIN_SRC emacs-lisp
+(use-package irony
+  :disabled
+  :config
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 #+END_SRC
+** Autocomplete                                                   :disabled:
+See [[https://cestlaz.github.io/posts/using-emacs-45-company/][cestlaz article on autocompletes]] for =company-irony= setup.
+#+BEGIN_SRC emacs-lisp
+(use-package company-irony
+  :disabled
+  :config
+  (add-to-list 'company-backends 'company-irony))
+#+END_SRC
+
 ** ROS message files major mode                           :cosmetic:ROS:mode:
 ROS Messages, Actions and Services files are basically YAML. I would
 like yaml-mode to be used when opening them, for the syntax-highlight.
