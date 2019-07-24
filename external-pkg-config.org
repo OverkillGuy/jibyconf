@@ -568,6 +568,19 @@ required.
 	  (list
 	   "latexmk  -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -bibtex -f  %f")))
 #+END_SRC
+
+** Math autocomplete
+:PROPERTIES:
+:CREATED:  [2019-07-24 Wed 22:27]
+:ID:       a03b28ac-c028-4613-9402-6e6c85809f56
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package company-math
+  :after company
+  :config
+  (add-to-list 'company-backends 'company-math-symbols-latex))
+#+END_SRC
+
 * RFC export                                                   :rfc:disabled:
 :PROPERTIES:
 :SOURCE:   https://github.com/choppsv1/org-rfc-export
