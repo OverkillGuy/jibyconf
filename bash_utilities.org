@@ -102,7 +102,7 @@ GUI one (=ev=).
 
 
 #+BEGIN_SRC shell :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
-export EDITOR="emacsclient -nw"
+export EDITOR="emacsclient"
 alias e="emacsclient -nw"
 alias ev="emacsclient"
 alias emd="emacs --daemon"
