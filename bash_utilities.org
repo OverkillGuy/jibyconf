@@ -1,5 +1,5 @@
 #+TITLE: Bash utilities
-#+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755) :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\nset -euo pipefail\n"
+#+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755) :shebang "#!/usr/bin/env bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\nset -euo pipefail\n"
 
 * Common bash aliases
 
