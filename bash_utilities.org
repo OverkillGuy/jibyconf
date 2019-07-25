@@ -93,6 +93,11 @@ As used in [[file:bootstrap.org::*Allow%20git%20pushes%20on%20master][Allow git 
 #+begin_src shell  :tangle ~/.jb_profile.sh :shebang "#!/bin/bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n"
 alias git-allow-master-push='git config --local  receive.denyCurrentBranch updateInstead'
 #+end_src
+
+Interesting interaction: pushing a commit to master which deletes a
+file does not delete the file on remote with such a solution, it only
+makes it untracked again. Beware of this when pushing!
+
 * Emacs aliases
 I sometimes want to open emacs (server-mode) from the command line,
 and typing "emacsclient" is annoying. I wish I could use =VISUAL= for
