@@ -163,6 +163,16 @@ function eww () {
 }
 #+END_SRC
 
+** Mailto handler
+:PROPERTIES:
+:CREATED:  [2019-07-25 Thu 22:50]
+:ID:       c4c3e566-bd06-4e02-bf31-65db1ffca761
+:SOURCE:   https://www.emacswiki.org/emacs/MailtoHandler
+:END:
+Point Firefox and =xdg-open= to this command.
+#+begin_src shell :tangle ~/bin/email :shebang "#!/usr/bin/env bash\n"
+emacsclient -c --eval "(browse-url-mail \"$@\")"
+#+end_src
 * De-google repo
 I have an aversion to google repo tool, which breaks all my stuff.
 
