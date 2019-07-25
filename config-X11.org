@@ -42,7 +42,7 @@ I like Monaco as a font, but it's not installed on all my boxes.
 ; 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ {} <> "'`  ~-_/|\?
 (cond
  ((find-font (font-spec :name "Monaco"))
-  (set-frame-font "Monaco-14"))
+  (set-frame-font "Monaco-20"))
  ((find-font (font-spec :name "inconsolata"))
   (set-frame-font "inconsolata-14"))
  ((find-font (font-spec :name "Lucida Console"))

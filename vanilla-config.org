@@ -24,7 +24,6 @@ is on.
 #+BEGIN_SRC emacs-lisp
 (if (display-graphic-p)
     (scroll-bar-mode -1))
-
 #+END_SRC
 
 ** Display ANSI colors                                                :color:
