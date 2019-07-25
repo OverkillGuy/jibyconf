@@ -511,6 +511,7 @@ equations.
 (defun preview-org-latex-hook ()
   "Hook to auto-preview latex fragments in org buffers"
   (org-cdlatex-mode)
+  (diminish 'org-cdlatex-mode)
   (add-hook 'post-self-insert-hook #'auto-preview-org-latex 'append 'local))
 #+END_SRC
 

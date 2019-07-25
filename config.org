@@ -155,6 +155,7 @@ on error, and many other improvements of quality of life.
 
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
+  :diminish which-key-mode
   :custom
   (which-key-popup-type 'side-window)
   (which-key-side-window-location '(right bottom))
@@ -170,6 +171,7 @@ on error, and many other improvements of quality of life.
 Enable =projectile=, a super smart way to manage projects, using =F7= as prefix for a bunch of cool tools.
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
+  :diminish projectile-mode
   :bind-keymap
   ("<f7>" . projectile-command-map)
   :config
@@ -550,6 +552,7 @@ will not be modified."
 
 #+BEGIN_SRC emacs-lisp
 (use-package company
+  :diminish '(company-mode . "cmplt")
   :config (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
