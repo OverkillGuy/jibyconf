@@ -556,6 +556,17 @@ will not be modified."
   :config (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
+** Documentation
+:PROPERTIES:
+:CREATED:  [2019-07-25 Thu 16:21]
+:ID:       0f16c3c7-b3a5-4260-8d82-04c8a81a8acf
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package company-quickhelp
+  :config (company-quickhelp-mode))
+#+END_SRC
+
 * C++                                                                   :cpp:
 ** Modern C++ font-lock
 :PROPERTIES:
