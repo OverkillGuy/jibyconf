@@ -350,7 +350,8 @@ from marked files in =dired=:
 Integration of =orgmode= and =mu4e=.
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-mu4e)
+(when (featurep 'mu4e)
+  (require 'org-mu4e))
 #+END_SRC
 
 Allows to make email links now.
@@ -361,6 +362,7 @@ Allows to make email links now.
 
 #+BEGIN_SRC emacs-lisp
 (use-package mu4e-alert
+  :after mu4e
   :config
   (mu4e-alert-set-default-style 'libnotify)
   (mu4e-alert-enable-notifications)
@@ -372,7 +374,9 @@ Allows to make email links now.
 :END:
 
 #+BEGIN_SRC emacs-lisp
-(require 'mu4e-contrib)
+(when (featurep 'mu4e)
+  (require 'mu4e-contrib))
+
 (setq mu4e-html2text-command 'mu4e-shr2text)
 (setq shr-color-visible-luminance-min 60)
 (setq shr-color-visible-distance-min 5)
