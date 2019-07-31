@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#AUTHOR: Jb Doyon<jb@jiby.tech>
+
+# https://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+
+function usage() {
+    cat  <<EOF
+Usage: $0 prefix refspec
+
+Send a few commits from a git repo via bluetooth
+
+
+Generates a git bundle from given refspec with filename using given prefix
+Then sends it to an interactively selected Bluetooth target
+EOF
+    exit 1
+
+}
+
+if [[ $# -lt 2 ]];
+then
+    usage
+fi
+
+FILE_PREFIX=$1
+FILENAME=$FILE_PREFIX-$(date +%Y%m%d)_bundle.pdf
+
+shift
+
+git bundle create "$FILENAME" $*
+
+blueman-sendto "$FILENAME" || \
+    bluetooth-sendto "$FILENAME" || \
+    termux-share -a send "$FILENAME"

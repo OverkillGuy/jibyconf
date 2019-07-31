@@ -1,0 +1,13 @@
+[user]
+	name = Jb DOYON
+	email = jb@jiby.tech
+[alias]
+
+	graph = log --decorate --oneline --graph
+	sgraph = graph --simplify-by-decoration
+	st = status --short
+	exfil = !~/bin/btexfil
+	extract = !~/bin/btextract
+
+[diff "sentences"]
+	textconv = breaksentences

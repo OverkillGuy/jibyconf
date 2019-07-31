@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#AUTHOR: Jb Doyon<jb@jiby.tech>
+
+# https://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+
+
+function usage() {
+    cat  <<EOF
+Usage: $0 manifest
+
+Converts a Google repo manifest.xml to a list of git clone commands printed to stdout
+EOF
+    exit 1
+
+}
+
+if [[ $# -lt 1 ]];
+then
+    usage
+fi
+
+# Assumptions:
+# - manifest uses regex project on each of the repo xml lines
+# - manifest xml entries are each on their own lines
+# - xml tags for entries are doublequote-separated string fields
+# - xml tag fields are ordered REPO-PATH-TAG
+# - all repos live under ssh://git/ (whatever your ~/.ssh/config says about it)
+
+awk -F'"' '/project/ {print $2 " " $6 " " $4}'  $1 \
+    | sed 's|refs/tags/||' \
+    | awk '{print "git clone ssh://git/" $1 " -b " $2 " " $3}'
