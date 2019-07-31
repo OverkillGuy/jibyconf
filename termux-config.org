@@ -132,6 +132,7 @@ properly executable:
 
 #+BEGIN_SRC shell :tangle no
 termux-fix-shebang ~/../usr/bin/bnudiff
+# changes shebang to: #!/data/data/com.termux/files/usr/bin/bash
 #+END_SRC
 
 Lastly we define an elisp advice wrapping the system diff invokation to call

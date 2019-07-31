@@ -1,5 +1,5 @@
 #+TITLE: Configuration requiring external packages
-#+PROPERTY: header-args :tangle yes :results silent
+#+PROPERTY: header-args :tangle yes :results silent :mkdirp yes
 
 This is the subset of my emacs configuration files that require
 external (non-emacs) packages. Contrast with [[file:vanilla-config.org]]
@@ -31,7 +31,7 @@ and (future) emacs-only packages sections.
 :SOURCE:   https://hub.docker.com/r/think/plantuml/~/dockerfile/
 :END:
 
-#+BEGIN_SRC makefile :tangle PlantUML.Makefile
+#+BEGIN_SRC makefile :tangle plantuml/PlantUML.Makefile
 PLANTUML_VERSION=1.2019.5
 PLANTUML_URL=https://downloads.sourceforge.net/project/plantuml/${PLANTUML_VERSION}/plantuml.${PLANTUML_VERSION}.jar
 
@@ -115,14 +115,11 @@ Installing =silver-searcher= for quick code lookup instead of
   :if '(executable-find "ag"))
 #+END_SRC
 
-Using [[info:use-package#after][:after]] keyword to check
+Using [[info:use-package#after][:after]] keyword to check for helm usage.
 #+BEGIN_SRC emacs-lisp
 (use-package helm-ag
   :after ag helm)
 #+END_SRC
-
-
-
 
 * Offline documentation                                                 :doc:
 ** Helm-dash                                                       :disabled:
@@ -212,7 +209,7 @@ libs, typically =libgmime-3.0-dev= and =libxapian-dev=.
 Optionally, =guile-2.2=.
 
 
-#+begin_src makefile :tangle generated/mu.Makefile
+#+begin_src makefile :tangle mu4e/mu.Makefile
 MU_VERSION=1.2
 MU_VERSION_ALL=${MU_VERSION}.0
 
@@ -291,10 +288,9 @@ mu find some_keywords
 *** Configure mu4e (emacs interface)
 #+BEGIN_SRC emacs-lisp
 (use-package mu4e
-  :load-path "~/.emacs.d/lisp/mu4e/"
   :if (executable-find "mu")
-  :bind
-  ("C-M-4" . mu4e)
+  :load-path "~/.emacs.d/lisp/mu4e/"
+  :bind ("C-M-4" . mu4e)
   :config
   ;; use imagemagick, if available
   (when (fboundp 'imagemagick-register-types)
@@ -617,7 +613,7 @@ Vimperator successor: [[https://addons.mozilla.org/en-GB/firefox/addon/tridactyl
 
 See sample [[https://github.com/skeeto/dotfiles/blob/master/_tridactylrc][tridactylrc on Github]] for config.
 
-#+begin_src conf :tangle generated/.tridactylrc
+#+begin_src conf :tangle no
 bind <A-x> fillcmdline_notrail
 
 " L is already bound to (history) forward
@@ -644,7 +640,7 @@ set editorcmd emacsclient
 
 The [[https://addons.mozilla.org/en-GB/firefox/addon/vimium-ff][vimium-FF addon]] to move around using vim-style bindings. Defined a
 few Emacs ones below:
-#+begin_src conf
+#+begin_src conf :tangle vimium/.vimiumconfig
 map <c-v> scrollPageDown
 map <a-v> scrollPageUp
 unmap H
@@ -692,7 +688,7 @@ pip install borgbackup
 
 See [[https://gitlab.com/WoJ/systemd-borg/tree/master][Example systemd unit+timer]] using for Borg regularly.
 
-#+begin_src conf :tangle generated/borg.unit
+#+begin_src conf :tangle no
 [Unit]
 Description=borg backup
 
@@ -705,7 +701,7 @@ ExecStartPost=/usr/bin/borg prune -v --list --keep-daily=7 --keep-weekly=4 --kee
 #+end_src
 
 
-#+begin_src conf :tangle generated/borg.timer
+#+begin_src conf :tangle no
 [Unit]
 Description=Run borg
 
