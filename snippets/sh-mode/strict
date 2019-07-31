@@ -2,5 +2,5 @@
 #name : Bash strict mode
 #key : strict
 # --
-# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+# https://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail

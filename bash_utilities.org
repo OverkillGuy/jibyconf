@@ -1,6 +1,6 @@
 #+TITLE: Bash utilities
 #+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755)
-#+PROPERTY: header-args:shell :shebang "#!/usr/bin/env bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n# http://redsymbol.net/articles/unofficial-bash-strict-mode/\nset -euo pipefail\n"
+#+PROPERTY: header-args:shell :shebang "#!/usr/bin/env bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n# https://redsymbol.net/articles/unofficial-bash-strict-mode/\nset -euo pipefail\n"
 
 * Common bash aliases
 :PROPERTIES:
