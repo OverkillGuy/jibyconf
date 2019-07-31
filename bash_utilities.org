@@ -456,3 +456,12 @@ pandoc --read=org --write=markdown  \
 # <span class=\"label\">\\([[:ascii:]]+?\\)</span> to name="\1",
 #+end_src
 
+* Ldap search
+:PROPERTIES:
+:CREATED:  [2019-07-31 Wed 16:44]
+:ID:       e2081adb-37de-4999-a198-e1907148fd2f
+:END:
+
+#+begin_src shell :tangle bin/contactsearch
+ldapsearch -x -LLL -h ldap.someplace.com -b ou=people,dc=someplace,dc=com cn="*$@*"
+#+end_src
