@@ -99,9 +99,10 @@ CHANGELOG.md merge=union
 :ID:       3a7d9734-2bab-4f0e-b328-87c92ccaa355
 :END:
 As used in [[file:bootstrap.org::*Allow%20git%20pushes%20on%20master][Allow git pushes on master]] of bootstrap.
-
-#+begin_src shell :tangle bash/.jb_profile.sh
-alias git-allow-master-push='git config --local  receive.denyCurrentBranch updateInstead'
+I use it via the git config as an alias.
+#+begin_src shell :tangle no
+[alias]
+	allow-master-push= config --local receive.denyCurrentBranch updateInstead
 #+end_src
 
 Interesting interaction: pushing a commit to master which deletes a
