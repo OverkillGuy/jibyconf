@@ -1,5 +1,6 @@
 #+TITLE: Bash utilities
-#+PROPERTY: header-args:shell :mkdirp yes :tangle-mode (identity #o755)
+#+PROPERTY: header-args :mkdirp yes
+#+PROPERTY: header-args:shell :tangle-mode (identity #o755)
 #+PROPERTY: header-args:shell :shebang "#!/usr/bin/env bash\n#AUTHOR: Jb Doyon<jb@jiby.tech>\n# https://redsymbol.net/articles/unofficial-bash-strict-mode/\nset -euo pipefail\n"
 
 * Common bash aliases
@@ -396,7 +397,7 @@ We don't remove the file, in case we mucked up some step.
 Copying [[info:emacs#Emacs%20Server][manual's service]] to file:~/.config/systemd/user/
 Or =/etc/systemd/system/emacs.service=
 
-#+BEGIN_SRC conf :tangle emacs-daemon/.config/systemd/user/emacs.service
+#+BEGIN_SRC conf :mkdirp yes :tangle emacs-daemon/.config/systemd/user/emacs.service
 [Unit]
 Description=Emacs text editor
 Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
