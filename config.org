@@ -552,7 +552,7 @@ will not be modified."
 
 #+BEGIN_SRC emacs-lisp
 (use-package company
-  :diminish '(company-mode . "cmplt")
+  :diminish 'company-mode
   :config (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
