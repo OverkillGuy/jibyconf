@@ -459,9 +459,10 @@ Options:
   "Converts to org format an (ical) attachment"
   (mu4e-view-pipe-attachment msg attachnum "ical2orgpy - - >> ~/dev/notes/calendar.org"))
 
-;; defining 'n' as the shortcut
-(add-to-list 'mu4e-view-attachment-actions
-	     '("cSave to calendar" . convert-to-org-calendar-attachment) t)
+;; defining 'n' as the shortcut (if mu4e is loaded)
+(when (featurep 'mu4e)
+  (add-to-list 'mu4e-view-attachment-actions
+	       '("cSave to calendar" . convert-to-org-calendar-attachment) t))
 #+END_SRC
 *** TODO Via elisp
 :PROPERTIES:
