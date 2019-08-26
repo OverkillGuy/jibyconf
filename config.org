@@ -69,6 +69,18 @@ repository first, let's "install" it again to upgrade if needed.
 #+BEGIN_SRC emacs-lisp
 (package-install 'org)
 #+END_SRC
+
+** Startup profiler
+:PROPERTIES:
+:CREATED:  [2019-08-26 Mon 23:40]
+:ID:       f71f736f-9aef-4b15-be5e-087d8534e281
+:END:
+Using [[https://github.com/jschaf/esup][esup]] the Emacs StartUp Profiler. Call with =esup=.
+
+#+BEGIN_SRC emacs-lisp
+(use-package esup)
+#+END_SRC
+
 * Cosmetic                                                         :cosmetic:
 
 ** Beacon
