@@ -491,7 +491,7 @@ wanted to start.
 #+BEGIN_SRC emacs-lisp
 (use-package ox-hugo
   :after ox
-  :config (setq org-hugo-section "post"))
+  :custom ( org-hugo-section "post"))
 #+END_SRC
 
 Checking out the org-customize aspect for org-export-hugo
@@ -917,7 +917,7 @@ For editing Scheme code. To avoid org mode pestering me about choice
 of implementation, tell it to use guile always.
 #+BEGIN_SRC emacs-lisp
 (use-package geiser
-  :config (setq geiser-default-implementation 'guile))
+  :custom ( geiser-default-implementation 'guile))
 #+END_SRC
 ** Groovy
 For those sweet, sweet Jenkinsfiles.
@@ -958,7 +958,7 @@ then in the buffer you want to serve run =impatient-mode=. This will
 serve files on http://localhost:8080/imp/.
 #+BEGIN_SRC emacs-lisp
 (use-package impatient-mode
- :config (setq httpd-host "0.0.0.0"))
+ :custom ( httpd-host "0.0.0.0"))
 #+END_SRC
 
 By default, =httpd-host= is =nil=, which seems to mean only serve

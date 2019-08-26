@@ -29,6 +29,24 @@ currently OK by loading =bootstrap.el= (generated from code below) +but
 so far only works manually by loading (pressing =L= in dired)+.
 
 Here's what I manually append to my =~/.emacs= file to auto-load.
+
+From [[https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/][reddit]] tip on reducing startup time by 50%:
+
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold 999999999)
+(message "gc-cons-threshold temporarily set to %S"
+	 gc-cons-threshold)
+#+END_SRC
+
+Intentionally keeping the closing paren dangling since this =let= should
+cover all of the init script for faster load-time.
+#+BEGIN_SRC emacs-lisp
+(let ((file-name-handler-alist nil))
+#+END_SRC
+
+Observed result of both improvements is going from 6.6s init-time to 3.3s.
+
+
 #+BEGIN_SRC emacs-lisp :tangle no
 (cd "~/dev/conf/emacs-conf")
 (load-file "bootstrap.el")
@@ -118,6 +136,14 @@ Lastly, load what requires non-emacs (system) packages, such as email
 clients and fancy code searching tools.
 #+BEGIN_SRC emacs-lisp
 (org-babel-load-file "external-pkg-config.org")
+#+END_SRC
+
+Lastly we re-enable the GC threshold for normal use, closing the
+dangling paren to finish the =let= defined at beginning.
+
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold 800000)
+(message "gc-cons-threshold restored to %S"  gc-cons-threshold))
 #+END_SRC
 
 * Allow git pushes on master

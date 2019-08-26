@@ -522,8 +522,8 @@ twice bigger.
 #+BEGIN_SRC emacs-lisp
 (use-package cdlatex
   :if '(executable-find "dvipng")
-  :config (setq org-format-latex-options
-		(plist-put org-format-latex-options :scale 2.0))
+  :custom (org-format-latex-options
+	   (plist-put org-format-latex-options :scale 2.0))
   :hook (org-mode . preview-org-latex-hook))
 #+END_SRC
 
