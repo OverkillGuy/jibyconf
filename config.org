@@ -545,6 +545,17 @@ will not be modified."
 (add-hook 'org-insert-heading-hook #'org-set-created-property)
 #+END_SRC
 
+** Avoid inserting text on collapsed structures
+:PROPERTIES:
+:CREATED:  [2019-08-26 Mon 22:46]
+:ID:       9426a50e-d18e-412e-bf03-64fc004b5089
+:SOURCE:   https://yiufung.net/post/org-mode-hidden-gems-pt1/#avoid-inadvertent-text-edit-in-invisible-area
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-catch-invisible-edits 'show-and-error)
+#+END_SRC
+
 * Autocomplete
 :PROPERTIES:
 :CREATED:  [2019-07-24 Wed 21:29]
