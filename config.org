@@ -556,6 +556,17 @@ will not be modified."
 (setq org-catch-invisible-edits 'show-and-error)
 #+END_SRC
 
+** Collapsed org tree spacing
+:PROPERTIES:
+:CREATED:  [2019-08-26 Mon 22:50]
+:ID:       44d31fb0-75f4-441f-835f-bdabc39f7b8b
+:SOURCE:   https://yiufung.net/post/org-mode-hidden-gems-pt1/#in-collapsed-view-hide-empty-lines-between-subtrees
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-cycle-separator-lines 0)
+#+END_SRC
+
 * Autocomplete
 :PROPERTIES:
 :CREATED:  [2019-07-24 Wed 21:29]
