@@ -21,7 +21,7 @@ blocks and load them. I'm close enough for now.
 - [[file:config.org][config.org]] :: Setup using Emacs packages
 - [[file:config-X11.org][config-X11.org]] :: Setup for when a X11 server is available
 - [[file:termux-config.org][termux-config.org]] :: Only applicable to Termux
-- [[file:snippets.org][snippets.org]] :: Various Yasnippets templates
+- [[file:snippets/][snippets]] :: Various Yasnippets templates
 - [[file:external-pkg-config.org][external-pkg-config.org]] :: Requires external (system) packages
 
 I want to make it so a single load-file bootstraps everything. This is
