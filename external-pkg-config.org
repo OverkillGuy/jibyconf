@@ -19,11 +19,14 @@ and (future) emacs-only packages sections.
 
 #+BEGIN_SRC emacs-lisp
 (use-package plantuml-mode
+; TODO try out the plantuml-download-jar func change pkgcheck to if
+; java+dot available ensure downloaded
   :if (file-exists-p "~/scripts/plantuml.jar")
-  :config
-  (setq plantuml-jar-path
-	(expand-file-name "~/scripts/plantuml.jar")
-	org-plantuml-jar-path plantuml-jar-path))
+  :custom
+  (plantuml-jar-path (expand-file-name "~/scripts/plantuml.jar"))
+  (org-plantuml-jar-path plantuml-jar-path)
+  (plantuml-default-exec-mode 'jar)
+  (plantuml-output-type "png"))
 #+END_SRC
 
 ** Download the executable if needed
