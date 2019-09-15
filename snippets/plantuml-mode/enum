@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#key : enum
+#name : new-enum
+# --
+class ${1:EnumName}{
+$0
+}
