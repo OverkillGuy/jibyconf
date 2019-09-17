@@ -482,6 +482,12 @@ Cloning [[https://github.com/hakimel/reveal.js][reveal.js]] in =~/dev/foss/revea
 #+BEGIN_SRC emacs-lisp
 (setq org-re-reveal-root (concat "file://" (getenv "HOME") "/dev/foss/reveal.js/"))
 #+END_SRC
+Since we're using the latest version of, the script files variable needs
+customized (see more info in the docstring of that var).
+
+#+BEGIN_SRC emacs-lisp
+(setq org-re-reveal-script-files '("js/reveal.js"))
+#+END_SRC
 
 ** Remove validate link in unstyled HTML exports
 When exporting to HTML from Org, especially when I don't use a styling
