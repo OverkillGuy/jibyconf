@@ -765,16 +765,15 @@ Effectively giving user a template system.
 (use-package yasnippet
   :diminish yas-minor-mode
   :config
+  (add-to-list 'yas-snippet-dirs
+	       (concat jb/config-repo-path "snippets/") t)
   (yas-global-mode 1))
 #+END_SRC
 And the default snippets:
 
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet-snippets
-  :after yasnippet
-  :config
-  (setq yas-snippet-dirs (add-to-list 'yas-snippet-dirs
-				      (concat jb/config-repo-path "snippets/") t)))
+  :after yasnippet)
 #+END_SRC
 
 Separate folder with my snippets at [[file:snippets/]].
