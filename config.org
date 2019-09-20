@@ -1083,15 +1083,6 @@ bugging me.
 	     goto-address-mode))
 #+END_SRC
 
-** Access files in Docker via TRAMP
-:PROPERTIES:
-:SOURCE:   https://ligerlearn.com/using-emacs-edit-files-within-docker-containers/
-:END:
-
-#+BEGIN_SRC emacs-lisp
-(use-package docker-tramp)
-#+END_SRC
-
 ** Go to URLs
 :PROPERTIES:
 :SOURCE:   http://xenodium.com/#actionable-urls-in-emacs-buffers
@@ -1110,6 +1101,29 @@ bugging me.
   :commands (goto-address-prog-mode
 	     goto-address-mode))
 #+END_SRC
+
+* Remote editing
+:PROPERTIES:
+:CREATED:  [2019-09-20 Fri 22:48]
+:ID:       c2e67d8e-4420-477e-aa32-78ad9fd2d4d9
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package tramp
+  :ensure t
+  :custom (tramp-default-method "ssh"))
+#+END_SRC
+
+** Docker file access
+:PROPERTIES:
+:SOURCE:   https://ligerlearn.com/using-emacs-edit-files-within-docker-containers/
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package docker-tramp
+  :after tramp)
+#+END_SRC
+
 
 * Web browsing                                                          :web:
 Improving upon =M-x eww= (see [[info:emacs#EWW][info:emacs#EWW]]) by having the numbered
