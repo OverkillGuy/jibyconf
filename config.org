@@ -60,6 +60,20 @@ toggle on that feature.
 #+BEGIN_SRC emacs-lisp
 (setq use-package-always-ensure t)
 #+END_SRC
+** Fix bad request on ELPA
+:PROPERTIES:
+:CREATED:  [2019-09-21 Sat 13:24]
+:ID:       69a5a8a3-435c-48c3-a633-133f047399af
+:SOURCE:   https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
+:END:
+
+Causes many packages to not load properly, and finishes in big
+crashes. Emacs 26.3 fixes it, but it's not available on every platform
+yet.
+
+#+BEGIN_SRC emacs-lisp
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+#+END_SRC
 
 ** Refresh org mode version
 By default, emacs uses a fairly old version of org mode.  Since we
