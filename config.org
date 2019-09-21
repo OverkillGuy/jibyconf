@@ -836,8 +836,15 @@ Shows the equivalent of =git diff --word-diff=
 (global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
 #+END_SRC
 ** Orgit                                                                :org:
-Link to magit buffers from Org documents.
-Install the package ~orgit~. See the documentation in [[https://github.com/magit/orgit][package Github page]].
+:PROPERTIES:
+:SOURCE:   https://github.com/magit/orgit
+:END:
+Link to magit commits and branches from Org files.
+
+#+BEGIN_SRC emacs-lisp
+(use-package orgit
+  :after magit)
+#+END_SRC
 
 #+CAPTION: Using orgit in git repos
 #+BEGIN_EXAMPLE
