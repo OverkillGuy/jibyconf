@@ -7,9 +7,12 @@ devices like Termux.
 * Reload theme
 Already done as part of vanilla. Redo since it's giving me a black
 cursor instead of gold.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (load-theme 'tango-dark t)
 #+END_SRC
+
+Disabled for now since it breaks =ox-hugo= (reloading the theme seems to reset
+some =org-mode= config such as export backends).
 
 * Disable toolbar
 Remove the GUI tools (open,save etc) that take up a lot of space. This
