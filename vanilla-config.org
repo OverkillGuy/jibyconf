@@ -45,6 +45,13 @@ Avoid gnome beeps
 #+END_SRC
 
 * Locale                                                             :locale:
+
+** Date locale
+
+#+BEGIN_SRC emacs-lisp
+(setq system-time-locale "en_GB")
+#+END_SRC
+
 ** Double spacing navigation
 By default emacs assumes the American typist system of 2 spaces after
 a sentence-ending character (like ~.~). This makes using ~M-e~ navigation
