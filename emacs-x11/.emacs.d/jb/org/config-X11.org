@@ -1,4 +1,4 @@
-#+PROPERTY: header-args :tangle init-x11.el :results silent
+#+PROPERTY: header-args :tangle config-x11.el :results silent
 
 The side of my configuration that requires an X11 server, spun off
 from the main configuration file to have clean config loading on non-X
@@ -43,15 +43,17 @@ I like Monaco as a font, but it's not installed on all my boxes.
 ; Test char and monospace:
 ; 0123456789abcdefghijklmnopqrstuvwxyz [] () :;,. !@#$^&*
 ; 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ {} <> "'`  ~-_/|\?
-(cond
- ((find-font (font-spec :name "Monaco"))
-  (set-frame-font "Monaco-20"))
- ((find-font (font-spec :name "inconsolata"))
-  (set-frame-font "inconsolata-14"))
- ((find-font (font-spec :name "Lucida Console"))
-  (set-frame-font "Lucida Console-14"))
- ((find-font (font-spec :name "courier"))
-  (set-frame-font "courier-14")))
+;; (cond
+;;  (;; (find-font (font-spec :name "Monaco"))
+;;   ;; (set-frame-font "Monaco-15"))
+;;   ;; ((find-font (font-spec :name "courier"))
+;;   ;;  (set-frame-font "courier-20"))
+;;   ;; ((find-font (font-spec :name "inconsolata"))
+;;   ;;  (set-frame-font "inconsolata-20"))
+;;   ;; ((find-font (font-spec :name "Lucida Console"))
+;;   ;;  (set-frame-font "Lucida Console-20"))
+;;   (t (set-frame-font "mono-14"))))
+(set-frame-font "mono-14")
 #+END_SRC
 
 * UTF8 support

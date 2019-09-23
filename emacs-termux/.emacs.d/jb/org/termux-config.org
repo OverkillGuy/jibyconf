@@ -1,5 +1,5 @@
 #+TITLE: Termux-specific Emacs configuration
-#+PROPERTY: header-args :tangle yes :results silent
+#+PROPERTY: header-args :tangle config-termux.el :results silent
 
 A few adjustments to Emacs on Android via the amazing Termux.
 
@@ -59,7 +59,7 @@ Workaround is a script that wraps diff to generate what is expected by
 smerge and a decorator (function "advice" in emacs-speak) to smerge to
 invoke the modified version of diff
 
-#+BEGIN_SRC shell :shebang "#!/bin/bash" :tangle ~/../usr/bin/bnudiff
+#+BEGIN_SRC shell :shebang #!/data/data/com.termux/files/usr/bin/bash :tangle bnudiff
 # Copyright (C) 2016-12-06 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any

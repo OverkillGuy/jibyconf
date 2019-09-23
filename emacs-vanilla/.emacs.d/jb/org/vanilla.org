@@ -1,5 +1,5 @@
 #+TITLE: Config-changes subset of my Emacs init
-#+PROPERTY: header-args:emacs-lisp :tangle vanilla.el :results silent
+#+PROPERTY: header-args:emacs-lisp :tangle emacs-vanilla/.emacs.d/jb/vanilla.el :results silent
 This file contains the subset of my emacs config files that apply on
 any emacs-enabled machine.
 No extra emacs package allowed, no external tool required, no platform
@@ -530,7 +530,7 @@ Convert dired marks to use ediff.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'dired-load-hook
 	  (lambda ()
-	    (define-key dired-mode-map "e" 'ora-ediff-files)))
+	    (define-key dired-mode-map "=" 'ora-ediff-files)))
 #+END_SRC
 
 Does not work well for dired marks in multiple panels. Maybe this [[https://stackoverflow.com/questions/18121808/emacs-ediff-marked-files-in-different-dired-buffers][SO answer]]?

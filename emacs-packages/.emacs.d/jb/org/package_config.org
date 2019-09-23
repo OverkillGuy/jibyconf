@@ -16,6 +16,16 @@ Great resources for any emacs setup:
 - [[https://www.reddit.com/r/unixporn/comments/3lp961/exwm_so_emacs_is_now_my_window_manager/cv844gf/][Cool config]]
 - [[http://doc.rix.si/cce/cce-org.html][Some other config]] incl google dork for [[google: site:doc.rix.si/cce]]
 
+\begin{equation}
+\label{eq:1}
+\sum_{x=0}^{\inf}\cos 2x + \sqrt{y -2} = 4
+\end{equation}
+
+
+\begin{equation}
+\label{eq:2}
+\sum_{x=0}^{\inf} \frac{a x + b}{\sqrt{\phi^{2}}} = \cos \phi + \int_{y=0}^{k}{a + 2b}}}
+\end{equation}
 
 * Config file setup
 This file is part of a git repository that I sync across devices.
@@ -73,6 +83,11 @@ yet.
 
 #+BEGIN_SRC emacs-lisp
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+#+END_SRC
+** Bug hunter
+
+#+BEGIN_SRC emacs-lisp
+(use-package bug-hunter)
 #+END_SRC
 
 ** Refresh org mode version
@@ -439,7 +454,10 @@ different background-color to them to make delimitation visual.
 #+END_SRC
 And the associated trigger code:
 #+BEGIN_SRC emacs-lisp
-(setq org-src-block-faces '(("emacs-lisp" org-block-background)))
+(setq org-src-block-faces '(("emacs-lisp" org-block-background)
+			    ("c++" org-block-background)
+			    ("python" org-block-background)
+			    ("shell" org-block-background)))
 #+END_SRC
 **** TODO Apply the color-coding to other languages as appropriate
 ** Ditaa diagrams
@@ -986,6 +1004,14 @@ Testing HTTP requests via =restclient-mode=
 #+BEGIN_SRC emacs-lisp
 (use-package ob-restclient)
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package company-restclient
+  :disabled  ;; WHAT IS THERE TO COMPLETE ANYWAY
+  :after restclient company
+  :config (add-to-list 'company-backends 'company-restclient))
+#+END_SRC
+
 
 
 #+BEGIN_SRC restclient :tangle no
