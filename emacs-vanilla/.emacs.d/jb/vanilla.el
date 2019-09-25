@@ -230,9 +230,6 @@
 (load-file "packages/fic-mode.el")
 (add-hook 'prog-mode-hook 'turn-on-fic-mode)
 
-(load-file "packages/org-man.el")
-(require 'org-man)
-
 (defun set-docs-as-readonly ()
   "Make buffers readonly by default when folder matches pattern"
   (dolist (pattern '("~/dev/doc/.*"

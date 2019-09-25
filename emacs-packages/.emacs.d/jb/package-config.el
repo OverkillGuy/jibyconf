@@ -205,7 +205,7 @@
 
 (setq org-html-validation-link nil)
 
-(require 'org-tempo)
+
 
 (use-package ox-hugo
   :after ox
