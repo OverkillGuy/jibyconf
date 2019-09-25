@@ -1,4 +1,4 @@
-
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (setq package-archives
       '(("Gnu" . "https://elpa.gnu.org/packages/")
        ;("marmalade" . "https://marmalade-repo.org/packages/")
@@ -20,11 +20,11 @@
 
 (setq use-package-always-ensure t)
 
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
 (use-package bug-hunter)
 
-(use-package org)
+(use-package org-plus-contrib
+  :pin "Org"
+  :config (require 'org-man))
 
 (use-package esup)
 
