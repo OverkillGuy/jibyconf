@@ -199,7 +199,7 @@
   (org-re-reveal-title-slide
 	"<h1>%t</h1><h4>%s</h4><p>%a - %e<p>\n<p>%d </p>"))
 
-(setq org-re-reveal-root (concat "file://" (getenv "HOME") "/dev/foss/reveal.js/"))
+;; (setq org-re-reveal-root (concat "file://" (getenv "HOME") "/dev/foss/reveal.js/"))
 
 (setq org-re-reveal-script-files '("js/reveal.js"))
 
