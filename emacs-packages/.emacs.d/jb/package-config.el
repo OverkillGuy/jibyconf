@@ -196,8 +196,9 @@
 
 (use-package org-re-reveal
   :custom
+  ; First slide is title + subtitle + author + #+REVEAL_TALK_URL
   (org-re-reveal-title-slide
-	"<h1>%t</h1><h4>%s</h4><p>%a - %e<p>\n<p>%d </p>"))
+	"<h1>%t</h1><h4>%s</h4><p>%a - <a href=\"%u\">%u</a><p>\n<p>%d </p>"))
 
 ;; (setq org-re-reveal-root (concat "file://" (getenv "HOME") "/dev/foss/reveal.js/"))
 
