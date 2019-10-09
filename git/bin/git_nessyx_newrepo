@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# https://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+
+if [[ ! -d .git/ ]];
+then
+    echo "Current folder isn't a git repo!"
+    exit 1
+fi
+
+REMOTE_HOME=/data/data/com.termux/files/home
+
+LOCAL_PATH=(pwd | sed "s;$HOME/;;")
+
+ssh nessyx "mkdir -p $HOME/$LOCAL_PATH"
+ssh nessyx "cd $HOME/$LOCAL_PATH && git init && git-allow-master-push"
+
+git remote-add nessyx "ssh://nessyx$REMOTE_HOME/$LOCAL_PATH"
+git push nessyx master
