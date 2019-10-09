@@ -95,7 +95,7 @@
 
 (global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
 
-(global-set-key (kbd "C-c s") 'helm-projectile-ag)
+(global-set-key (kbd "C-c s") 'projectile-ag)
 
 (global-set-key (kbd "C-c %") 'projectile-replace)
 (global-set-key (kbd "C-c M-%") 'projectile-replace-regexp)
