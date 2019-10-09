@@ -9,6 +9,10 @@
 	("Melpa"  . 5)
 	("Gnu"    . 0)))
 
+; For "Failed to verify signature [pkgname]":
+; see https://emacs.stackexchange.com/a/52823
+; or https://elpa.gnu.org/packages/gnu-elpa-keyring-update.html
+
 (package-initialize)
 
 (if (not (locate-library "use-package"))
