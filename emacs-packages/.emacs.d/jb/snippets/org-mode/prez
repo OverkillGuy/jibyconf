@@ -1,34 +1,84 @@
-# -*- mode: snippet -*-
-#name : New Org-re-reveal presentation
-#key : prez
-# --
 #+title: $1
+#+subtitle: $0 
 #+author: Jb Doyon
-#+email: $2
+
+#+REVEAL_TALK_URL: https://jiby.tech/
 
 #+OPTIONS: toc:nil
+
+# This presentation is written for Org-mode (https://orgmode.org) in
+# Emacs generating reveal.js slides (https://revealjs.com) via
+# org-re-reveal package (https://gitlab.com/oer/org-re-reveal)
+
+# Enabling this means no speaker notes
+#+OPTIONS: reveal_single_file:nil
+
 #+REVEAL_THEME: blood
 
-
 * COMMENT Orga
-$0
+Resources here, links to original material, log of time spent etc
 
 * Press =S= for speaker notes
 
-#+REVEAL: split
+#+begin_notes
+Here go the super cool speaker notes.
+
+Note that there are "backup slides" after the Questions at the end.
+#+end_notes
+
+
+* 
 
 By
 
-*doing the thing I pitch*
+*doing X*
 
-you
+you get
 
-*get richer and happier*
+*something nice*
 
-* Three arguments
+** Specifically
 
-** Argument 1
+#+ATTR_REVEAL: :frag (roll-in)
+- Point 1
+- Point 2
+- Point 3
 
-** Argument 2
+#+begin_notes
+The fuller version:
+- More details on 1
+- same with 2
+- and with 3
+#+end_notes
 
-** Argument 3
+* Point 1
+
+* Point 2
+
+* Point 3
+
+* Recap
+- Point 1
+- Point 2
+- Point 3
+
+* Questions?
+#+begin_notes
+Skip to next page for the backup slides with extra material
+#+end_notes
+
+* Backup slides
+
+* EOF
+
+#+begin_notes
+Thank you for letting me tell you more than you needed to know about that thing!
+#+end_notes
+
+* COMMENT Local variables                                           :ARCHIVE:
+:PROPERTIES:
+:END:
+For auto-exporting the presentation on saved file in Emacs.
+# Local Variables:
+# eval: (add-hook 'after-save-hook #'org-re-reveal-export-to-html :append :local)
+# End:
