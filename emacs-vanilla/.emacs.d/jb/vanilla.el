@@ -241,3 +241,14 @@
 (add-hook 'find-file-hook 'set-docs-as-readonly)
 
 (setq doc-view-continuous t)
+
+
+(defun pdb-tests ()
+  "Run PDB on this pipenv-enabled pytests (after test failed)"
+  (interactive)
+  (pdb "pipenv run pytest --pdb"))
+
+(defun pdb-tests-trace ()
+  "Run PDB on this pipenv-enabled pytests (before any tests run)"
+  (interactive)
+  (pdb "pipenv run pytest --trace"))
