@@ -525,3 +525,7 @@ will not be modified."
    libnotify nil))
 
 (use-package org-vcard)
+
+(use-package vlf
+  :config
+  (require 'vlf-setup))
