@@ -21,9 +21,9 @@ and (future) emacs-only packages sections.
 (use-package plantuml-mode
 ; TODO try out the plantuml-download-jar func change pkgcheck to if
 ; java+dot available ensure downloaded
-  :if (file-exists-p "~/scripts/plantuml.jar")
+  :if (file-exists-p "/opt/plantuml/jar/plantuml.jar")
   :custom
-  (plantuml-jar-path (expand-file-name "~/scripts/plantuml.jar"))
+  (plantuml-jar-path (expand-file-name "/opt/plantuml/jar/plantuml.jar"))
   (org-plantuml-jar-path plantuml-jar-path)
   (plantuml-default-exec-mode 'jar)
   (plantuml-output-type "png"))

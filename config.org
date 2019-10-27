@@ -479,7 +479,7 @@ Customize the title slide to show title, author, and date.
 #+END_SRC
 
 Cloning [[https://github.com/hakimel/reveal.js][reveal.js]] in =~/dev/foss/reveal.js= to use it as root in config.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (setq org-re-reveal-root (concat "file://" (getenv "HOME") "/dev/foss/reveal.js/"))
 #+END_SRC
 
