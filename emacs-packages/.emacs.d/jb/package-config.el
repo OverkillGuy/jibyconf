@@ -529,3 +529,5 @@ will not be modified."
 (use-package vlf
   :config
   (require 'vlf-setup))
+
+(use-package csv-mode)
