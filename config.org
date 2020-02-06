@@ -936,7 +936,8 @@ of implementation, tell it to use guile always.
 For those sweet, sweet Jenkinsfiles.
 
 #+BEGIN_SRC emacs-lisp
-(use-package groovy-mode)
+(use-package groovy-mode
+  :custom (groovy-indent-offset 2))
 #+END_SRC
 ** Apache-conf
 
