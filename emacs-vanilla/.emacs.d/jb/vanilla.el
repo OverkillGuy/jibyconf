@@ -21,8 +21,9 @@
 
 (setq calendar-week-start-day 1)
 
-(require 'info)
-(add-to-list 'Info-directory-list "~/dev/doc/info")
+;; I like to keep manuals for software I don't have installed on the
+;; current machine in that folder, to browse on phone etc
+(setq Info-additional-directory-list '("~/dev/doc/info"))
 
 (setq make-backup-files nil)
 
