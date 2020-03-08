@@ -58,3 +58,9 @@
   ;; Workaround of https://github.com/jsinglet/latex-preview-pane/issues/47
   (advice-add 'doc-view-revert-buffer :before
 	    'pdf-view-revert-buffer))
+
+;; Enable horizontal scroll
+(setq mouse-wheel-tilt-scroll t)
+;; However it's flipped on my machine: reverse it
+(setq mouse-wheel-flip-direction t)
+
