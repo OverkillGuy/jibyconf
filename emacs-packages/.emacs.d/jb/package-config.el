@@ -531,3 +531,11 @@ will not be modified."
   (require 'vlf-setup))
 
 (use-package csv-mode)
+
+;; For Firefox text-editing support, using plugin
+;; https://addons.mozilla.org/en-US/firefox/addon/edit-with-emacs1
+(use-package edit-server
+  :init (edit-server-start)
+  :custom
+  (edit-server-url-major-mode-alist
+        '(("github\\.com" . markdown-mode))))
