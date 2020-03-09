@@ -60,6 +60,20 @@ toggle on that feature.
 #+BEGIN_SRC emacs-lisp
 (setq use-package-always-ensure t)
 #+END_SRC
+** Fix bad request on ELPA
+:PROPERTIES:
+:CREATED:  [2019-09-21 Sat 13:24]
+:ID:       69a5a8a3-435c-48c3-a633-133f047399af
+:SOURCE:   https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
+:END:
+
+Causes many packages to not load properly, and finishes in big
+crashes. Emacs 26.3 fixes it, but it's not available on every platform
+yet.
+
+#+BEGIN_SRC emacs-lisp
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+#+END_SRC
 
 ** Refresh org mode version
 By default, emacs uses a fairly old version of org mode.  Since we
@@ -482,6 +496,12 @@ Cloning [[https://github.com/hakimel/reveal.js][reveal.js]] in =~/dev/foss/revea
 #+BEGIN_SRC emacs-lisp :tangle no
 (setq org-re-reveal-root (concat "file://" (getenv "HOME") "/dev/foss/reveal.js/"))
 #+END_SRC
+Since we're using the latest version of, the script files variable needs
+customized (see more info in the docstring of that var).
+
+#+BEGIN_SRC emacs-lisp
+(setq org-re-reveal-script-files '("js/reveal.js"))
+#+END_SRC
 
 ** Remove validate link in unstyled HTML exports
 When exporting to HTML from Org, especially when I don't use a styling
@@ -759,16 +779,15 @@ Effectively giving user a template system.
 (use-package yasnippet
   :diminish yas-minor-mode
   :config
+  (add-to-list 'yas-snippet-dirs
+	       (concat jb/config-repo-path "snippets/") t)
   (yas-global-mode 1))
 #+END_SRC
 And the default snippets:
 
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet-snippets
-  :after yasnippet
-  :config
-  (setq yas-snippet-dirs (add-to-list 'yas-snippet-dirs
-				      (concat jb/config-repo-path "snippets/") t)))
+  :after yasnippet)
 #+END_SRC
 
 Separate folder with my snippets at [[file:snippets/]].
@@ -817,8 +836,15 @@ Shows the equivalent of =git diff --word-diff=
 (global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
 #+END_SRC
 ** Orgit                                                                :org:
-Link to magit buffers from Org documents.
-Install the package ~orgit~. See the documentation in [[https://github.com/magit/orgit][package Github page]].
+:PROPERTIES:
+:SOURCE:   https://github.com/magit/orgit
+:END:
+Link to magit commits and branches from Org files.
+
+#+BEGIN_SRC emacs-lisp
+(use-package orgit
+  :after magit)
+#+END_SRC
 
 #+CAPTION: Using orgit in git repos
 #+BEGIN_EXAMPLE
@@ -1100,19 +1126,25 @@ bugging me.
 
 * Remote editing
 ** TRAMP
+:PROPERTIES:
+:CREATED:  [2019-09-20 Fri 22:48]
+:ID:       c2e67d8e-4420-477e-aa32-78ad9fd2d4d9
+:END:
 
 #+BEGIN_SRC emacs-lisp
 (use-package tramp
+  :ensure t
   :custom (tramp-default-method "ssh"))
 #+END_SRC
 
-** Access files in Docker via TRAMP
+** Docker file access
 :PROPERTIES:
 :SOURCE:   https://ligerlearn.com/using-emacs-edit-files-within-docker-containers/
 :END:
 
 #+BEGIN_SRC emacs-lisp
-(use-package docker-tramp)
+(use-package docker-tramp
+  :after tramp)
 #+END_SRC
 
 

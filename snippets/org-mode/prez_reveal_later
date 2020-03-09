@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#key : frag
+#name : reveal.js later
+# --
+#+ATTR_REVEAL: :frag roll-in
+$0
