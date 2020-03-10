@@ -370,7 +370,8 @@ will not be modified."
 (use-package geiser
   :custom ( geiser-default-implementation 'guile))
 
-(use-package groovy-mode)
+(use-package groovy-mode
+  :custom (groovy-indent-offset 2))
 
 (use-package apache-mode)
 
