@@ -163,7 +163,13 @@
          "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
         ("c" "Calendar entry" entry
          (file "~/dev/notes/calendar.org")
-         "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")))
+         "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")
+	("P" "Protocol" entry
+	 (file "~/org/notes.org")
+        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+	("L" "Protocol Link" entry
+	 (file "~/org/notes.org")
+        "* %? [[%:link][%:description]] \nCaptured On: %U")))
 
 (setq org-cycle-separator-lines 1)
 
@@ -542,6 +548,14 @@ will not be modified."
   :custom
   (edit-server-url-major-mode-alist
         '(("github\\.com" . markdown-mode))))
+(use-package company-lsp
+    :config
+    (push 'company-lsp company-backends))
 
 (use-package dired-launch
  :config (dired-launch-enable))
+
+;; Matched with the scheme handler in
+;; ~/.local/share/applications/org-protocol.desktop
+;; Then cmd `update-desktop-database ~/.local/share/applications/`
+(require 'org-protocol)
