@@ -542,3 +542,6 @@ will not be modified."
   :custom
   (edit-server-url-major-mode-alist
         '(("github\\.com" . markdown-mode))))
+
+(use-package dired-launch
+ :config (dired-launch-enable))
