@@ -1,0 +1,20 @@
+---
+- hosts: all
+  tasks:
+    - name: Ensure emacs is installed
+      apt:
+        name: emacs
+    # - name: Ensure dependencies of pdf-tools are installed
+    #   apt:
+    #     pkg:
+    #       - autoconf
+    #       - automake
+    #       - g++
+    #       - gcc
+    #       - libpng-dev
+    #       - libpoppler-dev
+    #       - libpoppler-glib-dev
+    #       - libpoppler-private-dev
+    #       - libz-dev
+    #       - make
+    #       - pkg-config
