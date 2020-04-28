@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - name: Ensure apt packages are up to date
+      apt:
+        upgrade: full

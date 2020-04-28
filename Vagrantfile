@@ -3,15 +3,16 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/testing64"
 
+  # Install ansible locally
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     DEBIAN_FRONTEND=noninteractive apt-get install -y ansible
   SHELL
 
   config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook       = "playbook.yml"
+    ansible.playbook       = "playbook/main.yml"
     ansible.inventory_path = "inventory"
-    ansible.limit          = "all" # or only "nodes" group, etc.
+    ansible.limit          = "all"
     ansible.become         = true
     # ansible.verbose        = true
   end

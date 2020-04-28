@@ -1,20 +1,34 @@
 ---
 - hosts: all
   tasks:
-    - name: Ensure emacs is installed
+    - name: Install emacs (no X)
+      apt:
+        name: emacs-nox
+    - name: Install emacs (X11) is installed
+      when: x11_enabled|bool
       apt:
         name: emacs
-    # - name: Ensure dependencies of pdf-tools are installed
-    #   apt:
-    #     pkg:
-    #       - autoconf
-    #       - automake
-    #       - g++
-    #       - gcc
-    #       - libpng-dev
-    #       - libpoppler-dev
-    #       - libpoppler-glib-dev
-    #       - libpoppler-private-dev
-    #       - libz-dev
-    #       - make
-    #       - pkg-config
+    - name: Install dependencies of pdf-tools package
+      when: x11_enabled|bool
+      apt:
+        pkg:
+          - autoconf
+          - automake
+          - g++
+          - gcc
+          - libpng-dev
+          - libpoppler-dev
+          - libpoppler-glib-dev
+          - libpoppler-private-dev
+          - libz-dev
+          - make
+          - pkg-config
+    - name: Install full texlive distro
+      when: x11_enabled|bool
+      apt:
+        pkg: texlive-full
+
+      
+
+
+# TODO: Add the emacs-conf repo and stow

@@ -1,0 +1,4 @@
+---
+- import_playbook: pkg_update.yml
+- import_playbook: emacs.yml
+- import_playbook: plantuml.yml

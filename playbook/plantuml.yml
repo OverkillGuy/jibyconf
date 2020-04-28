@@ -1,0 +1,20 @@
+---
+- hosts: all
+  tasks:
+  - name: Install plantuml deps
+    apt:
+      pkg:
+        - openjdk-11-jre-headless
+        - graphviz
+      state: latest
+  - name: Ensure plantuml jar folder exists
+    file:
+      path: /opt/plantuml/jar/
+      state: directory
+      mode: '0755'
+  - name: Download plantuml latest
+    get_url:
+      url: https://sourceforge.net/projects/plantuml/files/latest/download
+      dest: /opt/plantuml/jar/plantuml.jar
+      mode: '0755'
+
