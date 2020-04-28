@@ -17,4 +17,5 @@
       url: https://sourceforge.net/projects/plantuml/files/latest/download
       dest: /opt/plantuml/jar/plantuml.jar
       mode: '0755'
-
+  # TODO: Check install via java -jar /opt/plantuml/jar/plantuml.jar -v
+  # TODO: Copy over ~/bin/plantuml to wrap calls

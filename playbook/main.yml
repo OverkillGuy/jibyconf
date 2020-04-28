@@ -2,3 +2,8 @@
 - import_playbook: pkg_update.yml
 - import_playbook: emacs.yml
 - import_playbook: plantuml.yml
+
+# TODO: pipx for jupyter playbook
+# TODO: Desktop setup (bt, vlc, firefox, deluge, artha)
+# TODO: dev tools install (pass, jq, silversearcher-ag, net-tools)
+# TODO: VPN via wireguard

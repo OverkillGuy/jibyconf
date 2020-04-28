@@ -27,8 +27,4 @@
       when: x11_enabled|bool
       apt:
         pkg: texlive-full
-
-      
-
-
-# TODO: Add the emacs-conf repo and stow
+    # TODO: Add the emacs-conf repo and deployment via stow

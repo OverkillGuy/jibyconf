@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+    - name: Ensure MATE desktop environment is installed
+      apt:
+        name: mate-desktop-environment
+        state: present
+    - name: Ensure customizations available
+      apt:
+        pkg:
+          - shiki-brave-theme
+          - fonts-firacode
+          - blueman
