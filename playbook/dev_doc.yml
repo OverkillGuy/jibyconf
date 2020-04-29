@@ -1,0 +1,17 @@
+---
+- hosts: all
+  tasks:
+    - name: Ensure ~/dev/docs exists
+      file:
+        path: "{{ ansible_env.HOME}}/dev/doc/"
+        state: directory
+        mode: '0755'
+    - name: Ensure unzip available
+      become: yes
+      apt:
+        pkg: unzip
+    - name: Get Python3 docs
+      unarchive:
+        src: https://docs.python.org/3/archives/python-3.8.2-docs-html.zip
+        dest: "{{ ansible_env.HOME}}/dev/doc/"
+        remote_src: yes
