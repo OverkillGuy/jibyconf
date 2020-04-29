@@ -29,15 +29,28 @@ This will:
 The setup is a vagrant machine. Read the [vagrant CLI docs](https://www.vagrantup.com/docs/cli/) for details.
 The most common operation is to launch the machine via `vagrant up`, and ssh to it via `vagrant ssh`.
 
-If the machine is to be manipulated outside vagrant (via Virtualbox or directly over SSH), consider using [vagrant ssh-config](https://www.vagrantup.com/docs/cli/ssh_config.html) to simplify future connections via standalone SSH.
+If the machine is to be manipulated outside vagrant (via Virtualbox or
+directly over SSH), consider using [vagrant ssh-config](https://www.vagrantup.com/docs/cli/ssh_config.html) to
+simplify future connections via standalone SSH.
 
 Rebuild the machine by burning it down, reproducing it from basebox:
 
 	# WARNING: This destroys your copy of the machine, rebuilding it from scratch
 	vagrant destroy -f && vagrant up --provision
 
-Users comfortable with Ansible should look at the playbook as mostly separate from Vagrant using it.
+Users comfortable with Ansible should look at the playbook as mostly
+separate from Vagrant using it.
+
+After updating the playbook with a running VM, you might want to
+re-run the provisioning without restarting from scratch. Use the
+following command:
+
+	vagrant rsync && vagrant provision
+
+## Further reading
+Compare with https://github.com/math0ne/dotfiles/, another Ansible + stow solution
 
 
+Testing the merging of repos, from [SO](https://stackoverflow.com/a/14992078)
 
-
+	git subtree add --prefix=rails git://github.com/rails/rails.git master
