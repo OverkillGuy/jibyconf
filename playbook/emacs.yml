@@ -56,4 +56,18 @@
     #   when: emacsconf_folder.stat.exists and emacsconf_folder.stat.isdir
     #   shell: git fetch /vagrant/data/jiby-emacsconf.bundle /home/vagrant/dev/conf/emacs-conf -b stowage
 
-    # TODO: Add the emacs-conf repo and deployment via stow
+# Deployment via stow
+
+    - name: Install stow for deployment of emacs conf
+      become: true
+      apt:
+        pkg: stow
+    - name: Deploy the emacs-conf repo via stow
+      shell: "stow --dir ~/dev/conf/emacs-conf --target /home/vagrant/ {{ item }}"
+      loop:
+        - bash
+        - git
+        - emacs
+        - emacs-vanilla
+        - emacs-packages
+        - emacs-external
