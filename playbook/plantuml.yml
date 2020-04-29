@@ -2,15 +2,19 @@
 - hosts: all
   tasks:
   - name: Install plantuml deps
+    become: true
     apt:
       pkg:
         - openjdk-11-jre-headless
         - graphviz
       state: latest
   - name: Ensure plantuml jar folder exists
+    become: true
     file:
       path: /opt/plantuml/jar/
       state: directory
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
       mode: '0755'
   - name: Download plantuml latest
     get_url:

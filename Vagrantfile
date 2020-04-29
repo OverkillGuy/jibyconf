@@ -13,7 +13,6 @@ Vagrant.configure("2") do |config|
     ansible.playbook       = "playbook/main.yml"
     ansible.inventory_path = "inventory"
     ansible.limit          = "all"
-    ansible.become         = true
     # ansible.verbose        = true
   end
 end
