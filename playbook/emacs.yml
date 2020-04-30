@@ -40,21 +40,21 @@
         pkg: git
     - name: Ensure ~/dev/conf/ exists for emacs config
       file:
-        path: /home/vagrant/dev/conf
+        path: "{{ ansible_env.HOME}}/dev/conf"
         state: directory
         mode: '0755'
     - name: Check ~/dev/conf/emacs-config cloned
       register: emacsconf_folder
       stat:
-        path: /home/vagrant/dev/conf/emacs-conf
+        path: "{{ ansible_env.HOME}}/dev/conf/emacs-conf"
     - name: Clone the emacs-conf repo from bundle
       when: not emacsconf_folder.stat.exists
       # Ideally use the git ansible module instead, but it doesn't do bundle-file-cloning like git CLI
-      shell: git clone /vagrant/data/jiby-emacsconf.bundle /home/vagrant/dev/conf/emacs-conf -b stowage
+      shell: "git clone /vagrant/data/jiby-emacsconf.bundle {{ ansible_env.HOME}}/dev/conf/emacs-conf -b stowage"
     # # TODO: Register the remote bundle before fetching from it
     # - name: Update the emacs-conf repo from bundle
     #   when: emacsconf_folder.stat.exists and emacsconf_folder.stat.isdir
-    #   shell: git fetch /vagrant/data/jiby-emacsconf.bundle /home/vagrant/dev/conf/emacs-conf -b stowage
+    #   shell: "git fetch /vagrant/data/jiby-emacsconf.bundle {{ ansible_env.HOME}}/dev/conf/emacs-conf -b stowage"
 
 # Deployment via stow
 
@@ -63,7 +63,7 @@
       apt:
         pkg: stow
     - name: Deploy the emacs-conf repo via stow
-      shell: "stow --dir ~/dev/conf/emacs-conf --target /home/vagrant/ {{ item }}"
+      shell: "stow --dir ~/dev/conf/emacs-conf --target {{ ansible_env.HOME}}/ {{ item }}"
       loop:
         - bash
         - git
