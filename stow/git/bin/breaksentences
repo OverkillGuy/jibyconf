@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#AUTHOR: Jb Doyon<jb@jiby.tech>
+set -euo pipefail
+
+sed -r -e 's/\. +/.\n/g' $*

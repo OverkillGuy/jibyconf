@@ -1,0 +1,168 @@
+#+TITLE: Termux-specific Emacs configuration
+#+PROPERTY: header-args :tangle config-termux.el :results silent
+
+A few adjustments to Emacs on Android via the amazing Termux.
+
+* Android web-browser                                                   :web:
+Emacs knows only so many browsers, and termux's ~termux-open-url~
+shortcut is not one of those. Let's use elisp's =advice= feature to
+add a raw support for opening links outside Emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (advice-add 'browse-url-default-browser :override
+              (lambda (url &rest args)
+                (start-process-shell-command "open-url" nil (concat "termux-open-url " url))))
+#+END_SRC
+* Magit-diff colors                                            :cosmetic:git:
+Magit's diff color green seems a little subdued on Termux, and its red
+is purple. This is because termux's 256 colors don't map well to the
+RGB values defined in Magit. Fix those color issues
+
+#+BEGIN_SRC emacs-lisp
+  ; Colors when hunk is selected
+  (set-face-attribute 'magit-diff-added-highlight nil  :background "color-28")
+  (set-face-attribute 'magit-diff-removed-highlight nil  :background "color-88")
+  ; Colors when hunk is not selected
+  (set-face-attribute 'magit-diff-added nil  :background "color-71")
+  (set-face-attribute 'magit-diff-removed nil  :background "color-124")
+#+END_SRC
+* Man directories                                                       :man:
+By default the manual pages are searched in ~/usr~.
+Fix this by adding the termux prefix path to  Woman manual page
+
+#+BEGIN_SRC emacs-lisp
+(require 'woman)
+(add-to-list 'woman-manpath "/data/data/com.termux/files/usr/share/man")
+#+END_SRC
+
+Same for info pages
+
+#+BEGIN_SRC emacs-lisp
+(require 'info)
+(add-to-list 'Info-directory-list "/data/data/com.termux/files/home/dev/doc/info")
+#+END_SRC
+
+* Magit diff error
+Issue when trying to stage hunks inside emacs:
+#+BEGIN_EXAMPLE
+smerge-refine-subst: Unexpected patch hunk header: ---  /data/data/com.termux/files/usr/tmp/diff126440YcZ
+#+END_EXAMPLE
+
+This is really annoying as it prevents me from committing anything
+from Termux in my preffered workflow.
+
+Someone figured out the issue in this [[https://emacs.stackexchange.com/questions/28912/diff-refine-hunk-with-unified-diff][SO answer]].
+
+Busybox diff output in normal invokation generates a unified diff,
+which smerge does not expect as it did not pass the =-u= flag.
+Workaround is a script that wraps diff to generate what is expected by
+smerge and a decorator (function "advice" in emacs-speak) to smerge to
+invoke the modified version of diff
+
+#+BEGIN_SRC shell :shebang #!/data/data/com.termux/files/usr/bin/bash :tangle bnudiff
+# Copyright (C) 2016-12-06 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+diff -U0 "$@" \
+| sed '1,2 d; s/^-/< /; s/^+/> /; /^[^@]/ { s/%/%1/g; s/@/%2/g; }' \
+| tr '\0' @ \
+| awk '
+   /^>/ {
+    if(op ~ "^c$")
+    {
+     print "---"
+    }
+    op = ""
+   }
+   /^@/ {
+    op = ""
+    split(substr($2, 2), old, ",")
+    split(substr($3, 2), new, ",")
+    old[3] = old[1] + old[2] - 1
+    if(old[3] > old[1])
+    {
+     old[3] = old[1] "," old[3]
+    }
+    else
+    {
+     if(old[2] ~ "^0$")
+     {
+      op = "a"
+     }
+     old[3] = old[1]
+    }
+    new[3] = new[1] + new[2] - 1
+    if(new[3] > new[1])
+    {
+     new[3] = new[1] "," new[3]
+    }
+    else
+    {
+     if(new[2] ~ "^0$")
+     {
+      op = "d"
+     }
+     new[3] = new[1]
+    }
+    if(op ~ "^$")
+    {
+     op = "c"
+    }
+    $0 = old[3] op new[3]
+   }
+   { print }
+  ' \
+| tr @ '\0' \
+| sed 's/%2/@/g; s/%1/%/g'
+#+END_SRC
+Because termux has a weird location for its interpreter, we need to
+make sure we post-process the script to fix its shebang making it
+properly executable:
+
+#+BEGIN_SRC shell :tangle no
+termux-fix-shebang ~/../usr/bin/bnudiff
+# changes shebang to: #!/data/data/com.termux/files/usr/bin/bash
+#+END_SRC
+
+Lastly we define an elisp advice wrapping the system diff invokation to call
+our variant instead of the normal diff utility which caused issues.
+#+BEGIN_SRC emacs-lisp
+(defun smerge-refine-subst-wrapper (smerge-refine-subst-real &rest arguments)
+  (let ((diff-command "bnudiff"))
+    (apply smerge-refine-subst-real arguments)))
+
+(advice-add 'smerge-refine-regions :around #'smerge-refine-subst-wrapper)
+#+END_SRC
+All fixed now!
+* Alerts in Termux
+:PROPERTIES:
+:SOURCE:   https://github.com/gergelypolonkai/alert-termux
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package alert
+  :config
+  (setq alert-default-style 'termux))
+#+END_SRC
+* Clipboard                                                        :disabled:
+:PROPERTIES:
+:CREATED:  [2019-07-21 Sun 13:13]
+:ID:       7b6f281c-aa07-4970-949c-c4f0d5d5b083
+:SOURCE:   https://sachachua.com/blog/category/geek/emacs/#post-29449
+:END:
+Waiting for =xclip= 1.9 to land in ELPA, which includes support for
+=termux-get-clipboard=.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package xclip
+  :config (xclip-mode 1))
+#+END_SRC

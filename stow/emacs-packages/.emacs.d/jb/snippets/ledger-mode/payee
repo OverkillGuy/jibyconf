@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: payee
+# key: payee
+# yas-auto-indent: nil
+# --
+payee $0
+  alias ^$1$

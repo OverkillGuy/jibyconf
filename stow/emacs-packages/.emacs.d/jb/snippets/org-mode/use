@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#name : New Emacs package
+#key : use
+# --
+#+BEGIN_SRC emacs-lisp
+(use-package $0)
+#+END_SRC

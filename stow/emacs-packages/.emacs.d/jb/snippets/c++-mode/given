@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# key: giv
+# name: Given preconditions
+# --
+// GIVEN ${1:preconditions}
+$0

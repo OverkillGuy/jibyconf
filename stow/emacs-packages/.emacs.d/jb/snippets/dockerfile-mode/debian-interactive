@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# key: interactive
+# name: Aptitude non-interactive envvar
+# --
+# Avoid questions from aptitude by telling it the terminal can't
+# answer them (non-interactive)
+ARG DEBIAN_FRONTEND=noninteractive
+
+apt-get$0

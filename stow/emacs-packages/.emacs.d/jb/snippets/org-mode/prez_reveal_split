@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#key : --
+#name : reveal.js split
+# --
+#+REVEAL: split
+$0

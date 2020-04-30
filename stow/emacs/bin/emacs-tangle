@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#AUTHOR: Jb Doyon<jb@jiby.tech>
+# https://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+
+# tangle files with org-mode
+
+emacs -Q --batch --eval "
+    (progn
+      (require 'ob-tangle)
+      (dolist (file command-line-args-left)
+	(with-current-buffer (find-file-noselect file)
+	  (org-babel-tangle))))" "$@"

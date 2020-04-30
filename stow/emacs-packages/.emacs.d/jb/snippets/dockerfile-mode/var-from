@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# key: from
+# name: Variable FROM
+# --
+ARG ROOT_IMAGE
+FROM ${ROOT_IMAGE}

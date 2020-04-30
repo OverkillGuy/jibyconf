@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# key: new
+# name: New compose file
+# --
+version: "3"
+services:
+  ${1:service-name}:
+    build:
+      context: .
+      args:
+        - ROOT_IMAGE=ubuntu:18.04
+    image: ${2:image-name}
+    command: $0
+    volumes:
+      - ./:/home
+    working_dir: /home

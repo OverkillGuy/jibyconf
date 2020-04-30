@@ -1,0 +1,177 @@
+#+PROPERTY: header-args :tangle config-x11.el :results silent
+
+The side of my configuration that requires an X11 server, spun off
+from the main configuration file to have clean config loading on non-X
+devices like Termux.
+
+* Reload theme
+Already done as part of vanilla. Redo since it's giving me a black
+cursor instead of gold.
+#+BEGIN_SRC emacs-lisp :tangle no
+(load-theme 'tango-dark t)
+#+END_SRC
+
+Disabled for now since it breaks =ox-hugo= (reloading the theme seems to reset
+some =org-mode= config such as export backends).
+
+* Disable toolbar
+Remove the GUI tools (open,save etc) that take up a lot of space. This
+is technically already done in vanilla config, but this file is
+reloaded on every GUI frame created.
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+#+END_SRC
+
+* Orgmode verbatim font                                                 :org:
+=Verbatim text= in org-mode should be grey, surrounded by beveled box.
+Also, hide the === markers around such ~things~.
+
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'org-verbatim nil
+		    :box
+		    '(:line-width 2 :color "grey75" :style released-button)
+		    :inherit
+		    'shadow)
+(setq org-hide-emphasis-markers t)
+#+END_SRC
+
+
+* Change default font                                         :cosmetic:font:
+I like Monaco as a font, but it's not installed on all my boxes.
+#+BEGIN_SRC emacs-lisp
+; Test char and monospace:
+; 0123456789abcdefghijklmnopqrstuvwxyz [] () :;,. !@#$^&*
+; 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ {} <> "'`  ~-_/|\?
+;; (cond
+;;  (;; (find-font (font-spec :name "Monaco"))
+;;   ;; (set-frame-font "Monaco-15"))
+;;   ;; ((find-font (font-spec :name "courier"))
+;;   ;;  (set-frame-font "courier-20"))
+;;   ;; ((find-font (font-spec :name "inconsolata"))
+;;   ;;  (set-frame-font "inconsolata-20"))
+;;   ;; ((find-font (font-spec :name "Lucida Console"))
+;;   ;;  (set-frame-font "Lucida Console-20"))
+;;   (t (set-frame-font "mono-14"))))
+(set-frame-font "mono-14")
+#+END_SRC
+
+* UTF8 support
+** Clipboard UTF8
+#+BEGIN_SRC emacs-lisp
+;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+#+END_SRC
+
+** Symbola fallback
+:PROPERTIES:
+:SOURCE:   [[http://endlessparentheses.com/manually-choose-a-fallback-font-for-unicode.html][endless-parentheses]]
+:END:
+Use Symbola font ([[http://www.fonts2u.com/symbola.font][download link]]) as fallback font, for those Unicode
+symbols that my coding fonts don't cover.
+#+BEGIN_SRC emacs-lisp
+(set-fontset-font "fontset-default" nil
+                  (font-spec :name "Symbola"))
+#+END_SRC
+
+* Powerline                                                  :GUIonly:
+:PROPERTIES:
+:SOURCE:   [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]]
+:END:
+I want my Emacs to look cool, so I changed the mode line accordingly.
+#+BEGIN_SRC emacs-lisp
+;; Cosmetic : change modeline aspect
+(use-package powerline
+  :config
+  (powerline-default-theme)
+  (set-face-attribute 'mode-line nil
+                      :foreground "White"
+                      :background "DarkBlue"
+                      :box nil))
+#+END_SRC
+Because I wanted to feel like I'm actually customizing rather than
+copying and pasting, I changed the colors to my liking (blue !)
+
+* Mouse avoids cursor
+Using [[help:avoid][avoid package]], moves mouse out of my way when the mouse is
+visible (not in a terminal).
+#+BEGIN_SRC emacs-lisp
+(if (display-mouse-p) (mouse-avoidance-mode 'animate))
+#+END_SRC
+
+* Use Firefox for browsing URLs
+My favourite browser!
+#+BEGIN_SRC emacs-lisp
+(setq browse-url-browser-function 'browse-url-firefox)
+#+END_SRC
+
+* Editing HTML textarea from Firefox                               :disabled:
+:LOGBOOK:
+- Note taken on [2019-04-29 Mon 22:01] \\
+  Doesn't work post-quantum. See [[file:external-pkg-config.org::*Tridactyl%20(firefox%20control)][Tridactyl (firefox control)}]]
+:END:
+From my browser, I can press =F8= on textareas to jump to emacs for
+longform text editing. This is awesome to edit tickets comfortably.
+This done by using the [[https://addons.mozilla.org/en-US/firefox/addon/its-all-text/][It's All Text]] add-on to Firefox. Too bad the
+extension doesn't work post-quantum (forcing me to stay on
+firefox-ESR). The configuration on the extension is ridiculously
+simple:
+
+#+BEGIN_SRC conf :tangle no
+editor=/usr/local/bin/emacsclient
+hotkey=F8
+#+END_SRC
+
+** Markdown for Phabricator buffers edited via server-mode
+:PROPERTIES:
+:SOURCE:   [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]]
+:END:
+By default, files are opened by =emacsclient= in =text-mode= via
+=server.el=. Since Phabricator, the thing I use most, is using
+[[https://secure.phabricator.com/book/phabricator/article/remarkup/][Remarkup]], a variant of markdown, I want to edit in =markdown-mode=.
+This can be done via hooks in =server.el=.
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-hook 'server-switch-hook
+          (lambda ()
+            (when (and server-buffer-clients
+                       (string-match "^phabricator\." (buffer-name)))
+              (markdown-mode))))
+#+END_SRC
+The variable =server-buffer-clients= is meant to be buffer-local, and
+set to non-nil values when the current buffer is edited via
+=server-mode=. Checking the buffer name/file name for the "phabricator"
+prefix works because the extension I'm using creates local filenames
+by using the url encoded (replacing slashes with underscores).
+
+* Force enabling dead keys
+My French keyboard on emacs won't type dead keys by default, this fixes it.
+#+BEGIN_SRC emacs-lisp
+(require 'iso-transl)
+#+END_SRC
+
+* Advanced PDF viewer
+:PROPERTIES:
+:CREATED:  [2019-07-15 Mon 23:12]
+:ID:       c23b24c1-31fe-45dc-bd93-099629cf3a92
+:SOURCE:   https://www.reddit.com/r/emacs/comments/7ux1qj/using_auctex_mode_to_sync_latex_documents_and/
+:SOURCE:   http://pragmaticemacs.com/emacs/view-and-annotate-pdfs-in-emacs-with-pdf-tools/
+:END:
+Use =pdf-tools= for latex review
+
+#+BEGIN_SRC emacs-lisp
+(use-package pdf-tools
+  :after tex-mode latex-preview-pane
+  :config
+  (pdf-loader-install)
+  ;; open pdfs scaled to fit page
+  (setq-default pdf-view-display-size 'fit-page)
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+	TeX-source-correlate-start-server t)
+  ;; revert pdf-view after compilation
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+  ;; Fix pdf-tools not updating properly in latex-preview-pane
+  ;; Workaround of https://github.com/jsinglet/latex-preview-pane/issues/47
+  (advice-add 'doc-view-revert-buffer :before
+	    'pdf-view-revert-buffer))
+
+#+END_SRC

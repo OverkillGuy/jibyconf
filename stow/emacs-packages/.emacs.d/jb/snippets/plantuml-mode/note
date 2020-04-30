@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#key : note
+#name : new-note
+# --
+note ${1:->$(yas-completing-read "direction?" '("bottom" "top" "left" "right"))} of $2
+  $0
+end note

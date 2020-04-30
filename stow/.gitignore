@@ -1,0 +1,59 @@
+# -*- mode: gitignore; -*-
+# From https://raw.githubusercontent.com/github/gitignore/master/Global/Emacs.gitignore
+
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# flymake-mode
+*_flymake.*
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# elpa packages
+/elpa/
+
+# reftex files
+*.rel
+
+# AUCTeX auto folder
+/auto/
+
+# cask packages
+.cask/
+dist/
+
+# Flycheck
+flycheck_*.el
+
+# server auth directory
+/server/
+
+# projectiles files
+.projectile
+
+# directory configuration
+.dir-locals.el
+
+
+# --------------------Personal additions--------------------
+
+# ban PDFs, gz and .bundles (used to send diffs over sneakernet)
+*.pdf
+*.bundle
+*.gz
+
+# ban HTML and tex, potential exported bits of my config.org file
+*.html
+*.tex

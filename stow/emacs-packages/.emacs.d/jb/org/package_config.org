@@ -1,0 +1,1547 @@
+#+PROPERTY: header-args :tangle yes :results silent
+#+LINK: ddgo https://duckduckgo.com/html/?q=
+#+LINK: google https://duckduckgo.com/html/?q=!g
+#+EXCLUDE_TAGS: noexport disabled
+This is my Emacs configuration file.
+It is the fruit of months of daily use and "what if I could make it
+better/faster/automated ?"
+
+Any TODO is a potential for improval.
+
+Great resources for any emacs setup:
+- [[http://doc.norang.ca/org-mode.html][NORANG init.el]]
+- [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chuan's setup]]
+- [[http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php][An other init.el sample]]
+- [[https://zeekat.nl/articles/making-emacs-work-for-me.html][Yet another guy's emacs setup]]
+- [[https://www.reddit.com/r/unixporn/comments/3lp961/exwm_so_emacs_is_now_my_window_manager/cv844gf/][Cool config]]
+- [[http://doc.rix.si/cce/cce-org.html][Some other config]] incl google dork for [[google: site:doc.rix.si/cce]]
+
+\begin{equation}
+\label{eq:1}
+\sum_{x=0}^{\inf}\cos 2x + \sqrt{y -2} = 4
+\end{equation}
+
+
+\begin{equation}
+\label{eq:2}
+\sum_{x=0}^{\inf} \frac{a x + b}{\sqrt{\phi^{2}}} = \cos \phi + \int_{y=0}^{k}{a + 2b}}}
+\end{equation}
+
+* Config file setup
+This file is part of a git repository that I sync across devices.
+** DONE [#A] Use this orgfile as init.el                           :disabled:
+:LOGBOOK:
+- Note taken on [2019-07-21 Sun 13:28] \\
+  See bootstrap.org
+:END:
+Allows autoloading it.
+See [[http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file][Stackoverflow post on the topic]].
+Uses the following code:
+#+BEGIN_SRC emacs-lisp :tangle no
+(require 'org)
+(org-babel-load-file
+ (expand-file-name "init.el"
+                   user-emacs-directory))
+#+END_SRC
+Would need to make this a symlink to this file.
+* Packages
+** Use-package
+Package-manager frontend called =use-package=. Setup as described on
+the [[https://github.com/jwiegley/use-package/blob/master/README.md][README.md on Github]].
+
+First, make sure it's available (by installing it if needed)
+#+BEGIN_SRC emacs-lisp
+
+(if (not (locate-library "use-package"))
+    (progn
+      (package-refresh-contents)
+      (package-install 'use-package)))
+#+END_SRC
+
+A more hardcore check by trying to load it.
+#+BEGIN_SRC emacs-lisp
+(require 'use-package)
+#+END_SRC
+
+Since use-package doesn't automatically download packages when they
+aren't available (choosing instead to skip the package entirely),
+toggle on that feature.
+
+#+BEGIN_SRC emacs-lisp
+(setq use-package-always-ensure t)
+#+END_SRC
+** Fix bad request on ELPA
+:PROPERTIES:
+:CREATED:  [2019-09-21 Sat 13:24]
+:ID:       69a5a8a3-435c-48c3-a633-133f047399af
+:SOURCE:   https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
+:END:
+
+Causes many packages to not load properly, and finishes in big
+crashes. Emacs 26.3 fixes it, but it's not available on every platform
+yet.
+
+#+BEGIN_SRC emacs-lisp
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+#+END_SRC
+** Bug hunter
+
+#+BEGIN_SRC emacs-lisp
+(use-package bug-hunter)
+#+END_SRC
+
+** Refresh org mode version
+By default, emacs uses a fairly old version of org mode.  Since we
+just defined our package repository preferences to make org's own
+repository first, let's "install" it again to upgrade if needed.
+
+#+BEGIN_SRC emacs-lisp
+(package-install 'org)
+#+END_SRC
+
+** Startup profiler
+:PROPERTIES:
+:CREATED:  [2019-08-26 Mon 23:40]
+:ID:       f71f736f-9aef-4b15-be5e-087d8534e281
+:END:
+Using [[https://github.com/jschaf/esup][esup]] the Emacs StartUp Profiler. Call with =esup=.
+
+#+BEGIN_SRC emacs-lisp
+(use-package esup)
+#+END_SRC
+
+* Cosmetic                                                         :cosmetic:
+
+** Beacon
+Show the cursor's position when scrolling the window, also rebind the
+Pause key to make the cursor blink
+#+BEGIN_SRC emacs-lisp
+(use-package beacon
+  :config
+  (beacon-mode 1)
+  :diminish beacon-mode
+  :bind ("<pause>" . beacon-blink))
+#+END_SRC
+** Hlines                                                          :disabled:
+Use the form-feed package to draw horizontal lines instead of ~^L~.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package form-feed
+  :config
+  (add-hook 'org-mode-hook 'form-feed-mode))
+#+END_SRC
+** Nyancat for file-percentage                                     :disabled:
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package nyan-mode
+  :config
+  (add-hook 'org-mode-hook 'nyan-mode)
+  (add-hook 'prog-mode-hook 'nyan-mode)
+  (setq nyan-animate-nyancat t))
+#+END_SRC
+** Hex RGB Color
+Colorize hexadecimal RGB colors in text.
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-mode)
+#+END_SRC
+** Remove useless mode descriptors
+Clean up the mode line to hide modes I use all the time.
+#+BEGIN_SRC emacs-lisp
+(use-package diminish)
+#+END_SRC
+
+** Parenthesis matching                               :cosmetic:readability:
+Using =rainbow-delimiters= for top-level visibility of braces and
+parens. Copying colors from from [[https://ericscrivner.me/2015/06/better-emacs-rainbow-delimiters-color-scheme/][better color scheme for
+rainbow-delimiters]] article.
+
+Also, change the colors of mismatched parens to be more visible (bright red
+in inverse colors from background)
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :init
+  (setq rainbow-delimiters-max-face-count 7)
+  :config
+  (set-face-foreground 'rainbow-delimiters-depth-1-face "dark orange")
+  (set-face-foreground 'rainbow-delimiters-depth-2-face "deep pink")
+  (set-face-foreground 'rainbow-delimiters-depth-3-face "chartreuse")
+  (set-face-foreground 'rainbow-delimiters-depth-4-face "deep sky blue")
+  (set-face-foreground 'rainbow-delimiters-depth-5-face "yellow")
+  (set-face-foreground 'rainbow-delimiters-depth-6-face "orchid")
+  (set-face-foreground 'rainbow-delimiters-depth-7-face "spring green")
+  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                      :inverse-video t
+                      :foreground "red"
+                      :inherit 'rainbow-delimiters-base-face)
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+#+END_SRC
+
+
+
+* Feature discoverability
+:PROPERTIES:
+:SOURCE:   https://github.com/Wilfred/helpful
+:END:
+Using =helpful= to enhance feature discoverability.
+This package allows us to discover the trace function, toggling debug
+on error, and many other improvements of quality of life.
+
+#+BEGIN_SRC emacs-lisp
+(use-package helpful
+  :config
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-h k") #'helpful-key))
+#+END_SRC
+
+** Which-key for complex keyboard shortcuts
+
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :diminish which-key-mode
+  :custom
+  (which-key-popup-type 'side-window)
+  (which-key-side-window-location '(right bottom))
+  :config
+  (which-key-mode))
+#+END_SRC
+
+
+* Projectile                                                     :projectile:
+:PROPERTIES:
+:CREATED:  [2017-10-23 Mon 13:45]
+:END:
+Enable =projectile=, a super smart way to manage projects, using =F7= as prefix for a bunch of cool tools.
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+  :diminish projectile-mode
+  :bind-keymap
+  ("<f7>" . projectile-command-map)
+  :custom (projectile-project-search-path
+	   '("~/dev/" "~/org/"))
+  :config
+  (projectile-mode 1))
+#+END_SRC
+Disabled because it disrupts existing cool features like using =F7= for
+file opening now has incorrect current directory from buffer, pointing
+to the project root instead. This means I can't just jump to a file
+and explore its parent folder in dired.
+* Helm
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm
+  :diminish 'helm-mode
+  :config
+  (helm-mode 1)
+  (global-set-key (kbd "C-x b") 'helm-mini))
+#+END_SRC
+
+** Helm-projectile integration                              :helm:projectile:
+Enable the projectile integration:
+#+BEGIN_SRC emacs-lisp
+(use-package helm-projectile
+  :config (helm-projectile-on)
+  ;; Show git status when project is switched
+  (setq projectile-switch-project-action 'magit-status))
+#+END_SRC
+Use =shift-F7= to switch project.
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
+#+END_SRC
+
+Search amongst the project with =C-c s=
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c s") 'helm-projectile-ag)
+#+END_SRC
+Find-and-replace over project with =C-c %=
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c %") 'projectile-replace)
+(global-set-key (kbd "C-c M-%") 'projectile-replace-regexp)
+#+END_SRC
+
+** Allow TAB in Helm
+:PROPERTIES:
+:CREATED:  [2019-06-14 Fri 00:32]
+:ID:       e8c3c7b6-c7f3-4372-886b-6a6c39984d4d
+:SOURCE:   https://emacs.stackexchange.com/questions/33727/how-does-spacemacs-allow-tab-completion-in-helm#38235
+:END:
+Untested
+#+BEGIN_SRC emacs-lisp
+;; Remap TAB for completion
+;; Source: https://emacs.stackexchange.com/questions/33727/how-does-spacemacs-allow-tab-completion-in-helm#38235
+;; https://writequit.org/denver-emacs/presentations/2016-03-01-helm.html
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
+;; ;; make TAB works in terminal, C-i is tha same as TAB
+;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+#+END_SRC
+
+* Searching
+** Wgrep
+#+BEGIN_SRC emacs-lisp
+(use-package wgrep)
+#+END_SRC
+Still have to find a way to bind =ag='s =C-c C-p= to the same binding as
+=wgrep='s =e=.
+
+Use the extension that works with ag.
+#+BEGIN_SRC emacs-lisp
+(use-package wgrep-ag
+  :config
+  (autoload 'wgrep-ag-setup "wgrep-ag")
+  (add-hook 'ag-mode-hook 'wgrep-ag-setup)
+  :after wgrep ag)
+#+END_SRC
+
+* Orgmode                                                               :org:
+** Start showing all file
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:38]
+:ID:       446e94ed-1436-49c2-9ce4-24507757f34c
+:SOURCE: [[info:org#Initial%20visibility][info:org#Initial visibility]]
+:END:
+Instead of hiding all.
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-folded nil)
+#+END_SRC
+** Indenting files
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:41]
+:ID:       9445460f-99bc-4c44-a944-973d68cf8c32
+:SOURCE: [[info:org#Clean%20View][info:org#Clean View]]
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-indented t)
+#+END_SRC
+
+** Resize inline images
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:38]
+:ID:       ad888ae1-7092-41b1-9a8a-1d44f415d88f
+:SOURCE:   https://emacs.stackexchange.com/a/27916
+:END:
+Don't display images as is, resize as needed.
+#+BEGIN_SRC emacs-lisp
+(setq org-image-actual-width nil)
+#+END_SRC
+
+** Don't ask for confirmation on src buffer exit
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:49]
+:ID:       399c0836-2d2f-4bff-87b8-2e7c87b0ac42
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-ask-before-returning-to-edit-buffer nil)
+#+END_SRC
+
+** Show images by default
+:PROPERTIES:
+:CREATED:  [2019-07-22 Mon 23:58]
+:ID:       fb314096-4676-4c45-a5f0-d3c4196c7414
+:END:
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-with-inline-images t)
+#+END_SRC
+
+** Fill paragraphs automatically in org-mode                      :usability:
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook 'auto-fill-mode)
+#+END_SRC
+** Enable orgmode shortcuts                                     :keybindings:
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
+; (global-set-key (kbd "C-c b")  'org-iswitchb)
+(global-set-key (kbd "C-c C-x C-o") 'org-clock-out)
+(global-set-key (kbd "C-c C-x C-j") 'org-clock-jump-to-current-clock)
+#+END_SRC
+
+** Org-babel load languages                                        :orgbabel:
+Load all my common languages
+#+BEGIN_SRC emacs-lisp
+;; Orgmode code-execution support my languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (plantuml . t)
+   (ditaa . t)
+   (dot . t)
+   (C . t)
+   (shell . t)
+   ))
+#+END_SRC
+
+#+CAPTION: Make the shell work like an interactive bash shell
+#+BEGIN_SRC emacs-lisp :results silent :exports code
+(setq org-babel-default-header-args:sh
+      '((:results . "output") (:shebang . "#!/bin/bash -l")))
+#+END_SRC
+
+#+CAPTION: Make python not need absurd "return"s
+#+BEGIN_SRC emacs-lisp
+(setq org-babel-default-header-args:python
+      '((:results . "output")))
+#+END_SRC
+
+** Capture
+:PROPERTIES:
+:SOURCE:   [[http://sachachua.com/blog/2010/11/emacs-recording-ledger-entries-with-org-capture-templates/][Sasha Chuan blog]]
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+      '(("h" "Command line trick idea" entry
+         (file "~/dev/notes/command_line_tricks.org")
+         "* FLUFF %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n\n#+BEGIN_SRC shell\n%i\n#+END_SRC\n  %a")
+        ("p" "Dev project idea" entry
+         (file "~/org/dev_projects.org")
+         "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
+        ("c" "Calendar entry" entry
+         (file "~/dev/notes/calendar.org")
+         "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")))
+#+END_SRC
+
+
+** Org separator lines
+Only one line between an entry and the next.
+#+BEGIN_SRC emacs-lisp
+(setq org-cycle-separator-lines 1)
+#+END_SRC
+
+** Org export
+Do not show me section numbers in export (HTML or \latex)
+#+BEGIN_SRC emacs-lisp
+(setq org-export-with-section-numbers nil)
+#+END_SRC
+
+** Task tracking                                                        :log:
+I want daily notes of my projects. Simple things like words and timestamp.
+By default org-mode adds logged data (with z in the agenda) at the root of the relevant section.
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO(t@)" "MEETING" "WAIT(w@/!)" "DOING(i!)" "|" "DONE(d!@)" "CANCELED(c@)")))
+#+END_SRC
+
+Such timestamps and messages should only go in the *:LOGBOOK:* drawer.
+#+BEGIN_SRC emacs-lisp
+(setq org-log-into-drawer t)
+#+END_SRC
+
+** Effort estimation
+Whenever I use efforts estimate, I want to consider that a day (of
+work) is 8 hours, not 24 hours, see [[https://emacs.stackexchange.com/questions/15306/org-mode-clock-sum-to-count-8h-a-day-and-not-24][SO question]] and [[info:org#Effort%20estimates][efforts estimate
+documentation]].
+
+#+BEGIN_SRC emacs-lisp
+(setq org-time-clocksum-use-effort-durations t)
+#+END_SRC
+** Org-babel source coloring                        :orgbabel:syntaxcoloring:
+#+CAPTION: Make org-babel colorize source code
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t
+      org-adapt-indentation nil
+      org-src-preserve-indentation t)
+#+END_SRC
+*** Background color for code blocks
+So far the code blocks are syntax-highlit by emacs. Let's add a
+different background-color to them to make delimitation visual.
+#+BEGIN_SRC emacs-lisp
+(defface org-block-background
+  '((t (:background "#444")))
+  "Face used for the source block background.")
+#+END_SRC
+And the associated trigger code:
+#+BEGIN_SRC emacs-lisp
+(setq org-src-block-faces '(("emacs-lisp" org-block-background)
+			    ("c++" org-block-background)
+			    ("python" org-block-background)
+			    ("shell" org-block-background)))
+#+END_SRC
+**** TODO Apply the color-coding to other languages as appropriate
+** Ditaa diagrams
+Pointing emacs to the ditaa executable
+#+BEGIN_SRC emacs-lisp
+(setq org-ditaa-jar-path  "~/.emacs.d/scripts/ditaa.jar")
+#+END_SRC
+
+** Allow all babel execution
+Make all code execution "safe" to evaluate, without prompt
+#+BEGIN_SRC emacs-lisp
+(setq org-confirm-babel-evaluate nil)
+#+END_SRC
+
+** Ediff support
+When merging org-mode files (reconciliating changes on config files at
+work and at home), the default ediff buffer would not work: the buffer
+is folded, so pressing ~n~ does not jump to next conflict. To fix
+this, I make ediff expand the whole file (show all):
+#+BEGIN_SRC emacs-lisp
+(add-hook 'ediff-prepare-buffer-hook #'show-all)
+#+END_SRC
+
+** Async code execution
+Via [[https://github.com/astahlman/ob-async][ob-async package]] available via MELPA. All code blocks with
+~:async~ are now executed non-blockingly.
+#+BEGIN_SRC emacs-lisp
+(use-package ob-async)
+#+END_SRC
+** Subscript and superscript
+Stop orgmode from interpreting something_underscore into a subscript.
+#+BEGIN_SRC emacs-lisp
+(setq org-export-with-sub-superscripts "{}")
+(setq org-use-sub-superscripts "{}")
+#+END_SRC
+** Presentation generator
+:LOGBOOK:
+- Note taken on [2019-04-18 Thu 14:57] \\
+  Change to org-re-reveal, a maintained fork adding features
+- Note taken on [2019-02-11 Mon 11:20] \\
+  Disabled due since unmaintained.
+  Conflicts with <s since Org 9.2. [[Https://github.com/yjwen/org-reveal/issues/363][Upstream issue]] shows pkg seems abandoned
+:END:
+Using [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] package.
+Customize the title slide to show title, author, and date.
+#+BEGIN_SRC emacs-lisp
+(use-package org-re-reveal
+  :custom
+  (org-re-reveal-title-slide
+	"<h1>%t</h1><h4>%s</h4><p>%a - %e<p>\n<p>%d </p>"))
+#+END_SRC
+
+Cloning [[https://github.com/hakimel/reveal.js][reveal.js]] in =~/dev/foss/reveal.js= to use it as root in config.
+#+BEGIN_SRC emacs-lisp :tangle no
+(setq org-re-reveal-root (concat "file://" (getenv "HOME") "/dev/foss/reveal.js/"))
+#+END_SRC
+Since we're using the latest version of, the script files variable needs
+customized (see more info in the docstring of that var).
+
+#+BEGIN_SRC emacs-lisp
+(setq org-re-reveal-script-files '("js/reveal.js"))
+#+END_SRC
+
+** Remove validate link in unstyled HTML exports
+When exporting to HTML from Org, especially when I don't use a styling
+package, there's this big HTML validate link that annoys me. Toggle it
+off.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-html-validation-link nil)
+#+END_SRC
+** Quick templates
+Enable the [[info:org#Structure%20Templates][quick-template]] system.
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-tempo)
+#+END_SRC
+** Ox-hugo
+Export org files to markdown for [[https://gohugo.io][Hugo]]. Lets me do that blog I always
+wanted to start.
+#+BEGIN_SRC emacs-lisp
+(use-package ox-hugo
+  :after ox
+  :custom ( org-hugo-section "post"))
+#+END_SRC
+
+Checking out the org-customize aspect for org-export-hugo
+** Bibliography
+:PROPERTIES:
+:SOURCE:   http://kitchingroup.cheme.cmu.edu/blog/2014/05/13/Using-org-ref-for-citations-and-references/
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-ref
+  :defer t
+  :config
+  (setq org-ref-insert-cite-key "C-c )"))
+#+END_SRC
+
+See [[file:external-pkg-config.org::*Export%20of%20bibliography][Export of bibliography in external-pkg-config]] for fixing the
+bibtex export issue.
+** ID generation on new header
+=org-id-get-create= allows to get or create a UUID for the current
+ heading, using =org-id= module packaged as part of org mode. See
+ =org-modules= variable for more such modules
+
+#+CAPTION: Generate UUID on heading insertion
+#+BEGIN_SRC emacs-lisp
+(require 'org-id)
+(add-hook 'org-insert-heading-hook #'org-id-get-create)
+#+END_SRC
+
+** Timestamp insertion
+:PROPERTIES:
+:SOURCE:   https://emacs.stackexchange.com/a/21302
+:END:
+
+Insert a =CREATED= property on heading insertion, allowing for timelogging
+#+BEGIN_SRC emacs-lisp
+(defvar org-created-property-name "CREATED"
+  "The name of the org-mode property that stores the creation date of the entry")
+
+(defun org-set-created-property (&optional active NAME)
+  "Set a property on the entry giving the creation time.
+
+By default the property is called CREATED. If given the `NAME'
+argument will be used instead. If the property already exists, it
+will not be modified."
+  (interactive)
+  (let* ((created (or NAME org-created-property-name))
+         (fmt (if active "<%s>" "[%s]"))
+         (now  (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
+    (unless (org-entry-get (point) created nil)
+      (org-set-property created now))))
+
+(add-hook 'org-insert-heading-hook #'org-set-created-property)
+#+END_SRC
+
+** Avoid inserting text on collapsed structures
+:PROPERTIES:
+:CREATED:  [2019-08-26 Mon 22:46]
+:ID:       9426a50e-d18e-412e-bf03-64fc004b5089
+:SOURCE:   https://yiufung.net/post/org-mode-hidden-gems-pt1/#avoid-inadvertent-text-edit-in-invisible-area
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-catch-invisible-edits 'show-and-error)
+#+END_SRC
+
+** Collapsed org tree spacing
+:PROPERTIES:
+:CREATED:  [2019-08-26 Mon 22:50]
+:ID:       44d31fb0-75f4-441f-835f-bdabc39f7b8b
+:SOURCE:   https://yiufung.net/post/org-mode-hidden-gems-pt1/#in-collapsed-view-hide-empty-lines-between-subtrees
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-cycle-separator-lines 0)
+#+END_SRC
+
+* Autocomplete
+:PROPERTIES:
+:CREATED:  [2019-07-24 Wed 21:29]
+:ID:       050ab1fc-2014-4d84-9a4f-0f1fe1e4e269
+:SOURCE:   https://tuhdo.github.io/c-ide.html#orgheadline13
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package company
+  :diminish 'company-mode
+  :config (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
+
+** Documentation
+:PROPERTIES:
+:CREATED:  [2019-07-25 Thu 16:21]
+:ID:       0f16c3c7-b3a5-4260-8d82-04c8a81a8acf
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package company-quickhelp
+  :config (company-quickhelp-mode))
+#+END_SRC
+
+* C++                                                                   :cpp:
+** Modern C++ font-lock
+:PROPERTIES:
+:SOURCE:   [[https://github.com/ludwigpacifici/modern-cpp-font-lock][Github]]
+:END:
+By default, some of the C++14 and C++17 niceties aren't well
+font-locked. Fixed by adding this module.
+
+#+BEGIN_SRC emacs-lisp
+(use-package modern-cpp-font-lock
+  :config (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
+#+END_SRC
+#+END_SRC
+** GTAGS integration to helm                            :helm:gtags:disabled:
+Unconfigured at system level = disabled. Too much trouble.
+#+BEGIN_SRC emacs-lisp :tangle no
+;; Enable Helm with GTAGS in C and C++ mode
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
+;; Enable Helm with GTAGS in C and C++ mode
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
+;; Helm-gtags settings (unsure what they do)
+(setq
+ helm-gtags-ignore-case t
+ helm-gtags-auto-update t
+ helm-gtags-use-input-at-cursor t
+ helm-gtags-pulse-at-cursor t
+ helm-gtags-prefix-key "\C-cg"
+ helm-gtags-suggested-key-mapping t
+ helm-gtags-fuzzy-match t
+ )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
+;; Adds keybindings for helm
+(eval-after-load "helm-gtags"
+  '(progn
+     (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+     (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+     (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)))
+#+END_SRC
+** Highlighting FIXMEs and TODOs                          :cosmetic:disabled:
+Disabled coz breaks things
+#+BEGIN_SRC emacs-lisp :tangle no
+;; TODO/FIXME highlight enabled fuckup
+(require 'fic-mode)
+(add-hook 'c++-mode-hook 'turn-on-fic-mode)
+
+#+END_SRC
+*** DONE Show all TODO/FIXME in a project
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-12-16 Fri 10:55]
+:END:
+Feasible with ~M-x occur~ or ~projectile-multi-occur~.
+** Source parsing                                                  :disabled:
+:PROPERTIES:
+:SOURCE:   http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html#irony
+:END:
+Irony parses C++ code using libclang and cmake. Needs some heavy setup
+#+BEGIN_SRC emacs-lisp
+(use-package irony
+  :disabled
+  :config
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+#+END_SRC
+** Autocomplete                                                   :disabled:
+See [[https://cestlaz.github.io/posts/using-emacs-45-company/][cestlaz article on autocompletes]] for =company-irony= setup.
+#+BEGIN_SRC emacs-lisp
+(use-package company-irony
+  :disabled
+  :config
+  (add-to-list 'company-backends 'company-irony))
+#+END_SRC
+
+** ROS message files major mode                           :cosmetic:ROS:mode:
+ROS Messages, Actions and Services files are basically YAML. I would
+like yaml-mode to be used when opening them, for the syntax-highlight.
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.action\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.srv\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.msg\\'" . yaml-mode))
+#+END_SRC
+** CANCELED Go to method/variable definition                           :helm:
+:LOGBOOK:
+- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:29] \\
+  Three years later I don't miss it
+:END:
+Find a way to go to definition of that method.
+Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]].
+
+* SLIME                                                                :lisp:
+Lisp editing environment
+
+#+BEGIN_SRC emacs-lisp
+(use-package slime
+  :config
+  (setq inferior-lisp-program "/usr/bin/sbcl")
+  (setq slime-contribs '(slime-fancy slime-asdf)))
+#+END_SRC
+Loading ASDF definitions is a contrib package, see [[info:slime#ASDF][info:slime#ASDF]].
+* Compilation                                                  :compilation:
+*** System-wide notification of completion
+:PROPERTIES:
+:SOURCE:   http://emacs.stackexchange.com/a/14188
+:END:
+On compilation complete, when the compilation window is not front and
+center, throw a popup with compilation information.
+#+BEGIN_SRC emacs-lisp
+(defun compilation-finished-unfocused-notify (buffer desc)
+  "Popup via libnotify on compilation finished with unfocused window"
+  (interactive)
+  (if (not (eq buffer
+	       (window-buffer (selected-window))))
+      (alert
+       (format "Compilation %s"
+	       (if (string-equal "finished\n" desc)
+		   "succeeded"
+		 "failed"))
+       :title "Emacs"
+       :category 'emacs :style 'libnotify
+       :icon "gnome-inhibit-applet")))
+(add-hook 'compilation-finish-functions 'compilation-finished-unfocused-notify)
+#+END_SRC
+
+* RMSbolt
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/9jz68r/rmsbolt_a_powerful_assemblybytecode_viewer_for/
+:END:
+Like Godbolt but within emacs, no more sending out the code to other
+servers.
+
+#+BEGIN_SRC emacs-lisp
+(use-package rmsbolt)
+#+END_SRC
+
+* Yasnippets
+Text macros, expanding short snippets into arbitrary length text.
+Effectively giving user a template system.
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :config
+  (add-to-list 'yas-snippet-dirs
+	       (concat jb/config-repo-path "snippets/") t)
+  (yas-global-mode 1))
+#+END_SRC
+And the default snippets:
+
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet-snippets
+  :after yasnippet)
+#+END_SRC
+
+Separate folder with my snippets at [[file:snippets/]].
+
+
+* Git gutter                                                            :git:
+:PROPERTIES:
+:SOURCE:   https://puntoblogspot.blogspot.com/2018/10/staging-hunks-without-magit.html
+:END:
+Show diff-lines by the file fringe, and create a shortcut for staging
+hunks directly from there.
+#+BEGIN_SRC emacs-lisp
+(use-package git-gutter
+  :config (global-git-gutter-mode +1)
+  :demand t  ;; no lazy-loading allowed!
+  :diminish 'git-gutter-mode
+  :bind
+  ("C-x v s" .  git-gutter:stage-hunk)
+  ("M-n" .  git-gutter:next-hunk)
+  ("M-p" .  git-gutter:previous-hunk))
+#+END_SRC
+
+More info at https://github.com/syohex/emacs-git-gutter
+* Magit                                                                 :git:
+#+BEGIN_SRC emacs-lisp
+(use-package magit
+  :custom
+  ; don't ask before saving files
+  (magit-save-repository-buffers 'dontask)
+  ;; Only use 10 chars for log margin (not 18)
+  (magit-log-margin '(t age magit-log-margin-width t 10)))
+#+END_SRC
+** Show word-diff                                                  :cosmetic:
+Shows the equivalent of =git diff --word-diff=
+#+BEGIN_SRC emacs-lisp
+(setq magit-diff-refine-hunk 'all)
+#+END_SRC
+
+** Git graph shortcuts                                          :keybindings:
+#+CAPTION: Rebind Alt-F12 to magit-status
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-<f12>") 'magit-status)
+#+END_SRC
+#+CAPTION: Rebind Ctrl-Alt-F12 to magit-status
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
+#+END_SRC
+** Orgit                                                                :org:
+:PROPERTIES:
+:SOURCE:   https://github.com/magit/orgit
+:END:
+Link to magit commits and branches from Org files.
+
+#+BEGIN_SRC emacs-lisp
+(use-package orgit
+  :after magit)
+#+END_SRC
+
+#+CAPTION: Using orgit in git repos
+#+BEGIN_EXAMPLE
+orgit:/path/to/repo/           links to a magit-status buffer
+orgit-log:/path/to/repo/::REV  links to a magit-log buffer
+orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
+#+END_EXAMPLE
+* Latex                                                               :latex:
+Use =auctex= and =preview-latex-mode=. Using =xetex= backend
+#+BEGIN_SRC emacs-lisp
+(use-package tex-mode
+  :ensure auctex
+  :config
+  (setq tex-engine 'xetex))
+#+END_SRC
+
+Preview pane should be enabled by default on Latex documents
+#+BEGIN_SRC emacs-lisp
+(use-package latex-preview-pane
+  :after tex-mode
+  :config
+  (latex-preview-pane-enable))
+#+END_SRC
+* Lorem ipsum
+#+BEGIN_SRC emacs-lisp
+(use-package lorem-ipsum)
+#+END_SRC
+
+* Major modes
+Major emacs modes I use mostly for syntax highlighting
+** Restructured text
+:PROPERTIES:
+:SOURCE:   [[https://github.com/masayuko/ox-rst][ox-rst Github page]]
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package ox-rst)
+#+END_SRC
+** Markdown
+#+BEGIN_SRC emacs-lisp
+(use-package markdown-mode)
+#+END_SRC
+** LDAP
+#+BEGIN_SRC emacs-lisp
+(use-package ldap)
+#+END_SRC
+** Ansible
+Using =ansible= package, see [[https://github.com/k1LoW/emacs-ansible][Github link]].
+Provides a gazillion snippets for ansible-related yaml scripts
+#+BEGIN_SRC emacs-lisp
+(use-package ansible)
+#+END_SRC
+Disabled auto-enabling with the hook:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
+#+END_SRC
+
+** Dockerfile
+#+BEGIN_SRC emacs-lisp
+(use-package dockerfile-mode)
+#+END_SRC
+
+** Docker-compose
+#+BEGIN_SRC emacs-lisp
+(use-package docker-compose-mode)
+#+END_SRC
+
+** Vagrantfiles
+Vagrantfiles need to open with =ruby-mode=
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("Vagrantfile\\'" . ruby-mode))
+#+END_SRC
+
+** JSON
+Sometimes, all you need is fiddling with JSON data.
+#+BEGIN_SRC emacs-lisp
+(use-package json-mode)
+#+END_SRC
+
+** PHP
+For some admin work with Phabricator, I need to edit PHP files.
+Install the related mode to fulfill the requirement.
+#+BEGIN_SRC emacs-lisp
+(use-package php-mode)
+#+END_SRC
+
+** Gherkin
+I love Behaviour-driven development, and its main weapon: Gherkin
+language. A good soul created feature-mode, to enable editing Gherkin
+feature files.
+#+BEGIN_SRC emacs-lisp
+(use-package feature-mode)
+#+END_SRC
+
+
+** Protobuf
+Recently started using Protobuf at work, so here goes the major mode.
+#+BEGIN_SRC emacs-lisp
+(use-package cmake-mode)
+#+END_SRC
+** CMake
+Editing CMake files via =cmake-mode=
+
+#+BEGIN_SRC emacs-lisp
+(use-package protobuf-mode)
+#+END_SRC
+** Geiser
+For editing Scheme code. To avoid org mode pestering me about choice
+of implementation, tell it to use guile always.
+#+BEGIN_SRC emacs-lisp
+(use-package geiser
+  :custom ( geiser-default-implementation 'guile))
+#+END_SRC
+** Groovy
+For those sweet, sweet Jenkinsfiles.
+
+#+BEGIN_SRC emacs-lisp
+(use-package groovy-mode
+  :custom (groovy-indent-offset 2))
+#+END_SRC
+** Apache-conf
+
+#+BEGIN_SRC emacs-lisp
+(use-package apache-mode)
+#+END_SRC
+
+
+* REST Client
+Testing HTTP requests via =restclient-mode=
+
+#+BEGIN_SRC emacs-lisp
+(use-package restclient
+  :config
+  ;; Use json-mode instead of default js-mode
+  (add-to-list 'restclient-content-type-modes
+		'(("application/json" . json-mode))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package ob-restclient)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package company-restclient
+  :disabled  ;; WHAT IS THERE TO COMPLETE ANYWAY
+  :after restclient company
+  :config (add-to-list 'company-backends 'company-restclient))
+#+END_SRC
+
+
+
+#+BEGIN_SRC restclient :tangle no
+GET http://localhost:9200/_cat/indices
+#+END_SRC
+
+* Presenting
+Use =impatient-mode=. To serve a buffer over HTTP, use =httpd-start=,
+then in the buffer you want to serve run =impatient-mode=. This will
+serve files on http://localhost:8080/imp/.
+#+BEGIN_SRC emacs-lisp
+(use-package impatient-mode
+ :custom ( httpd-host "0.0.0.0"))
+#+END_SRC
+
+By default, =httpd-host= is =nil=, which seems to mean only serve
+files to localhost. This is not why I use this mode: I want to show
+others something, hence need the HTTP server to be available over
+network, not just locally.
+
+* Navigation                                           :usability:keybinding:
+** Window movement
+Switching emacs windows with ~C-x o~ works with two windows, but with
+more it gets very annoying. The [[https://github.com/abo-abo/ace-window][ace-window]] package aims to solve that
+by binding ~M-p~ to it (faster than default).
+#+BEGIN_SRC emacs-lisp
+(use-package ace-window
+  :config
+  (global-set-key (kbd "C-;") 'ace-window))
+#+END_SRC
+** Jump around buffer                                              :disabled:
+:PROPERTIES:
+:CREATED:  [2017-10-23 Mon 10:31]
+:END:
+:LOGBOOK:
+- Note taken on [2017-10-23 Mon 10:31] \\
+  Disabled since the =C-s= override is driving me nuts: type the first
+  letters of search too slow and you jump around.
+  We'll see if I re-enable it later bound to a different place.
+:END:
+Use =ace-iseach=[fn::[[https://github.com/tam17aki/ace-isearch]]] for
+replacing ISearch with a jump-around-buffer thing. When typing =C-s=,
+it dispatches the right search system.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package ace-isearch
+  :config
+  (global-ace-isearch-mode +1))
+#+END_SRC
+** Hide-show blocks
+:PROPERTIES:
+:SOURCE:   [[https://writequit.org/articles/working-with-logs-in-emacs.html][viewing logs in emacs]]
+:END:
+Allow hiding blocks like json or C++ functions.
+
+#+BEGIN_SRC emacs-lisp
+(use-package hideshow
+  :bind (("C-c TAB" . hs-toggle-hiding)
+         ("C-\\" . hs-toggle-hiding)
+         ("M-+" . hs-show-all))
+  :init (add-hook #'prog-mode-hook #'hs-minor-mode)
+  :diminish hs-minor-mode
+  :config
+  (setq hs-special-modes-alist
+        (mapcar 'purecopy
+                '((c-mode "{" "}" "/[*/]" nil nil)
+                  (c++-mode "{" "}" "/[*/]" nil nil)
+                  (java-mode "{" "}" "/[*/]" nil nil)
+                  (js-mode "{" "}" "/[*/]" nil)
+                  (json-mode "{" "}" "/[*/]" nil)
+                  (javascript-mode  "{" "}" "/[*/]" nil)))))
+#+END_SRC
+** Path in json block
+Use with =jsons-print-path= when in a json object, reveals the path to
+go through it. Only used it a couple of times, but that's the kind of
+confort tool that saves time.
+#+BEGIN_SRC emacs-lisp
+(use-package json-snatcher)
+#+END_SRC
+** Minimap                                                         :disabled:
+:PROPERTIES:
+:CREATED:  [2018-04-22 Sun 22:48]
+:END:
+Similar to the Sublime minimap, triggers using =minimap-mode= in
+programming modes
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package minimap-mode)
+#+END_SRC
+** Debugging                                                       :disabled:
+:PROPERTIES:
+:CREATED:  [2017-12-12 Tue 11:23]
+:END:
+Experiment with =realgud= ([[https://github.com/realgud/realgud][Github link]]), a modern debugger interface
+improving upon the native Emacs one. Somehow I got used to the weird
+keyboard shortcuts of the default debugger, so the new shortcuts are
+bugging me.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package realgud)
+#+END_SRC
+
+** Go to URLs
+:PROPERTIES:
+:SOURCE:   http://xenodium.com/#actionable-urls-in-emacs-buffers
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package goto-addr
+  :hook ((compilation-mode . goto-address-mode)
+	 (prog-mode . goto-address-prog-mode)
+	 (eshell-mode . goto-address-mode)
+	 (shell-mode . goto-address-mode)
+	 (term-mode . goto-address-mode)
+	 (magit-revision-mode . goto-address-mode))
+  :bind (:map goto-address-highlight-keymap
+	      ("<RET>" . goto-address-at-point)
+	      ("M-<RET>" . newline))
+  :commands (goto-address-prog-mode
+	     goto-address-mode))
+#+END_SRC
+
+** Go to URLs
+:PROPERTIES:
+:SOURCE:   http://xenodium.com/#actionable-urls-in-emacs-buffers
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package goto-addr
+  :hook ((compilation-mode . goto-address-mode)
+	 (prog-mode . goto-address-prog-mode)
+	 (eshell-mode . goto-address-mode)
+	 (shell-mode . goto-address-mode)
+	 (term-mode . goto-address-mode)
+	 (magit-revision-mode . goto-address-mode))
+  :bind (:map goto-address-highlight-keymap
+	      ("<RET>" . goto-address-at-point)
+	      ("M-<RET>" . newline))
+  :commands (goto-address-prog-mode
+	     goto-address-mode))
+#+END_SRC
+
+* Remote editing
+** TRAMP
+:PROPERTIES:
+:CREATED:  [2019-09-20 Fri 22:48]
+:ID:       c2e67d8e-4420-477e-aa32-78ad9fd2d4d9
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package tramp
+  :ensure t
+  :custom (tramp-default-method "ssh"))
+#+END_SRC
+
+** Docker file access
+:PROPERTIES:
+:SOURCE:   https://ligerlearn.com/using-emacs-edit-files-within-docker-containers/
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package docker-tramp
+  :after tramp)
+#+END_SRC
+
+
+* Web browsing                                                          :web:
+Improving upon =M-x eww= (see [[info:emacs#EWW][info:emacs#EWW]]) by having the numbered
+navigation:
+
+#+BEGIN_SRC emacs-lisp
+(use-package eww-lnum
+  :config
+  (eval-after-load "eww"
+    '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
+	    (define-key eww-mode-map "F" 'eww-lnum-universal))))
+#+END_SRC
+
+* Same-frame speedbar                                              :speedbar:
+A neat project tree system that doesn't invade into a different frame.
+#+BEGIN_SRC emacs-lisp
+(use-package sr-speedbar
+  :config
+  ; show all filetypes (not just indexed ones)
+  (setq speedbar-show-unknown-files t))
+#+END_SRC
+*** Speedbar in projectile                              :speedbar:projectile:
+:PROPERTIES:
+:SOURCE:   https://github.com/anshulverma/projectile-speedbar#projectile--speedbar
+:END:
+Use ~projectile-speedbar~ package
+#+CAPTION: Opens the sr-speedbar when pressing Alt F3 in a projectile-owned buffer
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package projectile-speedbar
+  :config
+  (global-set-key (kbd "M-<f3>")
+		  'projectile-speedbar-open-current-buffer-in-tree))
+#+END_SRC
+
+* Undo tree                                                  :usability:undo:
+Enable it everywhere (replacing the common undo into a tree of file
+modification).
+#+BEGIN_SRC emacs-lisp
+(use-package undo-tree
+  :config (global-undo-tree-mode)
+  :diminish 'undo-tree-mode)
+#+END_SRC
+
+Use ~C-x u~ to open the undo-tree view, optionally ~d~ to view the
+diff of each change to undo. ~q~ quits the session.
+Note that the original keybinding of =C-/= still points to default
+undo, making the occasional undo-tree freeze tolerable.
+
+* Multiple terminals                                               :terminal:
+:PROPERTIES:
+:SOURCE:   http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/
+:END:
+Use ~multi-term~ for cool terminals in emacs. Press F5 to open a
+terminal in the current buffer's directory, Control + Pageup/Pagedown
+to switch between running terminals.
+
+#+BEGIN_SRC emacs-lisp
+(use-package multi-term
+  :config
+  (global-set-key (kbd "<f5>") 'multi-term)
+  (global-set-key (kbd "<C-next>") 'multi-term-next)
+  (global-set-key (kbd "<C-prior>") 'multi-term-prev)
+  (setq multi-term-buffer-name "term"
+        multi-term-program "/bin/bash"
+	term-bind-key-alist
+        (list
+         (cons "C-c C-j" 'term-line-mode)
+         (cons "C-c C-k" 'term-char-mode)
+         (cons "C-c C-l" 'comint-clear-buffer)
+       (cons "C-c C-c"  'term-interrupt-subjob)
+       (cons "C-p" 'previous-line)
+       (cons "C-n" 'next-line)
+       (cons "M-f" 'term-send-forward-word)
+       (cons "M-b" 'term-send-backward-word)
+       (cons "M-DEL" 'term-send-backward-kill-word)
+       (cons "M-d" 'term-send-forward-kill-word)
+       (cons "<C-left>" 'term-send-backward-word)
+       (cons "<C-right>" 'term-send-forward-word)
+       (cons "C-r" 'term-send-reverse-search-history)
+       (cons "M-p" 'term-send-raw-meta)
+       (cons "M-y" 'term-send-raw-meta)
+       (cons "C-y" 'term-send-raw))))
+#+END_SRC
+
+Some extra configuration for when I'm in the terminal itself:
+Switching term mode to line (from char by default) means emacs only
+sends text to terminal at newlines, which allows for the regular emacs
+text-editing experience, but disables handy things like autocomplete
+(since the terminal never sees your half-written file path until you
+press enter). Comint-clear-buffer tells emacs to erase all the current
+buffer, which is a little more extreme than just calling =clean= from
+within (or using =C-l=), which only jumps a line and tells the
+emulator to scroll up to here. Since our terminal buffer history is
+unlimited in size (see below), this allows us to clear megabytes-long
+buffer history.
+
+Extra bits from [[https://github.com/aborn/emacs.d/blob/master/utils/multi-term-config.el][alternate configuration]] to support infinite history
+#+BEGIN_SRC emacs-lisp
+(add-hook 'term-mode-hook
+          (lambda ()
+            ;; 下面设置multi-term buffer的长度无限
+            (setq term-buffer-maximum-size 0)
+            ;; (add-to-list 'term-bind-key-alist '("C-c C-c" . term-interrupt-subjob))
+            ; (add-to-list 'term-bind-key-alist '("M-[" . multi-term-prev))
+            ; (add-to-list 'term-bind-key-alist '("M-]" . multi-term-next))
+            ; (add-to-list 'term-bind-key-alist '("C-a" . ab/move-beginning-of-line))
+            ; (add-to-list 'term-bind-key-alist '("M-k" . ab/kill-line))
+            ; (add-to-list 'term-bind-key-alist '("C-d" . ab/delete-char))
+            ; (add-to-list 'term-bind-key-alist '("C-b" . ab/backward-char))
+            ; (add-to-list 'term-bind-key-alist '("C-f" . ab/forward-char))
+            ; (add-to-list 'term-bind-key-alist '("M-l" . ab/extend-selection)) ;; error
+(setq show-trailing-whitespace nil)))
+#+END_SRC
+
+* Dired customizations                                                :dired:
+** Dired search via narrow
+:PROPERTIES:
+:SOURCE:   [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][pragmaticemacs blog]]
+:END:
+I can do a live-filter of a dired buffer akin to searching that
+narrows the buffer to my selection. Coupled with other dired commands,
+this allows to perform actions on a regex-based subset of a folder.
+
+#+BEGIN_SRC emacs-lisp
+;;narrow dired to match filter
+(use-package dired-narrow
+  :bind (:map dired-mode-map
+              ("/" . dired-narrow)))
+#+END_SRC
+** Neotree?                                                        :disabled:
+:PROPERTIES:
+:SOURCE:   [[https://github.com/jaypei/emacs-neotree][Neotree Github]]
+:END:
+A modern alternative to sr-speedbar, but it's not quite useful yet.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package neotree
+  :bind (([f8] . neotree-toggle))
+  :config
+  (setq neo-autorefresh nil)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+#+END_SRC
+See [[https://github.com/jaypei/emacs-neotree/issues/149][Github issue : Projectile interaction]], [[https://emacs.stackexchange.com/questions/33632/stopping-neotree-from-constantly-switching-to-the-open-files-directory][SO similar question]]
+
+Can also use all-the-icons-fonts
+#+BEGIN_SRC emacs-lisp :tangle no
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+#+END_SRC
+*** All-the-icons.el                                               :disabled:
+See [[https://github.com/domtronn/all-the-icons.el][Github all-the-icons.el]], a repository aggregating font-awesome and
+equivalents and integrating it to emacs font property system.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package all-the-icons)
+#+END_SRC
+Need to do the font download once
+#+BEGIN_SRC emacs-lisp :tangle no
+(all-the-icons-install-fonts)
+#+END_SRC
+* Encryption and secrets handling                                    :crypto:
+GPG, passwordstore setup etc
+
+Created a GPG key for work.
+Created a passwordstore tied to it. (using =pass= executable, wrapping
+GPG)
+
+See [[https://emacs.stackexchange.com/questions/20824/how-to-use-minibuffer-instead-of-pop-up-window-for-gpg-files][GPG pin entry via emacs]] to avoid GPG popup.
+
+See [[info:org#org-crypt][Orgmode manual on org-crypt]]
+** Org-crypt                                                       :disabled:
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+Encrypt the text of an org entry but not headline or properties.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package org-crypt
+  :config
+  (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+  (setq org-crypt-key nil)
+                                        ; (setq auto-save-default nil)
+  (setq org-crypt-disable-auto-save: 'ask))
+#+END_SRC
+Now, anything that has a =:crypt:= tag will be saved as GPG armored
+blob.
+See next subheadline for checking that, use
+=org-decrypt-entry= to get cleartext.
+
+*** Super secret field here                                           :crypt:
+:PROPERTIES:
+:CREATED:  [2017-05-25 Thu 11:44]
+:password: The password for this field (symmetrically encrypted) is passwd
+:END:
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+jA0EAwMC4zb/dFxDeWpgyXqjXcfIkeggyCCq/5wwzgF3poZZx10WLFxE5+9rqvpH
+oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
+6aveEV5CR0SQWrnYUOpKeA79h8mX95XMCw3EwwqckhDYaOaT8Iu4lXOz5A==
+=6LdW
+-----END PGP MESSAGE-----
+
+* Alerts
+#+BEGIN_SRC emacs-lisp
+(use-package alert)
+#+END_SRC
+
+
+* Emacs calendar                                                   :calendar:
+** CANCELED Set computer location for sunrise-sunset in calendar
+:LOGBOOK:
+- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:29] \\
+  Who cares
+:END:
+** Calendar reminders for events
+:PROPERTIES:
+:SOURCE:   [[http://irreal.org/blog/?p=6910][Irreal blog]]
+:END:
+Use =org-wild-notifier.el=, which uses =alert.el= under the hood.
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-wild-notifier
+  :defer t
+  :config
+  ;; Any even in calendar should ring me up
+  (setq org-wild-notifier-keyword-whitelist nil
+	;; Use property NOTIFY to specify when to remind me (n minutes before)
+	org-wild-notifier-alert-times-property "NOTIFY"
+	;; By default, notify X minutes before event
+	org-wild-notifier-alert-time 3)
+  ;; Toggle alerts on launch if not Android, as async fails
+  ;; https://github.com/akhramov/org-wild-notifier.el/issues/22
+  (if (not (string-match "u[0-9]_a[0-9+]" (user-login-name)))
+      (org-wild-notifier-mode)))
+#+END_SRC
+
+Configure package so that alerts of title "Agenda" go to the system
+wide notification system
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'alert-user-configuration
+'(((:title . "Agenda"))
+   libnotify nil))
+#+END_SRC
+
+An example item
+#+BEGIN_SRC org :tangle no
+,* TODO Super important thing
+:PROPERTIES:
+:WILD_NOTIFIER_NOTIFY_BEFORE: 60 10 5 3 1
+:END:
+Do that thing super soon !!!
+<2018-04-01 Sun 18:40>
+#+END_SRC
+** Calfw                                                           :disabled:
+:PROPERTIES:
+:SOURCE:   [[https://github.com/kiwanami/emacs-calfw][Github]]
+:END:
+Really cute UI, but not necessarily adapted to my workflows?
+#+BEGIN_SRC emacs-lisp :tangle no
+(require 'calfw)
+(require 'calfw-org)
+#+END_SRC
+
+Use org-mode bindings:
+#+BEGIN_SRC emacs-lisp :tangle no
+(setq cfw:org-overwrite-default-keybinding t)
+#+END_SRC
+* Riot-im                                                          :disabled:
+:PROPERTIES:
+:SOURCE:   https://github.com/alphapapa/matrix-client.el
+:END:
+Experiment with Matrix. Disabled till it's actually useful (matrix
+instance running).
+
+Needs QUELPA
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package quelpa-use-package)
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package matrix-client
+  :quelpa ((matrix-client :fetcher github :repo "alphapapa/matrix-client.el"
+                          :files (:defaults "logo.png" "matrix-client-standalone.el.sh"))))
+#+END_SRC
+
+Error first time until I try to =M-x quelpa= once.
+
+Try next via interactive loading of =M-x matrix-client-connect=.
+* Org-mode contacts database
+Single file for contacts, each headline a person, tags for clustering,
+properties for mapping data (phone number etc). Tailored column view
+for visual inspection.
+Using org-vcard for import.
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-vcard)
+#+END_SRC
+
+* Room for improvement
+
+*** RSS feed monitoring
+See [[info:org#RSS%20feeds][Org mode documentation about org-rss]].
+
+Done with this:
+#+BEGIN_SRC emacs-lisp :tangle no
+(setq org-feed-alist
+      '(("Affaires Étrangères"
+         "http://radiofrance-podcast.net/podcast09/rss_12841.xml"
+         "~/org/rss-podcasts.org"
+         "Affaires Étrangères"
+         :template "* %h\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
+        ("L'esprit public"
+         "http://radiofrance-podcast.net/podcast09/rss_16119.xml"
+         "~/org/rss-podcasts.org"
+         "L'esprit public"
+         :template "* %h\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
+        ("C dans l'air"
+         "https://www.youtube.com/feeds/videos.xml?channel_id=UCvg4_wSz4Cmo4xRPXaKU47A"
+         "~/org/rss-podcasts.org"
+         "C dans l'air"
+         :parse-feed org-feed-parse-atom-feed
+         :parse-entry org-feed-parse-atom-entry
+         :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
+        ;; TODO Use    :filter to only insert entries >30 minutes = the whole show, not snippets
+                                        ; (string-match "[ \t]*$" test-str)
+        ("Planet Emacs"
+         "http://planet.emacsen.org/atom.xml"
+         "~/org/rss-podcasts.org"
+         "Planet Emacs"
+         :parse-feed org-feed-parse-atom-feed
+         :parse-entry org-feed-parse-atom-entry
+         :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
+        ))
+#+END_SRC
+*** DONE Remove items from modeline
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2017-01-19 Thu 13:27] \\
+  Fixed with dimished-mode
+:END:
+When running a split-windowed emacs, the modeline is too crowded with stuff like Projectile, beacon-mode etc.
+There is a mode called Diminish mode that solves it. See [[http://emacs.stackexchange.com/questions/3925/hide-list-of-minor-modes-in-mode-line][SO on modeline too long]].
+
+Need to evaluate what is useless in modeline depending on what I do.
+
+See also: Smart-modeline !
+*** CANCELED Orgmode buffer switch
+:LOGBOOK:
+- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:30] \\
+  Who cares
+:END:
+When orgmode opens a buffer it's in the next buffer.
+I want it to happen in a specific place to avoid messing my setup.
+
+See http://emacs.stackexchange.com/questions/721/how-to-control-in-which-window-a-buffer-is-displayed
+
+*** TODO Perspective mode
+Emacs equivalent of virtual desktops, which you can integrate into projectile.
+This would allow the organisation stuff to be in a perspective and coding to be in an other one, and invoke either in one chord.
+Bonus points for popping the "IDE perspective" from a cold-boot.
+
+*** DONE Compilation follow to first error
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2017-02-22 Wed 14:11]
+:END:
+Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
+
+*** CANCELED Registers                                           :keybinding:
+:LOGBOOK:
+- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:30] \\
+  Who cares
+:END:
+Binding files I access often to Emacs registers for quick access.

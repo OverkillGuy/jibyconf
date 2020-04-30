@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: account
+# key: account
+# yas-auto-indent: nil
+# --
+account $0
+  payee $1

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : Bash strict mode
+#key : strict
+# --
+# https://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail

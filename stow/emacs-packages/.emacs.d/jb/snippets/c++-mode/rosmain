@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+#name : Main method of C++ ROS node
+#key : rosmain
+# --
+#include <ros/ros.h>
+#include <${3:package}/$2.h>
+
+int main(int argc, char **argv)
+{
+  ros::init(argc, argv, "${1:node name}");
+  ${2:class name} node($0);
+  ros::spin();
+
+  return 0;
+}
