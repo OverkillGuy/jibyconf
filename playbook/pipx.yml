@@ -1,0 +1,26 @@
+---
+- hosts: all
+  tasks:
+    - name: Ensure pipx is installed
+      become: yes
+      apt:
+        pkg: pipx
+    - debug: msg="{{ ansible_env.PATH }} vs {{ ansible_env.HOME ~ '/.local/bin/' in lookup('env','PATH') }} "
+    # - name: Ensure pipx is in $PATH
+    #    # {{ 1 in [1, 2, 3] }}
+    #    # {{ lookup(en) in [1, 2, 3] }}
+    #   when: ansible_env.HOME ~ "/.local/bin/" not in lookup('env','PATH')
+    #   shell: pipx ensurepath
+    # - name: Ensure sphinx is installed via pipx
+    #   shell: pipx install sphinx
+    # # - name: Check sphinx works
+    # - name: Check whether $PATH contains pipx binaries
+    #   shell: "grep -q '{{ ansible_env.HOME }}/.local/bin:$PATH' {{ ansible_env.HOME }}/.bashrc"
+    #   register: pipx_inpath
+    #   check_mode: no
+    #   ignore_errors: yes
+    #   changed_when: no
+
+    # - name: Ensure pipx on $PATH if not already
+    #   when: pipx_inpath.rc == 0
+    #   shell: pipx ensurepath

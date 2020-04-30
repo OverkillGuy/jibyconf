@@ -3,6 +3,7 @@
 - import_playbook: emacs.yml
 - import_playbook: plantuml.yml
 - import_playbook: dev_doc.yml
+# - import_playbook: pipx.yml
 
 # TODO: pipx for jupyter playbook
 # TODO: Desktop setup (bt, vlc, firefox, deluge, artha)
