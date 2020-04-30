@@ -26,9 +26,15 @@ This will:
 
 ## Usage
 
-The setup is a vagrant machine. Read the [vagrant CLI docs](https://www.vagrantup.com/docs/cli/) for details.
-The most common operation is to launch the machine via `vagrant up`, and ssh to it via `vagrant ssh`.
+The setup is a vagrant machine. Launch the machine
 
+	vagrant up
+
+SSH to the machine
+
+	vagrant ssh
+
+Read the [vagrant CLI docs](https://www.vagrantup.com/docs/cli/) for more commands and details.
 If the machine is to be manipulated outside vagrant (via Virtualbox or
 directly over SSH), consider using [vagrant ssh-config](https://www.vagrantup.com/docs/cli/ssh_config.html) to
 simplify future connections via standalone SSH.
