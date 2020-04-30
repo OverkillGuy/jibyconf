@@ -559,3 +559,4 @@ will not be modified."
 ;; ~/.local/share/applications/org-protocol.desktop
 ;; Then cmd `update-desktop-database ~/.local/share/applications/`
 (require 'org-protocol)
+(use-package dired-rsync)
