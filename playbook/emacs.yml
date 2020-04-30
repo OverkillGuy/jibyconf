@@ -71,3 +71,4 @@
         - emacs-vanilla
         - emacs-packages
         - emacs-external
+        - emacs-daemon
