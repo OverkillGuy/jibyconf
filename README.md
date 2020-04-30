@@ -59,4 +59,4 @@ Compare with https://github.com/math0ne/dotfiles/, another Ansible + stow soluti
 
 Testing the merging of repos, from [SO](https://stackoverflow.com/a/14992078)
 
-	git subtree add --prefix=rails git://github.com/rails/rails.git master
+	git subtree add --prefix=stow file:////home/jiby/dev/conf/emacs-conf emacsconf-premerge
