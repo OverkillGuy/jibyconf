@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook       = "playbook/main.yml"
-    ansible.inventory_path = "inventory"
+    ansible.inventory_path = "vagrant_inventory"
     ansible.limit          = "all"
     # ansible.verbose        = true
   end
