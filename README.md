@@ -60,3 +60,12 @@ Compare with https://github.com/math0ne/dotfiles/, another Ansible + stow soluti
 Testing the merging of repos, from [SO](https://stackoverflow.com/a/14992078)
 
 	git subtree add --prefix=stow file:////home/jiby/dev/conf/emacs-conf emacsconf-premerge
+
+### Systemd user login session issue
+
+Systemd services can't be symlinked, hardcopy instead see contradictory
+discussion at https://github.com/systemd/systemd/issues/3660
+
+
+From https://github.com/zoqaeski/systemd-user-units#update
+> As of systemd-206 and higher, most of this fails to work as expected due to how loginctl creates user slices: user services run outside of the session, so NO session data is available to them.

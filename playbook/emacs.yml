@@ -71,25 +71,13 @@
         - emacs-vanilla
         - emacs-packages
         - emacs-external
-    - name: Ensure emacs user systemd folder exists
-      file:
-        path: "{{ ansible_env.HOME }}/.config/systemd/user/"
-        state: directory
-        mode: '0755'
-    # systemd services can't be symlinked, hardcopy instead
-    # see contradictory discussion at https://github.com/systemd/systemd/issues/3660
-    - name: Copy file with owner and permissions
-      copy:
-        src: "{{ ansible_env.HOME }}/dev/conf/jiby-conf/stow/emacs-daemon/.config/systemd/user/emacs.service"
-        dest: "{{ ansible_env.HOME }}/.config/systemd/user/emacs.service"
-    # From https://github.com/zoqaeski/systemd-user-units#update
-    # > As of systemd-206 and higher, most of this fails to work as expected
-    # due to how loginctl creates user slices: user services run outside of the
-    # session, so NO session data is available to them.
+    # Debian/Ubuntu emacs package ships a systemd user service in
+    # /usr/lib/systemd/user/emacs.service, no need to unstow our own
+    # in ~/.config/ (which is now broken due to systemd user daemon
+    # login management, whatever that means)
     - name: Ensure emacs daemon service enabled
       systemd:
         scope: user
         name: emacs
-        enabled: yes  # FIXME: On boot doesn't stick
+        enabled: yes
         state: started
-    # See also https://bitbucket.org/KaiSforza/systemd-user-units/wiki/Home
