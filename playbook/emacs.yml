@@ -75,6 +75,15 @@
     # /usr/lib/systemd/user/emacs.service, no need to unstow our own
     # in ~/.config/ (which is now broken due to systemd user daemon
     # login management, whatever that means)
+    - name: Ensure emacs bootstrap script present
+      blockinfile:
+        path: "{{ ansible_env.HOME }}/.emacs"
+        create: yes
+        marker: ";; {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          (cd "~/.emacs.d/jb/")
+          (load-file "bootstrap.el")
+          (cd "~/")
     - name: Ensure emacs daemon service enabled
       systemd:
         scope: user
