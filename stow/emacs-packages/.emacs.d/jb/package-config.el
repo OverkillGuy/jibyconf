@@ -1,5 +1,7 @@
 ;; Only useful if emacs < 26.3
-;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+;; Fixes "bad request" from ELPA
+(if (not (string= emacs-version "26.3"))
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
 (setq package-archives
       '(("Gnu" . "https://elpa.gnu.org/packages/")
