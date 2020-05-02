@@ -1,3 +1,4 @@
-# Check variables in host_vars/vagrant_localhost
-vagrant_localhost
+# Name of machine for ansible, default-matched by hostname when not
+# otherwise specified. Check variables in host_vars/testing
+testing
 
