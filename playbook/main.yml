@@ -4,6 +4,7 @@
 - import_playbook: pipx.yml
 - import_playbook: plantuml.yml
 - import_playbook: dev_doc.yml
+- import_playbook: dev_tools.yml
 - import_playbook: pkg_update.yml
 
 # TODO: pipx for jupyter playbook

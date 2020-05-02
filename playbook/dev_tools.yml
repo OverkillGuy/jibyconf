@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+    - name: Ensure dev tools are installed
+      become: yes
+      apt:
+        pkg:
+          - htop
+          - jq
+          - curl
+          - silversearcher-ag
