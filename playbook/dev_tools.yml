@@ -6,6 +6,7 @@
       become: yes
       apt:
         pkg:
+          - build-essential
           - htop
           - jq
           - curl
@@ -15,3 +16,8 @@
       become: yes
       apt:
         pkg: hugo
+    - name: Ensure rust is installed
+      tags: rust
+      shell:
+        creates: "{{ ansible_env.HOME }}/.cargo/bin/"
+        cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
