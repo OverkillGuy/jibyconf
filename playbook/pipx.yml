@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  tags: pipx
   tasks:
     - name: Ensure pipx is installed
       become: yes
@@ -12,6 +13,7 @@
         block: |
           export PATH="{{ ansible_env.HOME }}/.local/bin:$PATH"
     - name: Ensure sphinx is installed via pipx
+      tags: [dev, docs]
       shell:
         creates: "{{ ansible_env.HOME }}/.local/bin/sphinx-build"
         cmd: |

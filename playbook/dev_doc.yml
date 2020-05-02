@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  tags: [dev, docs]
   tasks:
     - name: Ensure ~/dev/docs exists
       file:

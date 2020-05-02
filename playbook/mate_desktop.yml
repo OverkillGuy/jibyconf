@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  tags: [x11, MATE]
   tasks:
     - name: Ensure MATE desktop environment is installed
       apt:

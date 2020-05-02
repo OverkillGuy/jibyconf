@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  tags: dev
   tasks:
     - name: Ensure dev tools are installed
       become: yes

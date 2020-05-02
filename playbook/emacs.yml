@@ -1,17 +1,18 @@
 ---
 - hosts: all
+  tags: emacs
   tasks:
     - name: Install emacs (no X)
       become: true
       apt:
         name: emacs-nox
     - name: Install emacs (X11) is installed
-      when: x11_enabled|bool
+      tags: x11
       become: true
       apt:
         name: emacs
     - name: Install dependencies of pdf-tools package
-      when: x11_enabled|bool
+      tags: x11
       become: true
       apt:
         pkg:
@@ -27,7 +28,7 @@
           - make
           - pkg-config
     - name: Install full texlive distro
-      when: x11_enabled|bool
+      tags: x11
       become: true
       apt:
         pkg: texlive-full
@@ -63,6 +64,7 @@
         enabled: yes
     # Fetches plugin if needed
     - name: Load bootstrap emacs-config script
+      tags: slow
       shell:
         creates: "{{ ansible_env.HOME }}/.emacs.d/elpa/"
         cmd: |

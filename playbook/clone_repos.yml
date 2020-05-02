@@ -1,11 +1,12 @@
 ---
 - hosts: all
+  tags: git
   vars:
     git_repos:
-      - path: ~/dev/ws/jiby.tech
       - path: ~/dev/conf/emacs-conf
       - path: ~/.password-store
         refs: -b master
+      - path: ~/dev/ws/jiby.tech
       - path: ~/dev/ws/gen_jiby.tech
         refs: -b HEAD
       # - path: ~/dev/conf/debian-workspace-playbook
