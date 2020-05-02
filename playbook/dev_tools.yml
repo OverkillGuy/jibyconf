@@ -10,3 +10,8 @@
           - jq
           - curl
           - silversearcher-ag
+    - name: Ensure blog tools are installed
+      tags: blog
+      become: yes
+      apt:
+        pkg: hugo
