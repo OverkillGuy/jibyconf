@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/testing64"
+  config.vm.hostname = "debby"
 
   # Install ansible locally
   config.vm.provision "shell", inline: <<-SHELL
@@ -11,8 +12,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook       = "playbook/main.yml"
     ansible.inventory_path = "vagrant_inventory"
-    ansible.limit          = "testing"
-    # ansible.verbose        = true
+    ansible.skip_tags      = "x11,slow,plantuml,emacs,pipx"
+    ansible.limit          = "localhost"
+    ansible.verbose        = true
   end
 
   # # Alternative: ansible-pull to clone repo + apply it locally.

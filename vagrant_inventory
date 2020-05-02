@@ -1,5 +1,9 @@
-# Name of machine for ansible, default-matched by hostname when not
-# otherwise specified. Check variables in host_vars/testing
-testing
-# Debby accessed via ssh
+# Check default variables in group_vars/all.yml
+# Per-machine override in host_vars/<hostname>
+
+# Name of machine for ansible without vagrant
+# Default-matched to ssh hostname
 debby
+
+# Vagrant default, not using SSH
+localhost	ansible_connection=local
