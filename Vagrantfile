@@ -23,7 +23,13 @@ Vagrant.configure("2") do |config|
   # Note: Deescalate to vagrant user to avoid default root user issues in playbook
   config.vm.provision "ansible-pull", type: "shell", run: "never" do |s|
     s.inline = <<-SHELL
-     sudo -u vagrant ANSIBLE_FORCE_COLOR=true ansible-pull -U file:///vagrant/  -i vagrant_inventory -C master playbook/main.yml --skip-tags "hostrequired,x11,slow,plantuml,emacs,pipx"
+     sudo -u vagrant ANSIBLE_FORCE_COLOR=true ansible-pull \
+           -U file:///vagrant/  \
+           -i vagrant_inventory \
+           -C master \
+           --limit 'localhost' \
+           --skip-tags "hostrequired,x11,slow,plantuml,emacs,pipx" \
+           playbook/main.yml
      SHELL
   end
 end
