@@ -13,7 +13,7 @@ test-ansible: delete up provision ansible
 
 # Wipe machine and restart from scratch using ansible-pull via git
 # clone (called by vagrant)
-test-pull: delete up provision-shell provision-ansible-pull
+test-pull: delete up provision-ansible-pull
 
 
 up:

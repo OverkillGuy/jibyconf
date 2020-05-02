@@ -5,5 +5,5 @@
 # Default-matched to ssh hostname
 debby
 
-# Vagrant default, not using SSH
+# Target not using SSH, used by Vagrantfile and ansible-pull
 localhost	ansible_connection=local
