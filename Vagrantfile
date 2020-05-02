@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
   # Install ansible locally
   config.vm.provision "shell", inline: <<-SHELL
-    DEBIAN_FRONTEND=noninteractive apt-get install -y ansible
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ansible git
   SHELL
 
   config.vm.provision "ansible_local" do |ansible|
