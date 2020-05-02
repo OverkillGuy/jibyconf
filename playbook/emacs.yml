@@ -89,4 +89,16 @@
         scope: user
         name: emacs
         enabled: yes
+    # Fetches plugin if needed
+    - name: Load bootstrap emacs-config script
+      shell:
+        creates: "{{ ansible_env.HOME }}/.emacs.d/elpa/"
+        cmd: |
+          emacs --batch  --eval '(cd "~/.emacs.d/jb/")' --eval '(load-file "bootstrap.el")' --kill
+
+    - name: Ensure emacs daemon service started
+      systemd:
+        scope: user
+        name: emacs
         state: started
+
