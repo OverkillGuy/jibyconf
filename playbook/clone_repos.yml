@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  tags: git
+  tags: [git, hostrequired]
   vars:
     git_repos:
       - path: ~/dev/conf/emacs-conf
