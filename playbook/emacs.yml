@@ -34,39 +34,11 @@
 
 # Emacs-conf repo steps
 
-    - name: Install git for emacs config cloning
-      become: true
-      apt:
-        pkg: git
-    - name: Ensure ~/dev/conf/ exists for emacs config
-      file:
-        path: "{{ ansible_env.HOME}}/dev/conf"
-        state: directory
-        mode: '0755'
-    - name: Check ~/dev/conf/jiby-config cloned
-      register: jibyconf_folder
-      stat:
-        path: "{{ ansible_env.HOME}}/dev/conf/jiby-conf"
-    - name: Clone the jiby-conf repo from bundle
-      when: not jibyconf_folder.stat.exists
-      # Ideally use the git ansible module instead, but it doesn't do bundle-file-cloning like git CLI
-      shell: "git clone /vagrant/ {{ ansible_env.HOME}}/dev/conf/jiby-conf"
-    # # TODO: Register the remote bundle before fetching from it
-    # - name: Update the emacs-conf repo from bundle
-    #   when: emacsconf_folder.stat.exists and emacsconf_folder.stat.isdir
-    #   shell: "git fetch /vagrant/data/jiby-emacsconf.bundle {{ ansible_env.HOME}}/dev/conf/emacs-conf -b stowage"
-
-# Deployment via stow
-
-    - name: Install stow for deployment of emacs conf
-      become: true
-      apt:
-        pkg: stow
     - name: Deploy the emacs-conf repo via stow
-      shell: "stow --dir ~/dev/conf/jiby-conf/stow --target {{ ansible_env.HOME}}/ {{ item }}"
+      shell:
+        creates: "{{ ansible_env.HOME}}/.emacs.d/jb/"
+        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{ ansible_env.HOME}}/ {{ item }}"
       loop:
-        - bash
-        - git
         - emacs
         - emacs-vanilla
         - emacs-packages
@@ -79,7 +51,7 @@
       blockinfile:
         path: "{{ ansible_env.HOME }}/.emacs"
         create: yes
-        marker: ";; {mark} ANSIBLE MANAGED BLOCK"
+        marker: ";; {mark} ANSIBLE MANAGED BLOCK: boostrap emacsconf"
         block: |
           (cd "~/.emacs.d/jb/")
           (load-file "bootstrap.el")

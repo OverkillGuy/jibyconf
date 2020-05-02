@@ -8,11 +8,13 @@
     - name: Ensure pipx is in $PATH
       blockinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: pipx"
         block: |
-          # For pipx (https://github.com/pipxproject/pipx)
           export PATH="{{ ansible_env.HOME }}/.local/bin:$PATH"
     - name: Ensure sphinx is installed via pipx
-      shell: |
-        pipx install sphinx
-        pipx inject sphinx sphinxcontrib-needs
+      shell:
+        creates: "{{ ansible_env.HOME }}/.local/bin/sphinx-build"
+        cmd: |
+          pipx install sphinx
+          pipx inject sphinx sphinxcontrib-needs
 
