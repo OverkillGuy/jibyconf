@@ -36,7 +36,7 @@
 
     - name: Deploy the emacs-conf repo via stow
       shell:
-        creates: "{{ ansible_env.HOME}}/.emacs.d/jb/"
+        creates: "{{ ansible_env.HOME}}/.emacs.d/jb/external-pkg-config.el"
         cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{ ansible_env.HOME}}/ {{ item }}"
       loop:
         - emacs
@@ -67,7 +67,6 @@
         creates: "{{ ansible_env.HOME }}/.emacs.d/elpa/"
         cmd: |
           emacs --batch  --eval '(cd "~/.emacs.d/jb/")' --eval '(load-file "bootstrap.el")' --kill
-
     - name: Ensure emacs daemon service started
       systemd:
         scope: user
