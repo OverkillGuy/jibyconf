@@ -1,18 +1,17 @@
-# Debian VM playbook
+# Jiby's dev environment playbook
 
-Generate a new Debian VM via Vagrant, customized by Ansible playbook.
+Configure a Debian machine for development using Ansible playbook.
 
-Playbook tailored to personal laptop usage.
+Test it on a new Debian bullseye VM via Vagrant, auto-provisioning it.
 
 ## Dependencies
-- [Vagrant](https://vagrantup.com) for the VM launch
-- `debian/testing64` vagrant basebox (bullseye)
-- Ansible for provisioning (installed by Vagrant on the VM)
+- [Ansible](https://ansible.com) for configuration
+- [Vagrant](https://vagrantup.com) for testing in VM (installs ansible)
+- [GNU Stow](https://www.gnu.org/software/stow/) for config files
 
+## Usage as VM
 
-## Installation
-
-To launching this playbook, [install Vagrant](https://www.vagrantup.com/intro/getting-started/install.html).
+To try it out in VM, [install Vagrant](https://www.vagrantup.com/intro/getting-started/install.html).
 You'll also need a Vagrant provider that works with the basebox. We recommend [virtualbox](https://www.vagrantup.com/docs/virtualbox/).
 
 Launching the VM the first time is a matter of running
@@ -24,41 +23,107 @@ This will:
 - Launch the VM, creating it if doesn't exist
 - Provision the machine if needed (first time)
 
-## Usage
-
-The setup is a vagrant machine. Launch the machine
-
-	vagrant up
-
 SSH to the machine
 
 	vagrant ssh
 
-Read the [vagrant CLI docs](https://www.vagrantup.com/docs/cli/) for more commands and details.
 If the machine is to be manipulated outside vagrant (via Virtualbox or
-directly over SSH), consider using [vagrant ssh-config](https://www.vagrantup.com/docs/cli/ssh_config.html) to
-simplify future connections via standalone SSH.
+directly over SSH), please use [vagrant ssh-config](https://www.vagrantup.com/docs/cli/ssh_config.html) to
+simplify future connections via standalone SSH:
 
-Rebuild the machine by burning it down, reproducing it from basebox:
+	vagrant ssh-config
+	# edit the output to suit, and append to ~/.ssh/config
+	# I configured ssh-config(5) to use "debby" alias
+	ssh debby  # no need for vagrant anymore!
 
-	# WARNING: This destroys your copy of the machine, rebuilding it from scratch
-	vagrant destroy -f && vagrant up --provision
+Read the [vagrant CLI docs](https://www.vagrantup.com/docs/cli/) for more commands and details.
 
-Users comfortable with Ansible should look at the playbook as mostly
-separate from Vagrant using it.
+To rebuild the machine from the ground up, burning it down and
+reproducing it from basebox:
 
-After updating the playbook with a running VM, you might want to
-re-run the provisioning without restarting from scratch. Use the
+	# WARNING: This destroys your copy of the machine, starting over from scratch!
+	vagrant destroy -f && vagrant up
+	# conveniently aliased to
+	make test-vagrant
+
+Given a running VM, after updating the playbook, you might want to
+re-run the provisioning without recreating the machine. I like the
 following command:
 
+	# update the copy of folder in /vagrant and apply provisioning
 	vagrant rsync && vagrant provision
+	# aliased to
+	make sync provision
 
-Or manually launch the playbook over SSH, using the following command
+## Via Ansible playbook
 
-	# Assuming "debby" is a valid ssh target, with an entry in inventory
-	ansible-playbook -i vagrant_inventory playbook/main.yml --limit debby
+Users comfortable with Ansible should look at the playbook as mostly
+separate from Vagrant using it, by disabling the automated ansible
+provisioning step in Vagrantfile. Instead, use ansible as standalone
+via SSH after the barebones vagrant provisioning:
 
-## Further reading
+	export ANSIBLE_FORCE_COLOR=true # optional: for colorful output
+    ansible-playbook -i vagrant_inventory playbook/main.yml debby
+	# aliased to
+	make ansible
+
+`debby` is the VM's hostname, and is the alias I set up manually in
+`~/.ssh/config` via `vagrant ssh-config`, so that `ssh debby` works.
+
+### Customizing image via Tags
+
+To make the playbook flexible enough to work on many systems, 
+this playbook defines [Ansible Tags](https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html)
+for all its sub-targets, with the purpose of customizing the environment.
+By default, all tags are used, but some likely are worth skipping for
+your particular usecase. Skip tags by adding keyword after
+ansible-playbook command:
+
+	--skip-tags x11
+    --skip-tags dev,slow,security
+	# If using spaces: make sure to wrap tags in quote!
+	--skip-tags "docs, slow"
+
+See the available tags per tasks:
+
+	ansible-playbook playbook/main.yml --list-tasks
+
+Sample output:
+
+	play #1 (all): all	TAGS: [pipx]
+	  tasks:
+	    Ensure pipx is installed	TAGS: [pipx]
+	    Ensure pipx is in $PATH	TAGS: [pipx]
+	    Ensure sphinx is installed via pipx	TAGS: [dev, docs, pipx]
+
+
+## Via GNU Stow
+
+Configuration files ("dotfiles") of this setup are managed using [GNU Stow](https://www.gnu.org/software/stow/),
+which deploys "packages" using symlinks. 
+
+Using Stow makes it easy to keep one centralized repository of all
+config files in version control, while deploying them far away in the
+filesystem, as each package can be "stowed" individually. See stowed
+packages in the `stow/` folder.
+
+## Limitations
+
+- Separation of Ansible and Vagrant steps not full
+  - Some hardcoded vagrant-only paths
+  - Not tested on non-Vagrantbox debian bullseye to compare
+- Plantuml install step errors out due to sourceforge download issue (skip it)
+- GNU Stow (shell) steps aren't idempotent by default
+  - Breaking ansible idempotency workflow
+  - Workaround of checking "creates" folders, tying playbook to stowed packages
+- Untested on GUI machine (always skipping x11 step till now)
+- Stow package contents needs work
+  - Was previously my emacs configuration folder, ported as-is
+  - Needs a stow config file to ignore litterate configs
+
+## Notes
+
+### Further reading
 Compare with https://github.com/math0ne/dotfiles/, another Ansible + stow solution
 
 
@@ -71,6 +136,9 @@ Testing the merging of repos, from [SO](https://stackoverflow.com/a/14992078)
 Systemd services can't be symlinked, hardcopy instead see contradictory
 discussion at https://github.com/systemd/systemd/issues/3660
 
-
 From https://github.com/zoqaeski/systemd-user-units#update
-> As of systemd-206 and higher, most of this fails to work as expected due to how loginctl creates user slices: user services run outside of the session, so NO session data is available to them.
+> As of systemd-206 and higher, most of this fails to work as expected
+> due to how loginctl creates user slices: user services run outside
+> of the session, so NO session data is available to them.
+
+Worked around for Emacs by using the service file shipped by package.
