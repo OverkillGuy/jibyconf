@@ -8,10 +8,10 @@ Vagrant.configure("2") do |config|
     DEBIAN_FRONTEND=noninteractive apt-get install -y ansible git
   SHELL
 
-  config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook       = "playbook/main.yml"
-    ansible.inventory_path = "vagrant_inventory"
-    ansible.limit          = "all"
-    # ansible.verbose        = true
-  end
+  # config.vm.provision "ansible_local" do |ansible|
+  #   ansible.playbook       = "playbook/main.yml"
+  #   ansible.inventory_path = "vagrant_inventory"
+  #   ansible.limit          = "all"
+  #   # ansible.verbose        = true
+  # end
 end
