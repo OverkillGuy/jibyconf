@@ -10,11 +10,26 @@
         refs: -b HEAD
       # - path: ~/dev/conf/debian-workspace-playbook
   tasks:
-    - name: Package repo to data/ on host
+    - name: Package repo bundle to data/ on host
       loop: "{{ git_repos }}"
       local_action:
         module: shell
         creates: "{{ playbook_dir}}/../data/{{ item.path | basename }}.bundle"
         cmd: "git -C {{ item.path }} bundle create {{ playbook_dir}}/../data/{{ item.path | basename }}.bundle  {{ item.refs|default('--all')}}"
 
+    - name: Copy bundle file with owner and permissions
+      loop: "{{ git_repos }}"
+      copy:
+        src: "{{ playbook_dir}}/../data/{{ item.path | basename }}.bundle"
+        dest: /tmp/repos/
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+    - name: Ensure repos are cloned created
+      loop: "{{ git_repos }}"
+      # Ideally use the git ansible module instead, but it doesn't do local-file-cloning like git CLI
+      shell:
+        creates: "{{ item.path }}"
+        cmd: "git clone /tmp/repos/{{ item.path|basename }}.bundle {{ item.path }}"
 
+# TODO: Detect if repo created already before bundle/copy/clone
