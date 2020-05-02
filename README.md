@@ -87,6 +87,8 @@ ansible-playbook command:
 See the available tags per tasks:
 
 	ansible-playbook playbook/main.yml --list-tasks
+	# aliased to
+	make list-tags
 
 Sample output:
 

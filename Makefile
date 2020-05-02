@@ -49,5 +49,6 @@ delete:
 ansible:
 	ansible-playbook -i vagrant_inventory playbook/main.yml --limit debby  ${ANSIBLE_OPTS}
 
-
+list-tags:
+	ansible-playbook playbook/main.yml --list-tasks
 
