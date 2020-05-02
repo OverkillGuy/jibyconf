@@ -1,1 +1,3 @@
 .vagrant/
+# Do not track the repos to shuttle to new machine
+data/*.bundle
