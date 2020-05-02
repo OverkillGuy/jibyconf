@@ -1,4 +1,5 @@
 # Name of machine for ansible, default-matched by hostname when not
 # otherwise specified. Check variables in host_vars/testing
 testing
-
+# Debby accessed via ssh
+debby

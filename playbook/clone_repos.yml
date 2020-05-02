@@ -1,0 +1,20 @@
+---
+- hosts: all
+  vars:
+    git_repos:
+      - path: ~/dev/ws/jiby.tech
+      - path: ~/dev/conf/emacs-conf
+      - path: ~/.password-store
+        refs: -b master
+      - path: ~/dev/ws/gen_jiby.tech
+        refs: -b HEAD
+      # - path: ~/dev/conf/debian-workspace-playbook
+  tasks:
+    - name: Package repo to data/ on host
+      loop: "{{ git_repos }}"
+      local_action:
+        module: shell
+        creates: "{{ playbook_dir}}/../data/{{ item.path | basename }}.bundle"
+        cmd: "git -C {{ item.path }} bundle create {{ playbook_dir}}/../data/{{ item.path | basename }}.bundle  {{ item.refs|default('--all')}}"
+
+

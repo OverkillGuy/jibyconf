@@ -53,6 +53,11 @@ following command:
 
 	vagrant rsync && vagrant provision
 
+Or manually launch the playbook over SSH, using the following command
+
+	# Assuming "debby" is a valid ssh target, with an entry in inventory
+	ansible-playbook -i vagrant_inventory playbook/main.yml --limit debby
+
 ## Further reading
 Compare with https://github.com/math0ne/dotfiles/, another Ansible + stow solution
 
