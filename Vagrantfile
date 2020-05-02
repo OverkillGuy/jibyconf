@@ -8,8 +8,8 @@ Vagrant.configure("2") do |config|
     s.inline = "DEBIAN_FRONTEND=noninteractive apt-get install -y ansible git"
   end
 
-  # Optional "vagrant-ansible-local" solution for provisioning
-  config.vm.provision "vagrant-ansible-local", type: "ansible_local", run: "never" do |ansible|
+  # Optional-ish "vagrant-ansible-local" solution for provisioning
+  config.vm.provision "vagrant-ansible-local", type: "ansible_local" do |ansible|
     ansible.playbook       = "playbook/main.yml"
     ansible.inventory_path = "vagrant_inventory"
     ansible.skip_tags      = "x11,slow,plantuml,emacs,pipx"
