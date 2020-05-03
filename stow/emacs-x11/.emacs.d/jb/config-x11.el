@@ -11,17 +11,12 @@
 ; Test char and monospace:
 ; 0123456789abcdefghijklmnopqrstuvwxyz [] () :;,. !@#$^&*
 ; 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ {} <> "'`  ~-_/|\?
-;; (cond
-;;  (;; (find-font (font-spec :name "Monaco"))
-;;   ;; (set-frame-font "Monaco-15"))
-;;   ;; ((find-font (font-spec :name "courier"))
-;;   ;;  (set-frame-font "courier-20"))
-;;   ;; ((find-font (font-spec :name "inconsolata"))
-;;   ;;  (set-frame-font "inconsolata-20"))
-;;   ;; ((find-font (font-spec :name "Lucida Console"))
-;;   ;;  (set-frame-font "Lucida Console-20"))
-;;   (t (set-frame-font "mono-14"))))
-(set-frame-font "mono-14")
+(cond
+ ((find-font (font-spec :name "Monaco"))
+  (set-frame-font "Monaco-15"))
+ ((find-font (font-spec :name "Firacode"))
+  (set-frame-font "firacode-15"))
+ (t (set-frame-font "mono-15")))
 
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
