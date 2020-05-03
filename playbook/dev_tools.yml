@@ -21,3 +21,4 @@
       shell:
         creates: "{{ ansible_env.HOME }}/.cargo/bin/"
         cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        warn: false
