@@ -4,6 +4,7 @@
   vars:
     git_repos:
       - path: ~/dev/conf/emacs-conf
+      - path: ~/dev/ws/cv_jbd
       - path: ~/.password-store
         refs: -b master
       - path: ~/dev/ws/jiby.tech
