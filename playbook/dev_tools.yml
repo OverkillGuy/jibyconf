@@ -11,6 +11,7 @@
           - jq
           - curl
           - silversearcher-ag
+          - net-tools
     - name: Ensure blog tools are installed
       tags: blog
       become: yes
