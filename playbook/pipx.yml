@@ -19,4 +19,10 @@
         cmd: |
           pipx install sphinx
           pipx inject sphinx sphinxcontrib-needs
+    - name: Ensure borgmatic is installed via pipx
+      tags: backup
+      shell:
+        creates: "{{ ansible_env.HOME }}/.local/bin/borgmatic"
+        cmd: pipx install borgmatic
+
 
