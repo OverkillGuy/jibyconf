@@ -12,7 +12,7 @@
       apt:
         pkg: mate-desktop-environment
     - name: Ensure i3-wm is installed
-      tags: [i3, never]  # Disabled by default
+      tags: i3
       become: yes
       apt:
         pkg: i3
