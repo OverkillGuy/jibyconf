@@ -23,3 +23,11 @@
           - shiki-brave-theme
           - fonts-firacode
           # - blueman
+    - name: Common desktop apps
+      become: yes
+      apt:
+        pkg:
+          - firefox
+          - xournal
+          - vlc
+          - artha
