@@ -31,3 +31,10 @@
           - xournal
           - vlc
           - artha
+    - name: Entertainment apps
+      tags: [entertainment, never]  # optional for "serious business"
+      become: yes
+      apt:
+        pkg:
+          - deluge
+          - calibre
