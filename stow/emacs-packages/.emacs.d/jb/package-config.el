@@ -562,3 +562,7 @@ will not be modified."
 ;; Then cmd `update-desktop-database ~/.local/share/applications/`
 (require 'org-protocol)
 (use-package dired-rsync)
+
+(use-package exec-path-from-shell
+  :config (when (memq window-system '(mac ns x))
+	    (exec-path-from-shell-initialize)))
