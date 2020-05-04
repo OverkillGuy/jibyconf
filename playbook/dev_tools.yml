@@ -12,6 +12,7 @@
           - curl
           - silversearcher-ag
           - net-tools
+          - python-pygments
     - name: Ensure blog tools are installed
       tags: blog
       become: yes
