@@ -22,3 +22,7 @@
       apt:
         pkg:
           - python3-doc
+          - ansible-doc
+          - debmake-doc
+          - doc-debian
+          - bash-doc
