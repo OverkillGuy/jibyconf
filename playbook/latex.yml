@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tags: [x11, latex]
+  tasks:
+    - name: Install full texlive distro
+      become: true
+      apt:
+        pkg: texlive-full
+    - name: Install dvipng for fragments rendering in emacs
+      tags: emacs
+      become: true
+      apt:
+        pkg: texlive-full

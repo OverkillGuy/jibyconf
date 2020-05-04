@@ -27,12 +27,6 @@
           - libz-dev
           - make
           - pkg-config
-    - name: Install full texlive distro
-      tags: x11
-      become: true
-      apt:
-        pkg: texlive-full
-
 # Emacs-conf repo steps
 
     - name: Deploy the emacs-conf repo via stow

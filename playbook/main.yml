@@ -4,6 +4,7 @@
 - import_playbook: password_manager.yml
 - import_playbook: emacs.yml
 - import_playbook: desktop.yml
+- import_playbook: latex.yml
 - import_playbook: pipx.yml
 - import_playbook: plantuml.yml
 - import_playbook: dev_doc.yml
