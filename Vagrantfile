@@ -12,8 +12,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision "vagrant-ansible-local", type: "ansible_local" do |ansible|
     ansible.playbook       = "playbook/main.yml"
     ansible.inventory_path = "vagrant_inventory"
-    ansible.skip_tags      = "x11,slow,plantuml,emacs,pipx"
+    ansible.tags = "dockerize"
+    # ansible.skip_tags      = "x11,slow,plantuml,emacs,pipx"
     ansible.limit          = "localhost"
+    ansible.galaxy_role_file = "requirements.yml"
     # ansible.verbose        = true
   end
 
@@ -23,13 +25,15 @@ Vagrant.configure("2") do |config|
   # Note: Deescalate to vagrant user to avoid default root user issues in playbook
   config.vm.provision "ansible-pull", type: "shell", run: "never" do |s|
     s.inline = <<-SHELL
+     sudo -u vagrant ansible-galaxy install -r /vagrant/requirements.yml -p roles/
      sudo -u vagrant ANSIBLE_FORCE_COLOR=true ansible-pull \
            -U file:///vagrant/  \
            -i vagrant_inventory \
-           -C master \
+           -C galaxy-docker \
            --limit 'localhost' \
-           --skip-tags "hostrequired,x11,slow,plantuml,emacs,pipx" \
+           --tags dockerize \
            playbook/main.yml
+           # --skip-tags "hostrequired,x11,slow,plantuml,emacs,pipx" 
      SHELL
   end
 end
