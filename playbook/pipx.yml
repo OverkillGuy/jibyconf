@@ -8,21 +8,21 @@
         pkg: pipx
     - name: Ensure pipx is in $PATH
       blockinfile:
-        path: "{{ ansible_env.HOME }}/.bashrc"
+        path: "{{home}}/.bashrc"
         marker: "# {mark} ANSIBLE MANAGED BLOCK: pipx"
         block: |
-          export PATH="{{ ansible_env.HOME }}/.local/bin:$PATH"
+          export PATH="{{home}}/.local/bin:$PATH"
     - name: Ensure sphinx is installed via pipx
       tags: [dev, docs]
       shell:
-        creates: "{{ ansible_env.HOME }}/.local/bin/sphinx-build"
+        creates: "{{home}}/.local/bin/sphinx-build"
         cmd: |
           pipx install sphinx
           pipx inject sphinx sphinxcontrib-needs
     - name: Ensure borgmatic is installed via pipx
       tags: backup
       shell:
-        creates: "{{ ansible_env.HOME }}/.local/bin/borgmatic"
+        creates: "{{home}}/.local/bin/borgmatic"
         cmd: pipx install borgmatic
 
 

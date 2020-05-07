@@ -4,7 +4,7 @@
   tasks:
     - name: Ensure ~/dev/docs exists
       file:
-        path: "{{ ansible_env.HOME}}/dev/doc/"
+        path: "{{home}}/dev/doc/"
         state: directory
         mode: '0755'
     # # Replaced by python3-doc debian package!
@@ -15,7 +15,7 @@
     # - name: Get Python3 docs
     #   unarchive:
     #     src: https://docs.python.org/3/archives/python-3.8.2-docs-html.zip
-    #     dest: "{{ ansible_env.HOME}}/dev/doc/"
+    #     dest: "{{home}}/dev/doc/"
     #     remote_src: yes
     - name: Install GNU docs packages
       become: true

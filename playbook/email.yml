@@ -10,8 +10,8 @@
           - maildir-utils
     # - name: Deploy the mail repo via stow
     #   shell:
-    #     creates: "{{ ansible_env.HOME}}/.mbsyncrc"
-    #     cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{ ansible_env.HOME}}/ mu4e"
+    #     creates: "{{home}}/.mbsyncrc"
+    #     cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ mu4e"
 
 # TODO IMAP IDLE mail monitor triggering mbsync
 # See https://imapclient.readthedocs.io/en/2.1.0/advanced.html?highlight=idle

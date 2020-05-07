@@ -31,8 +31,8 @@
 
     - name: Deploy the emacs-conf repo via stow
       shell:
-        creates: "{{ ansible_env.HOME}}/.emacs.d/jb/external-pkg-config.el"
-        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{ ansible_env.HOME}}/ {{ item }}"
+        creates: "{{home}}/.emacs.d/jb/external-pkg-config.el"
+        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ {{ item }}"
       loop:
         - emacs
         - emacs-vanilla
@@ -44,7 +44,7 @@
     # login management, whatever that means)
     - name: Ensure emacs bootstrap script present
       blockinfile:
-        path: "{{ ansible_env.HOME }}/.emacs"
+        path: "{{home}}/.emacs"
         create: yes
         marker: ";; {mark} ANSIBLE MANAGED BLOCK: boostrap emacsconf"
         block: |
@@ -60,6 +60,6 @@
     - name: Load bootstrap emacs-config script
       tags: slow
       shell:
-        creates: "{{ ansible_env.HOME }}/.emacs.d/elpa/"
+        creates: "{{home}}/.emacs.d/elpa/"
         cmd: |
           emacs --batch  --eval '(cd "~/.emacs.d/jb/")' --eval '(load-file "bootstrap.el")' --kill
