@@ -1,7 +1,7 @@
 ---
 - name: Desktop environment (X11, MATE, firefox, vlc, entertainment)
-  hosts: all
-  tags: x11
+  hosts: dev
+  tags: [desktop, x11]
   tasks:
     - name: Ensure x11 is installed
       become: yes
