@@ -92,11 +92,15 @@ See the available tags per tasks:
 
 Sample output:
 
-	play #1 (all): all	TAGS: [pipx]
-	  tasks:
-	    Ensure pipx is installed	TAGS: [pipx]
-	    Ensure pipx is in $PATH	TAGS: [pipx]
-	    Ensure sphinx is installed via pipx	TAGS: [dev, docs, pipx]
+	play #5 (all): Emacs and its config (via stow)	TAGS: [emacs]
+	    tasks:
+	      Install emacs (no X)	TAGS: [emacs]
+	      Install emacs (X11) is installed	TAGS: [emacs, x11]
+	      Install dependencies of pdf-tools package	TAGS: [emacs, x11]
+	      Deploy the emacs-conf repo via stow	TAGS: [emacs]
+	      Ensure emacs bootstrap script present	TAGS: [emacs]
+	      Ensure emacs daemon service enabled	TAGS: [emacs]
+	      Load bootstrap emacs-config script	TAGS: [emacs, slow]
 
 
 ## Via GNU Stow

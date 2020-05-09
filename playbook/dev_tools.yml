@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Generic development tools (incl. language support)
+  hosts: all
   tags: dev
   tasks:
     - name: Ensure dev tools are installed

@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Clone current repo and deploy bash/git config
+  hosts: all
   tags: [git, stow]
   tasks:
     - name: Install git for jiby-config cloning

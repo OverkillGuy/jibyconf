@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Update all packages
+  hosts: all
   tags: [slow, security]
   become: true
   tasks:

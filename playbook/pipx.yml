@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Pipx for standalone python apps (sphinx, borgmatic)
+  hosts: all
   tags: pipx
   tasks:
     - name: Ensure pipx is installed

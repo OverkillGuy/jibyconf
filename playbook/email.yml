@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Email (mbsync, mu4e)
+  hosts: all
   tags: email
   tasks:
     - name: Install mail fetchers (no X)
