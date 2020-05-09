@@ -4,8 +4,8 @@ Vagrant.configure("2") do |config|
   config.vm.define "dev", primary: true do |dev|
     dev.vm.box = "debian/testing64"
     dev.vm.hostname = "debby"
-    # Optional-ish "vagrant-ansible-local" solution for provisioning
-    dev.vm.provision "dev-ansible-local", type: "ansible_local" do |ansible|
+    # Optional-ish "vagrant-ansible" solution for provisioning
+    dev.vm.provision "dev-ansible", type: "ansible" do |ansible|
       ansible.playbook       = "playbook/main.yml"
       ansible.inventory_path = "vagrant_inventory"
       ansible.skip_tags      = "x11,slow,plantuml"
@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
     server.vm.network "forwarded_port", guest: 3000, host: 3000, id: "Gitea HTTP"
     server.vm.network "forwarded_port", guest: 222, host: 2224, id: "Gitea SSH"
 
-    server.vm.provision "server-ansible-local", type: "ansible_local" do |ansible|
+    server.vm.provision "server-ansible", type: "ansible" do |ansible|
       ansible.playbook       = "playbook/main.yml"
       ansible.inventory_path = "vagrant_inventory"
       ansible.tags           = "docker"
