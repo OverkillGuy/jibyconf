@@ -1,3 +1,8 @@
+# Vagrant VM info
 .vagrant/
+
 # Do not track the repos to shuttle to new machine
 data/*.bundle
+
+# Roles downloaded aren't relevant to capture
+playbook/roles/
