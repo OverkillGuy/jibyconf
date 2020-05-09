@@ -28,9 +28,9 @@
         src: "{{ playbook_dir}}/../server/gitea-compose/gitea-docker.service"
         dest: /etc/systemd/system/gitea-docker.service
 
-    - name: Start gitea service
+    - name: Enable gitea service
       become: yes
       systemd:
         name: gitea-docker
-        state: started
+        enabled: yes
         daemon_reload: yes
