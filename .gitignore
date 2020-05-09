@@ -6,3 +6,5 @@ data/*.bundle
 
 # Roles downloaded aren't relevant to capture
 playbook/roles/
+
+playbook_logs/
