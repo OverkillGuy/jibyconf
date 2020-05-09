@@ -12,6 +12,4 @@
 - import_playbook: dev_tools.yml
 - import_playbook: pkg_update.yml
 
-# TODO: pipx for jupyter playbook
-# TODO: Desktop setup (bt, vlc, firefox, deluge, artha)
 # TODO: VPN via wireguard

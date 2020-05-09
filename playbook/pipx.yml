@@ -35,4 +35,4 @@
     #     creates: "{{home}}/.local/bin/borgmatic"
     #     cmd: pipx install borgmatic
 
-
+# TODO: pipx for jupyter playbook
