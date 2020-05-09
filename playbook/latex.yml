@@ -1,6 +1,6 @@
 ---
 - name: LaTeX distro (texlive-full)
-  hosts: all
+  hosts: dev
   tags: [x11, latex]
   tasks:
     - name: Install full texlive distro

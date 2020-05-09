@@ -1,6 +1,6 @@
 ---
 - name: Developer documentation  (debian manpages + ~/dev/doc)
-  hosts: all
+  hosts: dev
   tags: [dev, docs]
   tasks:
     - name: Ensure ~/dev/docs exists

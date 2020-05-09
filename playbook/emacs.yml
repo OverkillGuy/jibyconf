@@ -1,6 +1,6 @@
 ---
 - name: Emacs and its config (via stow)
-  hosts: all
+  hosts: dev
   tags: emacs
   tasks:
     - name: Install emacs (no X)

@@ -1,6 +1,6 @@
 ---
 - name: Clone repositories borrowed from host
-  hosts: all
+  hosts: dev
   tags: [git, hostrequired]
   vars:
     git_repos:

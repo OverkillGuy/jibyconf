@@ -1,6 +1,7 @@
-SKIP_TAGS=slow,x11,plantuml,emacs,setup
-ANSIBLE_OPTS= -t docker
-# --skip-tags ${SKIP_TAGS}
+SKIP_TAGS=slow,x11
+ANSIBLE_OPTS= --skip-tags ${SKIP_TAGS}
+# -t x11,docker,emacs --skip-tags plantuml
+
 
 export PATH := ${HOME}/.local/bin/:$(PATH)
 
@@ -51,7 +52,7 @@ playbook/roles:
 	ansible-galaxy install -r requirements.yml -p playbook/roles/
 
 ansible:
-	ANSIBLE_FORCE_COLOR=true ansible-playbook -i vagrant_inventory playbook/main.yml --limit debby  ${ANSIBLE_OPTS}
+	ANSIBLE_FORCE_COLOR=true ansible-playbook -i vagrant_inventory playbook/main.yml ${ANSIBLE_OPTS}
 
 list-tags:
 	ansible-playbook playbook/main.yml --list-tasks

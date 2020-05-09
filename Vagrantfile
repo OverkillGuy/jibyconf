@@ -8,9 +8,9 @@ Vagrant.configure("2") do |config|
     dev.vm.provision "dev-ansible", type: "ansible" do |ansible|
       ansible.playbook       = "playbook/main.yml"
       ansible.inventory_path = "vagrant_inventory"
-      ansible.skip_tags      = "x11,slow,plantuml"
-      ansible.limit          = "localhost"
-      # ansible.verbose        = true
+      ansible.skip_tags      = "x11,slow"
+      ansible.limit          = "dev"
+      ansible.verbose        = true
     end
     # Alternative: ansible-pull to clone repo + apply it locally.
     # Closer to how machines would run this themselves.
@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
            -i vagrant_inventory \
            -C master \
            --limit 'localguy' \
-           --skip-tags "hostrequired,x11,slow,plantuml"  \
+           --skip-tags "hostrequired,x11,slow"  \
            playbook/main.yml
      SHELL
     end
@@ -41,9 +41,9 @@ Vagrant.configure("2") do |config|
       ansible.playbook       = "playbook/main.yml"
       ansible.inventory_path = "vagrant_inventory"
       ansible.tags           = "docker"
-      ansible.limit          = "localhost"
+      ansible.limit          = "servers"
       ansible.galaxy_role_file = "requirements.yml"
-      # ansible.verbose        = true
+      ansible.verbose        = true
     end
   end
 
