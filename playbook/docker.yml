@@ -15,3 +15,26 @@
   roles:  # Become just for the role, not whole play
     - { role: geerlingguy.pip, become: yes }
     - { role: geerlingguy.docker, become: yes }
+  tasks:
+    - name: Install gogs docker-compose.yml in /opt/gogs/
+      become: yes
+      copy:
+        src: "{{ playbook_dir}}/../server/gogs-compose/docker-compose.yml"
+        dest: /opt/gogs/
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0640'
+    # From systemd ansible example
+    # https://stackoverflow.com/a/40114458
+    - name: Install gogs systemd unit file
+      become: yes
+      copy:
+        src: "{{ playbook_dir}}/../server/gogs-compose/gogs-docker-compose.service"
+        dest: /etc/systemd/system/gogs-docker-compose.service
+
+    - name: Start gogs service
+      become: yes
+      systemd:
+        name: gogs-docker-compose
+        state: started
+        daemon_reload: yes
