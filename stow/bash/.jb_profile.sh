@@ -32,3 +32,8 @@ nessyxpic () {
     ssh nessyx 'find ~/storage/dcim/ -iname "*.jpg" -newermt "5 minute ago" -type f' \
 	| xargs -I% scp nessyx:% .
 }
+
+# Format dates as per RFC 3339
+alias rfcdate="date --rfc-3339 seconds | sed -e 's/ /T/' -e 's/\+00:00/Z/'"
+# Format date as per ISO 8601
+alias isodate="date --rfc-3339 date"
