@@ -20,10 +20,19 @@
         cmd: |
           pipx install sphinx
           pipx inject sphinx sphinxcontrib-needs
-    - name: Ensure borgmatic is installed via pipx
-      tags: backup
-      shell:
-        creates: "{{home}}/.local/bin/borgmatic"
-        cmd: pipx install borgmatic
+    # # pipx install blocked by pipx issue 402:
+    # # https://github.com/pipxproject/pipx/issues/402
+    # - name: Ensure borgbackup dependencies are installed
+    #   apt:
+    #     pkg:
+    #       - libssl-dev
+    #       - python3-dev
+    #       - libacl1
+    #       - libacl1-dev
+    # - name: Ensure borgmatic is installed via pipx
+    #   tags: backup
+    #   shell:
+    #     creates: "{{home}}/.local/bin/borgmatic"
+    #     cmd: pipx install borgmatic
 
 
