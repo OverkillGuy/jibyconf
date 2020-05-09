@@ -309,7 +309,11 @@ will not be modified."
   :config
   (add-to-list 'yas-snippet-dirs
 	       (expand-file-name "snippets/"))
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  ;; Fix indentation of snippets in yaml
+  ;; https://github.com/joaotavora/yasnippet/issues/1020#issuecomment-539787929
+  (add-hook 'yaml-mode-hook
+          '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed))))
 
 (use-package yasnippet-snippets
   :after yasnippet)
