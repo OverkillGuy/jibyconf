@@ -137,6 +137,11 @@ Testing the merging of repos, from [SO](https://stackoverflow.com/a/14992078)
 
 	git subtree add --prefix=stow file:////home/jiby/dev/conf/emacs-conf emacsconf-premerge
 
+
+See also [more apps selfhosted](https://github.com/ReinerNippes/selfhosted_on_docker),
+[awesome-selfhost](https://github.com/awesome-selfhosted/awesome-selfhosted) and [awesome-syadmin](https://github.com/n1trux/awesome-sysadmin).
+
+
 ### Systemd user login session issue
 
 Systemd services can't be symlinked, hardcopy instead see contradictory
