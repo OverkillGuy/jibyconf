@@ -3,13 +3,10 @@
 #key : playbook
 # --
 ---
-- hosts: webservers
-  vars:
-    http_port: 80
-    max_clients: 200
-  remote_user: root
+- name: $0
+  hosts: all
   tasks:
-  - name: ensure apache is at the latest version
-    yum:
-      name: httpd
-      state: latest
+  - name: Install tree
+    apt:
+      pkg:
+        - tree
