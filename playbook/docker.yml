@@ -2,7 +2,6 @@
 - name: Docker install and gogs
   tags: [docker, never]
   hosts: all
-  become: yes
   vars:
     pip_package: python3-pip
     pip_install_packages:
@@ -13,6 +12,6 @@
     docker_apt_repository: "deb [arch={{ docker_apt_arch }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} buster {{ docker_apt_release_channel }}"
     docker_users:
       - "{{ ansible_user }}"
-  roles:
-    - geerlingguy.pip
-    - geerlingguy.docker
+  roles:  # Become just for the role, not whole play
+    - { role: geerlingguy.pip, become: yes }
+    - { role: geerlingguy.docker, become: yes }
