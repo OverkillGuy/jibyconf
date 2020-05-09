@@ -13,7 +13,7 @@
       apt:
         name: emacs-gtk
     - name: Install dependencies of pdf-tools package
-      tags: x11
+      tags: [pdftools, x11]
       become: true
       apt:
         pkg:
