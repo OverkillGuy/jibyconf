@@ -46,6 +46,9 @@ sync:
 delete:
 	vagrant destroy -f
 
+playbook/roles:
+	ansible-galaxy install -r requirements.yml -p playbook/roles/
+
 ansible:
 	ansible-playbook -i vagrant_inventory playbook/main.yml --limit debby  ${ANSIBLE_OPTS}
 
