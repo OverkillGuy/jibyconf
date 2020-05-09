@@ -1,5 +1,6 @@
-SKIP_TAGS=slow,x11,plantuml
-ANSIBLE_OPTS=--skip-tags ${SKIP_TAGS}
+SKIP_TAGS=slow,x11,plantuml,emacs,setup
+ANSIBLE_OPTS= -t docker
+# --skip-tags ${SKIP_TAGS}
 
 export PATH := ${HOME}/.local/bin/:$(PATH)
 
