@@ -559,6 +559,7 @@ will not be modified."
     (push 'company-lsp company-backends))
 
 (use-package dired-launch
+  :custom (dired-launch-default-launcher '("xdg-open"))
  :config (dired-launch-enable))
 
 ;; Matched with the scheme handler in
