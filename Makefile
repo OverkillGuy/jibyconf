@@ -54,6 +54,11 @@ playbook/roles:
 ansible:
 	ANSIBLE_FORCE_COLOR=true ansible-playbook -i vagrant_inventory playbook/main.yml ${ANSIBLE_OPTS}
 
+ansible-server: UP_ARGS += server
+ansible-server: up
+	ANSIBLE_FORCE_COLOR=true ansible-playbook -i vagrant_inventory playbook/server/main.yml --limit servers ${ANSIBLE_OPTS}
+
+
 list-tags:
 	ansible-playbook playbook/main.yml --list-tasks
 

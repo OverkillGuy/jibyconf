@@ -1,7 +1,7 @@
 ---
 - name: Docker install and gogs
   tags: docker
-  hosts: servers
+  hosts: all
   vars:
     pip_package: python3-pip
     pip_install_packages:
@@ -9,28 +9,5 @@
     docker_users:
       - "{{ ansible_user }}"
   roles:  # Become just for the role, not whole play
-    - { role: geerlingguy.pip, become: yes }
     - { role: geerlingguy.docker, become: yes }
-  tasks:
-    - name: Install gitea docker-compose.yml in /opt/gitea/
-      become: yes
-      copy:
-        src: "{{ playbook_dir}}/../server/gitea-compose/docker-compose.yml"
-        dest: /opt/gitea/
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
-        mode: '0640'
-    # From systemd ansible example
-    # https://stackoverflow.com/a/40114458
-    - name: Install gitea systemd unit file
-      become: yes
-      copy:
-        src: "{{ playbook_dir}}/../server/gitea-compose/gitea-docker.service"
-        dest: /etc/systemd/system/gitea-docker.service
-
-    - name: Enable gitea service
-      become: yes
-      systemd:
-        name: gitea-docker
-        enabled: yes
-        daemon_reload: yes
+    - { role: geerlingguy.pip, become: yes }

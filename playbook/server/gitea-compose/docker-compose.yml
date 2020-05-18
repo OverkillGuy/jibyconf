@@ -24,3 +24,7 @@ volumes:
 networks:
   gitea:
     external: false
+
+logging:
+  driver: journald
+  tag: gitea
