@@ -571,3 +571,9 @@ will not be modified."
 (use-package exec-path-from-shell
   :config (when (memq window-system '(mac ns x))
 	    (exec-path-from-shell-initialize)))
+
+(use-package anzu
+  :config
+  (global-set-key [remap query-replace] 'anzu-query-replace)
+  (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
+  (global-anzu-mode +1))
