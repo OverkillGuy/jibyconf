@@ -8,6 +8,11 @@ services:
     environment:
       - USER_UID=1000
       - USER_GID=1000
+      - DB_TYPE=postgres
+      - DB_HOST=postgres:5432
+      - DB_NAME=gitea
+      - DB_USER=gitea
+      - DB_PASSWD=gitea
     restart: always
     networks:
       - gitea
@@ -28,4 +33,4 @@ volumes:
 
 networks:
   gitea:
-    external: false
+    external: true

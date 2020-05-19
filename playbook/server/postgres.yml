@@ -1,29 +1,29 @@
 ---
-- name: Run gitea (~github) using docker-compose, systemd
+- name: Run postgres database using docker-compose, systemd
   hosts: servers
   tasks:
     - name: Ensure gitea docker network exists
       docker_network:
         name: gitea
-    - name: Install gitea docker-compose.yml in /opt/gitea/
+    - name: Install postgres docker-compose.yml in /opt/postgres/
       become: yes
       copy:
-        src: "{{ playbook_dir}}/gitea-compose/docker-compose.yml"
-        dest: /opt/gitea/
+        src: "{{ playbook_dir}}/postgres-compose/docker-compose.yml"
+        dest: /opt/postgres/
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         mode: '0640'
         validate: docker-compose -f %s config
     # From systemd ansible example
     # https://stackoverflow.com/a/40114458
-    - name: Install gitea systemd unit file
+    - name: Install postgres systemd unit file
       become: yes
       copy:
-        src: "{{ playbook_dir}}/gitea-compose/gitea-docker.service"
-        dest: /etc/systemd/system/gitea-docker.service
-    - name: Enable gitea service
+        src: "{{ playbook_dir}}/postgres-compose/postgres-docker.service"
+        dest: /etc/systemd/system/postgres-docker.service
+    - name: Enable postgres service
       become: yes
       systemd:
-        name: gitea-docker
+        name: postgres-docker
         enabled: yes
         daemon_reload: yes

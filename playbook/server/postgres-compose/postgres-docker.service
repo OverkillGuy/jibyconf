@@ -1,0 +1,19 @@
+[Unit]
+Description=Postgres via docker-compose
+Documentation=https://postgresql.org/
+After=docker.service
+
+# From docker-compose systemd service example
+# https://github.com/docker/compose/issues/4266#issuecomment-474534508
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StandardError=null
+StandardOutput=syslog
+WorkingDirectory=/opt/postgres/
+ExecStart=/usr/local/bin/docker-compose up -d
+ExecStop=/usr/local/bin/docker-compose down
+
+[Install]
+WantedBy=multi-user.target
