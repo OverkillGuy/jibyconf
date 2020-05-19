@@ -1,0 +1,14 @@
+#+TITLE: Stow configuration
+
+The =.stowrc= file describes the default target for deployment being =~/=,
+and the other file is an ignore list for READMEs and other org-mode
+files.
+
+Combined, these files enable config to be defined using litterate
+programming via org-mode, writing blog-post-style "articles" like
+=README.org= about configuration, including code snippets, all the while
+allowing for config blocks to be exported to separate files for
+deployment.
+
+The commands were borrowed from [[https://github.com/SamuelTissot/dotfiles/tree/linux][SamuelTissot/dotfiles]], adding an
+org-mode twist.
