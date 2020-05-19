@@ -11,6 +11,7 @@ Vagrant.configure("2") do |config|
       ansible.skip_tags      = "x11,slow"
       ansible.limit          = "dev"
       ansible.verbose        = true
+      ansible.compatibility_mode = "2.0"
     end
     # Alternative: ansible-pull to clone repo + apply it locally.
     # Closer to how machines would run this themselves.
@@ -45,6 +46,7 @@ Vagrant.configure("2") do |config|
       ansible.galaxy_role_file = "requirements.yml"
       ansible.galaxy_roles_path = "playbook/roles/"
       # ansible.verbose        = true
+      ansible.compatibility_mode = "2.0"
     end
   end
 
