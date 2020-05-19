@@ -573,6 +573,7 @@ will not be modified."
 	    (exec-path-from-shell-initialize)))
 
 (use-package anzu
+  :diminish
   :config
   (global-set-key [remap query-replace] 'anzu-query-replace)
   (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
