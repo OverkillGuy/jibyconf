@@ -1,6 +1,4 @@
 ---
-- name: Install docker
-  include: ../docker.yml
 - name: Run gitea (~github) using docker-compose, systemd
   hosts: servers
   tasks:

@@ -1,5 +1,5 @@
 ---
-- name: Docker install and gogs
+- name: Docker install and gitea
   tags: docker
   hosts: all
   vars:
