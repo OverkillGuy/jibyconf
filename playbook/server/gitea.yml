@@ -12,6 +12,7 @@
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         mode: '0640'
+        validate: docker-compose -f %s config
     # From systemd ansible example
     # https://stackoverflow.com/a/40114458
     - name: Install gitea systemd unit file

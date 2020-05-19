@@ -2,8 +2,9 @@ version: "3"
 # From https://docs.gitea.io/en-us/install-with-docker/
 
 services:
-  server:
+  gitea:
     image: gitea/gitea:latest
+    container_name: gitea
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -11,20 +12,20 @@ services:
     networks:
       - gitea
     volumes:
-      - gitea:/data
+      - gitea-data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "3000:3000"
       - "222:22"
+    logging:
+      driver: journald
+      options:
+        tag: gitea
 
 volumes:
-  gitea:
+  gitea-data:
 
 networks:
   gitea:
     external: false
-
-logging:
-  driver: journald
-  tag: gitea
