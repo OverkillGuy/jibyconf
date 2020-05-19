@@ -11,3 +11,6 @@
   roles:  # Become just for the role, not whole play
     - { role: geerlingguy.docker, become: yes }
     - { role: geerlingguy.pip, become: yes }
+  tasks:
+    - name: Reset ssh connection to allow user changes for docker group
+      meta: reset_connection
