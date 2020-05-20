@@ -568,10 +568,6 @@ will not be modified."
 (require 'org-protocol)
 (use-package dired-rsync)
 
-(use-package exec-path-from-shell
-  :config (when (memq window-system '(mac ns x))
-	    (exec-path-from-shell-initialize)))
-
 (use-package anzu
   :diminish
   :config

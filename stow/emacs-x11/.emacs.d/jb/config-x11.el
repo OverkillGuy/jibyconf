@@ -59,3 +59,5 @@
 ;; However it's flipped on my machine: reverse it
 (setq mouse-wheel-flip-direction t)
 
+(use-package exec-path-from-shell
+  :config (exec-path-from-shell-initialize))
