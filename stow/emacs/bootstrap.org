@@ -1,0 +1,180 @@
+#+TITLE: Bootstrapping an Emacs configuration
+#+PROPERTY: header-args :tangle .emacs.d/jb/bootstrap.el :results silent
+
+In order for my Emacs configuration to become +sentient+ useful, I
+need to be able to launch a single command which bootstraps the entire
+emacs environment.
+
+This involves reading my config files, and toggling the ones that are
+relevant, like enabling X11-related config when the screen supports
+graphics. While this git repository contains many files, this specific
+one is only the one that points to each of them.
+
+My config files are laid out in Org mode files, contained inside code
+snippets, surrounded by the reasoning explaining them. The ideal
+bootstrapping system would load these text files, parse the code
+blocks and load them. I'm close enough for now.
+
+- [[file:bootstrap.org][bootstrap.org]] :: Bootstraps the config system!
+- [[file:bash_utilities.org][bash_utilities.org]] :: Bash scripts and aliases I love to use
+- [[file:vanilla-config.org][vanilla-config.org]] :: Portable settings for standard Emacs
+- [[file:config.org][config.org]] :: Setup using Emacs packages
+- [[file:config-X11.org][config-X11.org]] :: Setup for when a X11 server is available
+- [[file:termux-config.org][termux-config.org]] :: Only applicable to Termux
+- [[file:snippets/][snippets]] :: Various Yasnippets templates
+- [[file:external-pkg-config.org][external-pkg-config.org]] :: Requires external (system) packages
+
+I want to make it so a single load-file bootstraps everything. This is
+currently OK by loading =bootstrap.el= (generated from code below) +but
+so far only works manually by loading (pressing =L= in dired)+.
+
+This would involve reading my config files, and toggling the ones that
+are relevant, like (in Emacs) enabling X11-related config when the
+screen supports graphics. While this git repository contains many
+files, this specific one is only a guide to which ones do what.
+
+From [[https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/][reddit]] tip on reducing startup time by 50%:
+
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold 999999999)
+(message "gc-cons-threshold temporarily set to %S"
+	 gc-cons-threshold)
+#+END_SRC
+
+Intentionally keeping the closing paren dangling for the moment since
+this =let= should cover all of the init script for faster load-time.
+#+BEGIN_SRC emacs-lisp
+(let ((file-name-handler-alist nil))
+#+END_SRC
+
+Observed result of both improvements is going from 6.6s init-time to 3.3s.
+
+Load first what requires no extra module, if the file is available.
+The files are deployed using [[https://www.gnu.org/software/stow/][GNU Stow]] from this repository to
+=~/.emacs.d/jb/=, like the file being tangled.
+#+BEGIN_SRC emacs-lisp
+  (if (file-exists-p "vanilla.el")
+      (load-file "vanilla.el"))
+#+END_SRC
+
+Note that each elisp file is generated via =org-babel-load-file= before
+deployment, reading the org file and tangling elisp, with the load
+instruction being done later.
+
+Then what requires modules (fetched from the internet), but still rely
+only purely Emacs (no extra OS packages needed)
+#+BEGIN_SRC emacs-lisp
+  (if (file-exists-p "package-config.el")
+      (load-file "package-config.el"))
+#+END_SRC
+
+Check if we're in a GUI and load the GUI config if so.
+Except we do this by asking to run the check-and-load function after
+each Emacs frame is created as a hook. This ensures new frames have
+GUI loaded. Note that the path to that file is hardcoded, because it
+has to work on callback (on frame creation, invoked from different
+location than current file).
+#+BEGIN_SRC emacs-lisp
+  (defun jb-post-frame-config-load (&optional frame)
+    "Make frame- and/or terminal-local changes."
+    (with-selected-frame (or frame (selected-frame))
+      (if (display-graphic-p)
+	  (load-file "~/.emacs.d/jb/config-x11.el"))))
+
+  (if (file-exists-p "config-x11.el")
+      (add-hook 'after-make-frame-functions 'jb-post-frame-config-load))
+#+END_SRC
+
+As an avid terminal user, I use [[https://termux.com/][Termux]], an Android terminal emulator.
+This allows me to get Emacs on the go as well as all my CLI tools.
+Optionally load termux related configuration when Termux config is deployed.
+#+BEGIN_SRC emacs-lisp
+  (if (file-exists-p "termux-config.el")
+      (load-file "termux-config.el"))
+#+END_SRC
+
+Lastly, load what requires non-emacs (system) packages, such as email
+clients and fancy code searching tools.
+#+BEGIN_SRC emacs-lisp
+  (if (file-exists-p "external-pkg-config.el")
+      (load-file "external-pkg-config.el"))
+#+END_SRC
+
+Finally, we re-enable the GC threshold for normal use, closing the
+dangling parenthesis to finish the =let= defined at beginning.
+
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold 800000)
+(message "gc-cons-threshold restored to %S"  gc-cons-threshold))
+#+END_SRC
+
+* Allow git pushes on master
+:PROPERTIES:
+:CREATED:  [2019-04-19 Thu 23:21]
+:ID:       6fa38e90-c065-449a-8481-bfac9ea985c8
+:END:
+
+This repository is stored as git repo, which is set to receive new
+versions of master as updates (instead of rejecting the push to
+checked out branch.
+#+begin_src shell :tangle no
+git config --local  receive.denyCurrentBranch updateInstead
+#+end_src
+
+More info in the git-config manual:
+
+#+CAPTION: man git-config(1)
+#+begin_example :tangle no
+       receive.denyCurrentBranch
+	   [...]
+
+	   Another option is "updateInstead" which will update the working tree if
+	   pushing into the current branch. This option is intended for
+	   synchronizing working directories when one side is not easily
+	   accessible via interactive ssh (e.g. a live web site, hence the
+	   requirement that the working directory be clean). This mode also comes
+	   in handy when developing inside a VM to test and fix code on different
+	   Operating Systems.
+#+end_example
+
+* Tangle via Makefile
+:PROPERTIES:
+:header-args:makefile-gmake: :tangle no
+:END:
+Want to be able to use =make= to build my config once and just load it
+every other time.
+
+First we define how to run emacs (which can be overriden during =make=
+invocation). Default value is a normal (no customization) Emacs.
+#+begin_src makefile-gmake
+EMACS=emacs -Q
+#+end_src
+
+Now let's define the generic rule for tangling any file (called a
+[[info:make#Static%20Usage][Static pattern in make docs]]). To build =file.el= we use =file.org=.
+
+#+begin_src makefile-gmake
+%.el: %.org
+	${EMACS} --batch -l org --eval '(org-babel-tangle-file "$<")'
+#+end_src
+
+We can now define the byte-compilation process:
+
+#+begin_src makefile-gmake
+%.elc: %.el
+	${EMACS} --batch '(byte-compile-file "$<")'
+#+end_src
+
+* Deploying this config
+:PROPERTIES:
+:CREATED:  [2020-05-25 Mon 23:44]
+:ID:       728ec745-d566-4de5-a62a-3e0d547812f5
+:END:
+Insert the following snippet at the bottom of any =~/.emacs= config file
+to bootstrap the config process, loading the tangled config, at emacs boot.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(cd "~/.emacs.d/jb/")
+(load-file "bootstrap.el")
+#+END_SRC
+
