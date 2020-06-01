@@ -1,5 +1,5 @@
 #+TITLE: Config-changes subset of my Emacs init
-#+PROPERTY: header-args:emacs-lisp :tangle emacs-vanilla/.emacs.d/jb/vanilla.el :results silent
+#+PROPERTY: header-args:emacs-lisp :tangle .emacs.d/jb/vanilla.el :results silent
 This file contains the subset of my emacs config files that apply on
 any emacs-enabled machine.
 No extra emacs package allowed, no external tool required, no platform
@@ -87,8 +87,7 @@ Bloody americans.
 I ship a lot of unusual info manuals in =~/dev/doc/info/=, so add it to
 load path of info-mode.
 #+BEGIN_SRC emacs-lisp
-(require 'info)
-(add-to-list 'Info-directory-list "~/dev/doc/info")
+(setq Info-additional-directory-list '("~/dev/doc/info"))
 #+END_SRC
 
 * Backup files                                                       :backup:
@@ -615,9 +614,10 @@ so I adopted it.
 :SOURCE:   https://orgmode.org/manual/Adding-hyperlink-types.html
 :END:
 
+Package org-plus-contrib contains the manpages in contrib. Just need
+to enable it.
 #+BEGIN_SRC emacs-lisp
-(load-file "packages/org-man.el")
-(require 'org-man)
+(add-to-list 'org-modules 'ol-man)
 #+END_SRC
 
 * Open documentation folder read-only

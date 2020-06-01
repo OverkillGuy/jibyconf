@@ -12,6 +12,8 @@
 
 (setq ring-bell-function 'ignore)
 
+(setq system-time-locale "en_GB")
+
 (setq sentence-end-double-space nil)
 
 (prefer-coding-system 'utf-8)
@@ -21,8 +23,6 @@
 
 (setq calendar-week-start-day 1)
 
-;; I like to keep manuals for software I don't have installed on the
-;; current machine in that folder, to browse on phone etc
 (setq Info-additional-directory-list '("~/dev/doc/info"))
 
 (setq make-backup-files nil)
@@ -231,6 +231,8 @@
 (load-file "packages/fic-mode.el")
 (add-hook 'prog-mode-hook 'turn-on-fic-mode)
 
+(add-to-list 'org-modules 'ol-man)
+
 (defun set-docs-as-readonly ()
   "Make buffers readonly by default when folder matches pattern"
   (dolist (pattern '("~/dev/doc/.*"
@@ -242,14 +244,3 @@
 (add-hook 'find-file-hook 'set-docs-as-readonly)
 
 (setq doc-view-continuous t)
-
-
-(defun pdb-tests ()
-  "Run PDB on this pipenv-enabled pytests (after test failed)"
-  (interactive)
-  (pdb "pipenv run pytest --pdb"))
-
-(defun pdb-tests-trace ()
-  "Run PDB on this pipenv-enabled pytests (before any tests run)"
-  (interactive)
-  (pdb "pipenv run pytest --trace"))
