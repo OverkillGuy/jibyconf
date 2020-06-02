@@ -422,21 +422,6 @@ Load all my common languages
         "* %? [[%:link][%:description]] \nCaptured On: %U")))
 #+END_SRC
 
-** Firefox edit-with-emacs
-:PROPERTIES:
-:CREATED:  [2020-06-02 Tue 19:14]
-:ID:       9ec0af9b-a117-41fb-b4d1-5fc309f8e47f
-:END:
-For Firefox text-editing support, using [[https://addons.mozilla.org/en-US/firefox/addon/edit-with-emacs1][plugin]]
-
-#+BEGIN_SRC emacs-lisp
-(use-package edit-server
-  :init (edit-server-start)
-  :custom
-  (edit-server-url-major-mode-alist
-        '(("github\\.com" . markdown-mode))))
-#+END_SRC
-
 ** Org separator lines
 Only one line between an entry and the next.
 #+BEGIN_SRC emacs-lisp

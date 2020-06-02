@@ -161,9 +161,10 @@
   :config
   (add-to-list 'company-backends 'company-math-symbols-latex))
 
-;; Enable some package config in config
+(use-package edit-server
+  :init (edit-server-start)
+  :custom
+  (edit-server-url-major-mode-alist
+        '(("github\\.com" . markdown-mode))))
 
-;; Matched with the scheme handler in
-;; ~/.local/share/applications/org-protocol.desktop
-;; Then cmd `update-desktop-database ~/.local/share/applications/`
 (require 'org-protocol)

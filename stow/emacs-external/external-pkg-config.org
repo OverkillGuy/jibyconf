@@ -1,0 +1,889 @@
+#+TITLE: Configuration requiring external packages
+#+PROPERTY: header-args :tangle .emacs.d/jb/external-pkg-config.el :results silent :mkdirp yes
+
+This is the subset of my emacs configuration files that require
+external (non-emacs) packages. Contrast with [[file:vanilla-config.org]]
+and (future) emacs-only packages sections.
+
+* Ledger
+
+#+BEGIN_SRC emacs-lisp
+(use-package ledger-mode
+  :if '(executable-find "ledger"))
+#+END_SRC
+
+* PlantUml
+:PROPERTIES:
+:SOURCE:   http://plantuml.com/
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package plantuml-mode
+; TODO try out the plantuml-download-jar func change pkgcheck to if
+; java+dot available ensure downloaded
+  :if (file-exists-p "/opt/plantuml/jar/plantuml.jar")
+  :custom
+  (plantuml-jar-path (expand-file-name "/opt/plantuml/jar/plantuml.jar"))
+  (org-plantuml-jar-path plantuml-jar-path)
+  (plantuml-default-exec-mode 'jar)
+  (plantuml-output-type "png"))
+#+END_SRC
+
+** Download the executable if needed
+:PROPERTIES:
+:SOURCE:   https://hub.docker.com/r/think/plantuml/~/dockerfile/
+:END:
+
+#+BEGIN_SRC makefile :tangle no
+PLANTUML_VERSION=1.2019.5
+PLANTUML_URL=https://downloads.sourceforge.net/project/plantuml/${PLANTUML_VERSION}/plantuml.${PLANTUML_VERSION}.jar
+
+plantuml.jar:
+	wget "${PLANTUML_URL}" -O plantuml.jar
+#+END_SRC
+
+** Disable electric-indent-mode for PlantUML
+:PROPERTIES:
+:SOURCE:   https://stackoverflow.com/a/21183089
+:END:
+It incorrectly tries to put every newline two tabs away, messing up
+all indentation. Disable the electric minor mode in this specific
+language.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'plantuml-mode-hook (lambda () (electric-indent-local-mode -1)))
+#+END_SRC
+
+** RGB colors
+Toggle RGB coloring in plantuml when rainbow-mode is loaded.
+#+BEGIN_SRC emacs-lisp
+(if (and
+  (featurep 'plantuml-mode)
+  (featurep 'rainbow-mode))
+    (add-hook 'plantuml-mode-hook 'rainbow-mode))
+#+END_SRC
+
+
+* RTags for C++ navigation                                     :cpp:disabled:
+From [[https://github.com/dfrib/emacs_setup][this guide]]. Need to export the =compile-commands.json= file from
+a CMake invokation, which requires small changes to the projects.
+
+*** Installing RTags
+
+Clone repo
+#+BEGIN_SRC shell :tangle no
+git clone --recursive https://github.com/Andersbakken/rtags.git
+cd rtags
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+#+END_SRC
+
+
+* Elpy                                                  :python:IDE:disabled:
+(Don't) Use [[https://github.com/jorgenschaefer/elpy][Elpy]].
+From the readme:
+#+BEGIN_SRC shell :tangle no
+pip install jedi flake8 importmagic autopep8
+#+END_SRC
+and on the emacs side of things, install their repository
+#+BEGIN_SRC emacs-lisp :tangle no
+(require 'package)
+(add-to-list 'package-archives
+             '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+#+END_SRC
+then install the package =elpy=, and use the following conf
+#+BEGIN_SRC emacs-lisp :tangle no
+(elpy-enable)
+#+END_SRC
+
+Reason for disabling is it: takes over much of the native python mode
+(making it harder to use a blank emacs anymore) and gives very little
+useful features. It does turn emacs into an IDE experience, but at the
+expense of everything that matters: speed (blocking syntax analysis
+slows emacs to a crawl) and lack of configurability. It feels like
+installing spacemacs: features are all in there, maybe, but I lose the
+incremental feature-building "build-your-own-editor kit" that made me
+choose Emacs in the first place.
+
+
+* Silver searcher
+Installing =silver-searcher= for quick code lookup instead of
+=projectile-grep=. [[https://github.com/ggreer/the_silver_searcher][Ag link]]
+
+#+BEGIN_SRC emacs-lisp
+(use-package ag
+  :if '(executable-find "ag")
+  :config (add-to-list 'ag-arguments "--follow"))
+#+END_SRC
+
+Using [[info:use-package#after][:after]] keyword to check for helm usage.
+#+BEGIN_SRC emacs-lisp
+(use-package helm-ag
+  :after ag helm)
+#+END_SRC
+
+* Offline documentation                                                 :doc:
+** Helm-dash                                                       :disabled:
+Use =helm-dash= in Emacs and bind it to =F6=. This actually requires
+=sqlite= which isn't there by default everywhere. Disabled because I
+haven't used it for a while and it's easily broken (very stateful!)
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package helm-dash
+  :config
+  (helm-dash-activate-docset "C++")
+  (helm-dash-activate-docset "Python 2")
+  (helm-dash-activate-docset "Docker")
+  (helm-dash-activate-docset "Ansible")
+  (helm-dash-activate-docset "Vagrant")
+  :bind
+  (("<f6>" . helm-dash-at-point)))
+#+END_SRC
+
+* Email                                                               :email:
+Use =mbsync= to download server-to-maildir, =mu4e= to index/read it,
+emacs SMTP client to send email back, (future) littleredflag for triggering
+syncs. Password cached with =pass=.
+
+See [[http://www.macs.hw.ac.uk/~rs46/posts/2014-01-13-mu4e-email-client.html][Good tutorial mbsync + mu4e + smtp emacs package]].
+
+
+** Mbsync (maildir downloader)
+:PROPERTIES:
+:CREATED:  [2017-05-26 Fri 11:29]
+:END:
+
+Using part of [[https://wiki.archlinux.org/index.php/Isync][Archlinux wiki on mbsync]] for setup and some
+try-and-fail. I've chosen to use =mbsync= (package name "isync")
+instead of the more popular but slower =offlineimap=.
+
+*** Install
+:PROPERTIES:
+:CREATED:  [2017-05-26 Fri 11:29]
+:END:
+You need to build from source to support SSL correctly (=apt-get= has
+an old version of mbsync)
+#+BEGIN_SRC shell :tangle no
+git clone https://git.code.sf.net/p/isync/isync
+#+END_SRC
+
+Build from source
+#+BEGIN_SRC shell :tangle no
+cd ~/Documents/dev-local/isync
+./autogen.sh
+./configure
+make
+sudo make install
+#+END_SRC
+
+*** Setup
+
+Create new file =~/.mbsyncrc=
+
+
+Create the mailboxes just in case it didn't exist.
+#+BEGIN_SRC shell :tangle no
+mkdir -p ~/mail/some_mailbox/
+#+END_SRC
+Then run a test sync:
+#+BEGIN_SRC shell :tangle no
+mbsync -a
+#+END_SRC
+
+Should show no error, with instead a lot of folders being downloaded
+
+*** TODO (Optional) IMAP IDLE script
+For instant sync (rather than 5min rolling window).
+See [[https://github.com/rlue/little_red_flag][little-red-flag]] or all alternatives
+** mu/mu4e (mail reader)
+I want to use =mu= (similar to =mutt= but recent implementation) as
+mail reader. The reasons are mostly because of =mu4e=, the Emacs
+integration package of =mu=.
+
+It's a glorified searching database and file editor. Doesn't allow to
+compose emails though (use any supported SMTP client)
+
+*** Install
+Get it from https://github.com/djcb/mu/releases/, needs some extra
+libs, typically =libgmime-3.0-dev= and =libxapian-dev=.
+
+Optionally, =guile-2.2=.
+
+
+#+begin_src makefile :tangle no
+MU_VERSION=1.2
+MU_VERSION_ALL=${MU_VERSION}.0
+
+MU_URL=https://github.com/djcb/mu/releases/download/${MU_VERSION}/mu-${MU_VERSION_ALL}.tar.xz
+
+default: build-mu
+
+mu.tar.xz:
+	wget "${MU_URL}" -O mu.tar.xz
+
+mu-${MU_VERSION_ALL}: mu.tar.xz
+	tar xf mu.tar.xz
+
+build-mu: mu-${MU_VERSION_ALL}
+	cd mu-${MU_VERSION_ALL} && \
+	./configure && \
+	make -j8 all info
+	echo "Now `make install-mu`"
+
+# Using checkinstall (https://help.ubuntu.com/community/CheckInstall)
+# for tidiness
+install-mu:
+	cd mu-${MU_VERSION_ALL} && \
+	sudo checkinstall
+#+end_src
+
+#+BEGIN_SRC shell :tangle no
+make -f mu.Makefile
+# ./configure && make & make info && sudo checkinstall
+#+END_SRC
+
+*** Post-build configure steps
+Make sure that mu4e is accessible in emacs now. If not, copy the
+=mu4e/= folder to your custom lisp folder and sprinkle config.
+
+#+CAPTION Sample ~/.mbsyncrc
+#+BEGIN_SRC conf :tangle no
+IMAPAccount jibytech
+# Address to connect to
+Host imap.fastmail.com
+User jb@jiby.tech
+PassCmd "pass jiby.tech/fastmail/emacs_hally"
+SSLType IMAPS
+
+IMAPStore jibytech-remote
+Account jibytech
+
+MaildirStore jibytech-local
+Subfolders Verbatim
+# The trailing "/" is important
+Path ~/.mail/jiby.tech/
+Inbox ~/.mail/jiby.tech/Inbox
+
+Channel jibytech
+Master :jibytech-remote:
+Slave :jibytech-local:
+Patterns *
+# Automatically create missing mailboxes both sides, as well as deletions
+Create Both
+Remove Both
+
+# Save the synchronization state files in the relevant directory
+SyncState *
+#+END_SRC
+*** Use
+Index the maildir once
+
+#+BEGIN_SRC shell :tangle no
+mu index --maildir=~/mail/something
+#+END_SRC
+Then start using it !
+
+#+BEGIN_SRC shell :tangle no
+mu find some_keywords
+#+END_SRC
+*** Configure mu4e (emacs interface)
+#+BEGIN_SRC emacs-lisp
+(use-package mu4e
+  :if (executable-find "mu")
+  :load-path "~/.emacs.d/lisp/mu4e/"
+  :bind ("C-M-4" . mu4e)
+  :config
+  ;; use imagemagick, if available
+  (when (fboundp 'imagemagick-register-types)
+    (imagemagick-register-types))
+  ;; Allow HTML email to be read via PDF when text rendering fails
+  (if-let (msg2pdf (executable-find "msg2pdf"))
+      (setq mu4e-msg2pdf msg2pdf))
+  (add-to-list 'mu4e-view-actions
+	       '("bBrowser View" . mu4e-action-view-in-browser) t)
+  ;; Hide the stupid empty update buffer when fetching mail
+  (add-hook 'mu4e~update-mail-mode-hook 'bury-buffer)
+  :custom
+  ;; Don't keep message buffers around
+  (message-kill-buffer-on-exit t)
+  ;; Don't use cool icons for display (they are cool but are not of
+  ;; correct length, messing up layouts)
+  (mu4e-use-fancy-chars nil)
+  ;; Get email every 5 minutes
+  (mu4e-update-interval 300)
+  (mu4e-get-mail-command "mbsync -aq")
+  (mu4e-attachment-dir  "~/Downloads")
+  (mu4e-view-show-images t)
+  ;; Wrap lines softly via format=flowed
+  (mu4e-compose-format-flowed t)
+  (mu4e-view-show-addresses t)
+  (mail-user-agent 'mu4e-user-agent))
+#+END_SRC
+
+*** Email attachments
+
+From [[info:mu4e#Dired][mu4e manual on dired interaction]], add support for attaching files
+from marked files in =dired=:
+#+BEGIN_SRC emacs-lisp
+(require 'gnus-dired)
+;; make the `gnus-dired-mail-buffers' function also work on
+;; message-mode derived modes, such as mu4e-compose-mode
+(defun gnus-dired-mail-buffers ()
+  "Return a list of active message buffers."
+  (let (buffers)
+    (save-current-buffer
+      (dolist (buffer (buffer-list t))
+        (set-buffer buffer)
+        (when (and (derived-mode-p 'message-mode)
+		   (null message-sent-message-via))
+          (push (buffer-name buffer) buffers))))
+    (nreverse buffers)))
+
+(setq gnus-dired-mail-mode 'mu4e-user-agent)
+(add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+#+END_SRC
+
+*** Configure org-mu4e
+Integration of =orgmode= and =mu4e=.
+
+#+BEGIN_SRC emacs-lisp
+(when (featurep 'mu4e)
+  (require 'org-mu4e))
+#+END_SRC
+
+Allows to make email links now.
+*** Notifications
+:PROPERTIES:
+:SOURCE:   https://github.com/iqbalansari/mu4e-alert
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package mu4e-alert
+  :after mu4e
+  :config
+  (mu4e-alert-set-default-style 'libnotify)
+  (mu4e-alert-enable-notifications)
+  (mu4e-alert-enable-mode-line-display))
+#+END_SRC
+*** Remove HTML email backgrounds
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/9ep5o1/mu4e_stop_emails_setting_backgroundforeground/
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(when (featurep 'mu4e)
+  (require 'mu4e-contrib))
+
+(setq mu4e-html2text-command 'mu4e-shr2text)
+(setq shr-color-visible-luminance-min 60)
+(setq shr-color-visible-distance-min 5)
+(setq shr-use-colors nil)
+(advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
+#+END_SRC
+
+#+CAPTION: Mailbox-specific setup
+#+BEGIN_SRC emacs-lisp
+(setq mu4e-maildir (expand-file-name "~/.mail/jiby.tech"))
+(setq mu4e-drafts-folder "/Drafts")
+(setq mu4e-sent-folder   "/Sent")
+(setq mu4e-trash-folder  "/Trash")
+
+(setq mu4e-maildir-shortcuts
+      '(("/INBOX"        . ?i)
+        ("/Sent"         . ?s)
+        ("/Trash"        . ?t)
+        ("/Drafts"       . ?d)))
+#+END_SRC
+
+** SMTP package to compose emails
+Emacs's =smtp= package or independent tool =msmtp= which I've heard
+good things about, such as support for offline email queues.
+
+Extract from mu4e manual, adapted to my server
+#+BEGIN_SRC emacs-lisp
+(require 'smtpmail)
+(setq user-mail-address "FILLMEHERE@jb.jiby.tech"
+   message-send-mail-function 'smtpmail-send-it
+   smtpmail-starttls-credentials '(("smtp.fastmail.com" 465 nil nil))
+   smtpmail-auth-credentials
+     '(("smtp.fastmail.com" 587 "jb@jiby.tech" nil))
+   smtpmail-default-smtp-server "smtp.fastmail.com"
+   smtpmail-smtp-server "smtp.fastmail.com"
+   smtpmail-smtp-service 587)
+#+END_SRC
+
+** Push Notification via IDLE
+Using IMAP's IDLE verb to get push-style notifications.
+Code is in python.
+
+See =scripts/= folder with the file:scripts/imap_idle_notify.py
+Missing only a systemd service to run it.
+* Calendar management
+** Capture invitations to calendar
+:PROPERTIES:
+:SOURCE:   https://github.com/asoroa/ical2org.py
+:END:
+Using =ical2org-py= to convert the file to org mode. 
+Binding [[info:mu4e#Attachment%20actions][mu4e Attachment actions]] to define a key for it.
+Install via pipsi in github repo. It's easiest.
+
+#+BEGIN_SRC shell :results verbatim :tangle no
+ical2orgpy --help
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Usage: ical2orgpy [OPTIONS] ICS_FILE ORG_FILE
+
+  Convert ICAL format into org-mode.
+
+  Files can be set as explicit file name, or `-` for stdin or stdout::
+
+      $ ical2orgpy in.ical out.org
+
+      $ ical2orgpy in.ical - > out.org
+
+      $ cat in.ical | ical2orgpy - out.org
+
+      $ cat in.ical | ical2orgpy - - > out.org
+
+Options:
+  -p, --print-timezones     Print acceptable timezone names and exit.
+  -d, --days INTEGER RANGE  Window length in days (left & right from current
+                            time). Has to be positive.
+  -t, --timezone TEXT       Timezone to use. (local timezone by default)
+  -h, --help                Show this message and exit.
+#+end_example
+
+#+BEGIN_SRC emacs-lisp
+(defun convert-to-org-calendar-attachment (msg attachnum)
+  "Converts to org format an (ical) attachment"
+  (mu4e-view-pipe-attachment msg attachnum "ical2orgpy - - >> ~/dev/notes/calendar.org"))
+
+;; defining 'n' as the shortcut (if mu4e is loaded)
+(when (featurep 'mu4e)
+  (add-to-list 'mu4e-view-attachment-actions
+	       '("cSave to calendar" . convert-to-org-calendar-attachment) t))
+#+END_SRC
+*** TODO Via elisp
+:PROPERTIES:
+:CREATED:  [2019-07-15 Mon 12:14]
+:ID:       75455f3f-419c-4a46-9f48-a51bff42c154
+:END:
+
+Using =icalendar-import-file= library:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(icalendar-import-file ICAL-FILENAME DIARY-FILENAME &optional NON-MARKING)
+#+END_SRC
+
+Tweak it to support importing to Org mode instead.
+
+* Latex                                                                 :org:
+** Live previews for equations
+We can preview LaTeX equations in =org-mode=, but this requires a few
+external packages:
+
+#+BEGIN_SRC shell :tangle no
+sudo apt-get install dvipng
+#+END_SRC
+
+Then use =C-c C-x C-l= to enable latex preview in orgmode.
+
+Try it on the following equation
+
+$e^{2\pi i} \cos{\theta{x}+ \lambda} = -1$
+
+** Auto-preview
+:PROPERTIES:
+:SOURCE:   https://www.reddit.com/r/emacs/comments/9h44lk/i_can_finally_preview_latex_in_orgmode_took_me/e6asgu9/
+:END:
+
+We define a preview function that, if enabled as hook, auto-renders
+equations.
+
+#+BEGIN_SRC emacs-lisp
+(defun auto-preview-org-latex ()
+  "Toggles latex-preview when a dollar (latex equation) is followed by space"
+  (when (looking-back (rx "$"))
+    (save-excursion
+      (backward-char 1)
+      (org-toggle-latex-fragment))))
+
+(defun preview-org-latex-hook ()
+  "Hook to auto-preview latex fragments in org buffers"
+  (org-cdlatex-mode)
+  (diminish 'org-cdlatex-mode)
+  (add-hook 'post-self-insert-hook #'auto-preview-org-latex 'append 'local))
+#+END_SRC
+
+Finally, we enable the package =cdlatex= which toggles our hook if the
+executable =dvipng= is found in path. Preview is small, so we make it
+twice bigger.
+#+BEGIN_SRC emacs-lisp
+(use-package cdlatex
+  :if '(executable-find "dvipng")
+  :custom (org-format-latex-options
+	   (plist-put org-format-latex-options :scale 2.0))
+  :hook (org-mode . preview-org-latex-hook))
+#+END_SRC
+
+
+** Export to PDF on Ubuntu
+Org mode's export to PDF option through PDFLatex
+#+begin_src shell :tangle no
+sudo apt-get install texlive-latex-basetex live-fonts-recommended texlive-fonts-extra
+#+end_src
+
+** Export to pdf code highlighting
+:PROPERTIES:
+:SOURCE:   https://joonro.github.io/blog/posts/org-mode-outputdir-minted-latex-export.html
+:END:
+Using =minted=. Source mixed with variable docstring for =org-latex-listings=.
+#+BEGIN_SRC emacs-lisp
+(require 'ox-latex)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+
+; NOTE: Intentionally overridden below if latexmk (bibliography support) is available
+(setq org-latex-pdf-process
+      '("pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f"
+        "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f"
+        "pdflatex --shell-escape --interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+
+#+begin_src shell :tangle no
+sudo pip install pygment
+#+end_src
+
+** Export of bibliography
+From [[file:config.org::*Bibliography][Bibliography]] entry, we use =org-ref= to support bibliography in Org
+mode. By default, exporting from org-mode to PDF won't work when
+references are present due to bibtex not being run. [[https://tex.stackexchange.com/questions/114864/how-to-get-bibtex-to-work-with-org-mode-latex-export][Stackoverflow]] has
+found a solution by tweaking the command being run. This requires the
+latexmk package: put in this file due to external (system) package
+required.
+
+
+#+BEGIN_SRC emacs-lisp
+(if (executable-find "latexmk")
+    (setq org-latex-pdf-process
+	  (list
+	   "latexmk  -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -bibtex -f  %f")))
+#+END_SRC
+
+** Math autocomplete
+:PROPERTIES:
+:CREATED:  [2019-07-24 Wed 22:27]
+:ID:       a03b28ac-c028-4613-9402-6e6c85809f56
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package company-math
+  :after company
+  :config
+  (add-to-list 'company-backends 'company-math-symbols-latex))
+#+END_SRC
+
+* RFC export                                                   :rfc:disabled:
+:PROPERTIES:
+:SOURCE:   https://github.com/choppsv1/org-rfc-export
+:END:
+
+Export org-mode notes as RFC. Requires =xml2rfc=.
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package ox-rfc
+  :if '(executable-find "xml2rfc"))
+#+END_SRC
+
+* Firefox control
+:PROPERTIES:
+:CREATED:  [2019-07-11 Thu 11:16]
+:ID:       7125ed01-2c00-4cab-a205-711904296480
+:END:
+
+Reduce mouse usage by using a key (usually =F=) to highlight clickable
+areas in the firefox page.
+
+Tried tridactyl, it's great and does textarea editing in editors too
+but it takes over everything not just these functions.
+** CANCELED Tridactyl
+:LOGBOOK:
+- State "CANCELED"   from              [2019-07-11 Thu 12:35] \\
+  Takes over too much of the screen.
+:END:
+Vimperator successor: [[https://addons.mozilla.org/en-GB/firefox/addon/tridactyl-vim][Tridactyl]] ([[https://github.com/tridactyl/tridactyl][Github]]).
+
+See sample [[https://github.com/skeeto/dotfiles/blob/master/_tridactylrc][tridactylrc on Github]] for config.
+
+#+begin_src conf :tangle no
+bind <A-x> fillcmdline_notrail
+
+" L is already bound to (history) forward
+bind l back
+
+bind <C-n> scrollline +3
+bind <C-p> scrollline -3
+
+bind <C-v> scrollpage
+bind <C-A-v> scrollpage -1
+
+
+quickmark n https://news.ycombinator.com/
+quickmark y https://youtube.com/
+set searchurls.s       https://duckduckgo.com/?q=%s
+
+set editorcmd emacsclient
+#+end_src
+** Vimium-FF
+:PROPERTIES:
+:CREATED:  [2019-07-11 Thu 11:19]
+:ID:       5b864d1d-b51a-40b7-ac3c-39f56c9168f4
+:END:
+
+The [[https://addons.mozilla.org/en-GB/firefox/addon/vimium-ff][vimium-FF addon]] to move around using vim-style bindings. Defined a
+few Emacs ones below:
+#+begin_src conf :tangle no
+map <c-v> scrollPageDown
+map <a-v> scrollPageUp
+unmap H
+unmap l
+map l goBack
+
+# Already used in Firefox
+#map <c-p> scrollUp
+# map <c-n> scrollDown
+
+map <c-f> scrollRight
+map <c-b> scrollLeft
+map <c-y> yank
+#+end_src
+
+** Firefox edit-with-emacs
+:PROPERTIES:
+:CREATED:  [2020-06-02 Tue 19:14]
+:ID:       9ec0af9b-a117-41fb-b4d1-5fc309f8e47f
+:END:
+For Firefox text-editing support, using [[https://addons.mozilla.org/en-US/firefox/addon/edit-with-emacs1][plugin]].
+
+#+BEGIN_SRC emacs-lisp
+(use-package edit-server
+  :init (edit-server-start)
+  :custom
+  (edit-server-url-major-mode-alist
+        '(("github\\.com" . markdown-mode))))
+#+END_SRC
+
+** Org-capture
+:PROPERTIES:
+:CREATED:  [2020-06-02 Tue 20:47]
+:ID:       015f5865-614c-499e-843c-5c7381b6d063
+:END:
+Enable =org-protocol= to support the extension org-capture.
+
+Matched with the xdg scheme handler in
+=~/.local/share/applications/org-protocol.desktop= (deployed via stow)
+Then command =update-desktop-database ~/.local/share/applications/= to
+activate it.
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-protocol)
+#+END_SRC
+
+* Borg backup
+[[https://www.borgbackup.org/][Borg]] is a backup system that does all I want: chunking, deduplication,
+compression, and encryption.
+
+#+begin_src shell :tangle no
+sudo apt-get install borgbackup
+pip install borgbackup
+#+end_src
+
+See [[https://gitlab.com/WoJ/systemd-borg/tree/master][Example systemd unit+timer]] using for Borg regularly.
+
+#+begin_src conf :tangle no
+[Unit]
+Description=borg backup
+
+[Service]
+Type=oneshot
+Environment=BORG_REPO=/services/backup/borg/
+Environment=BORG_HOSTNAME_IS_UNIQUE=yes
+ExecStart=/usr/bin/borg create --exclude-from=/services/backup/borg-exclude-srv.txt --list --stats ::srv-${INVOCATION_ID} /
+ExecStartPost=/usr/bin/borg prune -v --list --keep-daily=7 --keep-weekly=4 --keep-within 2d --stats
+#+end_src
+
+
+#+begin_src conf :tangle no
+[Unit]
+Description=Run borg
+
+[Timer]
+OnCalendar=*-*-* 00/3:00:00
+
+[Install]
+WantedBy=timers.target
+#+end_src
+
+** Systematize it with borgmatic
+Borgmatic is a yaml-based wrapper around =borgbackup=. It means to
+automate the backing up, validating, culling old backups into a single
+command that can be run as systemd service on a timer. Install via
+=pip=.
+
+#+CAPTION: Generate a config file
+#+begin_src shell :tangle no
+sudo generate-borgmatic-config
+#+end_src
+
+File generated at =/etc/borgmatic/config.yaml=.
+
+
+#+begin_src yaml :tangle no
+location:
+    # List of source directories to backup (required). Globs and tildes are expanded.
+    source_directories:
+        - /home/jiby/
+
+    # Stay in same file system (do not cross mount points).
+    one_file_system: true
+
+    # Paths to local or remote repositories (required). Tildes are expanded. Multiple
+    # repositories are backed up to in sequence. See ssh_command for SSH options like
+    # identity file or port.
+    repositories:
+        - /run/media/jiby/Tony/backup/
+
+    # Alternate Borg local executable. Defaults to "borg".
+    local_path: /usr/bin/borg
+
+    # Any paths matching these patterns are excluded from backups. Globs and tildes
+    # are expanded. See the output of "borg help patterns" for more details.
+    exclude_patterns:
+        - '*.pyc'
+        - ~/*/.cache
+        - /etc/ssl
+        - '*.log'
+
+    # Exclude directories that contain a CACHEDIR.TAG file. See
+    # http://www.brynosaurus.com/cachedir/spec.html for details.
+    exclude_caches: true
+
+    # Exclude directories that contain a file with the given filename.
+    exclude_if_present: .nobackup
+
+# Repository storage options. See
+# https://borgbackup.readthedocs.io/en/stable/usage.html#borg-create and
+# https://borgbackup.readthedocs.io/en/stable/usage/general.html#environment-variables for
+# details.
+storage:
+    # The standard output of this command is used to unlock the encryption key. Only
+    # use on repositories that were initialized with passcommand/repokey encryption.
+    # Note that if both encryption_passcommand and encryption_passphrase are set,
+    # then encryption_passphrase takes precedence.
+    encryption_passcommand: pass show backup/borg/tony
+
+
+    # Type of compression to use when creating archives. See
+    # https://borgbackup.readthedocs.org/en/stable/usage.html#borg-create for details.
+    # Defaults to no compression.
+    # Zstd is meant to be modern = fast and compresses well, good for
+    # new repos w/o/ compatibility issues
+    compression: zstd
+
+    # Umask to be used for borg create.
+    umask: 77
+
+    # Name of the archive. Borg placeholders can be used. See the output of
+    # "borg help placeholders" for details. Default is
+    # "{hostname}-{now:%Y-%m-%dT%H:%M:%S.%f}". If you specify this option, you must
+    # also specify a prefix in the retention section to avoid accidental pruning of
+    # archives with a different archive name format.
+    archive_name_format: 'hally-documents-{now}'
+
+# Retention policy for how many backups to keep in each category. See
+# https://borgbackup.readthedocs.org/en/stable/usage.html#borg-prune for details.
+# At least one of the "keep" options is required for pruning to work.
+retention:
+    # Keep all archives within this time interval.
+    keep_within: 3H
+
+    # Number of hourly archives to keep.
+    keep_hourly: 24
+
+    # Number of daily archives to keep.
+    keep_daily: 7
+
+    # Number of weekly archives to keep.
+    keep_weekly: 4
+
+    # Number of monthly archives to keep.
+    keep_monthly: 6
+
+    # Number of yearly archives to keep.
+    keep_yearly: 1
+
+    # When pruning, only consider archive names starting with this prefix.
+    # Borg placeholders can be used. See the output of "borg help placeholders" for
+    # details. Default is "{hostname}-".
+    prefix: hally
+
+# Consistency checks to run after backups. See
+# https://borgbackup.readthedocs.org/en/stable/usage.html#borg-check and
+# https://borgbackup.readthedocs.org/en/stable/usage.html#borg-extract for details.
+consistency:
+    # List of one or more consistency checks to run: "repository", "archives", and/or
+    # "extract". Defaults to "repository" and "archives". Set to "disabled" to disable
+    # all consistency checks. "repository" checks the consistency of the repository,
+    # "archive" checks all of the archives, and "extract" does an extraction dry-run
+    # of just the most recent archive.
+    checks:
+        - repository
+        - archives
+
+    # Restrict the number of checked archives to the last n. Applies only to the "archives" check.
+    check_last: 3
+
+# Shell commands or scripts to execute before and after a backup or if an error has occurred.
+# IMPORTANT: All provided commands and scripts are executed with user permissions of borgmatic.
+# Do not forget to set secure permissions on this file as well as on any script listed (chmod 0700) to
+# prevent potential shell injection or privilege escalation.
+hooks:
+    # List of one or more shell commands or scripts to execute before creating a backup.
+    before_backup:
+        - echo "`date` - Starting a backup job."
+
+    # List of one or more shell commands or scripts to execute after creating a backup.
+    after_backup:
+        - echo "`date` - Backup created."
+
+    # List of one or more shell commands or scripts to execute in case an exception has occurred.
+    on_error:
+        - echo "`date` - Error while creating a backup."
+#+end_src
+
+
+Let's try to launch via oneshot of systemd service, [[https://torsion.org/borgmatic/docs/how-to/set-up-backups/#systemd][using their sample file]].
+Except we want to use a non-root systemd job.
+
+#+begin_src conf :tangle no
+[Unit]
+Description=borgmatic backup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/borgmatic --config /home/jiby/.config/borgmatic/config.yaml
+#+end_src
+
+Move that file to a systemd user folder and load it to prime it.
+#+begin_src shell :tangle no
+mv borgmatic.service .config/systemd/user/
+systemctl --user load borgmatic.service 
+#+end_src
+
+Running the oneshot service
+#+begin_src shell :tangle no
+systemctl --user start borgmatic.service
+#+end_src
