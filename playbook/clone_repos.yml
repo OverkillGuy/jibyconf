@@ -4,13 +4,12 @@
   tags: [git, hostrequired]
   vars:
     git_repos:
-      - path: ~/dev/conf/emacs-conf
       - path: ~/dev/ws/cv_jbd
       - path: ~/.password-store
         refs: -b master
       - path: ~/dev/ws/jiby.tech
       - path: ~/dev/ws/gen_jiby.tech
-        refs: -b HEAD
+        refs: -b master
       # - path: ~/dev/conf/debian-workspace-playbook
   tasks:
     - name: Package repo bundle to data/ on host
@@ -33,6 +32,6 @@
       # Ideally use the git ansible module instead, but it doesn't do local-file-cloning like git CLI
       shell:
         creates: "{{ item.path }}"
-        cmd: "git clone /tmp/repos/{{ item.path|basename }}.bundle {{ item.path }}"
+        cmd: "git clone /tmp/repos/{{ item.path|basename }}.bundle {{ item.path }} {{ item.refs|default('-b master')}}"
 
 # TODO: Detect if repo created already before bundle/copy/clone
