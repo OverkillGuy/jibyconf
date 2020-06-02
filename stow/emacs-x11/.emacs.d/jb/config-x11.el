@@ -1,6 +1,10 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+(setq mouse-wheel-tilt-scroll t)
+
+(setq mouse-wheel-flip-direction t)
+
 (set-face-attribute 'org-verbatim nil
 		    :box
 		    '(:line-width 2 :color "grey75" :style released-button)
@@ -14,9 +18,7 @@
 (cond
  ((find-font (font-spec :name "Monaco"))
   (set-frame-font "Monaco-15"))
- ((find-font (font-spec :name "Firacode"))
-  (set-frame-font "firacode-15"))
- (t (set-frame-font "mono-15")))
+  (t (set-frame-font "mono-14")))
 
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
@@ -54,11 +56,6 @@
   (advice-add 'doc-view-revert-buffer :before
 	    'pdf-view-revert-buffer))
 
-;; Enable horizontal scroll
-(setq mouse-wheel-tilt-scroll t)
-;; However it's flipped on my machine: reverse it
-(setq mouse-wheel-flip-direction t)
-
-(use-package exec-path-from-shell
-  :config (exec-path-from-shell-initialize))
-
+(use-package dired-launch
+  :custom (dired-launch-default-launcher '("xdg-open"))
+ :config (dired-launch-enable))

@@ -1,4 +1,4 @@
-#+PROPERTY: header-args :tangle config-x11.el :results silent
+#+PROPERTY: header-args :tangle .emacs.d/jb/config-x11.el :results silent
 
 The side of my configuration that requires an X11 server, spun off
 from the main configuration file to have clean config loading on non-X
@@ -23,6 +23,20 @@ reloaded on every GUI frame created.
 (scroll-bar-mode -1)
 #+END_SRC
 
+* Scrolling
+:PROPERTIES:
+:CREATED:  [2020-06-02 Tue 21:01]
+:ID:       9d8c0493-3381-4404-805f-27dc53784180
+:END:
+Enable horizontal scroll
+#+BEGIN_SRC emacs-lisp
+(setq mouse-wheel-tilt-scroll t)
+#+END_SRC
+However it's flipped on my machine: reverse it
+#+BEGIN_SRC emacs-lisp
+(setq mouse-wheel-flip-direction t)
+#+END_SRC
+
 * Orgmode verbatim font                                                 :org:
 =Verbatim text= in org-mode should be grey, surrounded by beveled box.
 Also, hide the === markers around such ~things~.
@@ -43,17 +57,10 @@ I like Monaco as a font, but it's not installed on all my boxes.
 ; Test char and monospace:
 ; 0123456789abcdefghijklmnopqrstuvwxyz [] () :;,. !@#$^&*
 ; 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ {} <> "'`  ~-_/|\?
-;; (cond
-;;  (;; (find-font (font-spec :name "Monaco"))
-;;   ;; (set-frame-font "Monaco-15"))
-;;   ;; ((find-font (font-spec :name "courier"))
-;;   ;;  (set-frame-font "courier-20"))
-;;   ;; ((find-font (font-spec :name "inconsolata"))
-;;   ;;  (set-frame-font "inconsolata-20"))
-;;   ;; ((find-font (font-spec :name "Lucida Console"))
-;;   ;;  (set-frame-font "Lucida Console-20"))
-;;   (t (set-frame-font "mono-14"))))
-(set-frame-font "mono-14")
+(cond
+ ((find-font (font-spec :name "Monaco"))
+  (set-frame-font "Monaco-15"))
+  (t (set-frame-font "mono-14")))
 #+END_SRC
 
 * UTF8 support

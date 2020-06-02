@@ -2,8 +2,10 @@
 #+PROPERTY: header-args :tangle .emacs.d/jb/external-pkg-config.el :results silent :mkdirp yes
 
 This is the subset of my emacs configuration files that require
-external (non-emacs) packages. Contrast with [[file:vanilla-config.org]]
-and (future) emacs-only packages sections.
+external (non-emacs) packages. Contrast with
+[[file:../emacs-vanilla/vanilla.org]] for default emacs config, and
+file:../emacs-packages/package_config.org for emacs-only packages
+sections.
 
 * Ledger
 
