@@ -9,10 +9,26 @@
         pkg:
           - isync
           - maildir-utils
-    # - name: Deploy the mail repo via stow
-    #   shell:
-    #     creates: "{{home}}/.mbsyncrc"
-    #     cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ mu4e"
+    - name: Deploy the mbsync config via stow
+      shell:
+        creates: "{{home}}/.mbsyncrc"
+        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ mbsync"
+    - name: Ensure maildir is created
+      file:
+        path: "{{home}}/.mail/jiby.tech"
+        state: directory
+        mode: '0755'
+    - name: Fetch all mail
+      tags: slow
+      shell:
+        creates: "{{home}}/.mail/jiby.tech/Inbox"
+        cmd: "mbsync -a"
+    - name: Index mail via mu
+      tags: slow
+      shell:
+        # creates: "{{home}}/.mbsyncrc"
+        cmd: "mu init --maildir ~/.mail/jiby.tech/ && mu index"
+
 
 # TODO IMAP IDLE mail monitor triggering mbsync
 # See https://imapclient.readthedocs.io/en/2.1.0/advanced.html?highlight=idle
