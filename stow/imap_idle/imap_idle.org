@@ -1,0 +1,4 @@
+
+* TODO IMAP IDLE script
+For instant sync (rather than 5min rolling window).
+See [[https://github.com/rlue/little_red_flag][little-red-flag]] or all alternatives

@@ -1,0 +1,44 @@
+#+TITLE: Mu4e (emacs mail client)
+
+* Compiling our own mu4e                                           :disabled:
+
+*This is obsolete, now that I'm using recent OSes with recent package*.
+
+
+Get it from https://github.com/djcb/mu/releases/, needs some extra
+libs, typically =libgmime-3.0-dev= and =libxapian-dev=.
+
+Optionally, =guile-2.2=.
+
+
+#+begin_src makefile :tangle no
+MU_VERSION=1.2
+MU_VERSION_ALL=${MU_VERSION}.0
+
+MU_URL=https://github.com/djcb/mu/releases/download/${MU_VERSION}/mu-${MU_VERSION_ALL}.tar.xz
+
+default: build-mu
+
+mu.tar.xz:
+	wget "${MU_URL}" -O mu.tar.xz
+
+mu-${MU_VERSION_ALL}: mu.tar.xz
+	tar xf mu.tar.xz
+
+build-mu: mu-${MU_VERSION_ALL}
+	cd mu-${MU_VERSION_ALL} && \
+	./configure && \
+	make -j8 all info
+	echo "Now `make install-mu`"
+
+# Using checkinstall (https://help.ubuntu.com/community/CheckInstall)
+# for tidiness
+install-mu:
+	cd mu-${MU_VERSION_ALL} && \
+	sudo checkinstall
+#+end_src
+
+#+BEGIN_SRC shell :tangle no
+make -f mu.Makefile
+# ./configure && make & make info && sudo checkinstall
+#+END_SRC

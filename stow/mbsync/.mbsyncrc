@@ -1,0 +1,26 @@
+IMAPAccount jibytech
+# Address to connect to
+Host imap.fastmail.com
+User jb@jiby.tech
+PassCmd "pass jiby.tech/fastmail/emacs_hally"
+SSLType IMAPS
+
+IMAPStore jibytech-remote
+Account jibytech
+
+MaildirStore jibytech-local
+Subfolders Verbatim
+# The trailing "/" is important
+Path ~/.mail/jiby.tech/
+Inbox ~/.mail/jiby.tech/Inbox
+
+Channel jibytech
+Master :jibytech-remote:
+Slave :jibytech-local:
+Patterns *
+# Automatically create missing mailboxes both sides, as well as deletions
+Create Both
+Remove Both
+
+# Save the synchronization state files in the relevant directory
+SyncState *

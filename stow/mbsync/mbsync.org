@@ -1,0 +1,41 @@
+#+TITLE: Mbsync (maildir downloader)
+
+
+* Compiling mbsync
+:PROPERTIES:
+:CREATED:  [2017-05-26 Fri 11:29]
+:END:
+
+Using part of [[https://wiki.archlinux.org/index.php/Isync][Archlinux wiki on mbsync]] for setup and some
+try-and-fail. I've chosen to use =mbsync= (package name "isync")
+instead of the more popular but slower =offlineimap=.
+
+You need to build from source to support SSL correctly (=apt-get= has
+an old version of mbsync)
+#+BEGIN_SRC shell :tangle no
+git clone https://git.code.sf.net/p/isync/isync
+#+END_SRC
+
+Build from source
+#+BEGIN_SRC shell :tangle no
+cd ~/Documents/dev-local/isync
+./autogen.sh
+./configure
+make
+sudo make install
+#+END_SRC
+
+* Setup
+
+Create new file =~/.mbsyncrc=.
+
+Create the mailboxes just in case it didn't exist.
+#+BEGIN_SRC shell :tangle no
+mkdir -p ~/mail/some_mailbox/
+#+END_SRC
+Then run a test sync:
+#+BEGIN_SRC shell :tangle no
+mbsync -a
+#+END_SRC
+
+Should show no error, with instead a lot of folders being downloaded
