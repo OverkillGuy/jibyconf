@@ -160,3 +160,10 @@
   :after company
   :config
   (add-to-list 'company-backends 'company-math-symbols-latex))
+
+;; Enable some package config in config
+
+;; Matched with the scheme handler in
+;; ~/.local/share/applications/org-protocol.desktop
+;; Then cmd `update-desktop-database ~/.local/share/applications/`
+(require 'org-protocol)

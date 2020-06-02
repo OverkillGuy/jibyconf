@@ -6,18 +6,12 @@
 (setq package-archives
       '(("Gnu" . "https://elpa.gnu.org/packages/")
        ;("marmalade" . "https://marmalade-repo.org/packages/")
-	("Melpa" . "https://melpa.org/packages/")
-	("Org" . "https://orgmode.org/elpa/"))
+        ("Melpa" . "https://melpa.org/packages/")
+        ("Org" . "https://orgmode.org/elpa/"))
       package-archive-priorities
       '(("Org"    . 10)
-	("Melpa"  . 5)
-	("Gnu"    . 0)))
-
-; For "Failed to verify signature [pkgname]":
-; see https://emacs.stackexchange.com/a/52823
-; or https://elpa.gnu.org/packages/gnu-elpa-keyring-update.html
-
-(package-initialize)
+        ("Melpa"  . 5)
+        ("Gnu"    . 0)))
 
 (if (not (locate-library "use-package"))
     (progn
@@ -28,13 +22,16 @@
 
 (setq use-package-always-ensure t)
 
+(use-package esup)
+
 (use-package bug-hunter)
 
-(use-package org-plus-contrib
+(use-package org
+  :ensure org-plus-contrib
   :pin "Org"
-  :config (require 'org-man))
-
-(use-package esup)
+  :custom (org-modules  '(ol-man org-id ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww))
+  :init ;; Set these variables before load, see `org-export-backends' docstring
+  (setq org-export-backends '(koma-letter ascii html latex md)))
 
 (use-package beacon
   :config
@@ -79,12 +76,14 @@
 
 (use-package projectile
   :diminish projectile-mode
-  :bind-keymap
-  ("<f7>" . projectile-command-map)
+  :bind-keymap ("<f7>" . projectile-command-map)
+  :bind
+  ("C-c s" . projectile-ag)
+  ("C-c %" . projectile-replace)
+  ("C-c M-%" . projectile-replace-regexp)
   :custom (projectile-project-search-path
 	   '("~/dev/" "~/org/"))
-  :config
-  (projectile-mode 1))
+  :config (projectile-mode 1))
 
 (use-package helm
   :diminish 'helm-mode
@@ -93,16 +92,11 @@
   (global-set-key (kbd "C-x b") 'helm-mini))
 
 (use-package helm-projectile
-  :config (helm-projectile-on)
   ;; Show git status when project is switched
-  (setq projectile-switch-project-action 'magit-status))
+  :custom (projectile-switch-project-action 'magit-status)
+  :config (helm-projectile-on))
 
 (global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
-
-(global-set-key (kbd "C-c s") 'projectile-ag)
-
-(global-set-key (kbd "C-c %") 'projectile-replace)
-(global-set-key (kbd "C-c M-%") 'projectile-replace-regexp)
 
 ;; Remap TAB for completion
 ;; Source: https://emacs.stackexchange.com/questions/33727/how-does-spacemacs-allow-tab-completion-in-helm#38235
@@ -119,6 +113,13 @@
   (autoload 'wgrep-ag-setup "wgrep-ag")
   (add-hook 'ag-mode-hook 'wgrep-ag-setup)
   :after wgrep ag)
+
+(use-package anzu
+  :diminish
+  :config
+  (global-set-key [remap query-replace] 'anzu-query-replace)
+  (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
+  (global-anzu-mode +1))
 
 (setq org-startup-folded nil)
 
@@ -166,12 +167,18 @@
         ("c" "Calendar entry" entry
          (file "~/dev/notes/calendar.org")
          "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")
-	("P" "Protocol" entry
-	 (file "~/org/notes.org")
+        ("P" "Protocol" entry
+         (file "~/org/notes.org")
         "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-	("L" "Protocol Link" entry
-	 (file "~/org/notes.org")
+        ("L" "Protocol Link" entry
+         (file "~/org/notes.org")
         "* %? [[%:link][%:description]] \nCaptured On: %U")))
+
+(use-package edit-server
+  :init (edit-server-start)
+  :custom
+  (edit-server-url-major-mode-alist
+        '(("github\\.com" . markdown-mode))))
 
 (setq org-cycle-separator-lines 1)
 
@@ -214,13 +221,11 @@
   (org-re-reveal-title-slide
 	"<h1>%t</h1><h4>%s</h4><p>%a - <a href=\"%u\">%u</a><p>\n<p>%d </p>"))
 
-;; (setq org-re-reveal-root (concat "file://" (getenv "HOME") "/dev/foss/reveal.js/"))
-
 (setq org-re-reveal-script-files '("js/reveal.js"))
 
 (setq org-html-validation-link nil)
 
-
+(require 'org-tempo)
 
 (use-package ox-hugo
   :after ox
@@ -231,8 +236,10 @@
   :config
   (setq org-ref-insert-cite-key "C-c )"))
 
-(require 'org-id)
+(add-to-list 'org-modules 'org-id)
 (add-hook 'org-insert-heading-hook #'org-id-get-create)
+
+(add-to-list 'org-modules 'ol-man)
 
 (defvar org-created-property-name "CREATED"
   "The name of the org-mode property that stores the creation date of the entry")
@@ -309,18 +316,18 @@ will not be modified."
   :config
   (add-to-list 'yas-snippet-dirs
 	       (expand-file-name "snippets/"))
-  (yas-global-mode 1)
   ;; Fix indentation of snippets in yaml
   ;; https://github.com/joaotavora/yasnippet/issues/1020#issuecomment-539787929
   (add-hook 'yaml-mode-hook
-          '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed))))
+          '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
+  (yas-global-mode 1))
 
 (use-package yasnippet-snippets
   :after yasnippet)
 
 (use-package git-gutter
   :config (global-git-gutter-mode +1)
-  :demand t  ;; no lazy-loading allowed!
+  :demand t  ;; no lazy-loading allowed I need that one!
   :diminish 'git-gutter-mode
   :bind
   ("C-x v s" .  git-gutter:stage-hunk)
@@ -386,6 +393,8 @@ will not be modified."
   :custom (groovy-indent-offset 2))
 
 (use-package apache-mode)
+
+(use-package csv-mode)
 
 (use-package restclient
   :config
@@ -519,6 +528,8 @@ will not be modified."
   :bind (:map dired-mode-map
               ("/" . dired-narrow)))
 
+(use-package dired-rsync)
+
 (use-package alert)
 
 (use-package org-wild-notifier
@@ -541,36 +552,10 @@ will not be modified."
 
 (use-package org-vcard)
 
+(use-package exec-path-from-shell
+  :config (when (memq window-system '(mac ns x))
+	    (exec-path-from-shell-initialize)))
+
 (use-package vlf
   :config
   (require 'vlf-setup))
-
-(use-package csv-mode)
-
-;; For Firefox text-editing support, using plugin
-;; https://addons.mozilla.org/en-US/firefox/addon/edit-with-emacs1
-(use-package edit-server
-  :init (edit-server-start)
-  :custom
-  (edit-server-url-major-mode-alist
-        '(("github\\.com" . markdown-mode))))
-(use-package company-lsp
-    :config
-    (push 'company-lsp company-backends))
-
-(use-package dired-launch
-  :custom (dired-launch-default-launcher '("xdg-open"))
- :config (dired-launch-enable))
-
-;; Matched with the scheme handler in
-;; ~/.local/share/applications/org-protocol.desktop
-;; Then cmd `update-desktop-database ~/.local/share/applications/`
-(require 'org-protocol)
-(use-package dired-rsync)
-
-(use-package anzu
-  :diminish
-  :config
-  (global-set-key [remap query-replace] 'anzu-query-replace)
-  (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
-  (global-anzu-mode +1))

@@ -609,17 +609,6 @@ so I adopted it.
 #+END_SRC
 
 
-* Manpages link
-:PROPERTIES:
-:SOURCE:   https://orgmode.org/manual/Adding-hyperlink-types.html
-:END:
-
-Package org-plus-contrib contains the manpages in contrib. Just need
-to enable it.
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'org-modules 'ol-man)
-#+END_SRC
-
 * Open documentation folder read-only
 :PROPERTIES:
 :SOURCE:   https://dev.to/bravotan/how-to-set-up-emacs-to-open-read-only-depending-on-file-location-5g6m

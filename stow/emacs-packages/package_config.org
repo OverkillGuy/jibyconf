@@ -1,4 +1,4 @@
-#+PROPERTY: header-args :tangle yes :results silent
+#+PROPERTY: header-args :tangle .emacs.d/jb/package-config.el :results silent
 #+LINK: ddgo https://duckduckgo.com/html/?q=
 #+LINK: google https://duckduckgo.com/html/?q=!g
 #+EXCLUDE_TAGS: noexport disabled
@@ -16,42 +16,59 @@ Great resources for any emacs setup:
 - [[https://www.reddit.com/r/unixporn/comments/3lp961/exwm_so_emacs_is_now_my_window_manager/cv844gf/][Cool config]]
 - [[http://doc.rix.si/cce/cce-org.html][Some other config]] incl google dork for [[google: site:doc.rix.si/cce]]
 
-\begin{equation}
-\label{eq:1}
-\sum_{x=0}^{\inf}\cos 2x + \sqrt{y -2} = 4
-\end{equation}
 
+This file is part of a git repository that I sync across devices. see file:../emacs/boostrap.org
 
-\begin{equation}
-\label{eq:2}
-\sum_{x=0}^{\inf} \frac{a x + b}{\sqrt{\phi^{2}}} = \cos \phi + \int_{y=0}^{k}{a + 2b}}}
-\end{equation}
-
-* Config file setup
-This file is part of a git repository that I sync across devices.
-** DONE [#A] Use this orgfile as init.el                           :disabled:
-:LOGBOOK:
-- Note taken on [2019-07-21 Sun 13:28] \\
-  See bootstrap.org
-:END:
-Allows autoloading it.
-See [[http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file][Stackoverflow post on the topic]].
-Uses the following code:
-#+BEGIN_SRC emacs-lisp :tangle no
-(require 'org)
-(org-babel-load-file
- (expand-file-name "init.el"
-                   user-emacs-directory))
-#+END_SRC
-Would need to make this a symlink to this file.
 * Packages
+** Fix bad request on ELPA
+:PROPERTIES:
+:CREATED:  [2019-09-21 Sat 13:24]
+:ID:       69a5a8a3-435c-48c3-a633-133f047399af
+:SOURCE:   https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
+:END:
+
+Causes many packages to not load properly, and finishes in big
+crashes. Emacs 26.3 fixes it, but it's not available on every platform
+yet.
+
+#+BEGIN_SRC emacs-lisp
+;; Only useful if emacs < 26.3
+;; Fixes "bad request" from ELPA
+(if (not (string= emacs-version "26.3"))
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+#+END_SRC
+** Package sources
+:PROPERTIES:
+:CREATED:  [2020-06-01 Mon 23:48]
+:ID:       1a412e4a-467d-4258-a08f-871821a1f540
+:END:
+Define the sources of packages for Emacs and their priority. 
+
+GNU (ELPA) is the only available source by default it's got fairly
+obsolete package and a small pool of selection.
+MELPA is the cool repo source nowadays, with all the packages you can
+think of, at bleeding edge versions. 
+Org mode's ELPA provides nightlies of org mode, and a nice bundle
+called org-plus-contrib. It's very focused, and comes first.
+#+BEGIN_SRC emacs-lisp
+(setq package-archives
+      '(("Gnu" . "https://elpa.gnu.org/packages/")
+       ;("marmalade" . "https://marmalade-repo.org/packages/")
+        ("Melpa" . "https://melpa.org/packages/")
+        ("Org" . "https://orgmode.org/elpa/"))
+      package-archive-priorities
+      '(("Org"    . 10)
+        ("Melpa"  . 5)
+        ("Gnu"    . 0)))
+#+END_SRC
+
 ** Use-package
 Package-manager frontend called =use-package=. Setup as described on
 the [[https://github.com/jwiegley/use-package/blob/master/README.md][README.md on Github]].
 
-First, make sure it's available (by installing it if needed)
+First, make sure it's available (by installing it if needed using
+default pkg manager)
 #+BEGIN_SRC emacs-lisp
-
 (if (not (locate-library "use-package"))
     (progn
       (package-refresh-contents)
@@ -70,44 +87,36 @@ toggle on that feature.
 #+BEGIN_SRC emacs-lisp
 (setq use-package-always-ensure t)
 #+END_SRC
-** Fix bad request on ELPA
-:PROPERTIES:
-:CREATED:  [2019-09-21 Sat 13:24]
-:ID:       69a5a8a3-435c-48c3-a633-133f047399af
-:SOURCE:   https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
-:END:
-
-Causes many packages to not load properly, and finishes in big
-crashes. Emacs 26.3 fixes it, but it's not available on every platform
-yet.
-
-#+BEGIN_SRC emacs-lisp
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-#+END_SRC
-** Bug hunter
-
-#+BEGIN_SRC emacs-lisp
-(use-package bug-hunter)
-#+END_SRC
-
-** Refresh org mode version
-By default, emacs uses a fairly old version of org mode.  Since we
-just defined our package repository preferences to make org's own
-repository first, let's "install" it again to upgrade if needed.
-
-#+BEGIN_SRC emacs-lisp
-(package-install 'org)
-#+END_SRC
 
 ** Startup profiler
 :PROPERTIES:
 :CREATED:  [2019-08-26 Mon 23:40]
 :ID:       f71f736f-9aef-4b15-be5e-087d8534e281
 :END:
-Using [[https://github.com/jschaf/esup][esup]] the Emacs StartUp Profiler. Call with =esup=.
+Using [[https://github.com/jschaf/esup][esup]] the Emacs StartUp Profiler. Call with =esup=. Diagnose slow configs.
 
 #+BEGIN_SRC emacs-lisp
 (use-package esup)
+#+END_SRC
+** Elisp config bug hunter
+Fun little hunter of bugs for when emacs config didn't load right.
+Bisects the config and launches until finds the culprit entry.
+#+BEGIN_SRC emacs-lisp
+(use-package bug-hunter)
+#+END_SRC
+
+* Refresh org mode version
+By default, emacs uses a fairly old version of org mode.  Since we
+just defined our package repository preferences to make org's own
+repository first, let's "install" it again to upgrade if needed.
+Forcing the source to be org just in case.
+#+BEGIN_SRC emacs-lisp
+(use-package org
+  :ensure org-plus-contrib
+  :pin "Org"
+  :custom (org-modules  '(ol-man org-id ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww))
+  :init ;; Set these variables before load, see `org-export-backends' docstring
+  (setq org-export-backends '(koma-letter ascii html latex md)))
 #+END_SRC
 
 * Cosmetic                                                         :cosmetic:
@@ -150,8 +159,7 @@ Clean up the mode line to hide modes I use all the time.
 
 ** Parenthesis matching                               :cosmetic:readability:
 Using =rainbow-delimiters= for top-level visibility of braces and
-parens. Copying colors from from [[https://ericscrivner.me/2015/06/better-emacs-rainbow-delimiters-color-scheme/][better color scheme for
-rainbow-delimiters]] article.
+parens. Copying colors from from [[https://ericscrivner.me/2015/06/better-emacs-rainbow-delimiters-color-scheme/][better color scheme for rainbow-delimiters]] article.
 
 Also, change the colors of mismatched parens to be more visible (bright red
 in inverse colors from background)
@@ -173,8 +181,6 @@ in inverse colors from background)
                       :inherit 'rainbow-delimiters-base-face)
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
-
-
 
 * Feature discoverability
 :PROPERTIES:
@@ -205,25 +211,25 @@ on error, and many other improvements of quality of life.
 #+END_SRC
 
 
-* Projectile                                                     :projectile:
+* Projectile project manager                                     :projectile:
 :PROPERTIES:
 :CREATED:  [2017-10-23 Mon 13:45]
 :END:
-Enable =projectile=, a super smart way to manage projects, using =F7= as prefix for a bunch of cool tools.
+Enable =projectile=, a super smart way to manage projects, using =F7= as
+prefix for a bunch of cool tools.
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
   :diminish projectile-mode
-  :bind-keymap
-  ("<f7>" . projectile-command-map)
+  :bind-keymap ("<f7>" . projectile-command-map)
+  :bind
+  ("C-c s" . projectile-ag)
+  ("C-c %" . projectile-replace)
+  ("C-c M-%" . projectile-replace-regexp)
   :custom (projectile-project-search-path
 	   '("~/dev/" "~/org/"))
-  :config
-  (projectile-mode 1))
+  :config (projectile-mode 1))
 #+END_SRC
-Disabled because it disrupts existing cool features like using =F7= for
-file opening now has incorrect current directory from buffer, pointing
-to the project root instead. This means I can't just jump to a file
-and explore its parent folder in dired.
+
 * Helm
 
 #+BEGIN_SRC emacs-lisp
@@ -238,24 +244,16 @@ and explore its parent folder in dired.
 Enable the projectile integration:
 #+BEGIN_SRC emacs-lisp
 (use-package helm-projectile
-  :config (helm-projectile-on)
   ;; Show git status when project is switched
-  (setq projectile-switch-project-action 'magit-status))
+  :custom (projectile-switch-project-action 'magit-status)
+  :config (helm-projectile-on))
 #+END_SRC
+
 Use =shift-F7= to switch project.
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "S-<f7>") 'helm-projectile-switch-project)
 #+END_SRC
 
-Search amongst the project with =C-c s=
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c s") 'helm-projectile-ag)
-#+END_SRC
-Find-and-replace over project with =C-c %=
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c %") 'projectile-replace)
-(global-set-key (kbd "C-c M-%") 'projectile-replace-regexp)
-#+END_SRC
 
 ** Allow TAB in Helm
 :PROPERTIES:
@@ -274,7 +272,7 @@ Untested
 ;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
 #+END_SRC
 
-* Searching
+* Search and replace
 ** Wgrep
 #+BEGIN_SRC emacs-lisp
 (use-package wgrep)
@@ -289,6 +287,21 @@ Use the extension that works with ag.
   (autoload 'wgrep-ag-setup "wgrep-ag")
   (add-hook 'ag-mode-hook 'wgrep-ag-setup)
   :after wgrep ag)
+#+END_SRC
+** Search and replace
+:PROPERTIES:
+:CREATED:  [2020-05-19 Tue 21:55]
+:ID:       9e696a1a-63e7-44df-aed1-2ca69238a5b1
+:END:
+Upgrade the search/replace feature to show number of occurence and
+other visuals
+#+BEGIN_SRC emacs-lisp
+(use-package anzu
+  :diminish
+  :config
+  (global-set-key [remap query-replace] 'anzu-query-replace)
+  (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
+  (global-anzu-mode +1))
 #+END_SRC
 
 * Orgmode                                                               :org:
@@ -400,9 +413,29 @@ Load all my common languages
          "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
         ("c" "Calendar entry" entry
          (file "~/dev/notes/calendar.org")
-         "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")))
+         "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")
+        ("P" "Protocol" entry
+         (file "~/org/notes.org")
+        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+        ("L" "Protocol Link" entry
+         (file "~/org/notes.org")
+        "* %? [[%:link][%:description]] \nCaptured On: %U")))
 #+END_SRC
 
+** Firefox edit-with-emacs
+:PROPERTIES:
+:CREATED:  [2020-06-02 Tue 19:14]
+:ID:       9ec0af9b-a117-41fb-b4d1-5fc309f8e47f
+:END:
+For Firefox text-editing support, using [[https://addons.mozilla.org/en-US/firefox/addon/edit-with-emacs1][plugin]]
+
+#+BEGIN_SRC emacs-lisp
+(use-package edit-server
+  :init (edit-server-start)
+  :custom
+  (edit-server-url-major-mode-alist
+        '(("github\\.com" . markdown-mode))))
+#+END_SRC
 
 ** Org separator lines
 Only one line between an entry and the next.
@@ -506,11 +539,14 @@ Customize the title slide to show title, author, and date.
 #+BEGIN_SRC emacs-lisp
 (use-package org-re-reveal
   :custom
+  ; First slide is title + subtitle + author + #+REVEAL_TALK_URL
   (org-re-reveal-title-slide
-	"<h1>%t</h1><h4>%s</h4><p>%a - %e<p>\n<p>%d </p>"))
+	"<h1>%t</h1><h4>%s</h4><p>%a - <a href=\"%u\">%u</a><p>\n<p>%d </p>"))
 #+END_SRC
 
-Cloning [[https://github.com/hakimel/reveal.js][reveal.js]] in =~/dev/foss/reveal.js= to use it as root in config.
+Can also clone [[https://github.com/hakimel/reveal.js][reveal.js]] in =~/dev/foss/reveal.js= to use it as root in config.
+Not needed (disabled) because I usually want to ship with the
+presentation (cloning per config repo)
 #+BEGIN_SRC emacs-lisp :tangle no
 (setq org-re-reveal-root (concat "file://" (getenv "HOME") "/dev/foss/reveal.js/"))
 #+END_SRC
@@ -530,7 +566,7 @@ off.
 (setq org-html-validation-link nil)
 #+END_SRC
 ** Quick templates
-Enable the [[info:org#Structure%20Templates][quick-template]] system.
+Enable the [[info:org#Structure%20Templates][quick-template]] system, which was disabled in org mode 9.2.
 
 #+BEGIN_SRC emacs-lisp
 (require 'org-tempo)
@@ -566,8 +602,18 @@ bibtex export issue.
 
 #+CAPTION: Generate UUID on heading insertion
 #+BEGIN_SRC emacs-lisp
-(require 'org-id)
+(add-to-list 'org-modules 'org-id)
 (add-hook 'org-insert-heading-hook #'org-id-get-create)
+#+END_SRC
+** Manpages link
+:PROPERTIES:
+:SOURCE:   https://orgmode.org/manual/Adding-hyperlink-types.html
+:END:
+
+Package org-plus-contrib contains the manpages in contrib. Just need
+to enable it.
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'org-modules 'ol-man)
 #+END_SRC
 
 ** Timestamp insertion
@@ -798,18 +844,22 @@ Effectively giving user a template system.
   :diminish yas-minor-mode
   :config
   (add-to-list 'yas-snippet-dirs
-	       (concat jb/config-repo-path "snippets/") t)
+	       (expand-file-name "snippets/"))
+  ;; Fix indentation of snippets in yaml
+  ;; https://github.com/joaotavora/yasnippet/issues/1020#issuecomment-539787929
+  (add-hook 'yaml-mode-hook
+          '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
   (yas-global-mode 1))
 #+END_SRC
-And the default snippets:
+An
+d some default snippets:
 
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet-snippets
   :after yasnippet)
 #+END_SRC
 
-Separate folder with my snippets at [[file:snippets/]].
-
+Separate folder with my custom snippets at [[file:.emacs.d/jb/snippets/]].
 
 * Git gutter                                                            :git:
 :PROPERTIES:
@@ -820,7 +870,7 @@ hunks directly from there.
 #+BEGIN_SRC emacs-lisp
 (use-package git-gutter
   :config (global-git-gutter-mode +1)
-  :demand t  ;; no lazy-loading allowed!
+  :demand t  ;; no lazy-loading allowed I need that one!
   :diminish 'git-gutter-mode
   :bind
   ("C-x v s" .  git-gutter:stage-hunk)
@@ -988,7 +1038,15 @@ For those sweet, sweet Jenkinsfiles.
 #+BEGIN_SRC emacs-lisp
 (use-package apache-mode)
 #+END_SRC
+** CSV
+:PROPERTIES:
+:CREATED:  [2019-11-16 Sat 18:31]
+:ID:       4b704367-c732-425b-a3d0-4b79a241c107
+:END:
 
+#+BEGIN_SRC emacs-lisp
+(use-package csv-mode)
+#+END_SRC
 
 * REST Client
 Testing HTTP requests via =restclient-mode=
@@ -1302,7 +1360,16 @@ this allows to perform actions on a regex-based subset of a folder.
   :bind (:map dired-mode-map
               ("/" . dired-narrow)))
 #+END_SRC
-** Neotree?                                                        :disabled:
+** rsync support
+:PROPERTIES:
+:CREATED:  [2020-06-02 Tue 19:29]
+:ID:       4c2138f6-8c45-4fda-8379-edbe4b6ac7e3
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package dired-rsync)
+#+END_SRC
+** Neotree?                                                       :disabled:
 :PROPERTIES:
 :SOURCE:   [[https://github.com/jaypei/emacs-neotree][Neotree Github]]
 :END:
@@ -1378,8 +1445,6 @@ oZBoNL+yFmoqke0D4Y8PE1RKHtQLUJLVIA7hb+m9IJSNBDSwuZSkSR5w4xXHu0jZ
 #+BEGIN_SRC emacs-lisp
 (use-package alert)
 #+END_SRC
-
-
 * Emacs calendar                                                   :calendar:
 ** CANCELED Set computer location for sunrise-sunset in calendar
 :LOGBOOK:
@@ -1470,10 +1535,7 @@ Using org-vcard for import.
 #+BEGIN_SRC emacs-lisp
 (use-package org-vcard)
 #+END_SRC
-
-* Room for improvement
-
-*** RSS feed monitoring
+* RSS feed monitoring                                              :disabled:
 See [[info:org#RSS%20feeds][Org mode documentation about org-rss]].
 
 Done with this:
@@ -1507,45 +1569,8 @@ Done with this:
          :template "* %title\n:PROPERTIES:\n:CREATED: %u\n:GUID: %a:END:\n%description")
         ))
 #+END_SRC
-*** DONE Remove items from modeline
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2017-01-19 Thu 13:27] \\
-  Fixed with dimished-mode
-:END:
-When running a split-windowed emacs, the modeline is too crowded with stuff like Projectile, beacon-mode etc.
-There is a mode called Diminish mode that solves it. See [[http://emacs.stackexchange.com/questions/3925/hide-list-of-minor-modes-in-mode-line][SO on modeline too long]].
 
-Need to evaluate what is useless in modeline depending on what I do.
-
-See also: Smart-modeline !
-*** CANCELED Orgmode buffer switch
-:LOGBOOK:
-- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:30] \\
-  Who cares
-:END:
-When orgmode opens a buffer it's in the next buffer.
-I want it to happen in a specific place to avoid messing my setup.
-
-See http://emacs.stackexchange.com/questions/721/how-to-control-in-which-window-a-buffer-is-displayed
-
-*** TODO Perspective mode
-Emacs equivalent of virtual desktops, which you can integrate into projectile.
-This would allow the organisation stuff to be in a perspective and coding to be in an other one, and invoke either in one chord.
-Bonus points for popping the "IDE perspective" from a cold-boot.
-
-*** DONE Compilation follow to first error
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2017-02-22 Wed 14:11]
-:END:
-Use http://stackoverflow.com/questions/4657142/how-do-i-encourage-emacs-to-follow-the-compilation-buffer
-
-*** CANCELED Registers                                           :keybinding:
-:LOGBOOK:
-- State "CANCELED"   from "TODO"       [2019-07-21 Sun 13:30] \\
-  Who cares
-:END:
-Binding files I access often to Emacs registers for quick access.
-
+Personal podcast software already covers it.
 * Fix compile command not on PATH
 :PROPERTIES:
 :CREATED:  [2020-05-04 Mon 21:22]
@@ -1566,3 +1591,20 @@ for that!
   :config (when (memq window-system '(mac ns x))
 	    (exec-path-from-shell-initialize)))
 #+end_src
+* Large files
+:PROPERTIES:
+:CREATED:  [2020-03-09 Mon 17:17]
+:ID:       b5c688a7-244d-47fd-b552-ff2a6f0da301
+:END:
+VLF mode to get Very Large File support, chunking large files. Prompts
+for vlf-mode when file is too big.
+#+BEGIN_SRC emacs-lisp
+(use-package vlf
+  :config
+  (require 'vlf-setup))
+#+END_SRC
+
+Know also of the classic command =find-file-literally=, which opens a
+file without syntax highlighting and such, good for files with long
+lines and similar.
+

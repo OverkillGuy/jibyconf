@@ -175,3 +175,17 @@ Use =pdf-tools= for latex review
 	    'pdf-view-revert-buffer))
 
 #+END_SRC
+
+* GUI launcher in dired
+:PROPERTIES:
+:CREATED:  [2020-05-16 Tue 13:47]
+:ID:       ee6b10d2-81aa-4e5b-b41e-020ec154ee81
+:END:
+Press =J= in dired to launch default software for the document type,
+such as PDF reader or image viewer.
+
+#+BEGIN_SRC emacs-lisp
+(use-package dired-launch
+  :custom (dired-launch-default-launcher '("xdg-open"))
+ :config (dired-launch-enable))
+#+END_SRC
