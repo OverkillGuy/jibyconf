@@ -49,6 +49,7 @@
         create: yes
         marker: ";; {mark} ANSIBLE MANAGED BLOCK: boostrap emacsconf"
         block: |
+          (package-initialize)
           (cd "~/.emacs.d/jb/")
           (load-file "bootstrap.el")
           (cd "~/")
@@ -63,4 +64,4 @@
       shell:
         creates: "{{home}}/.emacs.d/elpa/"
         cmd: |
-          emacs --batch  --eval '(cd "~/.emacs.d/jb/")' --eval '(load-file "bootstrap.el")' --kill
+          emacs --batch --script={{home}}/.emacs --kill
