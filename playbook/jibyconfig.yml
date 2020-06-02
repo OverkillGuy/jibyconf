@@ -28,6 +28,10 @@
       become: true
       apt:
         pkg: stow
+    - name: Deploy the stow config (ignore list) via stow
+      shell:
+        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ stow"
+        creates: "{{home}}/.stowrc"
     - name: Deploy the bash config via stow
       shell:
         cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ bash"
