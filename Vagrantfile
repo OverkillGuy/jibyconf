@@ -8,9 +8,9 @@ Vagrant.configure("2") do |config|
     dev.vm.provision "dev-ansible", type: "ansible" do |ansible|
       ansible.playbook       = "playbook/main.yml"
       ansible.inventory_path = "vagrant_inventory"
-      ansible.skip_tags      = "x11,slow"
+      ansible.skip_tags      = "x11"  #,slow
       ansible.limit          = "dev"
-      ansible.verbose        = true
+      # ansible.verbose        = true
       ansible.compatibility_mode = "2.0"
     end
     # Alternative: ansible-pull to clone repo + apply it locally.
