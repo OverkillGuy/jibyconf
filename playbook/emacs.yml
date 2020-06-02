@@ -7,6 +7,11 @@
       become: true
       apt:
         name: emacs-nox
+    - name: Install mu4e (emacs mail client)
+      tags: mu4e
+      become: true
+      apt:
+        name: mu4e
     - name: Install emacs (X11) is installed
       tags: x11
       become: true
