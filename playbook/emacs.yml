@@ -69,4 +69,4 @@
       shell:
         creates: "{{home}}/.emacs.d/elpa/"
         cmd: |
-          emacs --batch --script={{home}}/.emacs --kill
+          emacs --batch -l {{home}}/.emacs --kill
