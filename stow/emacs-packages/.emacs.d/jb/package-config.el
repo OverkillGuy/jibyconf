@@ -174,12 +174,6 @@
          (file "~/org/notes.org")
         "* %? [[%:link][%:description]] \nCaptured On: %U")))
 
-(use-package edit-server
-  :init (edit-server-start)
-  :custom
-  (edit-server-url-major-mode-alist
-        '(("github\\.com" . markdown-mode))))
-
 (setq org-cycle-separator-lines 1)
 
 (setq org-export-with-section-numbers nil)
@@ -349,6 +343,11 @@ will not be modified."
 
 (use-package orgit
   :after magit)
+
+(use-package artbollocks-mode
+  :hook text-mode)
+
+(use-package writegood-mode)
 
 (use-package tex-mode
   :ensure auctex

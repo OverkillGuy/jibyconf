@@ -903,6 +903,33 @@ orgit:/path/to/repo/           links to a magit-status buffer
 orgit-log:/path/to/repo/::REV  links to a magit-log buffer
 orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
 #+END_EXAMPLE
+* Editing text
+:PROPERTIES:
+:CREATED:  [2020-06-07 Sun 16:18]
+:ID:       5a84c5ff-ec44-4e24-95d5-853994f9b721
+:END:
+** Avoid weasel words
+:PROPERTIES:
+:CREATED:  [2020-06-07 Sun 16:18]
+:ID:       c01dec01-cf0b-4d7c-89db-db38350b9012
+:SOURCE:   https://github.com/sachac/artbollocks-mode
+:END:
+Sacha Chua wrote a nice little mode to avoid repetitive text
+
+Repetitive text being super bad repetitive words are super repetitive.
+#+BEGIN_SRC emacs-lisp
+(use-package artbollocks-mode
+  :hook text-mode)
+#+END_SRC
+
+Similar mode, covering Matt Might's weasel word list and readability
+calculation:
+
+#+BEGIN_SRC emacs-lisp
+(use-package writegood-mode)
+#+END_SRC
+
+
 * Latex                                                               :latex:
 Use =auctex= and =preview-latex-mode=. Using =xetex= backend
 #+BEGIN_SRC emacs-lisp
