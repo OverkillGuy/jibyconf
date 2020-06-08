@@ -1,7 +1,7 @@
 ---
 - name: Developer documentation  (debian manpages + ~/dev/doc)
   hosts: dev
-  tags: [dev, docs]
+  tags: [dev, docs, slow]
   tasks:
     - name: Ensure ~/dev/docs exists
       file:
@@ -18,7 +18,7 @@
     #     src: https://docs.python.org/3/archives/python-3.8.2-docs-html.zip
     #     dest: "{{home}}/dev/doc/"
     #     remote_src: yes
-    - name: Install GNU docs packages
+    - name: Install docs packages
       become: true
       apt:
         pkg:
