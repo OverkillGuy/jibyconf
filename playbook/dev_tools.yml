@@ -14,6 +14,7 @@
           - silversearcher-ag
           - net-tools
           - python-pygments
+          - tree
     - name: Ensure blog tools are installed
       tags: blog
       become: yes
