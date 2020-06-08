@@ -19,12 +19,12 @@
         state: directory
         mode: '0755'
     - name: Fetch all mail
-      tags: slow
+      tags: [never, slow, gpg-unlocked]
       shell:
         creates: "{{home}}/.mail/jiby.tech/Inbox"
         cmd: "mbsync -a"
     - name: Index mail via mu
-      tags: slow
+      tags: [never, slow, gpg-unlocked]
       shell:
         # creates: "{{home}}/.mbsyncrc"
         cmd: "mu init --maildir ~/.mail/jiby.tech/ && mu index"
