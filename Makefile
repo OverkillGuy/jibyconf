@@ -2,11 +2,10 @@ SKIP_TAGS=slow,x11
 ANSIBLE_OPTS= --skip-tags ${SKIP_TAGS}
 # -t x11,docker,emacs --skip-tags plantuml
 
+VAGRANT_ARGS=
 
-export PATH := ${HOME}/.local/bin/:$(PATH)
-
-# Wipe machine and restart from scratch using vagrant-provided
-# ansible provisioning
+# Wipe machine and restart from scratch using ansible on host (requires
+# ansible on the host machine)
 test-vagrant: delete up
 
 # Wipe machine and restart from scratch using SSH-only ansible
@@ -17,23 +16,17 @@ test-ansible: delete up-noansible ansible
 # clone (called by vagrant)
 test-pull: delete up up-noansible provision-ansible-pull
 
-UP_ARGS=
-
 up:
-	vagrant up ${UP_ARGS}
-
-# Disable ansible provisioning
-up-noansible: UP_ARGS += --provision-with shell
-up-noansible: up
+	vagrant up ${VAGRANT_ARGS}
 
 down:
-	vagrant halt
+	vagrant halt ${VAGRANT_ARGS}
 
 PROVISION_OPTS=
 
 # Default: shell + ansible provisioner
 provision:
-	vagrant provision ${PROVISION_OPTS}
+	vagrant provision ${VAGRANT_ARGS} ${PROVISION_OPTS}
 
 provision-shell:  PROVISION_OPTS += --provision-with shell
 provision-shell: provision
@@ -43,10 +36,10 @@ provision-ansible-pull: provision
 
 
 sync:
-	vagrant rsync
+	vagrant rsync ${VAGRANT_ARGS}
 
 delete:
-	vagrant destroy -f
+	vagrant destroy -f ${VAGRANT_ARGS}
 
 playbook/roles:
 	ansible-galaxy install -r requirements.yml -p playbook/roles/
@@ -54,10 +47,9 @@ playbook/roles:
 ansible:
 	ANSIBLE_FORCE_COLOR=true ansible-playbook -i vagrant_inventory playbook/main.yml ${ANSIBLE_OPTS}
 
-ansible-server: UP_ARGS += server
+ansible-server: VAGRANT_ARGS += server
 ansible-server: up
 	ANSIBLE_FORCE_COLOR=true ansible-playbook -i vagrant_inventory playbook/server/main.yml --limit servers ${ANSIBLE_OPTS}
-
 
 list-tags:
 	ansible-playbook playbook/main.yml --list-tasks
