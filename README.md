@@ -7,6 +7,12 @@ Test it on a new Debian bullseye VM via Vagrant, auto-provisioning it.
 Alternatively, a debian-based server deploying gitea via docker is
 also available in the Vagrant file for more experimentation.
 
+
+## Demo
+
+[![asciicast](https://asciinema.org/a/RdQQQ4SyXSgNujDUOR7tutbm5.svg)](https://asciinema.org/a/RdQQQ4SyXSgNujDUOR7tutbm5)
+
+
 ## Dependencies
 - [Ansible](https://ansible.com) for configuration
 - [Vagrant](https://vagrantup.com) for testing in VM (installs ansible)
