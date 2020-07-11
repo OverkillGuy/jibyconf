@@ -552,8 +552,7 @@ will not be modified."
 (use-package org-vcard)
 
 (use-package exec-path-from-shell
-  :config (when (memq window-system '(mac ns x))
-	    (exec-path-from-shell-initialize)))
+  :config (exec-path-from-shell-initialize))
 
 (use-package vlf
   :config
