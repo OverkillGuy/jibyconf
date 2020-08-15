@@ -1,0 +1,21 @@
+---
+- name: Postgresql install and config
+  hosts: servers
+  vars:
+    postgresql_service_state: started
+    postgresql_service_enabled: true
+    postgresql_databases:
+      - name: gitea
+    postgresql_users:
+      - name: gitea
+        password: supersecure
+    postgresql_hba_entries:
+      - { type: local, database: all, user: postgres, auth_method: peer }
+      - { type: local, database: all, user: all, auth_method: peer }
+      - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
+      - { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
+      - { type: local, database: gitea, user: gitea, auth_method: peer }
+    postgres_users_no_log: false
+  roles:
+    - role: geerlingguy.postgresql
+      become: yes

@@ -1,0 +1,10 @@
+---
+- name: Install gitea
+  hosts: all
+  tasks:
+  - name: Create gitea UNIX user
+    become: yes
+    user:
+      name: gitea
+      home: /var/lib/gitea
+      create_home: yes
