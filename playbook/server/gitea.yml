@@ -7,10 +7,27 @@
   tasks:
   - name: Create gitea UNIX user
     user:
-      name: gitea
-      home: /var/lib/gitea
-      create_home: yes
+      name: git
+      home: /home/git
+      shell: /bin/bash
       password: '!'  # password locked, no password-based auth allowed
+  - name: Ensure gitea runtime folders exist
+    file:
+      path: "/var/lib/gitea/{{item}}"
+      owner: git
+      group: git
+      mode: '750'
+    with_items:
+      - custom
+      - data
+      - log
+  - name: Ensure gitea config folder exist
+    file:
+      path: "/etc/gitea"
+      owner: root
+      group: root
+      mode: '660'
+      # TODO Set INSTALL_LOCK = true
   - name: Download gitea binary
     get_url:
       url: "https://dl.gitea.io/gitea/{{gitea_version}}/gitea-{{gitea_version}}-linux-amd64"
