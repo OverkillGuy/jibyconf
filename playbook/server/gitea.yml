@@ -1,10 +1,19 @@
 ---
 - name: Install gitea
   hosts: all
+  become: yes
+  vars:
+    gitea_version: 1.12.3
   tasks:
   - name: Create gitea UNIX user
-    become: yes
     user:
       name: gitea
       home: /var/lib/gitea
       create_home: yes
+      password: '!'  # password locked, no password-based auth allowed
+  - name: Download gitea binary
+    get_url:
+      url: "https://dl.gitea.io/gitea/{{gitea_version}}/gitea-{{gitea_version}}-linux-amd64"
+      dest: /usr/local/bin/gitea
+      checksum: "sha256:https://dl.gitea.io/gitea/{{gitea_version}}/gitea-{{gitea_version}}-linux-amd64.sha256"
+      mode: '755'
