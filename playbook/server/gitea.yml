@@ -5,17 +5,21 @@
   vars:
     gitea_version: 1.12.3
   tasks:
+  - name: Install git
+    apt:
+      name: git
   - name: Create gitea UNIX user
     user:
-      name: git
-      home: /home/git
+      name: gitea
+      home: /home/gitea
       shell: /bin/bash
       password: '!'  # password locked, no password-based auth allowed
   - name: Ensure gitea runtime folders exist
     file:
       path: "/var/lib/gitea/{{item}}"
-      owner: git
-      group: git
+      state: directory
+      owner: gitea
+      group: gitea
       mode: '750'
     with_items:
       - custom
@@ -24,9 +28,10 @@
   - name: Ensure gitea config folder exist
     file:
       path: "/etc/gitea"
-      owner: root
-      group: root
-      mode: '660'
+      state: directory
+      owner: gitea
+      group: gitea
+      mode: '750'
       # TODO Set INSTALL_LOCK = true
   - name: Download gitea binary
     get_url:
@@ -34,3 +39,19 @@
       dest: /usr/local/bin/gitea
       checksum: "sha256:https://dl.gitea.io/gitea/{{gitea_version}}/gitea-{{gitea_version}}-linux-amd64.sha256"
       mode: '755'
+  - name: Install the gitea systemd service
+    copy:
+      src: gitea/gitea.service
+      dest: /etc/systemd/system/gitea.service
+  - name: Expand the gitea app config
+    copy:
+      src: gitea/app.ini
+      dest: /etc/gitea/app.ini
+      owner: gitea
+      group: gitea
+      mode: '640'
+  - name: Enabled the gitea service at-boot
+    systemd:
+      name: gitea
+      enabled: yes
+      daemon_reload: yes

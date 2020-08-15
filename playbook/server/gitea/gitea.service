@@ -17,17 +17,17 @@ Requires=postgresql.service
 # An example of /etc/systemd/system/gitea.main.socket
 ###
 ##
-## [Unit]
-## Description=Gitea Web Socket
-## PartOf=gitea.service
-##
-## [Socket]
-## Service=gitea.service
-## ListenStream=<some_port>
-## NoDelay=true
-##
-## [Install]
-## WantedBy=sockets.target
+[Unit]
+Description=Gitea Web Socket
+PartOf=gitea.service
+
+[Socket]
+Service=gitea.service
+ListenStream=3000
+NoDelay=true
+
+[Install]
+WantedBy=sockets.target
 ##
 ###
 
@@ -40,15 +40,15 @@ Requires=postgresql.service
 #LimitNOFILE=65535
 RestartSec=2s
 Type=simple
-User=git
-Group=git
+User=gitea
+Group=gitea
 WorkingDirectory=/var/lib/gitea/
 # If using Unix socket: tells systemd to create the /run/gitea folder, which will contain the gitea.sock file
 # (manually creating /run/gitea doesn't work, because it would not persist across reboots)
 #RuntimeDirectory=gitea
 ExecStart=/usr/local/bin/gitea web --config /etc/gitea/app.ini
 Restart=always
-Environment=USER=git HOME=/home/git GITEA_WORK_DIR=/var/lib/gitea
+Environment=USER=gitea HOME=/home/gitea GITEA_WORK_DIR=/var/lib/gitea
 # If you want to bind Gitea to a port below 1024, uncomment
 # the two values below, or use socket activation to pass Gitea its ports as above
 ###

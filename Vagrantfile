@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
     server.vm.box = "debian/buster64"
     server.vm.hostname = "sergei"
     server.vm.network "forwarded_port", guest: 3000, host: 3000, id: "Gitea HTTP"
-    server.vm.network "forwarded_port", guest: 222, host: 2224, id: "Gitea SSH"
+    server.vm.network "forwarded_port", guest: 2222, host: 2224, id: "Gitea SSH"
 
     server.vm.provision "server-ansible", type: "ansible" do |ansible|
       ansible.playbook       = "playbook/server/main.yml"
