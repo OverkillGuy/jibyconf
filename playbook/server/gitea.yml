@@ -4,6 +4,11 @@
   become: yes
   vars:
     gitea_version: 1.12.3
+    gitea_secrets:
+      LFS_JWT_SECRET: CrTLxT3CzDpVp9lkMgRw0G-OV7RKuGLNoF_Ivp1uhmU
+      JWT_SECRET: Bk0yK7Y9g_p56v86KaHqjSbxvNvu3SbKoOdOt2ZcXvU
+      SECRET_KEY: WQ3RIDZBvBLygx7CDFWs5saTfvXvFeYmWXwpZFvDaMisRCI2eFk9ukJ8lAXOR7io
+      INTERNAL_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE1OTc1MzMzOTN9.b8xwIfyJqxUGOP5OuKKJZCYqjC9MzO0wam5j4ukgoMQ
   tasks:
   - name: Install git
     apt:
@@ -39,12 +44,22 @@
       dest: /usr/local/bin/gitea
       checksum: "sha256:https://dl.gitea.io/gitea/{{gitea_version}}/gitea-{{gitea_version}}-linux-amd64.sha256"
       mode: '755'
+  - name: Ensure gitea secrets are present
+    assert:
+      that: "gitea_secrets.{{ item }} is defined"
+      fail_msg: "Missing variable {{ item }}. Try `gitea generate secret {{ item }}`"
+      quiet: true
+    with_items:
+      - LFS_JWT_SECRET
+      - SECRET_KEY
+      - INTERNAL_TOKEN
+      - JWT_SECRET
   - name: Install the gitea systemd service
     copy:
       src: gitea/gitea.service
       dest: /etc/systemd/system/gitea.service
   - name: Expand the gitea app config
-    copy:
+    template:
       src: gitea/app.ini
       dest: /etc/gitea/app.ini
       owner: gitea
