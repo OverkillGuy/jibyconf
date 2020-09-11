@@ -12,7 +12,7 @@
     - name: Deploy the mbsync config via stow
       shell:
         creates: "{{home}}/.mbsyncrc"
-        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ mbsync"
+        cmd: "stow --dir ~/dev/conf/jibyconf/stow --target {{home}}/ mbsync"
     - name: Ensure maildir is created
       file:
         path: "{{home}}/.mail/jiby.tech"

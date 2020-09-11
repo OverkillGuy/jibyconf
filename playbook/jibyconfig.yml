@@ -3,20 +3,20 @@
   hosts: dev
   tags: [git, stow]
   tasks:
-    - name: Install git for jiby-config cloning
+    - name: Install git for jibyconfig cloning
       become: true
       apt:
         pkg: git
-    - name: Ensure ~/dev/conf/ exists for jiby-config
+    - name: Ensure ~/dev/conf/ exists for jibyconf
       file:
         path: "{{home}}/dev/conf"
         state: directory
         mode: '0755'
-    - name: Ensure jiby-conf repo created
+    - name: Ensure jibyconf repo created
       # Ideally use the git ansible module instead, but it doesn't do local-file-cloning like git CLI
       shell:
-        creates: "{{home}}/dev/conf/jiby-conf"
-        cmd: "git clone /vagrant/ {{home}}/dev/conf/jiby-conf"
+        creates: "{{home}}/dev/conf/jibyconf"
+        cmd: "git clone /vagrant/ {{home}}/dev/conf/jibyconf"
     # # TODO: Register the remote bundle before fetching from it
     # - name: Update the emacs-conf repo from bundle
     #   when: emacsconf_folder.stat.exists and emacsconf_folder.stat.isdir
@@ -30,11 +30,11 @@
         pkg: stow
     - name: Deploy the stow config (ignore list) via stow
       shell:
-        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ stow --ignore=.*org"
+        cmd: "stow --dir ~/dev/conf/jibyconf/stow --target {{home}}/ stow --ignore=.*org"
         creates: "{{home}}/.stowrc"
     - name: Deploy the bash config via stow
       shell:
-        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ bash"
+        cmd: "stow --dir ~/dev/conf/jibyconf/stow --target {{home}}/ bash"
         creates: "{{home}}/.jb_profile.sh"
     - name: Ensure ~/.bashrc sources jb_profile
       blockinfile:
@@ -43,5 +43,5 @@
         block: source ~/.jb_profile.sh
     - name: Deploy the git config via stow
       shell:
-        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ git"
+        cmd: "stow --dir ~/dev/conf/jibyconf/stow --target {{home}}/ git"
         creates: "{{home}}/.gitconfig"

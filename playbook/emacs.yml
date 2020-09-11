@@ -38,7 +38,7 @@
     - name: Deploy the emacs-conf repo via stow
       shell:
         creates: "{{home}}/.emacs.d/jb/external-pkg-config.el"
-        cmd: "stow --dir ~/dev/conf/jiby-conf/stow --target {{home}}/ {{ item }}"
+        cmd: "stow --dir ~/dev/conf/jibyconf/stow --target {{home}}/ {{ item }}"
       loop:
         - emacs
         - emacs-vanilla
