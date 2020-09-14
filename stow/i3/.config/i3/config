@@ -43,6 +43,10 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
+# Start password manager
+bindsym Ctrl+F12 exec --no-startup-id /usr/share/doc/pass/examples/dmenu/passmenu
+bindsym Ctrl+Shift+F12 exec --no-startup-id /usr/share/doc/pass/examples/dmenu/passmenu --type
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
