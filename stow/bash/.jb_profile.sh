@@ -26,7 +26,7 @@ emp () {
 alias calc="emacsclient -nw -e '(calc)'"
 alias magit='emacsclient -nw -a emacs -e "(progn (magit-status) (delete-other-windows))"'
 
-alias stowconf="stow --dir ~/dev/conf/emacs-conf/ --target ~/ "
+alias stowconf="stow --dir ~/dev/conf/jibyconf/stow/ --target ~/ "
 
 nessyxpic () {
     ssh nessyx 'find ~/storage/dcim/ -iname "*.jpg" -newermt "5 minute ago" -type f' \
