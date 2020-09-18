@@ -1,0 +1,3 @@
+
+# Caps lock is actually Control
+setxkbmap -option caps:ctrl_modifier
