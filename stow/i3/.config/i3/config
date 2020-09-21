@@ -54,6 +54,11 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym Ctrl+F12 exec --no-startup-id /usr/share/doc/pass/examples/dmenu/passmenu
 bindsym Ctrl+Shift+F12 exec --no-startup-id /usr/share/doc/pass/examples/dmenu/passmenu --type
 
+# Start firefox/emacs with Ctrl+Alt + 1-2-3
+bindsym Ctrl+Mod1+1 exec --no-startup-id /usr/bin/firefox
+bindsym Ctrl+Mod1+2 exec --no-startup-id /usr/bin/vlc
+bindsym Ctrl+Mod1+3 exec --no-startup-id /usr/bin/emacsclient -c
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
