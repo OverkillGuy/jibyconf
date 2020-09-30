@@ -647,6 +647,19 @@ will not be modified."
 (setq org-cycle-separator-lines 0)
 #+END_SRC
 
+** Org links in programming modes
+:PROPERTIES:
+:CREATED:  [2020-09-28 Mon 14:53]
+:ID:       7EE40015-2099-4106-A8CC-B2229C6C324D
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package orglink
+  :init
+  (add-hook 'prog-mode #'orglink-mode)
+  (add-hook 'text-mode #'orglink-mode)
+  (add-hook 'eww-mode-hook #'orglink-mode))
+#+END_SRC
+
 * Autocomplete
 :PROPERTIES:
 :CREATED:  [2019-07-24 Wed 21:29]

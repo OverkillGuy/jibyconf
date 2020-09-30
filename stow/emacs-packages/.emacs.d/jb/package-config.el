@@ -257,6 +257,12 @@ will not be modified."
 
 (setq org-cycle-separator-lines 0)
 
+(use-package orglink
+  :init
+  (add-hook 'prog-mode #'orglink-mode)
+  (add-hook 'text-mode #'orglink-mode)
+  (add-hook 'eww-mode-hook #'orglink-mode))
+
 (use-package company
   :diminish 'company-mode
   :config (add-hook 'after-init-hook 'global-company-mode))
