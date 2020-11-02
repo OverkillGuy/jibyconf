@@ -1070,6 +1070,15 @@ For those sweet, sweet Jenkinsfiles.
 #+BEGIN_SRC emacs-lisp
 (use-package csv-mode)
 #+END_SRC
+** Terraform
+:PROPERTIES:
+:CREATED:  [2020-11-02 Mon 16:55]
+:ID:       9FE763EB-7715-4E37-806D-F54BE47A9DB2
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package terraform-mode)
+#+END_SRC
 
 * REST Client
 Testing HTTP requests via =restclient-mode=
