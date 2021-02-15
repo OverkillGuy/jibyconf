@@ -916,6 +916,22 @@ orgit:/path/to/repo/           links to a magit-status buffer
 orgit-log:/path/to/repo/::REV  links to a magit-log buffer
 orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
 #+END_EXAMPLE
+** Github integration
+:PROPERTIES:
+:CREATED:  [2021-02-04 Thu 11:10]
+:ID:       A10E8957-9878-4D3E-AA3F-BCF04148B014
+:SOURCE:   https://github.com/magit/forge
+:END:
+Magit-forge package for integrating with forge systems like Github.
+
+#+begin_src emacs-lisp
+(use-package forge
+  :after magit)
+#+end_src
+
+Make sure to set the token's authentication file in =~/.authinfo=
+(supports GPG) and update the =~/.gitconfig= file with username.
+
 * Editing text
 :PROPERTIES:
 :CREATED:  [2020-06-07 Sun 16:18]

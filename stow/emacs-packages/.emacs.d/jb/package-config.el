@@ -350,6 +350,9 @@ will not be modified."
 (use-package orgit
   :after magit)
 
+(use-package forge
+  :after magit)
+
 (use-package artbollocks-mode
   :hook text-mode)
 
