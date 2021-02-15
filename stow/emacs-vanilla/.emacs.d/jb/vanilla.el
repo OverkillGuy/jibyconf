@@ -81,7 +81,7 @@
 (defun show-gherkin ()
   "Show the gherkin features of this buffer in a separate window"
   (interactive)
-  (occur "// \\(given\\|when\\|then\\|and\\|but\\|scenario\\|background\\|feature\\)"))
+  (occur "\\(Given\\|When\\|Then\\|And\\|But\\|Scenario\\|Background\\|Feature\\)"))
 
 (defun unfill-region (beg end)
   "Unfill the region, joining text paragraphs into a single
