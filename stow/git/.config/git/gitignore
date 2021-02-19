@@ -1,0 +1,8 @@
+# Sourcetrail files
+*.srctrlbm
+*.srctrldb
+*.srctrlprj
+
+
+# MacOS stuff
+.DS_Store

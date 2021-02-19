@@ -257,6 +257,12 @@ will not be modified."
 
 (setq org-cycle-separator-lines 0)
 
+(use-package orglink
+  :init
+  (add-hook 'prog-mode #'orglink-mode)
+  (add-hook 'text-mode #'orglink-mode)
+  (add-hook 'eww-mode-hook #'orglink-mode))
+
 (use-package company
   :diminish 'company-mode
   :config (add-hook 'after-init-hook 'global-company-mode))
@@ -344,6 +350,9 @@ will not be modified."
 (use-package orgit
   :after magit)
 
+(use-package forge
+  :after magit)
+
 (use-package artbollocks-mode
   :hook text-mode)
 
@@ -395,6 +404,8 @@ will not be modified."
 
 (use-package csv-mode)
 
+(use-package terraform-mode)
+
 (use-package restclient
   :config
   ;; Use json-mode instead of default js-mode
@@ -410,6 +421,66 @@ will not be modified."
 
 (use-package impatient-mode
  :custom ( httpd-host "0.0.0.0"))
+
+(use-package poetry
+  :ensure t
+  :hook
+  ;; activate poetry-tracking-mode when python-mode is active
+  (python-mode . poetry-tracking-mode)
+  (python-mode . (lambda () (when (poetry-venv-exist-p)
+                              (setq-local lsp-pyls-server-command '("poetry" "run" "pyls"))
+                              (poetry-venv-workon))))
+  )
+
+;; ....
+
+;; lsp-mode configs
+(use-package lsp-mode
+  :ensure t
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :custom
+  (lsp-auto-guess-root +1)
+  :config
+  (lsp-enable-imenu)
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (python-mode . lsp-deferred)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration)
+	 (lsp-after-open . 'lsp-enable-imenu)
+	 )
+  :commands (lsp lsp-deferred))
+
+;; ;; lsp Python
+;; (use-package lsp-python-ms
+;;   :after poetry
+;;   :ensure t
+;;   :init
+;;   (setq lsp-python-ms-auto-install-server t)
+;;   :config
+;;   (put 'lsp-python-ms-python-executable 'safe-local-variable 'stringp)
+;; 		    ;; attempt to activate Poetry env first
+;; 		    (when (stringp (poetry-find-project-root))
+;; 		      (poetry-venv-workon)
+;; 		      )
+;;   :hook
+;;   (
+;;    (python-mode . (lambda ()
+;;                     (require 'lsp-python-ms)
+;;                     (lsp-deferred)
+;; 		    ))
+;;    ;; if .dir-locals exists, read it first, then activate mspyls
+;;    (hack-local-variables . (lambda ()
+;; 			     (when (derived-mode-p 'python-mode)
+;; 			       (require 'lsp-python-ms)
+;; 			       (lsp-deferred))
+;; 			     ))
+;;    )
+;;   )
+
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 3 1024 1024)) ;; 3mb
 
 (use-package ace-window
   :config

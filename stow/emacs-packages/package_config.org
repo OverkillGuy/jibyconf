@@ -647,6 +647,19 @@ will not be modified."
 (setq org-cycle-separator-lines 0)
 #+END_SRC
 
+** Org links in programming modes
+:PROPERTIES:
+:CREATED:  [2020-09-28 Mon 14:53]
+:ID:       7EE40015-2099-4106-A8CC-B2229C6C324D
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package orglink
+  :init
+  (add-hook 'prog-mode #'orglink-mode)
+  (add-hook 'text-mode #'orglink-mode)
+  (add-hook 'eww-mode-hook #'orglink-mode))
+#+END_SRC
+
 * Autocomplete
 :PROPERTIES:
 :CREATED:  [2019-07-24 Wed 21:29]
@@ -903,6 +916,22 @@ orgit:/path/to/repo/           links to a magit-status buffer
 orgit-log:/path/to/repo/::REV  links to a magit-log buffer
 orgit-rev:/path/to/repo/::REV  links to a magit-revision buffer
 #+END_EXAMPLE
+** Github integration
+:PROPERTIES:
+:CREATED:  [2021-02-04 Thu 11:10]
+:ID:       A10E8957-9878-4D3E-AA3F-BCF04148B014
+:SOURCE:   https://github.com/magit/forge
+:END:
+Magit-forge package for integrating with forge systems like Github.
+
+#+begin_src emacs-lisp
+(use-package forge
+  :after magit)
+#+end_src
+
+Make sure to set the token's authentication file in =~/.authinfo=
+(supports GPG) and update the =~/.gitconfig= file with username.
+
 * Editing text
 :PROPERTIES:
 :CREATED:  [2020-06-07 Sun 16:18]
@@ -1057,6 +1086,15 @@ For those sweet, sweet Jenkinsfiles.
 #+BEGIN_SRC emacs-lisp
 (use-package csv-mode)
 #+END_SRC
+** Terraform
+:PROPERTIES:
+:CREATED:  [2020-11-02 Mon 16:55]
+:ID:       9FE763EB-7715-4E37-806D-F54BE47A9DB2
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package terraform-mode)
+#+END_SRC
 
 * REST Client
 Testing HTTP requests via =restclient-mode=
@@ -1100,6 +1138,190 @@ files to localhost. This is not why I use this mode: I want to show
 others something, hence need the HTTP server to be available over
 network, not just locally.
 
+* LSP mode
+:PROPERTIES:
+:CREATED:  [2021-02-12 Fri 10:10]
+:ID:       0A9AD793-80D1-4386-984A-4D2B95D9D41C
+:SOURCE:   https://vxlabs.com/2018/06/08/python-language-server-with-emacs-and-lsp-mode/
+:END:
+Use the Language Server Protocol technology to get IDE features in
+standardized way.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package lsp-mode
+  :ensure t
+  :config
+
+  ;; make sure we have lsp-imenu everywhere we have LSP
+  ;; (require 'lsp-imenu)
+  ;; (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)  
+  ;; get lsp-python-enable defined
+  ;; NB: use either projectile-project-root or ffip-get-project-root-directory
+  ;;     or any other function that can be used to find the root directory of a project
+  ;; (lsp-stdio-connection COMMAND &optional TEST-COMMAND)
+  ;; (lsp-define-stdio-client lsp-python "python"
+  ;;                          #'projectile-project-root
+  ;;                          '("pyls"))
+  (add-hook 'python-mode-hook 'lsp-mode)
+
+  ;; lsp extras
+  (use-package lsp-ui
+    :ensure t
+    :config
+    (setq lsp-ui-sideline-ignore-duplicate t)
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+  (use-package company-lsp
+    :config
+    (push 'company-lsp company-backends))
+
+  ;; NB: only required if you prefer flake8 instead of the default
+  ;; send pyls config via lsp-after-initialize-hook -- harmless for
+  ;; other servers due to pyls key, but would prefer only sending this
+  ;; when pyls gets initialised (:initialize function in
+  ;; lsp-define-stdio-client is invoked too early (before server
+  ;; start)) -- cpbotha
+  (defun lsp-set-cfg ()
+    (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
+      ;; TODO: check lsp--cur-workspace here to decide per server / project
+      (lsp--set-configuration lsp-cfg)))
+
+  (add-hook 'lsp-after-initialize-hook 'lsp-set-cfg))
+#+END_SRC
+
+Add some mild virtualenv wrapper from somewhere else to make it work?
+
+#+begin_src emacs-lisp :tangle no
+(use-package auto-virtualenvwrapper
+     :hook
+     (python-mode-hook . auto-virtualenv-set-virtualenv)
+     (projectile-after-switch-project-hook . auto-virtualenv-set-virtualenv))
+#+end_src
+
+** Poetry
+:PROPERTIES:
+:CREATED:  [2021-02-12 Fri 17:24]
+:ID:       5EC743CC-534A-4DDA-8E54-E115353512E5
+:END:
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package poetry)
+#+END_SRC
+
+See [[https://github.com/galaunay/poetry.el/issues/25][poetry.el issue #25]] for a look at LSP-mode and poetry (for venvs)
+
+#+BEGIN_SRC emacs-lisp
+(use-package poetry
+  :ensure t
+  :hook
+  ;; activate poetry-tracking-mode when python-mode is active
+  (python-mode . poetry-tracking-mode)
+  (python-mode . (lambda () (when (poetry-venv-exist-p)
+                              (setq-local lsp-pyls-server-command '("poetry" "run" "pyls"))
+                              (poetry-venv-workon))))
+  )
+
+;; ....
+
+;; lsp-mode configs
+(use-package lsp-mode
+  :ensure t
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :custom
+  (lsp-auto-guess-root +1)
+  :config
+  (lsp-enable-imenu)
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (python-mode . lsp-deferred)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration)
+	 (lsp-after-open . 'lsp-enable-imenu)
+	 )
+  :commands (lsp lsp-deferred))
+
+;; ;; lsp Python
+;; (use-package lsp-python-ms
+;;   :after poetry
+;;   :ensure t
+;;   :init
+;;   (setq lsp-python-ms-auto-install-server t)
+;;   :config
+;;   (put 'lsp-python-ms-python-executable 'safe-local-variable 'stringp)
+;; 		    ;; attempt to activate Poetry env first
+;; 		    (when (stringp (poetry-find-project-root))
+;; 		      (poetry-venv-workon)
+;; 		      )
+;;   :hook
+;;   (
+;;    (python-mode . (lambda ()
+;;                     (require 'lsp-python-ms)
+;;                     (lsp-deferred)
+;; 		    ))
+;;    ;; if .dir-locals exists, read it first, then activate mspyls
+;;    (hack-local-variables . (lambda ()
+;; 			     (when (derived-mode-p 'python-mode)
+;; 			       (require 'lsp-python-ms)
+;; 			       (lsp-deferred))
+;; 			     ))
+;;    )
+;;   )
+#+END_SRC
+Reintroduce the company backend
+#+BEGIN_SRC emacs-lisp :tangle no
+  ;; lsp extras
+  (use-package lsp-ui
+    :ensure t
+    :config
+    (setq lsp-ui-sideline-ignore-duplicate t)
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+  (use-package company-lsp
+    :config
+    (push 'company-lsp company-backends))
+#+END_SRC
+
+Start with M-x =lsp-mode= then M-x =lsp=.
+
+** Company-lsp deprecated
+:PROPERTIES:
+:CREATED:  [2021-02-15 Mon 16:25]
+:ID:       E777D504-2B4B-43BE-B4F9-8078599C26B1
+:END:
+Removed company-lsp as per [[https://github.com/tigersoldier/company-lsp/issues/145#issuecomment-680814055][this issue]], to use company-capf.
+Also remove lsp-ui which creates annoying popup.
+
+** Perf improvements
+:PROPERTIES:
+:CREATED:  [2021-02-15 Mon 17:19]
+:ID:       1EE2D193-F25F-44CA-AC3C-A44A6102BCAE
+:END:
+[[https://emacs-lsp.github.io/lsp-mode/page/performance/][lsp-mode docs]] report via M-x =lsp-doctor= that performance can be
+improved with a few settings tweak:
+
+Before:
+
+: Checking for Native JSON support: OK
+: Using company-capf: OK
+: Check emacs supports `read-process-output-max': OK
+: Check `read-process-output-max' default has been changed from 4k: ERROR
+: Byte compiled against Native JSON (recompile lsp-mode if failing when Native JSON available): OK
+: `gc-cons-threshold' increased?: ERROR
+: Using gccemacs with emacs lisp native compilation (https://akrl.sdf.org/gccemacs.html): NOT AVAILABLE (OPTIONAL)
+
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 3 1024 1024)) ;; 3mb
+#+END_SRC
+
+: Checking for Native JSON support: OK
+: Using company-capf: OK
+: Check emacs supports `read-process-output-max': OK
+: Check `read-process-output-max' default has been changed from 4k: OK
+: Byte compiled against Native JSON (recompile lsp-mode if failing when Native JSON available): OK
+: `gc-cons-threshold' increased?: OK
+: Using gccemacs with emacs lisp native compilation (https://akrl.sdf.org/gccemacs.html): NOT AVAILABLE (OPTIONAL)
+: 
 * Navigation                                           :usability:keybinding:
 ** Window movement
 Switching emacs windows with ~C-x o~ works with two windows, but with
