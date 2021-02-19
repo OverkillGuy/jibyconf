@@ -259,7 +259,7 @@ lines of gherkin scattered in a program.
 (defun show-gherkin ()
   "Show the gherkin features of this buffer in a separate window"
   (interactive)
-  (occur "// \\(given\\|when\\|then\\|and\\|but\\|scenario\\|background\\|feature\\)"))
+  (occur "\\(Given\\|When\\|Then\\|And\\|But\\|Scenario\\|Background\\|Feature\\)"))
 #+END_SRC
 
 * Editing
