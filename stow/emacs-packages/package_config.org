@@ -1095,6 +1095,27 @@ For those sweet, sweet Jenkinsfiles.
 #+BEGIN_SRC emacs-lisp
 (use-package terraform-mode)
 #+END_SRC
+** Rust
+:PROPERTIES:
+:CREATED:  [2021-02-19 Fri 18:34]
+:ID:       dfe5a6a7-0903-4562-8d07-cbf83d81a433
+:SOURCE:   https://github.com/rust-lang/rust-mode
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package rust-mode
+  :custom (rust-format-on-save t)
+  :hook (rust-mode-hook . (lambda () (setq indent-tabs-mode nil))))
+#+END_SRC
+*** Cargo mode
+:PROPERTIES:
+:CREATED:  [2021-02-20 Sat 18:26]
+:ID:       9ed1c281-0c1d-4ee6-9e09-5ba77a7ea7e3
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package cargo
+  :hook (rust-mode-hook . cargo-minor-mode))
+#+END_SRC
 
 * REST Client
 Testing HTTP requests via =restclient-mode=
@@ -1234,6 +1255,7 @@ See [[https://github.com/galaunay/poetry.el/issues/25][poetry.el issue #25]] for
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (python-mode . lsp-deferred)
+         (rust-mode . lsp-deferred)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration)
 	 (lsp-after-open . 'lsp-enable-imenu)
@@ -1322,6 +1344,16 @@ Before:
 : `gc-cons-threshold' increased?: OK
 : Using gccemacs with emacs lisp native compilation (https://akrl.sdf.org/gccemacs.html): NOT AVAILABLE (OPTIONAL)
 : 
+
+** Rust support
+:PROPERTIES:
+:CREATED:  [2021-02-19 Fri 18:38]
+:ID:       f8586e89-8484-413d-92ae-c228b355cad9
+:END:
+Install RLS, rust language server
+#+begin_src shell :tangle no
+rustup component add rls rust-analysis rust-src
+#+end_src
 * Navigation                                           :usability:keybinding:
 ** Window movement
 Switching emacs windows with ~C-x o~ works with two windows, but with

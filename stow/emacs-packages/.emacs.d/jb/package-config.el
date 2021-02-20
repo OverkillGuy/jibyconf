@@ -406,6 +406,13 @@ will not be modified."
 
 (use-package terraform-mode)
 
+(use-package rust-mode
+  :custom (rust-format-on-save t)
+  :hook (rust-mode-hook . (lambda () (setq indent-tabs-mode nil))))
+
+(use-package cargo
+  :hook (rust-mode-hook . cargo-minor-mode))
+
 (use-package restclient
   :config
   ;; Use json-mode instead of default js-mode
@@ -446,6 +453,7 @@ will not be modified."
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (python-mode . lsp-deferred)
+         (rust-mode . lsp-deferred)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration)
 	 (lsp-after-open . 'lsp-enable-imenu)
