@@ -262,6 +262,12 @@ lines of gherkin scattered in a program.
   (occur "\\(Given\\|When\\|Then\\|And\\|But\\|Scenario\\|Background\\|Feature\\)"))
 #+END_SRC
 
+Filter this buffer to get only the content without comments:
+
+#+begin_src shell :tangle no
+sed -E 's/^.*(Given|When|Then|And|But|Scenario|Background|Feature)/\1/'
+#+end_src
+
 * Editing
 Enhancements to my text-editing workflow
 ** Unfill
