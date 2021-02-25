@@ -146,6 +146,7 @@
  '((python . t)
    (plantuml . t)
    (ditaa . t)
+   (rust . t)
    (dot . t)
    (C . t)
    (shell . t)
@@ -420,6 +421,8 @@ will not be modified."
 
 (use-package cargo
   :hook (rust-mode-hook . cargo-minor-mode))
+
+(use-package ob-rust)
 
 (use-package restclient
   :config

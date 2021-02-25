@@ -378,6 +378,7 @@ Load all my common languages
  '((python . t)
    (plantuml . t)
    (ditaa . t)
+   (rust . t)
    (dot . t)
    (C . t)
    (shell . t)
@@ -1138,7 +1139,22 @@ For those sweet, sweet Jenkinsfiles.
 (use-package cargo
   :hook (rust-mode-hook . cargo-minor-mode))
 #+END_SRC
+*** Support in org-mode
+:PROPERTIES:
+:CREATED:  [2021-02-25 Thu 01:40]
+:ID:       5f57e488-2d85-4b4d-b3bb-add930ea79d7
+:END:
+#+BEGIN_SRC emacs-lisp
+(use-package ob-rust)
+#+END_SRC
 
+Requires [[https://rust-script.org/][rust-script]].
+
+#+begin_src shell :tangle no
+cargo install rust-script
+#+end_src
+
+Now =rust= is part of =org-babel-load-languages=.
 * REST Client
 Testing HTTP requests via =restclient-mode=
 
