@@ -174,6 +174,14 @@
          (file "~/org/notes.org")
         "* %? [[%:link][%:description]] \nCaptured On: %U")))
 
+(defun jb/open-devlog ()
+  (interactive)
+  (find-file "~/dev/notes/devlog.org")
+  (end-of-buffer))
+
+(global-set-key (kbd "<f8>") 'jb/open-devlog)
+(global-set-key (kbd "S-<f8>") 'org-capture)
+
 (setq org-cycle-separator-lines 1)
 
 (setq org-export-with-section-numbers nil)

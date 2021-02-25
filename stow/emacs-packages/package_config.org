@@ -420,6 +420,28 @@ Load all my common languages
         "* %? [[%:link][%:description]] \nCaptured On: %U")))
 #+END_SRC
 
+** F8 for devlog
+:PROPERTIES:
+:CREATED:  [2021-02-25 Thu 01:38]
+:ID:       37aafa64-4b1e-4a80-8829-9206ae407634
+:END:
+
+=F8= to jump to the bottom of a developer log file, =Shift-F8= to get the
+capture templates
+
+#+BEGIN_SRC emacs-lisp
+(defun jb/open-devlog ()
+  (interactive)
+  (find-file "~/dev/notes/devlog.org")
+  (end-of-buffer))
+
+(global-set-key (kbd "<f8>") 'jb/open-devlog)
+(global-set-key (kbd "S-<f8>") 'org-capture)
+#+END_SRC
+
+
+
+
 ** Org separator lines
 Only one line between an entry and the next.
 #+BEGIN_SRC emacs-lisp
