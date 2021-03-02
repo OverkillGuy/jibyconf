@@ -164,7 +164,7 @@ compose emails though (use any supported SMTP client)
 #+BEGIN_SRC emacs-lisp
 (use-package mu4e
   :if (executable-find "mu")
-  :load-path "~/.emacs.d/lisp/mu4e/"
+  :load-path "~/.emacs.d/mu4e/"
   :bind ("C-M-4" . mu4e)
   :config
   ;; use imagemagick, if available
@@ -193,6 +193,16 @@ compose emails though (use any supported SMTP client)
   (mu4e-view-show-addresses t)
   (mail-user-agent 'mu4e-user-agent))
 #+END_SRC
+
+Ensure this folder exists via
+
+#+begin_src shell :tangle no
+mkdir -p ~/.emacs.d/jb/
+ln -s /usr/share/emacs/site-lisp/mu4e ~/.emacs.d/jb/mu4e
+#+end_src
+
+That is, assuming that the =mu4e= library exists via package at that
+position. On Debian, that is =maildir-utils= pkg.
 
 *** Email attachments
 

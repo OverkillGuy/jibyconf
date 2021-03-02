@@ -27,7 +27,7 @@
 
 (use-package mu4e
   :if (executable-find "mu")
-  :load-path "~/.emacs.d/lisp/mu4e/"
+  :load-path "~/.emacs.d/jb/mu4e/"
   :bind ("C-M-4" . mu4e)
   :config
   ;; use imagemagick, if available
