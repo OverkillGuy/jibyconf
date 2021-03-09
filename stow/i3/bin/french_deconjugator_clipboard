@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+
+VERB=$(xclip -o)
+
+CONJUGATION=$(echo $VERB | french-deconjugator)
+
+# # Take clipboard content (assumed French verb), prints deconjugation
+# # in notification
+notify-send -u low "$VERB" -- "$CONJUGATION"
+
+
