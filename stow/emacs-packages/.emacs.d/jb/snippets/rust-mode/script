@@ -1,0 +1,44 @@
+# -*- mode: snippet -*-
+#key : #!
+#name : Rust-script
+# --
+#!/usr/bin/env rust-script
+//! A sample script in rust with CSV cargo dependency
+//! From https://docs.rs/csv/1.1.6/csv/#example-with-serde
+//!
+//! \`\`\`cargo
+//! [dependencies]
+//! csv = "1.1"
+//! serde = { version = "1", features = ["derive"] }
+//! \`\`\`
+use std::error::Error;
+use std::io;
+use std::process;
+
+use serde::Deserialize;
+
+#[derive(Debug, Deserialize)]
+struct Record {
+    city: String,
+    region: String,
+    country: String,
+    population: Option<u64>,
+}
+
+fn example() -> Result<(), Box<dyn Error>> {
+    let mut rdr = csv::Reader::from_reader(io::stdin());
+    for result in rdr.deserialize() {
+        // Notice that we need to provide a type hint for automatic
+        // deserialization.
+        let record: Record = result?;
+        println!("{:?}", record);
+    }
+    Ok(())
+}
+
+fn main() {
+    if let Err(err) = example() {
+        println!("error running example: {}", err);
+        process::exit(1);
+    }
+}
