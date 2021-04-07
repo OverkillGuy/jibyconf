@@ -165,7 +165,7 @@
   :init (edit-server-start)
   :custom
   (edit-server-url-major-mode-alist
-        '(("github\\.com" . markdown-mode))
-  (edit-server-new-frame nil)))
+        '(("github\\.com" . markdown-mode)))
+  (edit-server-new-frame nil))
 
 (require 'org-protocol)

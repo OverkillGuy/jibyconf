@@ -554,8 +554,8 @@ For Firefox text-editing support, using [[https://addons.mozilla.org/en-US/firef
   :init (edit-server-start)
   :custom
   (edit-server-url-major-mode-alist
-        '(("github\\.com" . markdown-mode))
-  (edit-server-new-frame nil)))
+        '(("github\\.com" . markdown-mode)))
+  (edit-server-new-frame nil))
 #+END_SRC
 
 ** Org-capture
