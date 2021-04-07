@@ -54,3 +54,5 @@ ansible-server: up
 list-tags:
 	ansible-playbook playbook/main.yml --list-tasks
 
+lint:
+	pre-commit run --all --all-files
