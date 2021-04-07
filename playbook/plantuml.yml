@@ -23,8 +23,8 @@
       plantuml:
         # Latest available via:
         # https://sourceforge.net/projects/plantuml/files/latest/download
-        version: 1.2020.8
-        checksum: sha256:3c30deb313f3027e31746336de7789047a2eb8acef7f4032640db01646437b76
+        version: 1.2021.4
+        checksum: sha256:5caa2a5399ccbf9d189b81cc1f4f047c3daf6e58a98771e8146a043687ad702d
     get_url:
       dest: /opt/plantuml/jar/plantuml.jar
       force: no
