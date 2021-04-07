@@ -30,6 +30,10 @@ Vagrant.configure("2") do |config|
     #  SHELL
     # end
   end
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 8192 # 8GB, 4 CPUs instead of default 500MB
+    v.cpus = 4
+  end
 
   # A server on which to run the docker stuff
   config.vm.define "server" do |server|
