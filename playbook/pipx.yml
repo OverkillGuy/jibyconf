@@ -23,6 +23,12 @@
         cmd: |
           {{home}}/.local/bin/pipx install sphinx
           {{home}}/.local/bin/pipx inject sphinx sphinxcontrib-needs
+    - name: Ensure pre-commit installed via pipx
+      tags: dev
+      shell:
+        creates: "{{home}}/.local/bin/pre-commit"
+        cmd: |
+          {{home}}/.local/bin/pipx install pre-commit
     # # pipx install blocked by pipx issue 402:
     # # https://github.com/pipxproject/pipx/issues/402
     # - name: Ensure borgbackup dependencies are installed
