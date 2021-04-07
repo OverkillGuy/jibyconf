@@ -8,3 +8,6 @@ data/*.bundle
 playbook/roles/
 
 playbook_logs/
+
+# Ansible role cache
+.cache/
