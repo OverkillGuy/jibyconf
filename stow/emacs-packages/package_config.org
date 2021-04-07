@@ -40,12 +40,12 @@ yet.
 :CREATED:  [2020-06-01 Mon 23:48]
 :ID:       1a412e4a-467d-4258-a08f-871821a1f540
 :END:
-Define the sources of packages for Emacs and their priority. 
+Define the sources of packages for Emacs and their priority.
 
 GNU (ELPA) is the only available source by default it's got fairly
 obsolete package and a small pool of selection.
 MELPA is the cool repo source nowadays, with all the packages you can
-think of, at bleeding edge versions. 
+think of, at bleeding edge versions.
 Org mode's ELPA provides nightlies of org mode, and a nice bundle
 called org-plus-contrib. It's very focused, and comes first.
 #+BEGIN_SRC emacs-lisp
@@ -1213,7 +1213,7 @@ standardized way.
 
   ;; make sure we have lsp-imenu everywhere we have LSP
   ;; (require 'lsp-imenu)
-  ;; (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)  
+  ;; (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
   ;; get lsp-python-enable defined
   ;; NB: use either projectile-project-root or ffip-get-project-root-directory
   ;;     or any other function that can be used to find the root directory of a project
@@ -1381,7 +1381,7 @@ Before:
 : Byte compiled against Native JSON (recompile lsp-mode if failing when Native JSON available): OK
 : `gc-cons-threshold' increased?: OK
 : Using gccemacs with emacs lisp native compilation (https://akrl.sdf.org/gccemacs.html): NOT AVAILABLE (OPTIONAL)
-: 
+:
 
 ** Rust support
 :PROPERTIES:
@@ -1908,4 +1908,3 @@ for vlf-mode when file is too big.
 Know also of the classic command =find-file-literally=, which opens a
 file without syntax highlighting and such, good for files with long
 lines and similar.
-

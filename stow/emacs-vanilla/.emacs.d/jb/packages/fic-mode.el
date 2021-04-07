@@ -63,11 +63,11 @@
       (while (and (null match-data-to-set)
 		  (re-search-forward fic-search-list-re limit t))
 	(if (and (fic-in-doc/comment-region (match-beginning 0))
-		 (fic-in-doc/comment-region (match-end 0))) 
+		 (fic-in-doc/comment-region (match-end 0)))
 	    (setq match-data-to-set (match-data)))))
     (when match-data-to-set
       (set-match-data match-data-to-set)
-      (goto-char (match-end 0)) 
+      (goto-char (match-end 0))
       t)))
 
 ;;;###autoload

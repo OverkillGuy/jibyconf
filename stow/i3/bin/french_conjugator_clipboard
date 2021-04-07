@@ -9,5 +9,3 @@ CONJUGATION=$(echo $VERB | french-conjugator)
 
 # # Take clipboard content (assumed French verb), prints conjugation in notification
 notify-send -u low "$VERB" -- "$CONJUGATION"
-
-

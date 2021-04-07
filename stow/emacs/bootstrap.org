@@ -177,4 +177,3 @@ to bootstrap the config process, loading the tangled config, at emacs boot.
 (cd "~/.emacs.d/jb/")
 (load-file "bootstrap.el")
 #+END_SRC
-

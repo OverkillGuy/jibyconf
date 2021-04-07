@@ -13,4 +13,3 @@
       apt:
         pkg: caddy
         state: present
-

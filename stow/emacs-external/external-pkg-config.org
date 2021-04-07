@@ -307,7 +307,7 @@ Missing only a systemd service to run it.
 :PROPERTIES:
 :SOURCE:   https://github.com/asoroa/ical2org.py
 :END:
-Using =ical2org-py= to convert the file to org mode. 
+Using =ical2org-py= to convert the file to org mode.
 Binding [[info:mu4e#Attachment%20actions][mu4e Attachment actions]] to define a key for it.
 Install via pipsi in github repo. It's easiest.
 
@@ -762,7 +762,7 @@ ExecStart=/usr/bin/borgmatic --config /home/jiby/.config/borgmatic/config.yaml
 Move that file to a systemd user folder and load it to prime it.
 #+begin_src shell :tangle no
 mv borgmatic.service .config/systemd/user/
-systemctl --user load borgmatic.service 
+systemctl --user load borgmatic.service
 #+end_src
 
 Running the oneshot service

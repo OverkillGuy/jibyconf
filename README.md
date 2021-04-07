@@ -41,10 +41,10 @@ Check on the machines status:
 This will reveal the two machines available
 
 	Current machine states:
-	
+
 	dev                       running (virtualbox)
 	server                    not created (virtualbox)
-	
+
 	This environment represents multiple VMs. The VMs are all listed
 	above with their current state. For more information about a specific
 	VM, run `vagrant status NAME`.
@@ -80,7 +80,7 @@ following command:
 	vagrant provision
 	# aliased to
 	make provision
-	
+
 Remember that the current folder is shared over to the machine in
 `/vagrant`, and is synchronised with:
 
@@ -104,7 +104,7 @@ via SSH after the barebones vagrant provisioning:
 
 ### Customizing image via Tags
 
-To make the playbook flexible enough to work on many systems, 
+To make the playbook flexible enough to work on many systems,
 this playbook defines [Ansible Tags](https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html)
 for all its sub-targets, with the purpose of customizing the environment.
 By default, all tags are used, but some likely are worth skipping for
@@ -138,7 +138,7 @@ Sample output:
 ## Via GNU Stow
 
 Configuration files ("dotfiles") of this setup are managed using [GNU Stow](https://www.gnu.org/software/stow/),
-which deploys "packages" using symlinks. 
+which deploys "packages" using symlinks.
 
 Using Stow makes it easy to keep one centralized repository of all
 config files in version control, while deploying them far away in the
