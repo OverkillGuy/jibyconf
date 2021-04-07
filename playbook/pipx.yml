@@ -3,10 +3,13 @@
   hosts: dev
   tags: pipx
   tasks:
-    - name: Ensure pipx is installed
-      become: yes
+    - name: Install pipx dependencies
+      become: True
       apt:
-        pkg: pipx
+        pkg: python3-venv
+    - name: Ensure pipx is installed
+      pip:
+        name: pipx
     - name: Ensure pipx is in $PATH
       blockinfile:
         path: "{{home}}/.bashrc"
@@ -18,8 +21,8 @@
       shell:
         creates: "{{home}}/.local/bin/sphinx-build"
         cmd: |
-          pipx install sphinx
-          pipx inject sphinx sphinxcontrib-needs
+          {{home}}/.local/bin/pipx install sphinx
+          {{home}}/.local/bin/pipx inject sphinx sphinxcontrib-needs
     # # pipx install blocked by pipx issue 402:
     # # https://github.com/pipxproject/pipx/issues/402
     # - name: Ensure borgbackup dependencies are installed
