@@ -58,6 +58,7 @@ bindsym Ctrl+F12 exec --no-startup-id /usr/share/doc/pass/examples/dmenu/passmen
 bindsym Ctrl+Shift+F12 exec --no-startup-id /usr/share/doc/pass/examples/dmenu/passmenu --type
 
 # Verbiste-based conjugation info
+bindsym F6 exec --no-startup-id /home/jiby/bin/qrcode_clipboard
 bindsym Ctrl+F6 exec --no-startup-id /home/jiby/bin/french_conjugator_clipboard
 bindsym Ctrl+Shift+F6 exec --no-startup-id /home/jiby/bin/french_deconjugator_clipboard
 

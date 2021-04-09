@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Outputs the content of clipboard as QR code in a pop-up system notification
+
+
+CLIPBOARD_CONTENT=$(xclip -o)
+
+# QRcode written as UTF8 characters, "i" = inverse text (encode only
+# bits not blank)
+QRCODE=$(echo $CLIPBOARD_CONTENT | qrencode -t UTF8i)
+
+notify-send -u low "Clipboard as QR code" -- "Encoded content:\n$CLIPBOARD_CONTENT\n\n$QRCODE"
