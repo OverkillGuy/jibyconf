@@ -80,6 +80,7 @@
       service:
         name: guix-daemon
         state: started
+        enabled: True
 
     # - name: Symlink guix executable
     #   file:
@@ -91,22 +92,30 @@
       become: True
       shell: /var/guix/profiles/per-user/root/current-guix/bin/guix archive --authorize < /var/guix/profiles/per-user/root/current-guix/share/guix/berlin.guix.gnu.org.pub
       changed_when: False
-    # - name: Download guix locale
-    #   shell:
-    #     cmd: "{{home}}/bin/guix install glibc-utf8-locales"
-    #     executable: /bin/bash
-    - name: Ensure ~/.bashrc uses guix glibc locale
-      blockinfile:
-        path: "{{home}}/.bashrc"
-        marker: "# {mark} ANSIBLE MANAGED BLOCK: guix"
-        block: |
-          export GUIX_PROFILE=$HOME/.guix-profile
-          export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
-          source "$HOME/.guix-profile/etc/profile"
     - name: Deploy the guix config via stow
       shell:
         creates: "{{home}}/.config/guix/channels.scm"
         cmd: "stow --dir ~/dev/conf/jibyconf/stow --target {{home}}/ guix"
+    - name: Update guix packages
+      shell:
+        cmd: /var/guix/profiles/per-user/root/current-guix/bin/guix pull
+        creates: "{{home}}/.config/guix/current/"
+        executable: /bin/bash
+    - name: Ensure ~/.bashrc uses guix glibc locale
+      blockinfile:
+        path: "{{home}}/.bash_profile"
+        create: true
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: guix profile"
+        block: |
+          export GUIX_PROFILE=$HOME/.guix-profile
+          export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
+          export PATH=$HOME/.config/guix/current/bin:$PATH
+          source $HOME/.config/guix/current/etc/profile
+    - name: Download guix locale
+      shell:
+        creates: "{{home}}/.guix-profile/lib/locale"
+        cmd: "{{home}}/.config/guix/current/bin/guix install glibc-utf8-locales"
+        executable: /bin/bash
     # - name: Update guix packages
     #   shell:
     #     cmd: "{{home}}/bin/guix pull && {{home}}/bin/guix package -u"
