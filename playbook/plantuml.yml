@@ -1,7 +1,7 @@
 ---
 - name: Install PlantUML in /opt/plantuml
   hosts: dev
-  tags: [dev, doc, x11, plantuml]
+  tags: [dev, doc, plantuml]
   tasks:
   - name: Install plantuml deps
     become: true
