@@ -8,9 +8,9 @@
       - path: ~/.password-store
         refs: -b master
       - path: ~/dev/ws/jiby.tech
-      - path: ~/dev/ws/gen_jiby.tech
+      - path: ~/dev/ws/jiby.tech_gen
         refs: -b master
-      # - path: ~/dev/conf/debian-workspace-playbook
+      - path: ~/dev/ws/qrxfil
   tasks:
     - name: Package repo bundle to data/ on host
       loop: "{{ git_repos }}"
