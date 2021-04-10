@@ -46,3 +46,8 @@
       shell:
         cmd: "stow --dir ~/dev/conf/jibyconf/stow --target {{home}}/ git"
         creates: "{{home}}/.gitconfig"
+    - name: Ensure useful folders exist
+      file:
+        path: "{{home}}/org/"
+        state: directory
+
