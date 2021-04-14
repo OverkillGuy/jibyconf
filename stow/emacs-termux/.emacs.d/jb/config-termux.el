@@ -1,13 +1,13 @@
-  (advice-add 'browse-url-default-browser :override
-              (lambda (url &rest args)
-                (start-process-shell-command "open-url" nil (concat "termux-open-url " url))))
+(advice-add 'browse-url-default-browser :override
+            (lambda (url &rest args)
+              (start-process-shell-command "open-url" nil (concat "termux-open-url " url))))
 
-  ; Colors when hunk is selected
-  (set-face-attribute 'magit-diff-added-highlight nil  :background "color-28")
-  (set-face-attribute 'magit-diff-removed-highlight nil  :background "color-88")
-  ; Colors when hunk is not selected
-  (set-face-attribute 'magit-diff-added nil  :background "color-71")
-  (set-face-attribute 'magit-diff-removed nil  :background "color-124")
+; Colors when hunk is selected
+(set-face-attribute 'magit-diff-added-highlight nil  :background "color-28")
+(set-face-attribute 'magit-diff-removed-highlight nil  :background "color-88")
+; Colors when hunk is not selected
+(set-face-attribute 'magit-diff-added nil  :background "color-71")
+(set-face-attribute 'magit-diff-removed nil  :background "color-124")
 
 (require 'woman)
 (add-to-list 'woman-manpath "/data/data/com.termux/files/usr/share/man")

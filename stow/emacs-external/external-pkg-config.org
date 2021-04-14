@@ -164,7 +164,7 @@ compose emails though (use any supported SMTP client)
 #+BEGIN_SRC emacs-lisp
 (use-package mu4e
   :if (executable-find "mu")
-  :load-path "~/.emacs.d/mu4e/"
+  :load-path "~/.emacs.d/jb/mu4e/"
   :bind ("C-M-4" . mu4e)
   :config
   ;; use imagemagick, if available
