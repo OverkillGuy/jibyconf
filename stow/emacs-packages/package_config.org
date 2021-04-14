@@ -1343,6 +1343,20 @@ Reintroduce the company backend
 
 Start with M-x =lsp-mode= then M-x =lsp=.
 
+** Python LSP
+:PROPERTIES:
+:CREATED:  [2021-04-14 Wed 22:38]
+:ID:       a6ab8feb-28fb-476e-aa0c-d05e3f1e5d11
+:END:
+
+Select explicitly the Python LSP framework from Microsoft, out of the
+three that are usable right now, because it's easy to install
+automatically when running =M-x lsp= for the first time.
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-python-ms
+  :custom (lsp-python-ms-auto-install-server t))
+#+END_SRC
+
 ** Company-lsp deprecated
 :PROPERTIES:
 :CREATED:  [2021-02-15 Mon 16:25]
