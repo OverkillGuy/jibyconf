@@ -33,6 +33,15 @@ nessyxpic () {
 	| xargs -I% scp nessyx:% .
 }
 
+# Extracts gherkin from file, printing finename/line number.
+# show-gherkin tests/*.py
+# Specify only one file to show only line number
+show-gherkin () {
+    egrep -osn '^.*(Given|When|Then|And|But|Scenario|Background|Feature)(.*)' $@ \
+	| sed -E 's/^(.*):.*(Given|When|Then|And|But|Scenario|Background|Feature)/\1: \2/' \
+	| sed 's/"""//'
+}
+
 # Format dates as per RFC 3339
 alias rfcdate="date --rfc-3339 seconds | sed -e 's/ /T/' -e 's/\+00:00/Z/'"
 # Format date as per ISO 8601
