@@ -259,14 +259,11 @@ lines of gherkin scattered in a program.
 (defun show-gherkin ()
   "Show the gherkin features of this buffer in a separate window"
   (interactive)
-  (occur "\\(Given\\|When\\|Then\\|And\\|But\\|Scenario\\|Background\\|Feature\\)"))
+  (occur "\\(Given\\|When\\|Then\\|And\\|But\\|Scenario\\|Background\\|Feature\\|In order to\\|As a\\|I want to\\|I need to\\|So that\\)"))
 #+END_SRC
 
-Filter this buffer to get only the content without comments:
+See the =show-gherkin= bash alias in =jb_profile.sh= for a grep-based shell version.
 
-#+begin_src shell :tangle no
-sed -E 's/^.*(Given|When|Then|And|But|Scenario|Background|Feature)/\1/'
-#+end_src
 
 * Editing
 Enhancements to my text-editing workflow

@@ -37,8 +37,8 @@ nessyxpic () {
 # show-gherkin tests/*.py
 # Specify only one file to show only line number
 show-gherkin () {
-    egrep -osn '^.*(Given|When|Then|And|But|Scenario|Background|Feature)(.*)' $@ \
-	| sed -E 's/^(.*):.*(Given|When|Then|And|But|Scenario|Background|Feature)/\1: \2/' \
+    egrep -osn '^.*(Given|When|Then|And|But|Scenario|Background|Feature|In order to|As a|I want to|I need to|So that)(.*)' $@ \
+	| sed -E 's/^(.*):.*(Given|When|Then|And|But|Scenario|Background|Feature|In order to|As a|I want to|I need to|So that)/\1: \2/' \
 	| sed 's/"""//'
 }
 
