@@ -20,3 +20,10 @@ repos:
 #     hooks:
 #     -   id: shellcheck
 #         args: [ "-f", "gcc"]
+-   repo: local
+    hooks:
+    -   id: emacs-tangle
+        name: Emacs tangle org-mode files (ensures synced)
+        entry: emacs -Q --batch --eval "(progn (require 'ob-tangle) (dolist (file command-line-args-left) (with-current-buffer (find-file-noselect file) (org-babel-tangle))))"
+        language: system
+        files: stow/.*/.*\.org
