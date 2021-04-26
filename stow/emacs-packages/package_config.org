@@ -1535,8 +1535,30 @@ bugging me.
 #+BEGIN_SRC emacs-lisp
 (use-package tramp
   :ensure t
-  :custom (tramp-default-method "ssh"))
+  :custom (tramp-default-method "ssh")
+  :config
+  ; Fix TRAMP to GuixSD machines where ls/gzip/etc isn't in default PATH
+  (add-to-list 'tramp-remote-path "/run/current-system/profile/bin")
+  ; Fix TRAMP to Termux too
+  (add-to-list 'tramp-remote-path "/data/data/com.termux/files/usr/bin"))
 #+END_SRC
+
+The =tramp-remote-path= fixes "could not find proper 'ls' command"
+
+Thanks to the [[https://www.emacswiki.org/emacs/TrampMode#h5o-33][Emacs Wiki]] for describing the variable to tweak.
+
+Alernatively in GuixSD one can do in bash:
+
+#+begin_src shell :tangle no
+sudo ln -s  $(which ls) /bin/ls
+sudo ln -s $(which uname) /bin/uname
+sudo ln -s $(which base64) /bin/base64
+sudo ln -s $(which sudo) /bin/sudo
+sudo ln -s $(which gzip) /bin/gzip
+#+end_src
+
+But since this isn't possible on Termux (=/bin= is protected in
+non-rooted phones), it's better to teach TRAMP to reach properly.
 
 ** Docker file access
 :PROPERTIES:

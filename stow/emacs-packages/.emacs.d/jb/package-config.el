@@ -553,7 +553,12 @@ will not be modified."
 
 (use-package tramp
   :ensure t
-  :custom (tramp-default-method "ssh"))
+  :custom (tramp-default-method "ssh")
+  :config
+  ; Fix TRAMP to GuixSD machines where ls/gzip/etc isn't in default PATH
+  (add-to-list 'tramp-remote-path "/run/current-system/profile/bin")
+  ; Fix TRAMP to Termux too
+  (add-to-list 'tramp-remote-path "/data/data/com.termux/files/usr/bin"))
 
 (use-package docker-tramp
   :after tramp)
