@@ -86,7 +86,7 @@
   :config (projectile-mode 1))
 
 (use-package helm
-  :diminish 'helm-mode
+  :diminish helm-mode
   :config
   (helm-mode 1)
   (global-set-key (kbd "C-x b") 'helm-mini))
@@ -273,7 +273,7 @@ will not be modified."
   (add-hook 'eww-mode-hook #'orglink-mode))
 
 (use-package company
-  :diminish 'company-mode
+  :diminish company-mode
   :config (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package company-quickhelp
@@ -337,7 +337,7 @@ will not be modified."
 (use-package git-gutter
   :config (global-git-gutter-mode +1)
   :demand t  ;; no lazy-loading allowed I need that one!
-  :diminish 'git-gutter-mode
+  :diminish git-gutter-mode
   :bind
   ("C-x v s" .  git-gutter:stage-hunk)
   ("M-n" .  git-gutter:next-hunk)
@@ -363,6 +363,7 @@ will not be modified."
   :after magit)
 
 (use-package artbollocks-mode
+  :diminish
   :hook text-mode)
 
 (use-package writegood-mode)
@@ -570,7 +571,7 @@ will not be modified."
 
 (use-package undo-tree
   :config (global-undo-tree-mode)
-  :diminish 'undo-tree-mode)
+  :diminish undo-tree-mode)
 
 (use-package multi-term
   :config

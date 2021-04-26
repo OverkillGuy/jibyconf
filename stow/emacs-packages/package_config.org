@@ -232,7 +232,7 @@ prefix for a bunch of cool tools.
 
 #+BEGIN_SRC emacs-lisp
 (use-package helm
-  :diminish 'helm-mode
+  :diminish helm-mode
   :config
   (helm-mode 1)
   (global-set-key (kbd "C-x b") 'helm-mini))
@@ -692,7 +692,7 @@ will not be modified."
 
 #+BEGIN_SRC emacs-lisp
 (use-package company
-  :diminish 'company-mode
+  :diminish company-mode
   :config (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
@@ -890,7 +890,7 @@ hunks directly from there.
 (use-package git-gutter
   :config (global-git-gutter-mode +1)
   :demand t  ;; no lazy-loading allowed I need that one!
-  :diminish 'git-gutter-mode
+  :diminish git-gutter-mode
   :bind
   ("C-x v s" .  git-gutter:stage-hunk)
   ("M-n" .  git-gutter:next-hunk)
@@ -971,6 +971,7 @@ Sacha Chua wrote a nice little mode to avoid repetitive text
 Repetitive text being super bad repetitive words are super repetitive.
 #+BEGIN_SRC emacs-lisp
 (use-package artbollocks-mode
+  :diminish
   :hook text-mode)
 #+END_SRC
 
@@ -1587,7 +1588,7 @@ modification).
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree
   :config (global-undo-tree-mode)
-  :diminish 'undo-tree-mode)
+  :diminish undo-tree-mode)
 #+END_SRC
 
 Use ~C-x u~ to open the undo-tree view, optionally ~d~ to view the
