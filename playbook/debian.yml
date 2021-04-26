@@ -1,0 +1,32 @@
+---
+- name: Configure debian for ZFS
+  hosts: all
+  tasks:
+  - name: Ensure all apt sources configured
+    become: True
+    apt_repository:
+      repo: "{{ item }}"
+      state: present
+    loop:
+      - "deb http://deb.debian.org/debian testing main"
+      - "deb http://deb.debian.org/debian testing contrib"
+      - "deb http://deb.debian.org/debian testing non-free"
+  - name: Update OS packages (for ZFS)
+    become: True
+    apt:
+      upgrade: dist
+
+  - name: Check the kernel version for ZFS
+    shell:
+      cmd: uname -r
+    changed_when: False  # Simple check, no change to system
+    register: kernel_version
+  - name: Install ZFS
+    become: True
+    apt:
+      pkg: "{{ item}}"
+      update_cache: True
+    loop:
+      - "zfs-dkms"
+      - "linux-headers-{{ kernel_version.stdout }}"
+      - "zfsutils-linux"
