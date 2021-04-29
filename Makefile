@@ -2,6 +2,9 @@ SKIP_TAGS=slow,x11
 ANSIBLE_OPTS= --skip-tags ${SKIP_TAGS}
 # -t x11,docker,emacs --skip-tags plantuml
 
+# Alternatively, set envvar before launch:
+# VAGRANT_VAGRANTFILE=GUIXSD_Vagrantfile make
+
 VAGRANT_ARGS=
 
 # Wipe machine and restart from scratch using ansible on host (requires

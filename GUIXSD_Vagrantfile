@@ -1,0 +1,51 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.require_version ">= 2.1.3" # config.vagrant.plugins support
+Vagrant.configure("2") do |config|
+  # packaged myself from palfrey/guix-vm main branch until 1.2.0 is available
+  # on vagrantcloud, see https://github.com/palfrey/guix-vm/issues/8
+  config.vm.box = "guixsd-1.2.0"
+  config.vagrant.plugins = "vagrant-guixsd-guest"
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
+  config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__chown: false, rsync__args: ["--verbose", "--archive", "--delete", "-zz", "--copy-links"]
+  # override default rsync_args with -zz (from -z) to avoid:
+  # Error: rsync: This rsync lacks old-style --compress due to its external zlib.  Try -zz.
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 16384 # 16GB, 10 CPUs instead of default 500MB 1CPU
+    v.cpus = 10
+    # v.gui = true
+  end
+
+  config.vm.provision "jibyconf-clone", type: "shell", privileged: false do |s|
+    s.inline = <<-SHELL
+      set -xe
+      guix install git stow
+      mkdir -p ~/dev/conf/
+      git clone /vagrant ~/dev/conf/jibyconf
+      cd ~/dev/conf/jibyconf/stow
+      stow --verbose --target ~ stow  # deploy stowrc for default --target
+      rm --force ~/.config/guix/channels.scm  # make room for stow/guix/
+      stow guix
+      SHELL
+  end
+
+  config.vm.provision "emacs-devtools", type: "shell", privileged: false do |s|
+    s.inline = <<-SHELL
+      cd ~/dev/conf/jibyconf/stow
+      stow -S bash -S emacs -S emacs-vanilla -S emacs-packages -S emacs-external
+      guix install curl jq htop tree the-silver-searcher
+      guix install emacs
+      # TODO Insert bash bootstrap and emacsconf bootstrap
+      SHELL
+  end
+
+  config.vm.provision "system-upgrade", type: "shell", privileged: false do |s|
+    s.inline = "guix pull && sudo guix system reconfigure /etc/config.scm"
+  end
+
+
+end
