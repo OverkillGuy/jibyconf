@@ -45,20 +45,25 @@
 
 (use-package rainbow-delimiters
   :init
-  (setq rainbow-delimiters-max-face-count 7)
+  (setq rainbow-delimiters-max-face-count 8)
   :config
-  (set-face-foreground 'rainbow-delimiters-depth-1-face "dark orange")
-  (set-face-foreground 'rainbow-delimiters-depth-2-face "deep pink")
-  (set-face-foreground 'rainbow-delimiters-depth-3-face "chartreuse")
-  (set-face-foreground 'rainbow-delimiters-depth-4-face "deep sky blue")
-  (set-face-foreground 'rainbow-delimiters-depth-5-face "yellow")
-  (set-face-foreground 'rainbow-delimiters-depth-6-face "orchid")
-  (set-face-foreground 'rainbow-delimiters-depth-7-face "spring green")
+  (set-face-foreground 'rainbow-delimiters-depth-1-face "#FF8811")
+  (set-face-foreground 'rainbow-delimiters-depth-2-face "#8F0")
+  (set-face-foreground 'rainbow-delimiters-depth-3-face "#55DDFF")
+  (set-face-foreground 'rainbow-delimiters-depth-4-face "#DBDB59")
+  (set-face-foreground 'rainbow-delimiters-depth-5-face "#AA22FF")
+  (set-face-foreground 'rainbow-delimiters-depth-6-face "#080")
+  (set-face-foreground 'rainbow-delimiters-depth-7-face "#5978DB")
+  (set-face-foreground 'rainbow-delimiters-depth-8-face "#F8F")
+
   (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                       :inverse-video t
                       :foreground "red"
                       :inherit 'rainbow-delimiters-base-face)
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+; Test on parens (uncomment to visualize)
+; (((((((()))))))))
 
 (use-package helpful
   :config
