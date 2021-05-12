@@ -3,9 +3,7 @@
 
 Vagrant.require_version ">= 2.1.3" # config.vagrant.plugins support
 Vagrant.configure("2") do |config|
-  # packaged myself from palfrey/guix-vm main branch until 1.2.0 is available
-  # on vagrantcloud, see https://github.com/palfrey/guix-vm/issues/8
-  config.vm.box = "guixsd-1.2.0"
+  config.vm.box = "palfrey/guixsd"
   config.vagrant.plugins = "vagrant-guixsd-guest"
   if Vagrant.has_plugin?("vagrant-vbguest")
     config.vbguest.auto_update = false
