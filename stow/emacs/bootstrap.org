@@ -173,7 +173,19 @@ We can now define the byte-compilation process:
 Insert the following snippet at the bottom of any =~/.emacs= config file
 to bootstrap the config process, loading the tangled config, at emacs boot.
 
-#+BEGIN_SRC emacs-lisp :tangle no
-(cd "~/.emacs.d/jb/")
-(load-file "bootstrap.el")
+#+BEGIN_SRC diff :tangle emacs-bootstrap.patch
+--- /dev/null	2021-05-16 02:55:10.783999769 +0100
++++ .emacs	2021-05-16 03:12:12.775971302 +0100
+@@ -0,0 +1,5 @@
++;; BEGIN GNUPATCH MANAGED BLOCK: boostrap emacsconf
++;; See ~/dev/conf/jibyconf/stow/emacs/emacs-bootstrap.patch
++(cd "~/.emacs.d/jb/")
++(load-file "bootstrap.el")
++;; END ANSIBLE MANAGED BLOCK: boostrap emacsconf
 #+END_SRC
+
+Apply the patch via:
+
+#+begin_src shell :tangle no
+patch -d ~ <emacs-bootstrap.patch
+#+end_src

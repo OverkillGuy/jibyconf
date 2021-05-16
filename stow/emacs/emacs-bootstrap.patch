@@ -1,0 +1,8 @@
+--- /dev/null	2021-05-16 02:55:10.783999769 +0100
++++ .emacs	2021-05-16 03:12:12.775971302 +0100
+@@ -0,0 +1,5 @@
++;; BEGIN GNUPATCH MANAGED BLOCK: boostrap emacsconf
++;; See ~/dev/conf/jibyconf/stow/emacs/emacs-bootstrap.patch
++(cd "~/.emacs.d/jb/")
++(load-file "bootstrap.el")
++;; END ANSIBLE MANAGED BLOCK: boostrap emacsconf
