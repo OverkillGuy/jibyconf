@@ -35,6 +35,8 @@ Vagrant.configure("2") do |config|
     s.inline = <<-SHELL
       cd ~/dev/conf/jibyconf/stow
       stow -S bash -S emacs -S emacs-vanilla -S emacs-packages -S emacs-external
+      patch -d ~ < bash/bash-bootstrap.patch
+      patch -d ~ < emacs/emacs-bootstrap.patch
       guix install curl jq htop tree the-silver-searcher
       guix install emacs
       # TODO Insert bash bootstrap and emacsconf bootstrap
