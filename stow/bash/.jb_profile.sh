@@ -46,3 +46,10 @@ show-gherkin () {
 alias rfcdate="date --rfc-3339 seconds | sed -e 's/ /T/' -e 's/\+00:00/Z/'"
 # Format date as per ISO 8601
 alias isodate="date --rfc-3339 date"
+
+## Create detangled.org org-mode file containing all of args content
+## as org-mode tangleable code section
+## Useful to turn a folder into litterate programming!
+detangle () {
+    awk 'BEGIN{RS=">>>>>"} FNR == 1{print "* " FILENAME "\n\n#+BEGIN_SRC conf :tangle " FILENAME}; {print $0 "\n#+END_SRC\n"} ' $@ >detangled.org
+}
