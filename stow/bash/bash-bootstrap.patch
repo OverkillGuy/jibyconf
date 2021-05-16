@@ -1,0 +1,11 @@
+--- .bashrc	2021-05-16 01:52:18.783999880 +0100
++++ .bashrc	2021-05-16 03:04:24.419984348 +0100
+@@ -29,3 +29,8 @@
+ alias ls='ls -p --color=auto'
+ alias ll='ls -l'
+ alias grep='grep --color=auto'
++
++### BEGIN GNUPATCH MANAGED BLOCK: boostrap bashrc
++### See ~/dev/conf/jibyconf/stow/bash/bash-bootstrap.patch
++source ~/.jb_profile.sh
++### END ANSIBLE MANAGED BLOCK: boostrap bashrc
