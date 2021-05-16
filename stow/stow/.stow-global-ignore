@@ -1,11 +1,5 @@
-# Do not deploy the README files for these packages
 README.*
 
-# Do not deploy org files, used for litterate-programming writing,
-# defining config in code blocks of a "blog article", exported into
-# config files outside for stowage.
 .*\.org
 
-# Do not deploy patch files, used to deploy bootstrap files for
-# bash/emacs config during deployment
 .*\.patch
