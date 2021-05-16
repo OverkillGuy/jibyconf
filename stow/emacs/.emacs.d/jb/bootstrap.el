@@ -14,7 +14,7 @@
   "Make frame- and/or terminal-local changes."
   (with-selected-frame (or frame (selected-frame))
     (if (display-graphic-p)
-	(load-file "~/.emacs.d/jb/config-x11.el"))))
+        (load-file "~/.emacs.d/jb/config-x11.el"))))
 
 (if (file-exists-p "config-x11.el")
     (add-hook 'after-make-frame-functions 'jb-post-frame-config-load))

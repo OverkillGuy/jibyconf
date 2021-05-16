@@ -53,8 +53,8 @@ Load first what requires no extra module, if the file is available.
 The files are deployed using [[https://www.gnu.org/software/stow/][GNU Stow]] from this repository to
 =~/.emacs.d/jb/=, like the file being tangled.
 #+BEGIN_SRC emacs-lisp
-  (if (file-exists-p "vanilla.el")
-      (load-file "vanilla.el"))
+(if (file-exists-p "vanilla.el")
+    (load-file "vanilla.el"))
 #+END_SRC
 
 Note that each elisp file is generated via =org-babel-load-file= before
@@ -64,8 +64,8 @@ instruction being done later.
 Then what requires modules (fetched from the internet), but still rely
 only purely Emacs (no extra OS packages needed)
 #+BEGIN_SRC emacs-lisp
-  (if (file-exists-p "package-config.el")
-      (load-file "package-config.el"))
+(if (file-exists-p "package-config.el")
+    (load-file "package-config.el"))
 #+END_SRC
 
 Check if we're in a GUI and load the GUI config if so.
@@ -75,29 +75,29 @@ GUI loaded. Note that the path to that file is hardcoded, because it
 has to work on callback (on frame creation, invoked from different
 location than current file).
 #+BEGIN_SRC emacs-lisp
-  (defun jb-post-frame-config-load (&optional frame)
-    "Make frame- and/or terminal-local changes."
-    (with-selected-frame (or frame (selected-frame))
-      (if (display-graphic-p)
-	  (load-file "~/.emacs.d/jb/config-x11.el"))))
+(defun jb-post-frame-config-load (&optional frame)
+  "Make frame- and/or terminal-local changes."
+  (with-selected-frame (or frame (selected-frame))
+    (if (display-graphic-p)
+        (load-file "~/.emacs.d/jb/config-x11.el"))))
 
-  (if (file-exists-p "config-x11.el")
-      (add-hook 'after-make-frame-functions 'jb-post-frame-config-load))
+(if (file-exists-p "config-x11.el")
+    (add-hook 'after-make-frame-functions 'jb-post-frame-config-load))
 #+END_SRC
 
 As an avid terminal user, I use [[https://termux.com/][Termux]], an Android terminal emulator.
 This allows me to get Emacs on the go as well as all my CLI tools.
 Optionally load termux related configuration when Termux config is deployed.
 #+BEGIN_SRC emacs-lisp
-  (if (file-exists-p "termux-config.el")
-      (load-file "termux-config.el"))
+(if (file-exists-p "termux-config.el")
+    (load-file "termux-config.el"))
 #+END_SRC
 
 Lastly, load what requires non-emacs (system) packages, such as email
 clients and fancy code searching tools.
 #+BEGIN_SRC emacs-lisp
-  (if (file-exists-p "external-pkg-config.el")
-      (load-file "external-pkg-config.el"))
+(if (file-exists-p "external-pkg-config.el")
+    (load-file "external-pkg-config.el"))
 #+END_SRC
 
 Finally, we re-enable the GC threshold for normal use, closing the
