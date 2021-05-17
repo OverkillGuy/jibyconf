@@ -24,7 +24,7 @@ emp () {
 }
 
 alias calc="emacsclient -nw -e '(calc)'"
-alias magit='emacsclient -nw -a emacs -e "(progn (magit-status) (delete-other-windows))"'
+alias magit='emacsclient -nw -a '' -e "(progn (magit-status) (delete-other-windows))"'
 
 alias stowconf="stow --dir ~/dev/conf/jibyconf/stow/ --target ~/ "
 
