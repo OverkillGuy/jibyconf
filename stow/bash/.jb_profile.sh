@@ -16,6 +16,9 @@ alias ev="emacsclient"
 alias emd="emacs --daemon"
 alias emk="killall emacs"
 
+# Pipe-able version of emacsclient, using a temp file
+# Use via:
+# someprocess | emp
 emp () {
     f=$(mktemp)
     cat > $f
@@ -27,6 +30,8 @@ alias calc='emacsclient -nw -a "" -e "(calc)"'
 alias magit='emacsclient -nw -a "" -e "(progn (magit-status) (delete-other-windows))"'
 
 alias stowconf='stow --dir ~/dev/conf/jibyconf/stow/ --target ~/ '
+alias goconf='cd ~/dev/conf/jibyconf/'
+alias jibyconf='cd ~/dev/conf/jibyconf/'
 
 nessyxpic () {
     ssh nessyx 'find ~/storage/dcim/ -iname "*.jpg" -newermt "5 minute ago" -type f' \
