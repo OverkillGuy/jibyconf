@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "jibyconf-clone", type: "shell", privileged: false do |s|
     s.inline = <<-SHELL
       set -xe
-      guix package -m /vagrant/stow/guix/.config/guix/manifests/stow_base.scm
+      guix install git stow
       mkdir -p ~/dev/conf/
       git clone /vagrant ~/dev/conf/jibyconf
       cd ~/dev/conf/jibyconf/stow

@@ -1,3 +1,3 @@
-; A few non-language-specific dev tools
+; A few generic devtools (not language specific)
 (specifications->manifest
- '("emacs" "curl" "jq" "htop" "tree" "the-silver-searcher" "make"))
+ '("emacs" "git" "stow" "make" "curl" "jq" "htop" "tree" "the-silver-searcher"))
