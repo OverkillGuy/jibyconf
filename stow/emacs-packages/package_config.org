@@ -816,17 +816,45 @@ like yaml-mode to be used when opening them, for the syntax-highlight.
 :END:
 Find a way to go to definition of that method.
 Helm-gtags can do that. See [[https://tuhdo.github.io/c-ide.html][C++ IDE setup]].
+* Lisp and Scheme
+:PROPERTIES:
+:CREATED:  [2021-05-08 Sat 02:43]
+:ID:       7786cdc0-1b31-4155-8fa7-dffc7117eeae
+:END:
 
-* SLIME                                                                :lisp:
+** SLIME                                                     :lisp:disabled:
 Lisp editing environment
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package slime
   :config
   (setq inferior-lisp-program "/usr/bin/sbcl")
   (setq slime-contribs '(slime-fancy slime-asdf)))
 #+END_SRC
 Loading ASDF definitions is a contrib package, see [[info:slime#ASDF][info:slime#ASDF]].
+
+** Geiser                                                           :scheme:
+:PROPERTIES:
+:CREATED:  [2021-05-17 Mon 01:23]
+:ID:       bce7c654-aca1-4767-b4d2-92654a257971
+:END:
+
+Scheme code editing including REPL.
+#+BEGIN_SRC emacs-lisp
+(use-package geiser
+  :custom (geiser-default-implementation 'guile))
+#+END_SRC
+
+Extensions per scheme variant:
+#+BEGIN_SRC emacs-lisp
+(use-package geiser-racket)
+  ;; :custom (geiser-default-implementation 'racket)
+
+
+(use-package geiser-guile)
+  ;; :custom (geiser-default-implementation 'guile)
+#+END_SRC
+
 * Compilation                                                  :compilation:
 *** System-wide notification of completion
 :PROPERTIES:
@@ -1088,13 +1116,6 @@ Editing CMake files via =cmake-mode=
 
 #+BEGIN_SRC emacs-lisp
 (use-package protobuf-mode)
-#+END_SRC
-** Geiser
-For editing Scheme code. To avoid org mode pestering me about choice
-of implementation, tell it to use guile always.
-#+BEGIN_SRC emacs-lisp
-(use-package geiser
-  :custom ( geiser-default-implementation 'guile))
 #+END_SRC
 ** Groovy
 For those sweet, sweet Jenkinsfiles.

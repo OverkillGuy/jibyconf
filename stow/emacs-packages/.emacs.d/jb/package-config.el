@@ -303,10 +303,15 @@ will not be modified."
 (add-to-list 'auto-mode-alist '("\\.srv\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.msg\\'" . yaml-mode))
 
-(use-package slime
-  :config
-  (setq inferior-lisp-program "/usr/bin/sbcl")
-  (setq slime-contribs '(slime-fancy slime-asdf)))
+(use-package geiser
+  :custom (geiser-default-implementation 'guile))
+
+(use-package geiser-racket)
+  ;; :custom (geiser-default-implementation 'racket)
+
+
+(use-package geiser-guile)
+  ;; :custom (geiser-default-implementation 'guile)
 
 (defun compilation-finished-unfocused-notify (buffer desc)
   "Popup via libnotify on compilation finished with unfocused window"
@@ -408,9 +413,6 @@ will not be modified."
 (use-package cmake-mode)
 
 (use-package protobuf-mode)
-
-(use-package geiser
-  :custom ( geiser-default-implementation 'guile))
 
 (use-package groovy-mode
   :custom (groovy-indent-offset 2))
