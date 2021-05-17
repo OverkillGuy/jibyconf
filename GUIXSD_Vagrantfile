@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "jibyconf-clone", type: "shell", privileged: false do |s|
     s.inline = <<-SHELL
       set -xe
-      guix install git stow
+      guix package -m /vagrant/stow/guix/.config/guix/manifests/stow_base.scm
       mkdir -p ~/dev/conf/
       git clone /vagrant ~/dev/conf/jibyconf
       cd ~/dev/conf/jibyconf/stow
@@ -36,10 +36,8 @@ Vagrant.configure("2") do |config|
       cd ~/dev/conf/jibyconf/stow
       stow -S bash -S emacs -S emacs-vanilla -S emacs-packages -S emacs-external
       patch -d ~ < bash/bash-bootstrap.patch
+      guix package -m ~/.config/guix/manifests/devtools.scm
       patch -d ~ < emacs/emacs-bootstrap.patch
-      guix install curl jq htop tree the-silver-searcher
-      guix install emacs
-      # TODO Insert bash bootstrap and emacsconf bootstrap
       SHELL
   end
 
