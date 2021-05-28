@@ -32,6 +32,9 @@ bindsym Ctrl+Mod1+l exec i3lock --nofork -i /home/jiby/Pictures/wallpaperz/scree
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# Keyboard layout indicator (switching shortcut found in ~/.xprofile)
+exec --no-startup-id gxkb
+
 # Enable numpad by default
 exec_always --no-startup-id numlockx on
 
