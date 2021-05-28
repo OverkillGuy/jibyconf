@@ -1,3 +1,7 @@
-
 # Caps lock is actually Control
-setxkbmap -option caps:ctrl_modifier
+# Switch between US and FR layout (toggle) by pressing BOTH Controls
+# See xkeyboard-config(7) for info
+setxkbmap -model pc104 \
+	  -layout us,fr \
+	  -option grp:ctrls_toggle \
+	  -option caps:ctrl_modifier
