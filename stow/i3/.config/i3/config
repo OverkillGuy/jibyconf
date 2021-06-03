@@ -32,7 +32,16 @@ bindsym Ctrl+Mod1+l exec i3lock --nofork -i /home/jiby/Pictures/wallpaperz/scree
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Keyboard layout indicator (switching shortcut found in ~/.xprofile)
+
+# Caps lock is actually Control
+# Switch between US and FR layout (toggle) by pressing BOTH Controls
+# See xkeyboard-config(7) for info
+exec --no-startup-id setxkbmap -model pc104 \
+	  -layout us,fr \
+	  -option grp:ctrls_toggle \
+	  -option caps:ctrl_modifier
+
+# Keyboard layout indicator for the above
 exec --no-startup-id gxkb
 
 # Enable numpad by default
