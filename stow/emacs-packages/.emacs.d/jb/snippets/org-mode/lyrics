@@ -1,0 +1,26 @@
+# -*- mode: snippet -*-
+#key : lyrics
+#name : org-mode template for lyrics writing
+# --
+#+TITLE: New compo
+#+AUTHOR: X - Jb
+#+LANGUAGE: en
+
+#+OPTIONS: toc:nil num:nil todo:nil H:3 date:nil
+
+#+STARTUP: latexpreview
+#+LATEX_HEADER: \usepackage{multicol}
+
+
+\pagenumbering{gobble}
+* COMMENT Orga
+:LOGBOOK:
+:END:
+
+** Notes
+
+* Text
+
+#+BEGIN_VERSE
+$0
+#+END_VERSE
