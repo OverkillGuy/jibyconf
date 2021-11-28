@@ -1,0 +1,34 @@
+#!/data/data/com.termux/files/usr/bin/env bash
+
+# Lists passwords in termux dialog, decrypting selection to clipboard for 45s
+
+# Sabotageing the pass(1) executable, instead using okc-gpg[1] which
+# supports Yubikeys (GPG over NFC)
+# [1]: https://github.com/DDoSolitary/OkcAgent
+
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+
+
+# Inspired by https://git.zx2c4.com/password-store/tree/contrib/dmenu/passmenu
+shopt -s nullglob globstar
+
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_files=( "$prefix"/**/*.gpg )
+password_files=( "${password_files[@]#"$prefix"/}" )
+password_files=( "${password_files[@]%.gpg}" )
+
+password_files_csv=$(printf '%s,' "${password_files[@]}")
+choice_json=$(termux-dialog sheet -t "Select password" -v "$password_files_csv")
+
+choice_exit=$(echo "$choice_json" | jq .code)
+[[ "$choice_exit" == 0 ]] ||  exit
+
+password=$(echo "$choice_json" | jq .text | tr -d '"')
+
+okc-gpg -d ~/.password-store/"$password".gpg 2>/dev/null | head -n 1 | termux-clipboard-set
+# pass show -c "$password" 2>/dev/null
+termux-toast -s "Password copied to clipboard"
+sleep 46
+termux-clipboard-set ""
+termux-toast -s "Password remove from clipboard"

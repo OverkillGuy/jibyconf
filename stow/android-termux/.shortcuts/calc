@@ -1,0 +1,7 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+#AUTHOR: Jb Doyon<jb@jiby.tech>
+set -euo pipefail
+
+# Load empty-of-conf emacs (faaaast) in calc-mode
+emacs -q -f calc

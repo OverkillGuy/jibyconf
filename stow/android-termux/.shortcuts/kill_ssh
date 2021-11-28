@@ -1,0 +1,7 @@
+#!/data/data/com.termux/files/usr/bin/bash
+#AUTHOR: Jb Doyon<jb@jiby.tech>
+set -euo pipefail
+
+# Kill the SSH server started via tasks/sshd
+termux-wake-unlock
+killall sshd

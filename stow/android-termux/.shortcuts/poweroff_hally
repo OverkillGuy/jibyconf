@@ -1,0 +1,6 @@
+#!/data/data/com.termux/files/usr/bin/env bash
+#AUTHOR: Jb Doyon<jb@jiby.tech>
+
+# Turn off the machine called "hally" over SSH
+# Handy when in bed, having forgotten to turn it off
+ssh hally -t 'sudo systemctl poweroff'
