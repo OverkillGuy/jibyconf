@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: blogpost
+# key: blogpost
+# --
+#+HUGO_BASE_DIR: ../
+
+#+SETUPFILE: ./jiby_dot_tech_setupfile.org
+
+
+* DRAFT $0             :blog:
+:PROPERTIES:
+:CREATED:  [`(format-time-string "%Y-%m-%d %a %H:%M")`]
+:ID:       `(org-id-new)`
+:EXPORT_FILE_NAME: bleh
+:EXPORT_DATE: <`(format-time-string "%Y-%m-%d %a")`>
+:END:
