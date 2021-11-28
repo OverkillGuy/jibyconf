@@ -430,6 +430,11 @@ will not be modified."
 (use-package cargo
   :hook (rust-mode-hook . cargo-minor-mode))
 
+(use-package k8s-mode
+  ;; Workaround for https://github.com/TxGVNN/emacs-k8s-mode/issues/9
+  :config  (add-hook 'k8s-mode-hook
+		     (lambda () (yas-load-directory k8s-snip-dir))))
+
 (use-package restclient
   :config
   ;; Use json-mode instead of default js-mode

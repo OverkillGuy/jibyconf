@@ -1184,6 +1184,20 @@ cargo install rust-script
 #+end_src
 
 Now =rust= is part of =org-babel-load-languages=.
+** Kubernetes
+:PROPERTIES:
+:CREATED:  [2021-11-28 Sun 18:01]
+:ID:       a5f6dbfd-476c-4a11-8545-f9e81371b13d
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package k8s-mode
+  ;; Workaround for https://github.com/TxGVNN/emacs-k8s-mode/issues/9
+  :config  (add-hook 'k8s-mode-hook
+		     (lambda () (yas-load-directory k8s-snip-dir))))
+#+END_SRC
+
+
 * REST Client
 Testing HTTP requests via =restclient-mode=
 
