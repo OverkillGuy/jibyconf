@@ -274,8 +274,7 @@ will not be modified."
 (use-package orglink
   :init
   (add-hook 'prog-mode #'orglink-mode)
-  (add-hook 'text-mode #'orglink-mode)
-  (add-hook 'eww-mode-hook #'orglink-mode))
+  (add-hook 'text-mode #'orglink-mode))
 
 (use-package company
   :diminish company-mode
