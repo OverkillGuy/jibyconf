@@ -65,6 +65,29 @@
 ; Test on parens (uncomment to visualize)
 ; (((((((()))))))))
 
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
+
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+  (load-theme 'doom-one t)
+  (set-face-foreground 'font-lock-comment-face "#869099")
+  (set-face-foreground 'show-paren-match "#ffb44c"))
+
 (use-package helpful
   :config
   (global-set-key (kbd "C-h f") #'helpful-callable)
@@ -431,8 +454,9 @@ will not be modified."
 
 (use-package k8s-mode
   ;; Workaround for https://github.com/TxGVNN/emacs-k8s-mode/issues/9
-  :config  (add-hook 'k8s-mode-hook
-		     (lambda () (yas-load-directory k8s-snip-dir))))
+  ;; :init  (add-hook 'k8s-mode-hook
+  ;; 		   (lambda () (yas-load-directory k8s-snip-dir)))
+  )
 
 (use-package restclient
   :config

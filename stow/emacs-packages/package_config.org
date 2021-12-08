@@ -13,7 +13,7 @@ Great resources for any emacs setup:
 - [[https://zeekat.nl/articles/making-emacs-work-for-me.html][Yet another guy's emacs setup]]
 - [[https://www.reddit.com/r/unixporn/comments/3lp961/exwm_so_emacs_is_now_my_window_manager/cv844gf/][Cool config]]
 - [[http://doc.rix.si/cce/cce-org.html][Some other config]] incl google dork for [[google: site:doc.rix.si/cce]]
-
+- [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org][Python config from this emacs.d]] on Github
 
 This file is part of a git repository that I sync across devices. see file:../emacs/boostrap.org
 
@@ -185,6 +185,37 @@ Also, change the colors of mismatched parens to be more visible
 
 ; Test on parens (uncomment to visualize)
 ; (((((((()))))))))
+#+END_SRC
+
+** Doom Modeline
+:PROPERTIES:
+:CREATED:  [2021-12-08 Wed 01:10]
+:ID:       4bd0882a-5c0b-47f4-b971-ccd98c825a80
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
+
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+  (load-theme 'doom-one t)
+  (set-face-foreground 'font-lock-comment-face "#869099")
+  (set-face-foreground 'show-paren-match "#ffb44c"))
 #+END_SRC
 
 * Feature discoverability
@@ -1192,8 +1223,9 @@ Now =rust= is part of =org-babel-load-languages=.
 #+BEGIN_SRC emacs-lisp
 (use-package k8s-mode
   ;; Workaround for https://github.com/TxGVNN/emacs-k8s-mode/issues/9
-  :config  (add-hook 'k8s-mode-hook
-		     (lambda () (yas-load-directory k8s-snip-dir))))
+  ;; :init  (add-hook 'k8s-mode-hook
+  ;; 		   (lambda () (yas-load-directory k8s-snip-dir)))
+  )
 #+END_SRC
 
 

@@ -81,12 +81,12 @@ symbols that my coding fonts don't cover.
                   (font-spec :name "Symbola"))
 #+END_SRC
 
-* Powerline                                                  :GUIonly:
+* Powerline                                                :GUIonly:disabled:
 :PROPERTIES:
 :SOURCE:   [[http://emacs.stackexchange.com/questions/281/how-do-i-get-a-fancier-mode-line-that-uses-solid-colors-and-triangles][this Emacs Stackoverflow question]]
 :END:
 I want my Emacs to look cool, so I changed the mode line accordingly.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Cosmetic : change modeline aspect
 (use-package powerline
   :config
@@ -99,6 +99,7 @@ I want my Emacs to look cool, so I changed the mode line accordingly.
 Because I wanted to feel like I'm actually customizing rather than
 copying and pasting, I changed the colors to my liking (blue !)
 
+Disabled in favour of [[id:4bd0882a-5c0b-47f4-b971-ccd98c825a80][package-config-side doom-modeline]].
 * Mouse avoids cursor
 Using [[help:avoid][avoid package]], moves mouse out of my way when the mouse is
 visible (not in a terminal).

@@ -26,15 +26,6 @@
 (set-fontset-font "fontset-default" nil
                   (font-spec :name "Symbola"))
 
-;; Cosmetic : change modeline aspect
-(use-package powerline
-  :config
-  (powerline-default-theme)
-  (set-face-attribute 'mode-line nil
-                      :foreground "White"
-                      :background "DarkBlue"
-                      :box nil))
-
 (if (display-mouse-p) (mouse-avoidance-mode 'animate))
 
 (setq browse-url-browser-function 'browse-url-firefox)

@@ -7,11 +7,12 @@ specific hack.
 
 * Cosmetic
 ** Theme
-I use ~tango-dark~ and it looks great!
+If no package is set, use ~tango-dark~, it looks great!
 #+BEGIN_SRC emacs-lisp
 (load-theme 'tango-dark t)
 #+END_SRC
 
+Note that [[id:4bd0882a-5c0b-47f4-b971-ccd98c825a80][if packages are enabled, we overrule this with doom-one theme]].
 ** Disable toolbars
 Remove the helpful menu bar (which takes an entire character row !).
 #+BEGIN_SRC emacs-lisp
