@@ -394,12 +394,6 @@ will not be modified."
 (use-package forge
   :after magit)
 
-(use-package artbollocks-mode
-  :diminish
-  :hook text-mode)
-
-(use-package writegood-mode)
-
 (use-package tex-mode
   :ensure auctex
   :config

@@ -1025,7 +1025,7 @@ Make sure to set the token's authentication file in =~/.authinfo=
 :CREATED:  [2020-06-07 Sun 16:18]
 :ID:       5a84c5ff-ec44-4e24-95d5-853994f9b721
 :END:
-** Avoid weasel words
+** Avoid weasel words                                             :disabled:
 :PROPERTIES:
 :CREATED:  [2020-06-07 Sun 16:18]
 :ID:       c01dec01-cf0b-4d7c-89db-db38350b9012
@@ -1034,17 +1034,27 @@ Make sure to set the token's authentication file in =~/.authinfo=
 Sacha Chua wrote a nice little mode to avoid repetitive text
 
 Repetitive text being super bad repetitive words are super repetitive.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package artbollocks-mode
   :diminish
   :hook text-mode)
 #+END_SRC
 
-Similar mode, covering Matt Might's weasel word list and readability
+Similar mode, covering Matt Might's many weasel word list and readability
 calculation:
 
-#+BEGIN_SRC emacs-lisp
-(use-package writegood-mode)
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package writegood-mode
+  :diminish
+  :hook text-mode
+  )
+#+END_SRC
+
+Don't correct read-only documents though:
+#+BEGIN_SRC emacs-lisp :tangle no
+  :init
+  (add-hook 'read-only-mode-hook (lambda ()
+				   (writegood-mode nil)))
 #+END_SRC
 
 
