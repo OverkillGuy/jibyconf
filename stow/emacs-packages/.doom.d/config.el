@@ -52,3 +52,127 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+(use-package! rainbow-delimiters
+  :init
+  (setq rainbow-delimiters-max-face-count 8)
+  :hook (prog-mode . rainbow-delimiters-mode)
+  :config
+  (set-face-foreground 'rainbow-delimiters-depth-1-face "#FF8811")
+  (set-face-foreground 'rainbow-delimiters-depth-2-face "#8F0")
+  (set-face-foreground 'rainbow-delimiters-depth-3-face "#55DDFF")
+  (set-face-foreground 'rainbow-delimiters-depth-4-face "#DBDB59")
+  (set-face-foreground 'rainbow-delimiters-depth-5-face "#AA22FF")
+  (set-face-foreground 'rainbow-delimiters-depth-6-face "#080")
+  (set-face-foreground 'rainbow-delimiters-depth-7-face "#5978DB")
+  (set-face-foreground 'rainbow-delimiters-depth-8-face "#F8F")
+  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                      :inverse-video t
+                      :foreground "red"
+                      :inherit 'rainbow-delimiters-base-face))
+
+(add-hook 'org-insert-heading-hook #'org-id-get-create)
+
+(defvar org-created-property-name "CREATED"
+  "The name of the org-mode property that stores the creation date of the entry")
+
+(defun org-set-created-property (&optional active NAME)
+  "Set a property on the entry giving the creation time.
+
+By default the property is called CREATED. If given the `NAME'
+argument will be used instead. If the property already exists, it
+will not be modified."
+  (interactive)
+  (let* ((created (or NAME org-created-property-name))
+         (fmt (if active "<%s>" "[%s]"))
+         (now  (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
+    (unless (org-entry-get (point) created nil)
+      (org-set-property created now))))
+
+(add-hook 'org-insert-heading-hook #'org-set-created-property)
+
+(defun compilation-finished-unfocused-notify (buffer desc)
+  "Popup via libnotify on compilation finished with unfocused window"
+  (interactive)
+  (if (not (eq buffer
+	       (window-buffer (selected-window))))
+      (alert
+       (format "Compilation %s"
+	       (if (string-equal "finished\n" desc)
+		   "succeeded"
+		 "failed"))
+       :title "Emacs"
+       :category 'emacs :style 'libnotify
+       :icon "gnome-inhibit-applet")))
+(add-hook 'compilation-finish-functions 'compilation-finished-unfocused-notify)
+
+(global-set-key (kbd "S-<f7>") 'projectile-switch-project)
+
+
+(global-set-key (kbd "M-<f12>") 'magit-status)
+
+(global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
+(defun jb/open-devlog ()
+  (interactive)
+  (find-file "~/dev/notes/devlog.org")
+  (end-of-buffer))
+
+(use-package! projectile
+  :bind-keymap ("<f7>" . projectile-command-map)
+  :config (setq! projectile-project-search-path
+	         '("~/dev/" "~/org/"))
+  (setq! projectile-switch-project-action 'magit-status))
+
+
+(global-set-key (kbd "<f8>") 'jb/open-devlog)
+(global-set-key (kbd "S-<f8>") 'org-capture)
+
+(use-package! eww-lnum
+  :config
+  (eval-after-load "eww"
+    '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
+	    (define-key eww-mode-map "F" 'eww-lnum-universal))))
+
+(setq sentence-end-double-space nil)
+
+(defun dired-open-file ()
+  "In dired, open the file named on this line."
+  (interactive)
+  (let* ((file (dired-get-filename nil t)))
+    (message "Opening %s..." file)
+    (call-process "xdg-open" nil 0 nil file)
+    (message "Opening %s done" file)))
+
+(define-key dired-mode-map (kbd "E") 'dired-open-file)
+
+(load-file "~/.emacs.d.BKP/jb/packages/irfc.el")
+(setq irfc-directory "~/dev/doc/rfc/")
+(setq irfc-assoc-mode t)
+
+;; (setq irfc-head-name-face :foreground "orange red")
+(set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
+
+(when (featurep 'irfc)
+  (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
+  (defalias 'rfc 'irfc-visit))
+
+(load-file "~/.emacs.d.BKP/jb/packages/fic-mode.el")
+(add-hook 'prog-mode-hook 'turn-on-fic-mode)
+
+(defun set-docs-as-readonly ()
+  "Make buffers readonly by default when folder matches pattern"
+  (dolist (pattern '("~/dev/doc/.*"
+					; Anything else?
+		     ))
+    (if (string-match (expand-file-name pattern) buffer-file-name)
+        (read-only-mode))))
+
+(add-hook 'find-file-hook 'set-docs-as-readonly)
+
+(setq doc-view-continuous t)
+
+(use-package! edit-server
+  :init (edit-server-start)
+  :custom
+  (edit-server-url-major-mode-alist
+        '(("github\\.com" . markdown-mode)))
+  (edit-server-new-frame nil))
