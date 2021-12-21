@@ -142,21 +142,19 @@ will not be modified."
     (call-process "xdg-open" nil 0 nil file)
     (message "Opening %s done" file)))
 
-(define-key dired-mode-map (kbd "E") 'dired-open-file)
+;; (load-file "~/.emacs.d.BKP/jb/packages/irfc.el")
+;; (setq irfc-directory "~/dev/doc/rfc/")
+;; (setq irfc-assoc-mode t)
 
-(load-file "~/.emacs.d.BKP/jb/packages/irfc.el")
-(setq irfc-directory "~/dev/doc/rfc/")
-(setq irfc-assoc-mode t)
+;; ;; (setq irfc-head-name-face :foreground "orange red")
+;; (set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
 
-;; (setq irfc-head-name-face :foreground "orange red")
-(set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
+;; (when (featurep 'irfc)
+;;   (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
+;;   (defalias 'rfc 'irfc-visit))
 
-(when (featurep 'irfc)
-  (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
-  (defalias 'rfc 'irfc-visit))
-
-(load-file "~/.emacs.d.BKP/jb/packages/fic-mode.el")
-(add-hook 'prog-mode-hook 'turn-on-fic-mode)
+;; (load-file "~/.emacs.d.BKP/jb/packages/fic-mode.el")
+;; (add-hook 'prog-mode-hook 'turn-on-fic-mode)
 
 (defun set-docs-as-readonly ()
   "Make buffers readonly by default when folder matches pattern"
