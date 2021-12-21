@@ -176,3 +176,9 @@ will not be modified."
   (edit-server-url-major-mode-alist
         '(("github\\.com" . markdown-mode)))
   (edit-server-new-frame nil))
+
+; No persistent history
+(after! undo-tree
+  (setq undo-tree-auto-save-history nil))
+(after! lsp-mode
+ (setq! lsp-pylsp-plugins-flake8-config ".flake8"))
