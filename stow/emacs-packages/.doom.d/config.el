@@ -179,4 +179,15 @@ will not be modified."
 (after! undo-tree
   (setq undo-tree-auto-save-history nil))
 (after! lsp-mode
- (setq! lsp-pylsp-plugins-flake8-config ".flake8"))
+  (setq! lsp-pylsp-plugins-flake8-config ".flake8"))
+
+
+(display-time-mode 1)                             ; Enable time in the mode-line
+
+(unless (string-match-p "^Power N/A" (battery))   ; On laptops...
+  (display-battery-mode 1))                       ; it's nice to know how much power you have
+
+;; From https://github.com/hlissner/doom-emacs/issues/2223#issuecomment-568202866
+;; Don't auto-insert parens!
+(after! smartparens
+  (smartparens-global-mode -1))

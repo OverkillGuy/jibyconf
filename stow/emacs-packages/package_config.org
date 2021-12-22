@@ -14,6 +14,7 @@ Great resources for any emacs setup:
 - [[https://www.reddit.com/r/unixporn/comments/3lp961/exwm_so_emacs_is_now_my_window_manager/cv844gf/][Cool config]]
 - [[http://doc.rix.si/cce/cce-org.html][Some other config]] incl google dork for [[google: site:doc.rix.si/cce]]
 - [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org][Python config from this emacs.d]] on Github
+- [[https://tecosaur.github.io/emacs-config/config.html][Doom based Tecosaur]]
 
 This file is part of a git repository that I sync across devices. see file:../emacs/boostrap.org
 
