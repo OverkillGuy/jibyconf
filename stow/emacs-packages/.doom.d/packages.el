@@ -7,6 +7,7 @@
 
 (package! eww-lnum)
 (package! edit-server)
+(package! k8s-mode)
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 

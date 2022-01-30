@@ -212,3 +212,5 @@ will not be modified."
 
 (add-to-list 'org-modules 'org-id)
 (add-hook 'org-insert-heading-hook #'org-id-get-create)
+
+(use-package! k8s-mode)
