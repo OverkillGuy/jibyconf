@@ -191,3 +191,24 @@ will not be modified."
 ;; Don't auto-insert parens!
 (after! smartparens
   (smartparens-global-mode -1))
+
+(defvar org-created-property-name "CREATED"
+  "The name of the org-mode property that stores the creation date of the entry")
+
+(defun org-set-created-property (&optional active NAME)
+  "Set a property on the entry giving the creation time.
+
+By default the property is called CREATED. If given the `NAME'
+argument will be used instead. If the property already exists, it
+will not be modified."
+  (interactive)
+  (let* ((created (or NAME org-created-property-name))
+         (fmt (if active "<%s>" "[%s]"))
+         (now  (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
+    (unless (org-entry-get (point) created nil)
+      (org-set-property created now))))
+
+(add-hook 'org-insert-heading-hook #'org-set-created-property)
+
+(add-to-list 'org-modules 'org-id)
+(add-hook 'org-insert-heading-hook #'org-id-get-create)
