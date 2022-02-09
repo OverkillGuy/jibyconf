@@ -215,3 +215,4 @@ will not be modified."
 
 (use-package! k8s-mode)
 (use-package! feature-mode)
+(use-package! htmlize)
