@@ -213,6 +213,8 @@ will not be modified."
 (add-to-list 'org-modules 'org-id)
 (add-hook 'org-insert-heading-hook #'org-id-get-create)
 
+(add-hook 'org-mode-hook #'auto-fill-mode)
+
 (use-package! k8s-mode)
 (use-package! feature-mode)
 (use-package! htmlize)
