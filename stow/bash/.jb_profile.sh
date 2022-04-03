@@ -42,9 +42,10 @@ nessyxpic () {
 # show-gherkin tests/*.py
 # Specify only one file to show only line number
 show-gherkin () {
-    egrep -osn '^.*(Given|When|Then|And|But|Scenario|Background|Feature|In order to|As a|I want to|I need to|So that)(.*)' $@ \
-	| sed -E 's/^(.*):.*(Given|When|Then|And|But|Scenario|Background|Feature|In order to|As a|I want to|I need to|So that)/\1: \2/' \
-	| sed 's/"""//'
+    local GHERKIN_KEYWORDS="Given|When|Then|And|But|Scenario|Background|Feature|In order to|As a|I want to|I need to|So that"
+    egrep -osn "^.*($GHERKIN_KEYWORDS)(.*)" $@ \
+        | sed -E "s/^(.*):.*($GHERKIN_KEYWORDS)/\1: \2/" \
+        | sed 's/"""//'
 }
 
 # Format dates as per RFC 3339
