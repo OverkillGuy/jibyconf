@@ -228,3 +228,6 @@ will not be modified."
        evil-cross-lines t
        evil-undo-system 'undo-tree
        evil-kill-on-visual-paste nil)
+
+; Fix magit-blame-mode ENTER key not jumping to commit anymore
+(add-hook 'magit-blame-mode-hook #'evil-emacs-state)
