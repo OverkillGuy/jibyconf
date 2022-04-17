@@ -219,3 +219,6 @@ will not be modified."
 (use-package! feature-mode)
 (use-package! htmlize)
 (use-package! lorem-ipsum)
+
+; Don't use the recently-default "/posts/", but "/post/" as my blog does
+(setq! org-hugo-section "post")
