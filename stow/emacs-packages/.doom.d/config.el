@@ -229,5 +229,7 @@ will not be modified."
        evil-undo-system 'undo-tree
        evil-kill-on-visual-paste nil)
 
-; Fix magit-blame-mode ENTER key not jumping to commit anymore
+;; Fix magit-blame-mode ENTER key not jumping to commit anymore
 (add-hook 'magit-blame-mode-hook #'evil-emacs-state)
+;; Fix magit-status buffer's SPC prompting for showing commits instead of doom menu
+(define-key! magit-status-mode-map "SPC" #'doom/leader)
