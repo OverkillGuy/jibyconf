@@ -1,23 +1,23 @@
 [user]
 	name = Jb DOYON
 	email = jb@jiby.tech
+[github]
+	user = OverkillGuy
 [alias]
-
 	graph = log --decorate --oneline --graph
 	sgraph = graph --simplify-by-decoration
 	st = status --short
 	exfil = !~/bin/btexfil
 	extract = !~/bin/btextract
 	allow-master-push= config --local receive.denyCurrentBranch updateInstead
-
 [diff "sentences"]
 	textconv = breaksentences
-
 # Emacs for diffing and merge conflicts
 [merge]
   tool = ediff
 [mergetool "ediff"]
   cmd = emacsclient -c -a \"\"  --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
-
+# System-wide gitignore file
+# To avoid in-repo repetition for system-specifc garbage files
 [core]
     excludesfile = ~/.config/git/gitignore
