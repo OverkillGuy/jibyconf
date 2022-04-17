@@ -222,3 +222,9 @@ will not be modified."
 
 ; Don't use the recently-default "/posts/", but "/post/" as my blog does
 (setq! org-hugo-section "post")
+
+(setq! evil-want-C-d-scroll nil
+       evil-move-beyond-eol t
+       evil-cross-lines t
+       evil-undo-system 'undo-tree
+       evil-kill-on-visual-paste nil)
