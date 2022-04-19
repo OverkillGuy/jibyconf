@@ -235,3 +235,6 @@ will not be modified."
 ;; Fix magit-status buffer's SPC prompting for showing commits instead of doom menu
 (define-key! magit-status-mode-map "SPC" #'doom/leader)
 (add-to-list 'yas-snippet-dirs "~/.emacs.d/jb/snippets/")
+
+;; Start maximized
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
