@@ -238,3 +238,4 @@ will not be modified."
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
