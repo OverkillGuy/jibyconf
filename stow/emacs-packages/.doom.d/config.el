@@ -215,6 +215,7 @@ will not be modified."
 
 (add-hook 'org-mode-hook #'auto-fill-mode)
 
+(use-package! ob-http)
 (use-package! k8s-mode)
 (use-package! feature-mode)
 (use-package! htmlize)
