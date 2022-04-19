@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+#name : Feature docstring
+#key : fea
+# --
+"""
+Feature: $0
+In order to do something big
+As a system actor
+I need to do small thing in this file
+"""
