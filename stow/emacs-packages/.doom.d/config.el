@@ -239,3 +239,8 @@ will not be modified."
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
+
+(defun python-src-fill-black-mode-hook ()
+  (setq fill-column 88))
+
+(add-hook 'python-mode-hook #'python-src-fill-black-mode-hook)
