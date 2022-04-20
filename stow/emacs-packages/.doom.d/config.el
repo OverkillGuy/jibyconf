@@ -244,3 +244,4 @@ will not be modified."
   (setq fill-column 88))
 
 (add-hook 'python-mode-hook #'python-src-fill-black-mode-hook)
+(evil-set-initial-state 'dired-mode 'emacs)
