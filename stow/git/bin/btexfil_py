@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+
+"""Python implementation of btexfil"""
+
+import sys
+import argparse
+import subprocess
+from datetime import date
+
+EXFIL_COMMANDS_TO_TRY = [ # Sample bluetooth commands
+    "blueman-sendto {}",
+    "bluetooth-sendto {}",
+    "termux-share -a send {}",  # Termux's file-share
+    # Other samples that work (use via -x)
+    # "scp {} hostname:~/Downloads/"
+    # "mv {} /path/to/somewhere/else/"
+    # "qrxfil exfil {} some/output/folder", see https://github.com/OverkillGuy/qrxfil
+]
+
+def parse_args(args):
+    parser = argparse.ArgumentParser(
+        description="Exfiltrate commits from git repo via bluetooth",
+        epilog="Generates a git bundle from given refspec with filename using given "
+        "prefix, then sends it to an interactively selected Bluetooth target",
+    )
+    parser.add_argument(
+        "prefix", help="File prefix for the generated bundle to send via bluetooth"
+    )
+    parser.add_argument("refspec", help="Git refspec for the commit range to send.")
+    parser.add_argument(
+        "-x", "--exfil-command", help="Command to send the bundle through"
+    )
+    parser.add_argument(
+        "-C", dest="git_cwd", help="Pass working directory to git, proxy to 'git -C'"
+    )
+    return parser.parse_args(args)
+
+
+if __name__ == "__main__":
+    arg = parse_args(sys.argv[1:])
+    filename = f"{arg.prefix}-{date.today().strftime('%Y%m%d')}_bundle.pdf"
+    print(f"Bundling to file named: {filename}...")
+    command = ["git", "bundle", "create"]
+    if arg.git_cwd:
+        command += ["-C", arg.git_cwd]
+    command += [filename] + arg.refspec.split(" ")
+    bundle_step = subprocess.run(command)
+    if bundle_step.returncode != 0:
+        print(
+            "Error generating the bundle: check the refspec or working directory?",
+            file=sys.stderr,
+        )
+        exit(1)
+    print("Bundle completed.")
+    print("Attempting exfiltration...")
+    exfil_success = False
+    if arg.exfil_command:
+        exfil_cmd = arg.exfil_command.format(filename)
+        exfil_step = subprocess.run(exfil_cmd.split(" "))
+        exfil_success = exfil_step.returncode == 0
+    else:  # Use the default commands, stopping on first success
+        for exfil_cmd in EXFIL_COMMANDS_TO_TRY:
+            exfil_step = subprocess.run(exfil_cmd.format(filename).split(" "))
+            if exfil_step.returncode == 0:
+                exfil_success = True
+                break
+    if not exfil_success:
+        print("Exhausted exfil commands without success", file=sys.stderr)
+        exit(1)
+    print("Exfil complete!")
+
+"""
+Buglist/TODO:
+- When using -C, filepath is wrong for exfil command causing crash
+- Test in conjunction with btextract, and with qrxfil
+"""

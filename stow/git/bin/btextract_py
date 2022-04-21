@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+
+"""Python implementation of btextract"""
+
+import sys
+import argparse
+import subprocess
+import os
+import shutil
+from pathlib import Path
+
+BUNDLE_SYMLINK = "latest.bundle"
+BUNDLE_REMOTE = "bundy"
+
+
+def parse_args(args):
+    parser = argparse.ArgumentParser(
+        description="Load a bundle file in git repository at path",
+        epilog="Moves a git bundle file to git repository at path filename. "
+        "Then creates symlink as latest.bundle and git fetch it",
+    )
+    parser.add_argument(
+        "bundle", type=Path, help="Bundle file, target to extract commits from"
+    )
+    parser.add_argument(
+        "repo_path", type=Path, help="Path to git repo to graft those commits to"
+    )
+    return parser.parse_args(args)
+
+
+def clone_or_die(bundle, repo):
+    clone_step = subprocess.run(["git", "clone", bundle, repo])
+    if clone_step.returncode != 0:
+        print("Error cloning from the given bundle", file=sys.stderr)
+        exit(1)
+    symlink_if_not_already(repo / BUNDLE_SYMLINK, bundle.name)
+    create_bundy_remote(repo)
+
+def create_bundy_remote(repo):
+    remote_name = BUNDLE_REMOTE
+    remoteadd_step = subprocess.run(
+        ["git", "remote", "add", remote_name, BUNDLE_SYMLINK], cwd=repo
+    )
+    if remoteadd_step.returncode != 0:
+        print("Error adding remote 'bundy' for 'latest.bundle'", file=sys.stderr)
+        exit(1)
+    return remote_name
+
+def enforce_bundle_latest_remotes(repo):
+    remote_step = subprocess.run(
+        ["git", "remote", "-v"], cwd=repo, capture_output=True, text=True
+    )
+    if remote_step.returncode != 0:
+        print("Error checking remotes for grafting latest bundle", file=sys.stderr)
+        exit(1)
+    remotes_list = remote_step.stdout.split("\n")
+    latest_remotes = [
+        remote.split("\t")[0]
+        for remote in remotes_list
+        if "latest.bundle (fetch)" in remote
+    ]
+    if not latest_remotes:
+        # No such remote found: make one
+        return create_bundy_remote(repo)
+    if len(latest_remotes) > 1:
+        print("Too many remotes match 'latest.bundle'", file=sys.stderr)
+        exit(1)
+    latest_remote = latest_remotes[0]
+    return latest_remote
+
+
+def symlink_if_not_already(link, target):
+    # From https://stackoverflow.com/a/27788271
+    try:
+        # Existing symbolic links show FileExistsError
+        link.symlink_to(target)
+        # But we want to force recreate (ln -s -f)
+    except FileExistsError as e:
+        # So when link exists, remove the link and try again
+        print("Link already exists: re-linking...")
+        os.remove(link)
+        link.symlink_to(target)
+
+
+if __name__ == "__main__":
+    arg = parse_args(sys.argv[1:])
+    if not os.path.isdir(arg.repo_path):
+        print("Cloning...")
+        clone_or_die(arg.bundle, arg.repo_path)
+    print("Moving bundle to existing repo...")
+    moved_bundle_path = Path(shutil.move(arg.bundle, arg.repo_path))
+    latest_path = arg.repo_path / BUNDLE_SYMLINK
+    print("Symlinking to latest.bundle...")
+    symlink_if_not_already(latest_path, moved_bundle_path.name)
+    print("Checking latest.bundle as remote...")
+    remote_name = enforce_bundle_latest_remotes(arg.repo_path)
+
+    print(f"Found remote {remote_name}. Fetching...")
+    # Would have exited if bad remote
+    fetch_cmd = ["git", "fetch", remote_name]
+    fetch_step = subprocess.run(fetch_cmd, cwd=arg.repo_path)
+    if fetch_step.returncode != 0:
+        print("Error fetching from latest bundle remote", file=sys.stderr)
+        exit(1)
+
+"""
+Bug list/TODO:
+- Check Repo missing = git-clone + remote add
+- Bundle file already exists when moved in repo (double use of btextract on same filename)
+- Try cloning from bundle + upping a new bundle later on that repo (should reuse bundy)
+
+"""

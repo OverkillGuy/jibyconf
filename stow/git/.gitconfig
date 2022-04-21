@@ -7,8 +7,8 @@
 	graph = log --decorate --oneline --graph
 	sgraph = graph --simplify-by-decoration
 	st = status --short
-	exfil = !~/bin/btexfil
-	extract = !~/bin/btextract
+	exfil = !~/bin/btexfil_py
+	extract = !~/bin/btextract_py
 	allow-master-push= config --local receive.denyCurrentBranch updateInstead
 [diff "sentences"]
 	textconv = breaksentences
