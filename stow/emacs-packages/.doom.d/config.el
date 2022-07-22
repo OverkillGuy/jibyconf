@@ -256,3 +256,8 @@ will not be modified."
                     (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
+(defun plantuml-force-local-exec-hook ()
+  "Ensure plantuml executes from local JAR, not from internet server"
+  (setq! plantuml-exec-mode 'jar))
+
+(add-hook 'plantuml-mode-hook #'plantuml-force-local-exec-hook)
