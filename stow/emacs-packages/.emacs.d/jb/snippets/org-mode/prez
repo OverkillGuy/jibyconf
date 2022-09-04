@@ -4,7 +4,7 @@
 
 #+REVEAL_TALK_URL: https://jiby.tech/
 
-#+OPTIONS: toc:nil
+#+OPTIONS: toc:nil num:nil
 
 # This presentation is written for Org-mode (https://orgmode.org) in
 # Emacs generating reveal.js slides (https://revealjs.com) via
