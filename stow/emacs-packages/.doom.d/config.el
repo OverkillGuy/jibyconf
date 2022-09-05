@@ -261,3 +261,6 @@ will not be modified."
   (setq! plantuml-exec-mode 'jar))
 
 (add-hook 'plantuml-mode-hook #'plantuml-force-local-exec-hook)
+
+(setq! org-re-reveal-title-slide
+	"<h1>%t</h1><h4>%s</h4><p>%a - <a href=\"%u\">%u</a><p>\n<p>%d </p>")
