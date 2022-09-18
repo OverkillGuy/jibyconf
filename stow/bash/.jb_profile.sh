@@ -59,3 +59,10 @@ alias isodate="date --rfc-3339 date"
 detangle () {
     awk 'BEGIN{RS=">>>>>"} FNR == 1{print "* " FILENAME "\n\n#+BEGIN_SRC conf :tangle " FILENAME}; {print $0 "\n#+END_SRC\n"} ' $@ >detangled.org
 }
+
+alias vpnoff="sudo systemctl stop wg-quick@mullvad-nl2.service"
+alias vpnon="sudo systemctl start wg-quick@mullvad-nl2.service"
+alias vpnfr="sudo systemctl start wg-quick@mullvad-fr5.service"
+
+# Workaround for poetry >=1.2.0 needing keyring all the time
+export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
