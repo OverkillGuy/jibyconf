@@ -21,3 +21,5 @@
 # To avoid in-repo repetition for system-specifc garbage files
 [core]
     excludesfile = ~/.config/git/gitignore
+[init]
+	defaultBranch = main
