@@ -179,7 +179,8 @@ will not be modified."
 (after! undo-tree
   (setq undo-tree-auto-save-history nil))
 (after! lsp-mode
-  (setq! lsp-pylsp-plugins-flake8-config ".flake8"))
+  (setq! lsp-pylsp-plugins-flake8-ignore
+         (list "D400"))) ;; "Docstrings first line must end in a period"
 
 
 (display-time-mode 1)                             ; Enable time in the mode-line
