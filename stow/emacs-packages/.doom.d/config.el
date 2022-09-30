@@ -125,6 +125,13 @@ will not be modified."
 
 (global-set-key (kbd "<f8>") 'jb/open-devlog)
 (global-set-key (kbd "S-<f8>") 'org-capture)
+;; Capture templates, from defaults
+(setq! org-capture-templates `(
+        ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+        ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+        "* %? [[%:link][%:description]] \nCaptured On: %U")
+))
 
 (use-package! eww-lnum
   :config

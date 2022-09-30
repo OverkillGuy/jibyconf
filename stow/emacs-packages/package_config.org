@@ -2029,3 +2029,31 @@ for vlf-mode when file is too big.
 Know also of the classic command =find-file-literally=, which opens a
 file without syntax highlighting and such, good for files with long
 lines and similar.
+* Org protocol setup
+:PROPERTIES:
+:CREATED:  [2022-09-30 Fri 01:11]
+:ID:       7717cb62-7cc7-4760-be81-38d2495b6303
+:END:
+
+Following [[https://orgmode.org/worg/org-contrib/org-protocol.html][worg org-protocol]], create a desktop file, doom does the rest.
+
+#+begin_src conf :tangle .local/share/applications/org-protocol.desktop
+[Desktop Entry]
+Name=org-protocol
+Comment=Intercept calls from emacsclient to trigger custom actions
+Categories=Other;
+Keywords=org-protocol;
+Icon=emacs
+Type=Application
+Exec=emacsclient -- %u
+Terminal=false
+StartupWMClass=Emacs
+MimeType=x-scheme-handler/org-protocol;
+#+end_src
+
+Update the cache database after re-stowing
+
+#+begin_src shell
+stowconf emacs-packages
+update-desktop-database ~/.local/share/applications/
+#+end_src
