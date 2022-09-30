@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-# Workaround for bug https://bugs.archlinux.org/task/61673
-# Introduced in dmenu 4.9, fixed in 5.0
-
-unset GTK_IM_MODULE
-unset QT_IM_MODULE
-unset XMODIFIERS
-dmenu_run
