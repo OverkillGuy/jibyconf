@@ -128,16 +128,22 @@ will not be modified."
 ;; Capture templates, from defaults
 (setq! org-capture-templates `(
         ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\nFrom [[%:link][%:description]]:\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n")
         ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-        "* %? [[%:link][%:description]] \nCaptured On: %U")
+        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\nFrom [[%:link][%:description]].\n")
+        ("h" "hally " entry (file ,(concat org-directory "cattle/hally.org"))
+        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n")
 ))
+;; Auto-enable insert mode on captures
+(add-hook 'org-capture-mode-hook 'evil-insert-state)
+
 
 (use-package! eww-lnum
+  :defer t
   :config
   (eval-after-load "eww"
     '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
-	    (define-key eww-mode-map "F" 'eww-lnum-universal))))
+            (define-key eww-mode-map "F" 'eww-lnum-universal))))
 
 (setq sentence-end-double-space nil)
 
