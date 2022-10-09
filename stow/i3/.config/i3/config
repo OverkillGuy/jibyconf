@@ -32,6 +32,8 @@ bindsym Ctrl+Mod1+l exec i3lock --nofork -i /home/jiby/Pictures/wallpaperz/scree
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# Lightweight policy kit, used by Rancher Desktop to ask password for docker sudo
+exec --no-startup-id lxpolkit
 
 # Caps lock is actually Control
 # Switch between US and FR layout (toggle) by pressing BOTH Controls
