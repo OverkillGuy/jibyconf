@@ -282,3 +282,11 @@ will not be modified."
   :config
   (undefine-key! "M-Q")
   (define-key! unfill-region "M-Q" #'doom/leader))
+
+(defun jb-j2template-mode-override ()
+  ;; Override the major mode if project path contains jinja2 template chars
+  (if
+      (string-match-p "{{cookiecutter" (or (buffer-file-name) ""))
+      (jinja2-mode)))
+
+(add-hook 'find-file-hook #'jb-j2template-mode-override)
