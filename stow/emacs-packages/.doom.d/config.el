@@ -287,6 +287,8 @@ will not be modified."
   ;; Override the major mode if project path contains jinja2 template chars
   (if
       (string-match-p "{{cookiecutter" (or (buffer-file-name) ""))
-      (jinja2-mode)))
+      (progn
+        (jinja2-mode)
+        (poetry-tracking-mode -1))))
 
 (add-hook 'find-file-hook #'jb-j2template-mode-override)
