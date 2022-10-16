@@ -294,3 +294,5 @@ will not be modified."
 (add-hook 'find-file-hook #'jb-j2template-mode-override)
 
 (add-hook 'text-mode-hook #'auto-fill-mode)
+;; Margin default of 18 is way too much for authorship
+(setq! magit-log-margin '(t age magit-log-margin-width t 8))
