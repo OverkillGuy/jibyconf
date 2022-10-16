@@ -292,3 +292,5 @@ will not be modified."
         (poetry-tracking-mode -1))))
 
 (add-hook 'find-file-hook #'jb-j2template-mode-override)
+
+(add-hook 'text-mode-hook #'auto-fill-mode)
