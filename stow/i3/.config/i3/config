@@ -80,6 +80,8 @@ bindsym Ctrl+Mod1+1 exec --no-startup-id /usr/bin/firefox
 bindsym Ctrl+Mod1+2 exec --no-startup-id /usr/bin/vlc
 bindsym Ctrl+Mod1+3 exec --no-startup-id /usr/bin/emacsclient -c
 bindsym Ctrl+Mod1+5 exec --no-startup-id /usr/bin/discord
+bindsym Ctrl+Mod1+6 exec --no-startup-id /home/jiby/dev/foss/armaonlinux/Arma3Helper.sh
+bindsym Ctrl+Mod1+Shift+6 exec --no-startup-id /home/jiby/dev/foss/arma3-unix-launcher/build/src/arma3-unix-launcher/arma3-unix-launcher
 
 # kill focused window
 bindsym $mod+Shift+q kill
