@@ -64,5 +64,18 @@ alias vpnoff="sudo systemctl stop wg-quick@mullvad-nl2.service"
 alias vpnon="sudo systemctl start wg-quick@mullvad-nl2.service"
 alias vpnfr="sudo systemctl start wg-quick@mullvad-fr5.service"
 
+mkv2mp4 () {
+    ffmpeg -i $1 -codec copy $2
+}
+
+mkv-split () {
+    ffmpeg -v quiet -y \
+        -i $1 \
+        -vcodec copy -acodec copy \
+        -ss $2 -t $3 \
+        -sn $4
+}
+
+
 # Workaround for poetry >=1.2.0 needing keyring all the time
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
