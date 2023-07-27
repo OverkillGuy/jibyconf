@@ -76,6 +76,14 @@ mkv-split () {
         -sn $4
 }
 
+bandcamp-dl () {
+    yt-dlp https://$1.bandcamp.com/ -o './%(artist)s/%(album)s/%(track_number)s_%(title)s.%(ext)s'
+}
+
 
 # Workaround for poetry >=1.2.0 needing keyring all the time
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+
+pypi-upload () {
+    POETRY_PYPI_TOKEN_PYPI=$(pass pypi_token) poetry publish
+}
