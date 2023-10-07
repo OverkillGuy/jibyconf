@@ -1,9 +1,0 @@
----
-- name: Update all packages
-  hosts: all
-  tags: [slow, security]
-  become: true
-  tasks:
-    - name: Ensure apt packages are up to date
-      apt:
-        upgrade: full
