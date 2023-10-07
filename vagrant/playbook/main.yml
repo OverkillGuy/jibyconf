@@ -1,0 +1,18 @@
+---
+# - import_playbook: jibyconfig.yml
+# - import_playbook: guix.yml
+- import_playbook: docker.yml
+# - import_playbook: caddy.yml
+# - import_playbook: desktop.yml
+# - import_playbook: clone_repos.yml
+# - import_playbook: password_manager.yml
+# - import_playbook: emacs.yml
+# - import_playbook: email.yml
+# - import_playbook: latex.yml
+# - import_playbook: pipx.yml
+- import_playbook: plantuml.yml
+# - import_playbook: dev_doc.yml
+# - import_playbook: dev_tools.yml
+# - import_playbook: pkg_update.yml
+
+# todo: VPN via wireguard
