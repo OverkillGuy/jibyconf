@@ -655,6 +655,8 @@ will not be modified."
 
 (use-package dired-rsync)
 
+(use-package all-the-icons)
+
 (use-package alert)
 
 (use-package org-wild-notifier

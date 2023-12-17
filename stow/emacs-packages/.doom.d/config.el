@@ -35,6 +35,7 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+(setq doom-font (font-spec :family "Fira Mono" :size 20))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -56,6 +57,7 @@
   :init
   (setq rainbow-delimiters-max-face-count 8)
   :hook (prog-mode . rainbow-delimiters-mode)
+  :defer t
   :config
   (set-face-foreground 'rainbow-delimiters-depth-1-face "#FF8811")
   (set-face-foreground 'rainbow-delimiters-depth-2-face "#8F0")
@@ -71,6 +73,13 @@
                       :inherit 'rainbow-delimiters-base-face))
 
 (add-hook 'org-insert-heading-hook #'org-id-get-create)
+
+
+(defun disable-org-completion ()
+  (set-company-backend! 'org-mode nil))
+
+(add-hook 'org-mode-hook #'disable-org-completion)
+
 
 (defvar org-created-property-name "CREATED"
   "The name of the org-mode property that stores the creation date of the entry")
@@ -94,12 +103,12 @@ will not be modified."
   "Popup via libnotify on compilation finished with unfocused window"
   (interactive)
   (if (not (eq buffer
-	       (window-buffer (selected-window))))
+               (window-buffer (selected-window))))
       (alert
        (format "Compilation %s"
-	       (if (string-equal "finished\n" desc)
-		   "succeeded"
-		 "failed"))
+               (if (string-equal "finished\n" desc)
+                   "succeeded"
+                 "failed"))
        :title "Emacs"
        :category 'emacs :style 'libnotify
        :icon "gnome-inhibit-applet")))
@@ -117,13 +126,14 @@ will not be modified."
   (end-of-buffer))
 
 (use-package! projectile
+  :defer t
   :bind-keymap ("<f7>" . projectile-command-map)
   :config (setq! projectile-project-search-path
-	         '("~/dev/" "~/org/"))
+                 '("~/dev/" "~/org/"))
   (setq! projectile-switch-project-action 'magit-status))
 
 
-(global-set-key (kbd "<f8>") 'jb/open-devlog)
+;; (global-set-key (kbd "<f8>") 'jb/open-devlog)
 (global-set-key (kbd "S-<f8>") 'org-capture)
 ;; Capture templates, from defaults
 (setq! org-capture-templates `(
@@ -155,25 +165,25 @@ will not be modified."
     (call-process "xdg-open" nil 0 nil file)
     (message "Opening %s done" file)))
 
-;; (load-file "~/.emacs.d.BKP/jb/packages/irfc.el")
-;; (setq irfc-directory "~/dev/doc/rfc/")
-;; (setq irfc-assoc-mode t)
+(load-file "~/.emacs.d/jb/packages/irfc.el")
+(setq irfc-directory "~/dev/doc/rfc/")
+(setq irfc-assoc-mode t)
 
-;; ;; (setq irfc-head-name-face :foreground "orange red")
-;; (set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
+;; (setq irfc-head-name-face :foreground "orange red")
+(set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
 
-;; (when (featurep 'irfc)
-;;   (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
-;;   (defalias 'rfc 'irfc-visit))
+(when (featurep 'irfc)
+  (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
+  (defalias 'rfc 'irfc-visit))
 
-;; (load-file "~/.emacs.d.BKP/jb/packages/fic-mode.el")
-;; (add-hook 'prog-mode-hook 'turn-on-fic-mode)
+(load-file "~/.emacs.d/jb/packages/fic-mode.el")
+(add-hook 'prog-mode-hook 'turn-on-fic-mode)
 
 (defun set-docs-as-readonly ()
   "Make buffers readonly by default when folder matches pattern"
   (dolist (pattern '("~/dev/doc/.*"
-					; Anything else?
-		     ))
+                                        ; Anything else?
+                     ))
     (if (string-match (expand-file-name pattern) buffer-file-name)
         (read-only-mode))))
 
@@ -182,6 +192,7 @@ will not be modified."
 (setq doc-view-continuous t)
 
 (use-package! edit-server
+  :defer t
   :init (edit-server-start)
   :custom
   (edit-server-url-major-mode-alist
@@ -191,10 +202,6 @@ will not be modified."
 ; No persistent history
 (after! undo-tree
   (setq undo-tree-auto-save-history nil))
-(after! lsp-mode
-  (setq! lsp-pylsp-plugins-flake8-ignore
-         (list "D400"))) ;; "Docstrings first line must end in a period"
-
 
 (display-time-mode 1)                             ; Enable time in the mode-line
 
@@ -229,11 +236,11 @@ will not be modified."
 
 (add-hook 'org-mode-hook #'auto-fill-mode)
 
-(use-package! ob-http)
-(use-package! k8s-mode)
-(use-package! feature-mode)
-(use-package! htmlize)
-(use-package! lorem-ipsum)
+(use-package! ob-http :defer t)
+(use-package! k8s-mode :defer t)
+(use-package! feature-mode :defer t)
+(use-package! htmlize :defer t)
+(use-package! lorem-ipsum :defer t)
 
 ; Don't use the recently-default "/posts/", but "/post/" as my blog does
 (setq! org-hugo-section "post")
@@ -270,9 +277,14 @@ will not be modified."
                     (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
+
+(setq comint-buffer-maximum-size 16384)
+
+
 (defun plantuml-force-local-exec-hook ()
   "Ensure plantuml executes from local JAR, not from internet server"
-  (setq! plantuml-exec-mode 'jar))
+  (setq! plantuml-exec-mode 'jar)
+  (setq! plantuml-default-exec-mode 'jar))
 
 (add-hook 'plantuml-mode-hook #'plantuml-force-local-exec-hook)
 
@@ -296,3 +308,37 @@ will not be modified."
 (add-hook 'text-mode-hook #'auto-fill-mode)
 ;; Margin default of 18 is way too much for authorship
 (setq! magit-log-margin '(t age magit-log-margin-width t 8))
+
+;; (setq! lsp-enable-suggest-server-download nil)
+;; (setq! lsp-disabled-clients '("mspyls"))
+;; (after! lsp-mode
+;;   (setq! lsp-pylsp-plugins-flake8-ignore
+;;          (list "D400"))) ;; "Docstrings first line must end in a period"
+
+;; (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
+
+;; (setq-default eglot-workspace-configuration
+;;         '((:pylsp .
+;;            (:configurationSources ["flake8"]
+;;             :plugins
+;;             (:pycodestyle (:enabled nil)
+;;              :mccabe (:enabled nil)
+;;              :flake8 (:enabled t))
+;;             (:configurationSources ["python-mypy"]
+;;              ::enabled nil)))))
+
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  ;; (global-tree-sitter-mode)
+  ;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+  )
+
+
+(use-package! ellama
+  ;; :init
+  ;; (require 'llm-ollama)
+  ;; (setq! ellama-provider
+  ;;        (make-llm-ollama :scheme "http" :host "localhost" :port 11434
+  ;;                         :chat-model "zephyr:7b-alpha-q5_K_M" :embedding-model "zephyr:7b-alpha-q5_K_M"))
+)

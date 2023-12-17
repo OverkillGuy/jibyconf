@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: pod-volume-mount
+# key: volumemounts
+# --
+volumeMounts:
+  - name: ${name: Name of the Volume}
+    mountPath: ${path: Path to mount}
