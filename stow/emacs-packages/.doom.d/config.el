@@ -75,10 +75,12 @@
 (add-hook 'org-insert-heading-hook #'org-id-get-create)
 
 
-(defun disable-org-completion ()
-  (set-company-backend! 'org-mode nil))
 
-(add-hook 'org-mode-hook #'disable-org-completion)
+(use-package! company
+  :config
+  ; Remove company-ispell (dictionary-based completes) from any completion
+  (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
+  (add-to-list '+company-backend-alist '(text-mode (:separate company-dabbrev company-yasnippet))))
 
 
 (defvar org-created-property-name "CREATED"
