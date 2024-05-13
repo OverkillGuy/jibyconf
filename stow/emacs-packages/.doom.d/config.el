@@ -6,7 +6,7 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "Jb Doyon"
+(setq! user-full-name "Jb Doyon"
       user-mail-address "jb@jiby.tech")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
@@ -25,17 +25,17 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq! doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq! org-directory "~/dev/notes/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-(setq doom-font (font-spec :family "Fira Mono" :size 20))
+(setq! doom-font (font-spec :family "Fira Mono" :size 20))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -53,12 +53,14 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+(setq sentence-end-double-space nil)
+
 (use-package! rainbow-delimiters
   :init
-  (setq rainbow-delimiters-max-face-count 8)
   :hook (prog-mode . rainbow-delimiters-mode)
   :defer t
   :config
+  (setq! rainbow-delimiters-max-face-count 8)
   (set-face-foreground 'rainbow-delimiters-depth-1-face "#FF8811")
   (set-face-foreground 'rainbow-delimiters-depth-2-face "#8F0")
   (set-face-foreground 'rainbow-delimiters-depth-3-face "#55DDFF")
@@ -72,36 +74,15 @@
                       :foreground "red"
                       :inherit 'rainbow-delimiters-base-face))
 
-(add-hook 'org-insert-heading-hook #'org-id-get-create)
-
-
-
 (use-package! company
   :config
   ; Remove company-ispell (dictionary-based completes) from any completion
   (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
   (add-to-list '+company-backend-alist '(text-mode (:separate company-dabbrev company-yasnippet))))
 
+(defvar jb/compilation-complete-icon "/home/jiby/dev/foss/emacs-dragon-icon/AppIcons/emacs-dragon-icon.iconset/icon_128x128.png")
 
-(defvar org-created-property-name "CREATED"
-  "The name of the org-mode property that stores the creation date of the entry")
-
-(defun org-set-created-property (&optional active NAME)
-  "Set a property on the entry giving the creation time.
-
-By default the property is called CREATED. If given the `NAME'
-argument will be used instead. If the property already exists, it
-will not be modified."
-  (interactive)
-  (let* ((created (or NAME org-created-property-name))
-         (fmt (if active "<%s>" "[%s]"))
-         (now  (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
-    (unless (org-entry-get (point) created nil)
-      (org-set-property created now))))
-
-(add-hook 'org-insert-heading-hook #'org-set-created-property)
-
-(defun compilation-finished-unfocused-notify (buffer desc)
+(defun jb/compilation-finished-unfocused-notify (buffer desc)
   "Popup via libnotify on compilation finished with unfocused window"
   (interactive)
   (if (not (eq buffer
@@ -113,8 +94,9 @@ will not be modified."
                  "failed"))
        :title "Emacs"
        :category 'emacs :style 'libnotify
-       :icon "gnome-inhibit-applet")))
-(add-hook 'compilation-finish-functions 'compilation-finished-unfocused-notify)
+       :icon jb/compilation-complete-icon)))
+
+(add-hook 'compilation-finish-functions 'jb/compilation-finished-unfocused-notify)
 
 (global-set-key (kbd "S-<f7>") 'projectile-switch-project)
 
@@ -127,37 +109,23 @@ will not be modified."
   (find-file "~/dev/notes/devlog.org")
   (end-of-buffer))
 
-(use-package! projectile
-  :defer t
-  :bind-keymap ("<f7>" . projectile-command-map)
-  :config (setq! projectile-project-search-path
-                 '("~/dev/" "~/org/"))
-  (setq! projectile-switch-project-action 'magit-status))
+;; (use-package! projectile
+;;   :defer t
+;;   :bind-keymap ("<f7>" . projectile-command-map)
+;;   :config (setq! projectile-project-search-path
+;;                  '("~/dev/" "~/org/"))
+;;   (setq! projectile-switch-project-action 'magit-status))
 
-
-;; (global-set-key (kbd "<f8>") 'jb/open-devlog)
-(global-set-key (kbd "S-<f8>") 'org-capture)
-;; Capture templates, from defaults
-(setq! org-capture-templates `(
-        ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\nFrom [[%:link][%:description]]:\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n")
-        ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\nFrom [[%:link][%:description]].\n")
-        ("h" "hally " entry (file ,(concat org-directory "cattle/hally.org"))
-        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n")
-))
-;; Auto-enable insert mode on captures
-(add-hook 'org-capture-mode-hook 'evil-insert-state)
-
+(use-package! eww
+  :after evil
+  :config (evil-set-initial-state 'eww-mode 'emacs))
 
 (use-package! eww-lnum
-  :defer t
-  :config
-  (eval-after-load "eww"
-    '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
-            (define-key eww-mode-map "F" 'eww-lnum-universal))))
+  :after eww
+  :bind (:map eww-mode-map
+              ("f" . eww-lnum-follow)
+              ("F" . eww-lnum-universal)))
 
-(setq sentence-end-double-space nil)
 
 (defun dired-open-file ()
   "In dired, open the file named on this line."
@@ -167,19 +135,19 @@ will not be modified."
     (call-process "xdg-open" nil 0 nil file)
     (message "Opening %s done" file)))
 
-(load-file "~/.emacs.d/jb/packages/irfc.el")
-(setq irfc-directory "~/dev/doc/rfc/")
-(setq irfc-assoc-mode t)
-
+(use-package! irfc
+  :load-path "~/.emacs.d/jb/packages/"
 ;; (setq irfc-head-name-face :foreground "orange red")
-(set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
-
-(when (featurep 'irfc)
+  :config
+  (setq! irfc-directory "~/dev/doc/rfc/")
+  (setq! irfc-assoc-mode t)
+  ; (set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
   (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
   (defalias 'rfc 'irfc-visit))
 
-(load-file "~/.emacs.d/jb/packages/fic-mode.el")
-(add-hook 'prog-mode-hook 'turn-on-fic-mode)
+(use-package! fic-mode
+  :load-path "~/.emacs.d/jb/packages/"
+  :hook (prog-mode-hook . turn-on-fic-mode))
 
 (defun set-docs-as-readonly ()
   "Make buffers readonly by default when folder matches pattern"
@@ -201,24 +169,28 @@ will not be modified."
         '(("github\\.com" . markdown-mode)))
   (edit-server-new-frame nil))
 
-; No persistent history
-(after! undo-tree
-  (setq undo-tree-auto-save-history nil))
+;; No persistent history
+(use-package! undo-tree
+  :custom
+  (undo-tree-auto-save-history nil))
 
-(display-time-mode 1)                             ; Enable time in the mode-line
+;; Enable time in the mode-line
+(display-time-mode 1)
 
 (unless (string-match-p "^Power N/A" (battery))   ; On laptops...
   (display-battery-mode 1))                       ; it's nice to know how much power you have
 
 ;; From https://github.com/hlissner/doom-emacs/issues/2223#issuecomment-568202866
 ;; Don't auto-insert parens!
-(after! smartparens
+(use-package! smartparens
+  :custom
   (smartparens-global-mode -1))
 
-(defvar org-created-property-name "CREATED"
-  "The name of the org-mode property that stores the creation date of the entry")
-
-(defun org-set-created-property (&optional active NAME)
+(use-package! org
+  :config
+  (defvar org-created-property-name "CREATED"
+    "The name of the org-mode property that stores the creation date of the entry")
+  (defun org-set-created-property (&optional active NAME)
   "Set a property on the entry giving the creation time.
 
 By default the property is called CREATED. If given the `NAME'
@@ -230,13 +202,13 @@ will not be modified."
          (now  (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
     (unless (org-entry-get (point) created nil)
       (org-set-property created now))))
+  :custom
+  (add-to-list! 'org-modules 'org-id)
+  :hook
+  (org-insert-heading-hook . org-set-created-property)
+  (org-insert-heading-hook . org-id-get-create)
+  (org-mode-hook . auto-fill-mode))
 
-(add-hook 'org-insert-heading-hook #'org-set-created-property)
-
-(add-to-list 'org-modules 'org-id)
-(add-hook 'org-insert-heading-hook #'org-id-get-create)
-
-(add-hook 'org-mode-hook #'auto-fill-mode)
 
 (use-package! ob-http :defer t)
 (use-package! k8s-mode :defer t)
@@ -247,17 +219,17 @@ will not be modified."
 ; Don't use the recently-default "/posts/", but "/post/" as my blog does
 (setq! org-hugo-section "post")
 
-(setq! evil-want-C-d-scroll nil
-       evil-move-beyond-eol t
-       evil-cross-lines t
-       evil-undo-system 'undo-tree
-       evil-kill-on-visual-paste nil)
 
 ;; Fix magit-blame-mode ENTER key not jumping to commit anymore
-(add-hook 'magit-blame-mode-hook #'evil-emacs-state)
+(use-package! magit
+  :config
+  (evil-set-initial-state 'magit-blame-mode-hook 'emacs)
 ;; Fix magit-status buffer's SPC prompting for showing commits instead of doom menu
-(define-key! magit-status-mode-map "SPC" #'doom/leader)
-(add-to-list 'yas-snippet-dirs "~/.emacs.d/jb/snippets/")
+  (define-key! magit-status-mode-map "SPC" #'doom/leader)
+;; Margin default of 18 is way too much for authorship
+  (setq! magit-log-margin '(t age magit-log-margin-width t 8)))
+
+(setq! +snippets-dir "~/.emacs.d/jb/snippets/")
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -283,20 +255,21 @@ will not be modified."
 (setq comint-buffer-maximum-size 16384)
 
 
-(defun plantuml-force-local-exec-hook ()
-  "Ensure plantuml executes from local JAR, not from internet server"
-  (setq! plantuml-exec-mode 'jar)
-  (setq! plantuml-default-exec-mode 'jar))
-
-(add-hook 'plantuml-mode-hook #'plantuml-force-local-exec-hook)
+(use-package! plantuml-mode
+  :custom
+  (plantuml-default-exec-mode 'jar)
+  (plantuml-jar-path "/opt/plantuml/plantuml.jar")
+  (plantuml-output-type "png"))
 
 (setq! org-re-reveal-title-slide
   "<h1>%t</h1><h4>%s</h4><p>%a - <a href=\"%u\">%u</a><p>\n<p>%d </p>")
+
 (use-package! unfill
   :config
   (undefine-key! "M-Q")
   (define-key! unfill-region "M-Q" #'doom/leader))
 
+;; FIXME: Check if still useful now we use Copier?
 (defun jb-j2template-mode-override ()
   ;; Override the major mode if project path contains jinja2 template chars
   (if
@@ -308,8 +281,6 @@ will not be modified."
 (add-hook 'find-file-hook #'jb-j2template-mode-override)
 
 (add-hook 'text-mode-hook #'auto-fill-mode)
-;; Margin default of 18 is way too much for authorship
-(setq! magit-log-margin '(t age magit-log-margin-width t 8))
 
 ;; (setq! lsp-enable-suggest-server-download nil)
 ;; (setq! lsp-disabled-clients '("mspyls"))
@@ -344,3 +315,76 @@ will not be modified."
   ;;        (make-llm-ollama :scheme "http" :host "localhost" :port 11434
   ;;                         :chat-model "zephyr:7b-alpha-q5_K_M" :embedding-model "zephyr:7b-alpha-q5_K_M"))
 )
+
+;; From https://emacs.stackexchange.com/a/36483
+(defun yas-org-very-safe-expand ()
+  (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
+(add-hook 'org-mode-hook
+      (lambda ()
+        (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand)
+        (define-key yas-keymap [tab] 'yas-next-field)))
+
+;; Fallback font for unicode symbols, both for standalone & client modes
+(let ((symbols-font "Noto Sans Symbols 2-16"))
+  (set-fontset-font t 'symbol symbols-font)
+  (add-hook 'server-after-make-frame-hook
+            `(lambda ()
+               (set-fontset-font nil 'symbol ,symbols-font))))
+
+(setq! org-id-prefix "jiborg")
+
+;; Fix info mode navigation broken in evil-mode
+(evil-set-initial-state 'Info-mode 'emacs)
+
+
+;; (global-set-key (kbd "<f8>") 'jb/open-devlog)
+(global-set-key (kbd "S-<f8>") 'org-roam-capture)
+;; Capture templates, from defaults
+(setq! org-capture-templates `(
+        ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\nFrom [[%:link][%:description]]:\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n")
+        ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\nFrom [[%:link][%:description]].\n")
+        ("h" "hally" entry (file ,(concat org-directory "../../cattle/hally.org"))
+        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n")
+))
+
+(use-package! org-roam
+  :after org
+  :config
+  (setq! org-roam-directory "~/dev/notes/")
+  ;; Auto-enable insert mode on captures
+  (evil-set-initial-state 'org-capture-mode 'insert)
+  (add-to-list 'display-buffer-alist
+               '("\\*org-roam\\*"
+                 (display-buffer-in-direction)
+                 (direction . right)
+                 (window-width . 0.33)
+                 (window-height . fit-window-to-buffer)))
+  (require 'org-roam-protocol)
+  (setq! org-roam-capture-templates
+   '(("d" "default" plain
+      "%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)
+
+     ("f" "How to" plain
+      (file "how_to.org")
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: HowTo")
+      :unnarrowed t)
+
+     ("c" "Concept" plain
+      "%?"
+      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: Concepts")
+      :unnarrowed t)
+     )))
+
+(use-package! evil
+  :after undo-tree
+  :custom
+  ;; Allow VI mode to select character after EOL like in Emacs
+  (evil-move-beyond-eol t)
+  (evil-want-C-d-scroll nil)
+  (evil-cross-lines t)
+  (evil-undo-system 'undo-tree)
+  (evil-kill-on-visual-paste nil))
