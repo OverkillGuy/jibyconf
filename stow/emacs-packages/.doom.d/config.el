@@ -186,11 +186,11 @@
   :custom
   (smartparens-global-mode -1))
 
-(use-package! org
-  :config
-  (defvar org-created-property-name "CREATED"
-    "The name of the org-mode property that stores the creation date of the entry")
-  (defun org-set-created-property (&optional active NAME)
+(defvar org-created-property-name
+  "CREATED"
+  "The name of the org-mode property that stores the creation date of the entry")
+
+(defun jb/org-set-created-property (&optional active NAME)
   "Set a property on the entry giving the creation time.
 
 By default the property is called CREATED. If given the `NAME'
@@ -202,12 +202,20 @@ will not be modified."
          (now  (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
     (unless (org-entry-get (point) created nil)
       (org-set-property created now))))
-  :custom
-  (add-to-list! 'org-modules 'org-id)
-  :hook
-  (org-insert-heading-hook . org-set-created-property)
-  (org-insert-heading-hook . org-id-get-create)
-  (org-mode-hook . auto-fill-mode))
+
+(add-hook! 'org-insert-heading-hook
+           'org-id-get-create
+           'jb/org-set-created-property)
+
+(add-hook! 'org-mode-hook 'auto-fill-mode)
+
+;; From https://emacs.stackexchange.com/a/36483
+(defun yas-org-very-safe-expand ()
+  (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
+
+(add-hook! 'org-tab-first-hook 'yas-org-very-safe-expand)
+(define-key! yas-keymap [tab] 'yas-next-field)
+
 
 
 (use-package! ob-http :defer t)
@@ -316,13 +324,6 @@ will not be modified."
   ;;                         :chat-model "zephyr:7b-alpha-q5_K_M" :embedding-model "zephyr:7b-alpha-q5_K_M"))
 )
 
-;; From https://emacs.stackexchange.com/a/36483
-(defun yas-org-very-safe-expand ()
-  (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
-(add-hook 'org-mode-hook
-      (lambda ()
-        (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand)
-        (define-key yas-keymap [tab] 'yas-next-field)))
 
 ;; Fallback font for unicode symbols, both for standalone & client modes
 (let ((symbols-font "Noto Sans Symbols 2-16"))
