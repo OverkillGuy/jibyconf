@@ -341,21 +341,15 @@ will not be modified."
 ;; (global-set-key (kbd "<f8>") 'jb/open-devlog)
 (global-set-key (kbd "S-<f8>") 'org-roam-capture)
 ;; Capture templates, from defaults
-(setq! org-capture-templates `(
-        ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\nFrom [[%:link][%:description]]:\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n")
-        ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
-        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\nFrom [[%:link][%:description]].\n")
-        ("h" "hally" entry (file ,(concat org-directory "../../cattle/hally.org"))
-        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n")
-))
 
 (use-package! org-roam
-  :after org
+  :after org evil
+  ;; HACK evil-set-initial-state only works for MAJOR modes, org-capture = minor
+  ;; See https://github.com/emacs-evil/evil/issues/1115#issuecomment-450480141
+  :hook (org-capture-mode . evil-insert-state)
   :config
   (setq! org-roam-directory "~/dev/notes/")
   ;; Auto-enable insert mode on captures
-  (evil-set-initial-state 'org-capture-mode 'insert)
   (add-to-list 'display-buffer-alist
                '("\\*org-roam\\*"
                  (display-buffer-in-direction)
@@ -366,19 +360,23 @@ will not be modified."
   (setq! org-roam-capture-templates
    '(("d" "default" plain
       "%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
       :unnarrowed t)
-
-     ("f" "How to" plain
-      (file "how_to.org")
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: HowTo")
-      :unnarrowed t)
-
+     ("t" "Task" entry
+      "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n"
+      :target (file "todo.org")
+      :if-new (file+head "todo.org" "#+TITLE: ${title}\n#+FILETAGS: task\n\n")
+      :unnarrowed t
+      :prepend t)
      ("c" "Concept" plain
       "%?"
-      :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: Concepts")
+      :if-new (file+head "concepts/${slug}.org" "#+TITLE: ${title}\n#+FILETAGS: concept\n\n")
       :unnarrowed t)
-     )))
+     ))
+  (setq! org-roam-dailies-capture-templates
+         '(("d" "default" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n" :target
+            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))))
+  )
 
 (use-package! evil
   :after undo-tree

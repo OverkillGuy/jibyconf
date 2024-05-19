@@ -23,7 +23,16 @@
      ol-man
      org-notify
      orgtbl-sqlinsert
-     org-toc)))
+     org-toc))
+'(org-capture-templates `(
+        ("p" "Protocol" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\nFrom [[%:link][%:description]]:\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n")
+        ("L" "Protocol Link" entry (file+headline ,(concat org-directory "notes.org") "Inbox")
+        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\nFrom [[%:link][%:description]].\n")
+        ("h" "hally" entry (file "~/org/cattle/hally.org")
+        "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n")
+        ))
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
