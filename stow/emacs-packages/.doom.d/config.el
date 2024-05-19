@@ -209,11 +209,12 @@ will not be modified."
 
 (add-hook! 'org-mode-hook 'auto-fill-mode)
 
-;; From https://emacs.stackexchange.com/a/36483
-(defun yas-org-very-safe-expand ()
-  (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
+;; Disabled because it warns on org-roam, and feature is meh anyway
+;; ;; From https://emacs.stackexchange.com/a/36483
+;; (defun yas-org-very-safe-expand ()
+;;   (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
 
-(add-hook! 'org-tab-first-hook 'yas-org-very-safe-expand)
+;; (add-hook! 'org-tab-first-hook 'yas-org-very-safe-expand)
 (define-key! yas-keymap [tab] 'yas-next-field)
 
 
