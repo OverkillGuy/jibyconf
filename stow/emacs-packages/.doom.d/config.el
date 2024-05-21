@@ -145,10 +145,6 @@
   (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
   (defalias 'rfc 'irfc-visit))
 
-(use-package! fic-mode
-  :load-path "~/.emacs.d/jb/packages/"
-  :hook (prog-mode-hook . turn-on-fic-mode))
-
 (defun set-docs-as-readonly ()
   "Make buffers readonly by default when folder matches pattern"
   (dolist (pattern '("~/dev/doc/.*"
