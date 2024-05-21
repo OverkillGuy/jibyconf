@@ -19,6 +19,16 @@
 (package! tree-sitter-langs)
 
 (package! ellama)
+
+;; Disable some useless python modules of doom emacs
+;; Free up keybinds shadowed by pkgs, like C-c C-p = run-python
+(package! pipenv :disable t)
+(package! conda :disable t)
+(package! anaconda-mode :disable t)
+(package! nose :disable t)
+(package! pyenv-mode :disable t)
+
+
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/raxod502/straight.el#the-recipe-format
