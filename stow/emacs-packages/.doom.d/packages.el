@@ -5,9 +5,6 @@
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
 
-(package! eww-lnum)
-(package! edit-server)
-(package! k8s-mode)
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 (package! feature-mode)
@@ -15,10 +12,17 @@
 (package! lorem-ipsum)
 (package! ob-http)
 (package! unfill)
-(package! tree-sitter)
-(package! tree-sitter-langs)
+(package! eww-lnum)
+(package! edit-server)
+(package! k8s-mode)
 
 (package! ellama)
+
+
+(package! hurl-mode :recipe
+  (:host github
+   :repo "Orange-OpenSource/hurl"
+   :files ("contrib/emacs/*.el")))
 
 ;; Disable some useless python modules of doom emacs
 ;; Free up keybinds shadowed by pkgs, like C-c C-p = run-python
