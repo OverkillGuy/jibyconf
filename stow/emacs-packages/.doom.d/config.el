@@ -171,10 +171,14 @@
   (undo-tree-auto-save-history nil))
 
 ;; Enable time in the mode-line
-(display-time-mode 1)
+(after! doom-modeline
+  (setq! display-time-string-forms
+        '((propertize (concat 24-hours ":" minutes))))
+  (display-time-mode 1)
+  ;; On laptops it's nice to know how much power you have
+  (unless (string-match-p "^Power N/A" (battery))
+    (display-battery-mode 1)))
 
-(unless (string-match-p "^Power N/A" (battery))   ; On laptops...
-  (display-battery-mode 1))                       ; it's nice to know how much power you have
 
 ;; From https://github.com/hlissner/doom-emacs/issues/2223#issuecomment-568202866
 ;; Don't auto-insert parens!
