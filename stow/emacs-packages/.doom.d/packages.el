@@ -19,7 +19,9 @@
 (package! ellama)
 
 
-(package! hurl-mode :recipe
+(package! hurl-mode
+  :defer t
+  :recipe
   (:host github
    :repo "Orange-OpenSource/hurl"
    :files ("contrib/emacs/*.el")))
