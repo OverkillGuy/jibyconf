@@ -370,7 +370,11 @@ will not be modified."
       "%?"
       :if-new (file+head "concepts/${slug}.org" "#+TITLE: ${title}\n#+FILETAGS: concept\n\n")
       :unnarrowed t)
-     ))
+     ("b" "Blogpost" plain
+      "#+HUGO_BASE_DIR: ../\n\n#+SETUPFILE: ./jiby_dot_tech_setupfile.org\n\n\n* DRAFT ${title} :blog:\n:PROPERTIES:\n:CREATED:  %U\n:ID: %(org-id-new)\n:EXPORT_FILE_NAME: ${slug}\n:EXPORT_DATE: <%<%Y-%m-%d>>\n:END:\n\n%?"
+      :if-new (file "~/dev/ws/jiby.tech/content-org/${slug}.org")
+      :jump-to-captured t
+      )))
   (setq! org-roam-dailies-capture-templates
          '(("d" "default" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n" :target
             (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))))
