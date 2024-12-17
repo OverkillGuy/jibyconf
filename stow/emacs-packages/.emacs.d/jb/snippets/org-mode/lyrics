@@ -4,9 +4,10 @@
 # --
 #+TITLE: New compo
 #+AUTHOR: X - Jb
+#+DATE: `(format-time-string "<%Y-%m-%d %a>" (current-time))`
 #+LANGUAGE: en
 
-#+OPTIONS: toc:nil num:nil todo:nil H:3 date:nil
+#+OPTIONS: toc:nil num:nil todo:nil H:3
 
 #+STARTUP: latexpreview
 #+LATEX_HEADER: \usepackage{multicol}
