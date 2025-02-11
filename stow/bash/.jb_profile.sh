@@ -52,6 +52,8 @@ show-gherkin () {
 alias rfcdate="date --rfc-3339 seconds | sed -e 's/ /T/' -e 's/\+00:00/Z/'"
 # Format date as per ISO 8601
 alias isodate="date --rfc-3339 date"
+# Discord-style dates
+alias discord-date="date +'<t:%s>'"
 
 ## Create detangled.org org-mode file containing all of args content
 ## as org-mode tangleable code section
