@@ -1,0 +1,12 @@
+[Unit]
+Description=Llamafile LLM
+Documentation=https://github.com/Mozilla-Ocho/llamafile
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c '/home/jiby/Downloads/Mistral-7B-Instruct-v0.3.Q4_0.llamafile --server --nobrowser -ngl 999'
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
