@@ -399,3 +399,11 @@ will not be modified."
   "Show the gherkin features of this buffer in a separate window"
   (interactive)
   (occur "\\(Given\\|When\\|Then\\|And\\|But\\|Scenario\\|Background\\|Feature\\|In order to\\|As a\\|I want to\\|I need to\\|So that\\)"))
+(use-package! gptel
+ :config
+  (setq! gptel-default-mode 'org-mode)
+  (gptel-make-openai "llamafile"          ;Any name
+  :stream t                             ;Stream responses
+  :protocol "http"
+  :host "localhost:8080"                ;Llama.cpp server location
+  :models '(test)))                    ;Any names, doesn't matter for Llama
