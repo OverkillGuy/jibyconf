@@ -237,7 +237,8 @@ will not be modified."
 ;; Fix magit-status buffer's SPC prompting for showing commits instead of doom menu
   (define-key! magit-status-mode-map "SPC" #'doom/leader)
 ;; Margin default of 18 is way too much for authorship
-  (setq! magit-log-margin '(t age magit-log-margin-width t 8)))
+  (setq! magit-log-margin '(t age magit-log-margin-width t 8))
+  (setq! magit-diff-visit-prefer-worktree t))
 
 (setq! +snippets-dir "~/.emacs.d/jb/snippets/")
 
