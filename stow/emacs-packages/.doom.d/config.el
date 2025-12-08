@@ -323,11 +323,13 @@ will not be modified."
 
 
 ;; Fallback font for unicode symbols, both for standalone & client modes
-(let ((symbols-font "Noto Sans Symbols 2-16"))
-  (set-fontset-font t 'symbol symbols-font)
-  (add-hook 'server-after-make-frame-hook
-            `(lambda ()
-               (set-fontset-font nil 'symbol ,symbols-font))))
+(when (display-graphic-p)
+  (let ((symbols-font "Noto Sans Symbols 2-16"))
+    (set-fontset-font t 'symbol symbols-font)
+    (add-hook 'server-after-make-frame-hook
+              `(lambda ()
+                 (when (display-graphic-p)
+                   (set-fontset-font nil 'symbol ,symbols-font))))))
 
 (setq! org-id-prefix "jiborg")
 
