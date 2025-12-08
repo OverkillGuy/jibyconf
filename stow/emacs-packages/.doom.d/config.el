@@ -311,13 +311,6 @@ will not be modified."
 ;;             (:configurationSources ["python-mypy"]
 ;;              ::enabled nil)))))
 
-(use-package! tree-sitter
-  :config
-  (require 'tree-sitter-langs)
-  ;; (global-tree-sitter-mode)
-  ;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-  )
-
 
 (use-package! ellama
   :init
