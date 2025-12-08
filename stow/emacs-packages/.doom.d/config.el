@@ -207,7 +207,8 @@ will not be modified."
            'org-id-get-create
            'jb/org-set-created-property)
 
-(add-hook! 'org-mode-hook 'auto-fill-mode)
+;; I actually like semantic linebreaks so let's NOT have auto-fill
+;; (add-hook! 'org-mode-hook 'auto-fill-mode)
 
 ;; Disabled because it warns on org-roam, and feature is meh anyway
 ;; ;; From https://emacs.stackexchange.com/a/36483
