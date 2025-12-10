@@ -291,8 +291,6 @@ will not be modified."
 
 (add-hook 'find-file-hook #'jb-j2template-mode-override)
 
-(add-hook 'text-mode-hook #'auto-fill-mode)
-
 ;; (setq! lsp-enable-suggest-server-download nil)
 ;; (setq! lsp-disabled-clients '("mspyls"))
 ;; (after! lsp-mode
