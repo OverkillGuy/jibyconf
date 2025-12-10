@@ -404,3 +404,4 @@ will not be modified."
   :protocol "http"
   :host "localhost:8080"                ;Llama.cpp server location
   :models '(test)))                    ;Any names, doesn't matter for Llama
+(use-package! rainbow-mode)
