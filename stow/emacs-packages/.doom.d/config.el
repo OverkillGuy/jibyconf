@@ -377,7 +377,14 @@ will not be modified."
   (setq! org-roam-dailies-capture-templates
          '(("d" "default" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n" :target
             (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))))
-  )
+  (defun jb/org-roam-rg-search ()
+    "Search org-roam directory using consult-ripgrep. With live-preview."
+    (interactive)
+    (consult-ripgrep org-roam-directory))
+
+  (map! :localleader
+        :map org-mode-map
+        "/" #'jb/org-roam-rg-search))
 
 (use-package! evil
   :after undo-tree
