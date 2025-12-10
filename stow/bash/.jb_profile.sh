@@ -33,9 +33,9 @@ alias stowconf='stow --dir ~/dev/conf/jibyconf/stow/ --target ~/ '
 alias goconf='cd ~/dev/conf/jibyconf/'
 alias jibyconf='cd ~/dev/conf/jibyconf/'
 
-nessyxpic () {
-    ssh nessyx 'find ~/storage/dcim/ -iname "*.jpg" -newermt "5 minute ago" -type f' \
-	| xargs -I% scp nessyx:% .
+felixpic () {
+    ssh felix 'find ~/storage/dcim/ -iname "*.jpg" -newermt "1 day ago" -type f' \
+	| xargs -I% scp felix:% .
 }
 
 # Extracts gherkin from file, printing finename/line number.
