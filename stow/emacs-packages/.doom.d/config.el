@@ -404,9 +404,18 @@ will not be modified."
 (use-package! gptel
  :config
   (setq! gptel-default-mode 'org-mode)
-  (gptel-make-openai "llamafile"          ;Any name
-  :stream t                             ;Stream responses
-  :protocol "http"
-  :host "localhost:8080"                ;Llama.cpp server location
-  :models '(test)))                    ;Any names, doesn't matter for Llama
+  (setq! gptel-model 'test)
+  (setq! gptel-backend
+         (gptel-make-openai "llamafile"          ;Any name
+           :stream t                             ;Stream responses
+           :protocol "http"
+           :host "localhost:8081"                ;Llama.cpp server location
+           :models '(test)))
+  ;; Ensure org-mode heading is level 1 for prompt
+  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "* ")
+  ;; Make each response of model highlighted separate from prompt
+  (setq! gptel-highlight-mode t)
+  ;; Ensure cursor moves to bottom of response
+  (add-hook 'gptel-post-response-functions 'gptel-end-of-response))
+
 (use-package! rainbow-mode)
