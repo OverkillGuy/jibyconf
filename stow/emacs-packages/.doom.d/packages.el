@@ -20,7 +20,6 @@
 (package! rainbow-delimiters)
 
 (package! hurl-mode
-  :defer t
   :recipe
   (:host github
    :repo "Orange-OpenSource/hurl"
