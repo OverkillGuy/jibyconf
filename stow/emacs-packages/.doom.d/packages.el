@@ -34,6 +34,7 @@
 (package! pyenv-mode :disable t)
 (package! gptel :recipe (:nonrecursive t))
 
+(package! evil-tutor)
 
 (package! rainbow-mode)
 (package! typst-ts-mode
