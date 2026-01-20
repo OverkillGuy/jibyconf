@@ -219,13 +219,6 @@ will not be modified."
 (define-key! yas-keymap [tab] 'yas-next-field)
 
 
-
-(use-package! ob-http :defer t)
-(use-package! k8s-mode :defer t)
-(use-package! feature-mode :defer t)
-(use-package! htmlize :defer t)
-(use-package! lorem-ipsum :defer t)
-
 ; Don't use the recently-default "/posts/", but "/post/" as my blog does
 (setq! org-hugo-section "post")
 
