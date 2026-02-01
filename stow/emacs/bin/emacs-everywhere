@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#AUTHOR: Jb Doyon<jb@jiby.tech>
+# https://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+
+# Launch Emacsclient to edit clipboard (launch if server missing)
+
+emacsclient \
+    -a '' \
+    --eval "(emacs-everywhere)"
