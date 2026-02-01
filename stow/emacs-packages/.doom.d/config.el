@@ -261,8 +261,8 @@ will not be modified."
 
 (use-package! plantuml-mode
   :custom
-  (plantuml-default-exec-mode 'jar)
-  (plantuml-jar-path "/opt/plantuml/plantuml.jar")
+  (plantuml-default-exec-mode 'executable)
+  ;; (plantuml-jar-path "/opt/plantuml/plantuml.jar")
   (plantuml-output-type "png"))
 
 (setq! org-re-reveal-title-slide

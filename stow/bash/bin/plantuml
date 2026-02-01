@@ -1,0 +1,6 @@
+#!/bin/sh
+
+PLANTUML_JARPATH=/opt/plantuml/plantuml.jar
+JAVA_NOGUI_FLAGS=-Djava.awt.headless=true
+
+java ${JAVA_NOGUI_FLAGS} -jar ${PLANTUML_JARPATH} ${@}
