@@ -271,7 +271,10 @@ will not be modified."
 (use-package! unfill
   :config
   (undefine-key! "M-Q")
-  (define-key! unfill-region "M-Q" #'doom/leader))
+  ;; (define-key! unfill-region "M-Q" #'doom/leader))
+
+  (define-key! evil-normal-state-map "gQ" 'unfill-paragraph)
+  (define-key! evil-visual-state-map "gQ" 'unfill-region))
 
 ;; FIXME: Check if still useful now we use Copier?
 (defun jb-j2template-mode-override ()
