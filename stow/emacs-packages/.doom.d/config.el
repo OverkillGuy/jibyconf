@@ -325,16 +325,25 @@ will not be modified."
                  (when (display-graphic-p)
                    (set-fontset-font nil 'symbol ,symbols-font))))))
 
-(setq! org-id-prefix "jiborg")
 
 ;; Fix info mode navigation broken in evil-mode
 (evil-set-initial-state 'Info-mode 'emacs)
 
+(use-package! org
+  :config
+  ;; Org buffers' indentation is sacred (fill-column + autofill)
+  (setq! org-hide-leading-stars nil
+         org-startup-indented nil
+         org-export-with-smart-quotes nil
+         org-export-with-entities nil
+         org-id-prefix "jiborg"))
+;; TODO: Change evil-snipe to whole visible buffer not just line
+;; TODO: Hunt down which-key "paging" button, none seem to work due to doom:
+
 
 ;; (global-set-key (kbd "<f8>") 'jb/open-devlog)
 (global-set-key (kbd "S-<f8>") 'org-roam-capture)
-;; Capture templates, from defaults
-
+;; https://github.com/doomemacs/doomemacs/issues?q=is%3Aissue%20state%3Aopen%20which-key%20page
 (use-package! org-roam
   :after org evil
   ;; HACK evil-set-initial-state only works for MAJOR modes, org-capture = minor
