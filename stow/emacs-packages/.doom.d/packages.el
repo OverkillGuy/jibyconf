@@ -33,6 +33,7 @@
 (package! nose :disable t)
 (package! pyenv-mode :disable t)
 (package! gptel :recipe (:nonrecursive t))
+(package! gptel-agent)
 
 (package! evil-tutor)
 

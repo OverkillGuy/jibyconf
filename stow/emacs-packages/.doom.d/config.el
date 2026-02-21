@@ -406,21 +406,39 @@ will not be modified."
   "Show the gherkin features of this buffer in a separate window"
   (interactive)
   (occur "\\(Given\\|When\\|Then\\|And\\|But\\|Scenario\\|Background\\|Feature\\|In order to\\|As a\\|I want to\\|I need to\\|So that\\)"))
-(use-package! gptel
- :config
-  (setq! gptel-default-mode 'org-mode)
-  (setq! gptel-model 'test)
-  (setq! gptel-backend
-         (gptel-make-openai "llamafile"          ;Any name
+
+(defun jb/openai-config ()
+  "Configure gptel for OpenAI online setup"
+  (setq! gptel-api-key
+         (password-store-get "openai/openai_api_token")))
+
+(defun jb/llamafile-config ()
+  "Configure gtel for local llamafile config"
+  (setq! gptel-api-key nil
+         gptel-model 'test
+         gptel-backend
+         (gptel-make-openai "llamafile"
            :stream t                             ;Stream responses
            :protocol "http"
-           :host "localhost:8081"                ;Llama.cpp server location
-           :models '(test)))
+           :host "localhost:8081"
+           :models '(test))))
+
+(use-package! gptel
+  :defer t
+  :after password-store
+  :config
+  (setq! gptel-default-mode 'org-mode
+           ;; Make each response of model highlighted separate from prompt
+         gptel-highlight-mode t)
+  (jb/llamafile-config)  ;; or using online via (jb/openai-config)
   ;; Ensure org-mode heading is level 1 for prompt
   (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "* ")
-  ;; Make each response of model highlighted separate from prompt
-  (setq! gptel-highlight-mode t)
   ;; Ensure cursor moves to bottom of response
-  (add-hook 'gptel-post-response-functions 'gptel-end-of-response))
+  (add-hook! 'gptel-post-response-functions 'gptel-end-of-response))
+
+(use-package! gptel-agent
+  :after gptel
+  :config (gptel-agent-update))
+
 
 (use-package! rainbow-mode)
