@@ -442,3 +442,6 @@ will not be modified."
 
 
 (use-package! rainbow-mode)
+(use-package! typst-preview
+  :custom
+  (typst-preview-invert-colors "never"))
