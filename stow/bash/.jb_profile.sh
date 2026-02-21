@@ -31,7 +31,6 @@ alias magit='emacsclient -nw -a "" -e "(progn (magit-status) (delete-other-windo
 
 alias stowconf='stow --dir ~/dev/conf/jibyconf/stow/ --target ~/ '
 alias goconf='cd ~/dev/conf/jibyconf/'
-alias jibyconf='cd ~/dev/conf/jibyconf/'
 
 felixpic () {
     ssh felix 'find ~/storage/dcim/ -iname "*.jpg" -newermt "1 day ago" -type f' \
@@ -61,10 +60,6 @@ alias discord-date="date +'<t:%s>'"
 detangle () {
     awk 'BEGIN{RS=">>>>>"} FNR == 1{print "* " FILENAME "\n\n#+BEGIN_SRC conf :tangle " FILENAME}; {print $0 "\n#+END_SRC\n"} ' $@ >detangled.org
 }
-
-alias vpnoff="sudo systemctl stop wg-quick@mullvad-nl2.service"
-alias vpnon="sudo systemctl start wg-quick@mullvad-nl2.service"
-alias vpnfr="sudo systemctl start wg-quick@mullvad-fr5.service"
 
 mkv2mp4 () {
     ffmpeg -i $1 -codec copy $2
