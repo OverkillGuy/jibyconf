@@ -55,6 +55,10 @@
 ;; they are implemented.
 (setq sentence-end-double-space nil)
 
+;; Show RGB hex colors in programming modes or text modes
+(use-package! rainbow-mode
+  :hook ((prog-mode text-mode) . rainbow-mode))
+
 (use-package! rainbow-delimiters
   :after doom-themes                    ; Ensure themes don't override us
   :hook (prog-mode . rainbow-delimiters-mode)
