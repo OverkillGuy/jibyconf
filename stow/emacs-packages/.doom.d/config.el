@@ -56,9 +56,8 @@
 (setq sentence-end-double-space nil)
 
 (use-package! rainbow-delimiters
-  :init
+  :after doom-themes                    ; Ensure themes don't override us
   :hook (prog-mode . rainbow-delimiters-mode)
-  :defer t
   :config
   (setq! rainbow-delimiters-max-face-count 8)
   (set-face-foreground 'rainbow-delimiters-depth-1-face "#FF8811")
