@@ -28,27 +28,6 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -i /home/
 # Lock on Control-Alt-L
 bindsym Ctrl+Mod1+l exec i3lock --nofork -i /home/jiby/Pictures/wallpaperz/screenlock.png
 
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
-
-# Lightweight policy kit, used by Rancher Desktop to ask password for docker sudo
-exec --no-startup-id lxpolkit
-
-# Caps lock is actually Control
-# Switch between US and FR layout (toggle) by pressing BOTH Controls
-# See xkeyboard-config(7) for info
-exec --no-startup-id sh -c 'sleep 10 && setxkbmap -model pc104 -layout us,fr -option grp:ctrls_toggle -option caps:ctrl_modifier'
-
-# Keyboard layout indicator for the above
-exec --no-startup-id gxkb
-
-# Enable numpad by default
-exec_always --no-startup-id numlockx on
-
-# Bluetooth manager systray icon
-exec --no-startup-id blueman-applet
-
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
