@@ -7,6 +7,7 @@ Description=Set keyboard layout
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/setxkbmap -model pc104 -layout us,fr -option grp:ctrls_toggle,caps:ctrl_modifier
+RemainAfterExit=yes
 
 [Install]
 WantedBy=graphical-session.target

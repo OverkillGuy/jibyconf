@@ -1,11 +1,11 @@
 [Unit]
 Description=GXKB Layout Indicator
-After=graphical-session.target
-PartOf=graphical-session.target
+After=setxkbmap.service
+Requires=setxkbmap.service
 
 [Service]
 ExecStart=/usr/bin/gxkb
 Restart=on-failure
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
