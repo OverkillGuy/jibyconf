@@ -77,6 +77,14 @@ bandcamp-dl () {
     yt-dlp https://$1.bandcamp.com/ -o './%(artist)s/%(album)s/%(track_number)s_%(title)s.%(ext)s'
 }
 
+# Workaround for Youtube being muppets about getting the files out
+yt-dl () {
+    yt-dlp \
+        --cookies-from-browser firefox \
+        --js-runtimes bun \
+        --remote-components ejs:github \
+        $@
+}
 
 # Workaround for poetry >=1.2.0 needing keyring all the time
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
