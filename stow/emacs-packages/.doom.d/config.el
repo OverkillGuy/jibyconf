@@ -344,46 +344,38 @@ will not be modified."
   ;; See https://github.com/emacs-evil/evil/issues/1115#issuecomment-450480141
   :hook (org-capture-mode . evil-insert-state)
   :config
-  (setq! org-roam-directory "~/dev/notes/")
-  ;; Auto-enable insert mode on captures
-  (add-to-list 'display-buffer-alist
-               '("\\*org-roam\\*"
-                 (display-buffer-in-direction)
-                 (direction . right)
-                 (window-width . 0.33)
-                 (window-height . fit-window-to-buffer)))
+  ;; Replace SPC-X with dailies capture
+  (map! :leader
+        "X" #'org-roam-dailies-capture-today)
+  ;; Bind Shift+F8 globally to org-roam-capture
+  (map! "<S-f8>" #'org-roam-capture)
+  (setq! org-roam-directory
+         (expand-file-name "roam"
+                         (file-name-as-directory
+                          (expand-file-name org-directory))))
   (require 'org-roam-protocol)
   (setq! org-roam-capture-templates
-   '(("d" "default" plain
-      "%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
-      :unnarrowed t)
-     ("t" "Task" entry
-      "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n"
-      :target (file "todo.org")
-      :if-new (file+head "todo.org" "#+TITLE: ${title}\n#+FILETAGS: task\n\n")
-      :unnarrowed t
-      :prepend t)
+   '(;; ("p" "default" plain
+     ;;  "%?"
+     ;;  :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n\n%i\n\n%a\n")
+     ;;  :unnarrowed t)
      ("c" "Concept" plain
       "%?"
-      :if-new (file+head "concepts/${slug}.org" "#+TITLE: ${title}\n#+FILETAGS: concept\n\n")
+      :if-new (file+head "${slug}.org" "#+TITLE: ${title}\n#+FILETAGS: concept\n\n")
       :unnarrowed t)
-     ("b" "Blogpost" plain
-      "#+HUGO_BASE_DIR: ../\n\n#+SETUPFILE: ./jiby_dot_tech_setupfile.org\n\n\n* DRAFT ${title} :blog:\n:PROPERTIES:\n:CREATED:  %U\n:ID: %(org-id-new)\n:EXPORT_FILE_NAME: ${slug}\n:EXPORT_DATE: <%<%Y-%m-%d>>\n:END:\n\n%?"
-      :if-new (file "~/dev/ws/jiby.tech/content-org/${slug}.org")
-      :jump-to-captured t
-      )))
+     ("L" "default link" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target
+            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+     )
+   )
   (setq! org-roam-dailies-capture-templates
-         '(("d" "default" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n" :target
-            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))))
-  (defun jb/org-roam-rg-search ()
-    "Search org-roam directory using consult-ripgrep. With live-preview."
-    (interactive)
-    (consult-ripgrep org-roam-directory))
+         '(("d" "daily" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n" :target
+            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+           ("L" "daily w/ link, selected" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target
+            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+           ("l" "daily w/ link" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target
+            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+           )))
 
-  (map! :localleader
-        :map org-mode-map
-        "/" #'jb/org-roam-rg-search))
 
 (use-package! evil
   :after undo-tree
