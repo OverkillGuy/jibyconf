@@ -309,15 +309,6 @@ will not be modified."
 ;;              ::enabled nil)))))
 
 
-(use-package! ellama
-  :init
-  (require 'llm-ollama)
-  (setq! ellama-provider
-         (make-llm-ollama :scheme "http" :host "localhost" :port 11434
-                          ;;:chat-model "zephyr:7b-alpha-q5_K_M" :embedding-model "zephyr:7b-alpha-q5_K_M"))
-                          :chat-model "llama3:8b"))
-)
-
 
 ;; Fallback font for unicode symbols, both for standalone & client modes
 (when (display-graphic-p)
