@@ -442,8 +442,9 @@ will not be modified."
   (gptel-agent-update))
 
 (use-package! gptel-quick
-  :after gptel embark
-  :config (keymap-set embark-general-map "?" #'gptel-quick))
+  :after gptel
+  :bind (:map doom-leader-map
+              ("V" . gptel-quick)))
 
 
 (use-package! rainbow-mode)
