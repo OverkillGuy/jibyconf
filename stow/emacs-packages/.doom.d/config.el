@@ -436,7 +436,10 @@ will not be modified."
 
 (use-package! gptel-agent
   :after gptel
-  :config (gptel-agent-update))
+  :bind (:map doom-leader-map
+              ("v" . gptel-agent))
+  :config
+  (gptel-agent-update))
 
 (use-package! gptel-quick
   :after gptel embark
