@@ -398,6 +398,17 @@ will not be modified."
   (setq! gptel-api-key
          (password-store-get "openai/openai_api_token")))
 
+(defun jb/mistral-config ()
+  "Configure gptel for Mistral AI online setup"
+  (setq! gptel-model   'mistral-small
+         gptel-backend
+         (gptel-make-openai "Mistral Chat"
+           :host "api.mistral.ai"
+           :endpoint "/v1/chat/completions"
+           :protocol "https"
+           :key (password-store-get "mistral/mistral_api_key_emacs_hally")
+           :models '("mistral-small"))))
+
 (defun jb/llamafile-config ()
   "Configure gtel for local llamafile config"
   (setq! gptel-api-key nil
@@ -416,7 +427,8 @@ will not be modified."
   (setq! gptel-default-mode 'org-mode
            ;; Make each response of model highlighted separate from prompt
          gptel-highlight-mode t)
-  (jb/llamafile-config)  ;; or using online via (jb/openai-config)
+  ;; (jb/llamafile-config)  ;; or using online via (jb/openai-config)
+  (jb/mistral-config)
   ;; Ensure org-mode heading is level 1 for prompt
   (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "* ")
   ;; Ensure cursor moves to bottom of response
