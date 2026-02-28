@@ -34,6 +34,10 @@
 (package! pyenv-mode :disable t)
 (package! gptel :recipe (:nonrecursive t))
 (package! gptel-agent)
+(package! gptel-quick
+  :recipe
+  (:host github
+   :repo "karthink/gptel-quick"))
 
 (package! evil-tutor)
 

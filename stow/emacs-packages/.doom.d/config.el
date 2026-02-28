@@ -438,6 +438,10 @@ will not be modified."
   :after gptel
   :config (gptel-agent-update))
 
+(use-package! gptel-quick
+  :after gptel embark
+  :config (keymap-set embark-general-map "?" #'gptel-quick))
+
 
 (use-package! rainbow-mode)
 (use-package! typst-preview
