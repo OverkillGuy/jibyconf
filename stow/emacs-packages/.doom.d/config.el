@@ -140,23 +140,14 @@
 
 (use-package! irfc
   :load-path "~/.emacs.d/jb/packages/"
-;; (setq irfc-head-name-face :foreground "orange red")
-  :config
-  (setq! irfc-directory "~/dev/doc/rfc/")
-  (setq! irfc-assoc-mode t)
-  ; (set-face-attribute 'irfc-head-name-face nil :foreground "orange red")
-  (add-to-list 'auto-mode-alist '("[rR][fF][cC].*\\.txt" . irfc-mode))
-  (defalias 'rfc 'irfc-visit))
-
-(defun set-docs-as-readonly ()
-  "Make buffers readonly by default when folder matches pattern"
-  (dolist (pattern '("~/dev/doc/.*"
-                                        ; Anything else?
-                     ))
-    (if (string-match (expand-file-name pattern) buffer-file-name)
-        (read-only-mode))))
-
-(add-hook 'find-file-hook 'set-docs-as-readonly)
+  :mode ("[rR][fF][cC].*\\.txt" . irfc-mode)
+  :custom-face
+  (irfc-rfc-link-face ((t (:bold t :foreground "deep sky blue"))))
+  (irfc-head-name-face ((t (:foreground "orange red"))))
+  :custom
+  (irfc-directory "~/dev/doc/rfc/")
+  (irfc-assoc-mode t)
+  :config (defalias 'rfc 'irfc-visit))
 
 (setq doc-view-continuous t)
 
