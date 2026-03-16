@@ -442,3 +442,9 @@ will not be modified."
 (use-package! typst-preview
   :custom
   (typst-preview-invert-colors "never"))
+
+;; Activate org-mode style links in all programming modes
+;; Solves the missing goto-address-mode too
+(use-package! orglink
+  :config (global-orglink-mode)
+  :custom (orglink-activate-in-modes '(prog-mode)))
