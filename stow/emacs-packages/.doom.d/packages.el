@@ -49,6 +49,17 @@
 (package! typst-preview
   :recipe (:host github :repo "havarddj/typst-preview.el"))
 (package! orglink)
+(package! agent-shell)
+(package! knockknock
+  ;; Original author:
+  ;; :recipe '(:host 'github :repo "konrad1977/knockknock"))
+  ;; Variant from xenodium to allow icons from more formats:
+  ;; https://github.com/konrad1977/knockknock/pull/4
+  :recipe (:host github :repo "xenodium/knockknock"))
+
+(package! agent-shell-knockknock
+  :recipe (:host github :repo "xenodium/agent-shell-knockknock"))
+
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/raxod502/straight.el#the-recipe-format

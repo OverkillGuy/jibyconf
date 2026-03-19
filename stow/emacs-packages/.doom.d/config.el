@@ -448,3 +448,25 @@ will not be modified."
 (use-package! orglink
   :config (global-orglink-mode)
   :custom (orglink-activate-in-modes '(prog-mode)))
+
+
+(use-package agent-shell
+  :bind (:map agent-shell-mode-map
+              ("RET" . newline)
+              ("C-c RET" . shell-maker-submit)
+              ("C-c C-k" . agent-shell-interrupt))
+  :config
+  ;; Evil state-specific RET behavior: insert mode = newline, normal mode = send
+  (evil-define-key 'insert agent-shell-mode-map (kbd "RET") #'newline)
+  (evil-define-key 'normal agent-shell-mode-map (kbd "RET") #'comint-send-input)
+
+  ;; Configure *agent-shell-diff* buffers to start in Emacs state
+  (add-hook 'diff-mode-hook
+	    (lambda ()
+	      (when (string-match-p "\\*agent-shell-diff\\*" (buffer-name))
+		(evil-emacs-state)))))
+
+;; Keep track of what the agent is doing while in another buffer
+(use-package agent-shell-knockknock
+  :after agent-shell
+  :hook (agent-shell-mode . agent-shell-knockknock-mode))
