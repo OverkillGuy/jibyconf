@@ -299,19 +299,38 @@ will not be modified."
 (evil-set-initial-state 'Info-mode 'emacs)
 
 (use-package! org
+  :custom
+  (org-export-with-entities nil)
+  (org-id-prefix "jiborg")
+  ;; Some settings are conflicting with doom, custom won't cut it:
   :config
-  ;; Org buffers' indentation is sacred (fill-column + autofill)
+    ;; Org buffers' indentation is sacred (fill-column + autofill)
   (setq! org-hide-leading-stars nil
          org-startup-indented nil
-         org-export-with-smart-quotes nil
-         org-export-with-entities nil
-         org-id-prefix "jiborg"))
-;; TODO: Change evil-snipe to whole visible buffer not just line
+         org-export-with-smart-quotes nil)
+  (setopt org-structure-template-alist
+          '(("a" . "export ascii")
+            ("C" . "center")
+            ("c" . "comment")
+            ("e" . "example")
+            ("E" . "export")
+            ("m" . "export md")
+            ("h" . "export html")
+            ("l" . "src emacs-lisp")
+            ("p" . "src python")
+            ("n" . "notes")
+            ("q" . "quote")
+            ("s" . "src")
+            ("S" . "src sh")
+            ("u" . "update")
+            ("v" . "verse"))))
+
 (use-package! evil-snipe
   ;; Search across the whole visible area, not just current line
   :custom (evil-snipe-scope 'visible))
 
 ;; TODO: Hunt down which-key "paging" button, none seem to work due to doom:
+;; https://github.com/doomemacs/doomemacs/issues?q=is%3Aissue%20state%3Aopen%20which-key%20page
 
 
 (use-package! org-roam
