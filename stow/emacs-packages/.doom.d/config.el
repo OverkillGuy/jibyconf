@@ -307,6 +307,10 @@ will not be modified."
          org-export-with-entities nil
          org-id-prefix "jiborg"))
 ;; TODO: Change evil-snipe to whole visible buffer not just line
+(use-package! evil-snipe
+  ;; Search across the whole visible area, not just current line
+  :custom (evil-snipe-scope 'visible))
+
 ;; TODO: Hunt down which-key "paging" button, none seem to work due to doom:
 
 
