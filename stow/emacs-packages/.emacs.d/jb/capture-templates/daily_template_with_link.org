@@ -1,0 +1,7 @@
+* %?
+:PROPERTIES:
+:CREATED: %U
+:ID: %(org-id-new)
+:END:
+
+See %(org-web-tools--get-first-url)

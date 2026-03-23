@@ -333,27 +333,106 @@ will not be modified."
                          (file-name-as-directory
                           (expand-file-name org-directory))))
   (require 'org-roam-protocol)
-  (setq! org-roam-capture-templates
-   '(;; ("p" "default" plain
-     ;;  "%?"
-     ;;  :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n\n%i\n\n%a\n")
-     ;;  :unnarrowed t)
-     ("c" "Concept" plain
-      "%?"
-      :if-new (file+head "${slug}.org" "#+TITLE: ${title}\n#+FILETAGS: concept\n\n")
+  (setq-default
+   org-roam-capture-templates
+   '(
+     ("c" "concept" plain "%?"
+      :target
+      (file+head "%<%Y>/%<%m>/${slug}.org" "#+TITLE: ${title}\n#+DATE: %U\n\n")
       :unnarrowed t)
-     ("L" "default link" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target
-            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
-     )
-   )
-  (setq! org-roam-dailies-capture-templates
-         '(("d" "daily" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n" :target
-            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
-           ("L" "daily w/ link, selected" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target
-            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
-           ("l" "daily w/ link" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target
-            (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
-           )))
+     ("e" "encrypted concept" plain "%?" 
+      :target (file+head "%<%Y>/%<%m>/${slug}.org.gpg" "#+TITLE: ${title}\n#+DATE: %U\n#+FILETAGS: :gpg:encrypted:\n")
+      :unnarrowed t)
+     ))
+  (setq-default
+   org-roam-dailies-capture-templates
+   '(
+     ("d" "daily" plain
+      (file "~/.emacs.d/jb/capture-templates/daily_template.org")
+      :if-new (file+head "%<%Y>/%<%m>/%<%Y-%m-%d>.org" "#+TITLE: Daily notes for %<%Y-%m-%d>\n#+CATEGORY: journal\n\n"))
+     ("L" "daily w/ link" plain
+      (file "~/.emacs.d/jb/capture-templates/daily_template_with_link.org")
+      :if-new (file+head "%<%Y>/%<%m>/%<%Y-%m-%d>.org" "#+TITLE: Daily notes for %<%Y-%m-%d>\n#+CATEGORY: journal\n\n"))
+     ))
+  ;; Replace SPC-X with dailies capture
+  (map! :leader
+        "X" #'org-roam-dailies-capture-today)
+  )
+
+  ;; (setq! org-roam-capture-templates
+  ;;  '(;; ("p" "default" plain
+  ;;    ;;  "%?"
+  ;;    ;;  :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n\n%i\n\n%a\n")
+  ;;    ;;  :unnarrowed t)
+  ;;    ("c" "Concept" plain
+  ;;     "%?"
+  ;;     :if-new (file+head "${slug}.org" "#+TITLE: ${title}\n#+FILETAGS: concept\n\n")
+  ;;     :unnarrowed t)
+  ;;    ("L" "default link" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target
+  ;;           (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+  ;;    )
+  ;;  )
+  ;; (setq! org-roam-dailies-capture-templates
+  ;;        '(("d" "daily" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n" :target
+  ;;           (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+  ;;          ("L" "daily w/ link, selected" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target
+  ;;           (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+  ;;          ("l" "daily w/ link" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target
+  ;;           (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+  ;;          ))
+
+;; ;; Display mtime for nodes
+;; (cl-defmethod org-roam-node-mtime ((node org-roam-node))
+;;   (format-time-string "%Y-%m-%d %T" (org-roam-node-file-mtime node)))
+;; (cl-defmethod org-roam-node-created-property ((node org-roam-node))
+;;     (cdr (assoc-string "CREATED" (org-roam-node-properties node))))
+
+;; ;; Richer context information when browsing nodes
+;; (setq org-roam-node-display-template (concat
+;;                                       "${doom-hierarchy:*} "
+;;                                       "${doom-:*} lalala "
+;;                                       "${title:60} "
+;;                                         (propertize "${created-property}" 'face 'org-date)
+;;                                         "  "
+;;                                         (propertize "${tags:25}" 'face 'org-tag)))
+
+(defun jb/org-capture-daily-file ()
+  (expand-file-name
+   (format-time-string "%Y-%m-%d.org")
+   org-roam-directory))
+
+;; (setq! org-capture-templates
+;;        '(("d" "daily (roam-compatible)" entry
+;;           (file+head
+;;            (expand-file-name "%<%Y-%m-%d>.org" org-roam-directory)
+;;            "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n")
+;;           "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n")
+
+;;          ("l" "daily w/ link (roam-compatible)" entry
+;;           (file+head
+;;            (expand-file-name "%<%Y-%m-%d>.org" org-roam-directory)
+;;            "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n")
+;;           "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n")
+
+;;          ("L" "daily w/ link + selection (roam-compatible)" entry
+;;           (file+head
+;;            (expand-file-name "%<%Y-%m-%d>.org" org-roam-directory)
+;;            "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n")
+;;           "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n")))  ;; (setq! org-capture-templates
+;;   ;;      '(("d" "daily" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n" :target (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+;;   ;;        ("L" "daily w/ link, selected" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))
+;;   ;;        ("l" "daily w/ link" entry "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID:       %(org-id-new)\n:END:\n\n%i\n\n%a\n" :target (file+head "%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n"))))
+
+
+;; (setq! org-capture-templates
+;;        '(("d" "daily (roam-compatible)" entry
+;;           (file+head
+;;            (function jb/org-capture-daily-file)
+;;            "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: daily\n\n")
+;;           "* %?\n:PROPERTIES:\n:CREATED:  %U\n:ID: %(org-id-new)\n:END:\n\n%i\n")))
+;; )
+
+;; TODO Darken the code blocks, Lighten the start/end lines
 
 
 (use-package! evil
@@ -471,3 +550,6 @@ will not be modified."
 (use-package agent-shell-knockknock
   :after agent-shell
   :hook (agent-shell-mode . agent-shell-knockknock-mode))
+;; Get clipboard links for org-capture
+(use-package org-web-tools
+  :commands org-web-tools--get-first-url)
