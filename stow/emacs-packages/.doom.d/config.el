@@ -517,8 +517,13 @@ will not be modified."
   :bind (:map doom-leader-map
               ("V" . gptel-quick)))
 
+(use-package! gptel-prompts
+  :after gptel
+  :config
+  (gptel-prompts-update)
+  ;; Ensure prompts are updated if prompt files change
+  (gptel-prompts-add-update-watchers))
 
-(use-package! rainbow-mode)
 (use-package! typst-preview
   :custom
   (typst-preview-invert-colors "never"))
