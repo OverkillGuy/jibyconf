@@ -506,6 +506,17 @@ will not be modified."
 (use-package agent-shell-knockknock
   :after agent-shell
   :hook (agent-shell-mode . agent-shell-knockknock-mode))
+
+;; Set up which-key in "posframe" mode (GUI overlay)
+(use-package! which-key :config (which-key-mode 1))
+;; See also: Stripped-down version of which-key from Tarsius
+;; https://github.com/emacsorphanage/which-key-posframe/issues/1#issuecomment-2646205866
+
+(use-package which-key-posframe
+  :after which-key
+  ;; :if my-laptop-p
+  :config (which-key-posframe-mode 1))
+
 ;; Get clipboard links for org-capture
 (use-package org-web-tools
   :commands org-web-tools--get-first-url)

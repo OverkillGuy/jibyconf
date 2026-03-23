@@ -101,4 +101,7 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+
+(package! which-key-posframe)
+
 (package! org-web-tools)
