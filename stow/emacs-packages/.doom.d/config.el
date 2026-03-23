@@ -101,23 +101,9 @@
 
 (add-hook 'compilation-finish-functions 'jb/compilation-finished-unfocused-notify)
 
-(global-set-key (kbd "S-<f7>") 'projectile-switch-project)
-
-
-(global-set-key (kbd "M-<f12>") 'magit-status)
-
-(global-set-key (kbd "S-<f12>") 'magit-log-all-branches)
-(defun jb/open-devlog ()
-  (interactive)
-  (find-file "~/dev/notes/devlog.org")
-  (end-of-buffer))
-
-;; (use-package! projectile
-;;   :defer t
-;;   :bind-keymap ("<f7>" . projectile-command-map)
-;;   :config (setq! projectile-project-search-path
-;;                  '("~/dev/" "~/org/"))
-;;   (setq! projectile-switch-project-action 'magit-status))
+(use-package! projectile
+  :bind ("S-<f7>" . projectile-switch-project)
+  :custom (projectile-project-search-path '("~/dev/")))
 
 (use-package! eww
   :after evil
@@ -225,7 +211,9 @@ will not be modified."
   (define-key! magit-status-mode-map "SPC" #'doom/leader)
 ;; Margin default of 18 is way too much for authorship
   (setq! magit-log-margin '(t age magit-log-margin-width t 8))
-  (setq! magit-diff-visit-prefer-worktree t))
+  (setq! magit-diff-visit-prefer-worktree t)
+  :bind ("M-<f12>" . magit-status)
+        ("S-<f12>" . magit-log-all-branches))
 
 (setq! +snippets-dir "~/.emacs.d/jb/snippets/")
 
