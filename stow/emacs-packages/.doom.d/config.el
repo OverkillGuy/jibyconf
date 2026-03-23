@@ -10,10 +10,10 @@
         comint-buffer-maximum-size 16384)
 
 ;; Show RGB hex colors in programming modes or text modes
-(use-package! rainbow-mode
+(use-package rainbow-mode
   :hook ((prog-mode text-mode) . rainbow-mode))
 
-(use-package! rainbow-delimiters
+(use-package rainbow-delimiters
   :after doom-themes                    ; Ensure themes don't override us
   :hook (prog-mode . rainbow-delimiters-mode)
   :config
@@ -31,7 +31,7 @@
                       :foreground "red"
                       :inherit 'rainbow-delimiters-base-face))
 
-(use-package! company
+(use-package company
   :config
   ; Remove company-ispell (dictionary-based completes) from any completion
   (setopt +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
@@ -55,15 +55,15 @@
 
 (add-hook 'compilation-finish-functions 'jb/compilation-finished-unfocused-notify)
 
-(use-package! projectile
+(use-package projectile
   :bind ("S-<f7>" . projectile-switch-project)
   :custom (projectile-project-search-path '("~/dev/")))
 
-(use-package! eww
+(use-package eww
   :after evil
   :config (evil-set-initial-state 'eww-mode 'emacs))
 
-(use-package! eww-lnum
+(use-package eww-lnum
   :after eww
   :bind (:map eww-mode-map
               ("f" . eww-lnum-follow)
@@ -78,7 +78,7 @@
     (call-process "xdg-open" nil 0 nil file)
     (message "Opening %s done" file)))
 
-(use-package! irfc
+(use-package irfc
   :load-path "~/.emacs.d/jb/packages/"
   :mode ("[rR][fF][cC].*\\.txt" . irfc-mode)
   :custom-face
@@ -90,7 +90,7 @@
   :config (defalias 'rfc 'irfc-visit))
 
 
-(use-package! edit-server
+(use-package edit-server
   :defer t
   :init (edit-server-start)
   :custom
@@ -99,7 +99,7 @@
   (edit-server-new-frame nil))
 
 ;; No persistent history
-(use-package! undo-tree
+(use-package undo-tree
   :custom
   (undo-tree-auto-save-history nil))
 
@@ -115,7 +115,7 @@
 
 ;; From https://github.com/hlissner/doom-emacs/issues/2223#issuecomment-568202866
 ;; Don't auto-insert parens!
-(use-package! smartparens
+(use-package smartparens
   :custom
   (smartparens-global-mode -1))
 
@@ -155,7 +155,7 @@ will not be modified."
 
 
 ;; Fix magit-blame-mode ENTER key not jumping to commit anymore
-(use-package! magit
+(use-package magit
   :config
   (evil-set-initial-state 'magit-blame-mode-hook 'emacs)
 ;; Fix magit-status buffer's SPC prompting for showing commits instead of doom menu
@@ -191,7 +191,7 @@ will not be modified."
 
 
 
-(use-package! plantuml-mode
+(use-package plantuml-mode
   :custom
   (plantuml-default-exec-mode 'executable)
   ;; (plantuml-jar-path "/opt/plantuml/plantuml.jar")
@@ -200,7 +200,7 @@ will not be modified."
 (setopt org-re-reveal-title-slide
   "<h1>%t</h1><h4>%s</h4><p>%a - <a href=\"%u\">%u</a><p>\n<p>%d </p>")
 
-(use-package! unfill
+(use-package unfill
   :config
   (undefine-key! "M-Q")
   ;; (define-key! unfill-region "M-Q" #'doom/leader))
@@ -252,7 +252,7 @@ will not be modified."
 ;; Fix info mode navigation broken in evil-mode
 (evil-set-initial-state 'Info-mode 'emacs)
 
-(use-package! org
+(use-package org
   :custom
   (org-export-with-entities nil)
   (org-id-prefix "jiborg")
@@ -279,7 +279,7 @@ will not be modified."
             ("u" . "update")
             ("v" . "verse"))))
 
-(use-package! evil-snipe
+(use-package evil-snipe
   ;; Search across the whole visible area, not just current line
   :custom (evil-snipe-scope 'visible))
 
@@ -287,7 +287,7 @@ will not be modified."
 ;; https://github.com/doomemacs/doomemacs/issues?q=is%3Aissue%20state%3Aopen%20which-key%20page
 
 
-(use-package! org-roam
+(use-package org-roam
   :after org evil
   ;; HACK evil-set-initial-state only works for MAJOR modes, org-capture = minor
   ;; See https://github.com/emacs-evil/evil/issues/1115#issuecomment-450480141
@@ -330,7 +330,7 @@ will not be modified."
 ;; TODO: Set up org-ql / org-roam-ql for searching easier
 ;; TODO: Add consult-org-roam too?
 
-(use-package! evil
+(use-package evil
   :after undo-tree
   :custom
   ;; Allow VI mode to select character after EOL like in Emacs
@@ -380,7 +380,7 @@ will not be modified."
             :host "localhost:8081"
             :models '(test))))
 
-(use-package! gptel
+(use-package gptel
   :init
   (require 'gptel-agent)  ;; Force-load gptel-agent eagerly too
   (require 'macher)
@@ -398,7 +398,7 @@ will not be modified."
   ;; Ensure cursor moves to bottom of response
   (add-hook! 'gptel-post-response-functions 'gptel-end-of-response))
 
-(use-package! gptel-agent
+(use-package gptel-agent
   :after gptel
   :bind (:map doom-leader-map
               ("v" . gptel))
@@ -426,12 +426,12 @@ will not be modified."
      (side . right)))
   )
 
-(use-package! gptel-quick
+(use-package gptel-quick
   :after gptel
   :bind (:map doom-leader-map
               ("V" . gptel-quick)))
 
-(use-package! ob-gptel
+(use-package ob-gptel
   :hook ((org-mode . ob-gptel-install-completions))
   :defines ob-gptel-install-completions
   :config
@@ -441,20 +441,20 @@ will not be modified."
     (add-hook 'completion-at-point-functions
               'ob-gptel-capf nil t)))
 
-(use-package! gptel-prompts
+(use-package gptel-prompts
   :after gptel
   :config
   (gptel-prompts-update)
   ;; Ensure prompts are updated if prompt files change
   (gptel-prompts-add-update-watchers))
 
-(use-package! typst-preview
+(use-package typst-preview
   :custom
   (typst-preview-invert-colors "never"))
 
 ;; Activate org-mode style links in all programming modes
 ;; Solves the missing goto-address-mode too
-(use-package! orglink
+(use-package orglink
   :config (global-orglink-mode)
   :custom (orglink-activate-in-modes '(prog-mode)))
 
@@ -481,7 +481,7 @@ will not be modified."
   :hook (agent-shell-mode . agent-shell-knockknock-mode))
 
 ;; Set up which-key in "posframe" mode (GUI overlay)
-(use-package! which-key :config (which-key-mode 1))
+(use-package which-key :config (which-key-mode 1))
 ;; See also: Stripped-down version of which-key from Tarsius
 ;; https://github.com/emacsorphanage/which-key-posframe/issues/1#issuecomment-2646205866
 
