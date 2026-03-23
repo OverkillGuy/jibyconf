@@ -35,9 +35,11 @@
 (package! gptel :recipe (:nonrecursive t))
 (package! gptel-agent)
 (package! gptel-quick
-  :recipe
-  (:host github
-   :repo "karthink/gptel-quick"))
+  :recipe (:host github :repo "karthink/gptel-quick"))
+(package! ob-gptel
+  :recipe (:host github :repo "jwiegley/ob-gptel"))
+(package! gptel-prompts
+  :recipe (:host github :repo "jwiegley/gptel-prompts"))
 
 (package! evil-tutor)
 
