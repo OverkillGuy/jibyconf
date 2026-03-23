@@ -41,6 +41,7 @@
 (package! gptel-prompts
   :recipe (:host github :repo "jwiegley/gptel-prompts"))
 
+(package! ob-restclient)
 (package! evil-tutor)
 
 (package! rainbow-mode)
