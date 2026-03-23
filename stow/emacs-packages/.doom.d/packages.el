@@ -106,3 +106,4 @@
 (package! which-key-posframe)
 
 (package! org-web-tools)
+(package! macher)

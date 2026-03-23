@@ -383,6 +383,7 @@ will not be modified."
 (use-package! gptel
   :init
   (require 'gptel-agent)  ;; Force-load gptel-agent eagerly too
+  (require 'macher)
   :config
   (setopt gptel-org-set-properties t  ;; Store session info in org props on save
           gptel-org-set-topic t  ;; Save topic in org props on save
@@ -406,6 +407,24 @@ will not be modified."
         ("C-c C-c" . gptel-send))
   :config
   (gptel-agent-update))
+
+(use-package macher
+  :custom
+  ;; The org UI has structured navigation and nice content folding.
+  (macher-action-buffer-ui 'org)
+  :config
+  ;; Register macher tools and presets with gptel.
+  (macher-install)
+  ;; Recommended - enable macher infrastructure for tools/prompts in
+  ;; any buffer.  (Actions and presets will still work without this.)
+  (macher-enable)
+
+  (add-to-list
+   'display-buffer-alist
+   '("\\*macher-patch:.*\\*"
+     (display-buffer-in-side-window)
+     (side . right)))
+  )
 
 (use-package! gptel-quick
   :after gptel
