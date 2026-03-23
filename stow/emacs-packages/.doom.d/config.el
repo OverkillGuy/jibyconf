@@ -17,7 +17,7 @@
   :after doom-themes                    ; Ensure themes don't override us
   :hook (prog-mode . rainbow-delimiters-mode)
   :config
-  (setq! rainbow-delimiters-max-face-count 8)
+  (setopt rainbow-delimiters-max-face-count 8)
   (set-face-foreground 'rainbow-delimiters-depth-1-face "#FF8811")
   (set-face-foreground 'rainbow-delimiters-depth-2-face "#8F0")
   (set-face-foreground 'rainbow-delimiters-depth-3-face "#55DDFF")
@@ -34,7 +34,7 @@
 (use-package! company
   :config
   ; Remove company-ispell (dictionary-based completes) from any completion
-  (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
+  (setopt +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
   (add-to-list '+company-backend-alist '(text-mode (:separate company-dabbrev company-yasnippet))))
 
 (defvar jb/compilation-complete-icon "/home/jiby/dev/foss/emacs-dragon-icon/AppIcons/emacs-dragon-icon.iconset/icon_128x128.png")
@@ -105,7 +105,7 @@
 
 ;; Enable time in the mode-line
 (after! doom-modeline
-  (setq! display-time-string-forms
+  (setopt display-time-string-forms
         '((propertize (concat 24-hours ":" minutes))))
   (display-time-mode 1)
   ;; On laptops it's nice to know how much power you have
@@ -149,8 +149,9 @@ will not be modified."
 (define-key! yas-keymap [tab] 'yas-next-field)
 
 
+;; TODO: Add to package
 ; Don't use the recently-default "/posts/", but "/post/" as my blog does
-(setq! org-hugo-section "post")
+(setopt org-hugo-section "post")
 
 
 ;; Fix magit-blame-mode ENTER key not jumping to commit anymore
@@ -160,19 +161,19 @@ will not be modified."
 ;; Fix magit-status buffer's SPC prompting for showing commits instead of doom menu
   (define-key! magit-status-mode-map "SPC" #'doom/leader)
 ;; Margin default of 18 is way too much for authorship
-  (setq! magit-log-margin '(t age magit-log-margin-width t 8))
-  (setq! magit-diff-visit-prefer-worktree t)
+  (setopt magit-log-margin '(t age magit-log-margin-width t 8))
+  (setopt magit-diff-visit-prefer-worktree t)
   :bind ("M-<f12>" . magit-status)
         ("S-<f12>" . magit-log-all-branches))
 
-(setq! +snippets-dir "~/.emacs.d/jb/snippets/")
+(setopt +snippets-dir "~/.emacs.d/jb/snippets/")
 
 ;; Start maximized
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
 
 (defun python-src-fill-black-mode-hook ()
-  (setq fill-column 88))
+  (setopt fill-column 88))
 
 (add-hook 'python-mode-hook #'python-src-fill-black-mode-hook)
 (evil-set-initial-state 'dired-mode 'emacs)
@@ -188,7 +189,6 @@ will not be modified."
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 
-(setq comint-buffer-maximum-size 16384)
 
 
 (use-package! plantuml-mode
@@ -197,7 +197,7 @@ will not be modified."
   ;; (plantuml-jar-path "/opt/plantuml/plantuml.jar")
   (plantuml-output-type "png"))
 
-(setq! org-re-reveal-title-slide
+(setopt org-re-reveal-title-slide
   "<h1>%t</h1><h4>%s</h4><p>%a - <a href=\"%u\">%u</a><p>\n<p>%d </p>")
 
 (use-package! unfill
@@ -219,15 +219,15 @@ will not be modified."
 
 (add-hook 'find-file-hook #'jb-j2template-mode-override)
 
-;; (setq! lsp-enable-suggest-server-download nil)
-;; (setq! lsp-disabled-clients '("mspyls"))
+;; (setopt lsp-enable-suggest-server-download nil)
+;; (setopt lsp-disabled-clients '("mspyls"))
 ;; (after! lsp-mode
-;;   (setq! lsp-pylsp-plugins-flake8-ignore
+;;   (setopt lsp-pylsp-plugins-flake8-ignore
 ;;          (list "D400"))) ;; "Docstrings first line must end in a period"
 
 ;; (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
 
-;; (setq-default eglot-workspace-configuration
+;; (setopt eglot-workspace-configuration
 ;;         '((:pylsp .
 ;;            (:configurationSources ["flake8"]
 ;;             :plugins
@@ -259,7 +259,7 @@ will not be modified."
   ;; Some settings are conflicting with doom, custom won't cut it:
   :config
     ;; Org buffers' indentation is sacred (fill-column + autofill)
-  (setq! org-hide-leading-stars nil
+  (setopt org-hide-leading-stars nil
          org-startup-indented nil
          org-export-with-smart-quotes nil)
   (setopt org-structure-template-alist
@@ -295,12 +295,12 @@ will not be modified."
   :config
   ;; Bind Shift+F8 globally to org-roam-capture
   (map! "<S-f8>" #'org-roam-capture)
-  (setq! org-roam-directory
+  (setopt org-roam-directory
          (expand-file-name "roam"
                          (file-name-as-directory
                           (expand-file-name org-directory))))
   (require 'org-roam-protocol)
-  (setq-default
+  (setopt
    org-roam-capture-templates
    '(
      ("c" "concept" plain "%?"
@@ -311,7 +311,7 @@ will not be modified."
       :target (file+head "%<%Y>/%<%m>/${slug}.org.gpg" "#+TITLE: ${title}\n#+DATE: %U\n#+FILETAGS: :gpg:encrypted:\n")
       :unnarrowed t)
      ))
-  (setq-default
+  (setopt
    org-roam-dailies-capture-templates
    '(
      ("d" "daily" plain
