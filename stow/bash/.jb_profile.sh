@@ -32,6 +32,14 @@ alias magit='emacsclient -nw -a "" -e "(progn (magit-status) (delete-other-windo
 alias stowconf='stow --dir ~/dev/conf/jibyconf/stow/ --target ~/ '
 alias goconf='cd ~/dev/conf/jibyconf/'
 
+alias sys='systemctl'
+alias usys='systemctl --user'
+
+## Emacs service control
+esys () {
+    systemctl --user $@ emacs.service
+}
+
 felixpic () {
     ssh felix 'find ~/storage/dcim/ -iname "*.jpg" -newermt "1 day ago" -type f' \
 	| xargs -I% scp felix:% .
