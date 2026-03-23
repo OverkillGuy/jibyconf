@@ -386,49 +386,62 @@ will not be modified."
 
 (defun jb/openai-config ()
   "Configure gptel for OpenAI online setup"
-  (setq! gptel-api-key
-         (password-store-get "openai/openai_api_token")))
+  (setopt gptel-api-key
+          (password-store-get "openai/openai_api_token")))
 
 (defun jb/mistral-config ()
   "Configure gptel for Mistral AI online setup"
-  (setq! gptel-model   'mistral-small
-         gptel-backend
-         (gptel-make-openai "Mistral Chat"
-           :host "api.mistral.ai"
-           :endpoint "/v1/chat/completions"
-           :protocol "https"
-           :key (password-store-get "mistral/mistral_api_key_emacs_hally")
-           :models '("mistral-small"))))
+  (setopt gptel-model 'mistral-medium-latest
+          gptel-quick-model 'mistral-small-latest
+          gptel-backend
+          (gptel-make-openai "Mistral"
+            :host "api.mistral.ai"
+            :endpoint "/v1/chat/completions"
+            :protocol "https"
+            :key (password-store-get "mistral/mistral_api_key_emacs_hally")
+            :models '("mistral-small-latest"
+                      "mistral-medium-latest"
+                      "mistral-large-latest"  ;; image, tools
+                      "magistral-medium-latest"
+                      "devstral-latest"))
+          gptel-quick-backend gptel-backend
+          gptel-quick-model 'mistral-small-latest))
 
 (defun jb/llamafile-config ()
   "Configure gtel for local llamafile config"
-  (setq! gptel-api-key nil
-         gptel-model 'test
-         gptel-backend
-         (gptel-make-openai "llamafile"
-           :stream t                             ;Stream responses
-           :protocol "http"
-           :host "localhost:8081"
-           :models '(test))))
+  (setopt gptel-api-key nil
+          gptel-model 'test
+          gptel-backend
+          (gptel-make-openai "llamafile"
+            :stream t
+            :protocol "http"
+            :host "localhost:8081"
+            :models '(test))))
 
 (use-package! gptel
-  :defer t
-  :after password-store
+  :init
+  (require 'gptel-agent)  ;; Force-load gptel-agent eagerly too
   :config
-  (setq! gptel-default-mode 'org-mode
-           ;; Make each response of model highlighted separate from prompt
-         gptel-highlight-mode t)
+  (setopt gptel-org-set-properties t  ;; Store session info in org props on save
+          gptel-org-set-topic t  ;; Save topic in org props on save
+          gptel-default-mode 'org-mode
+         ;; Do not highlight responses (we have separate org headers)
+         gptel-highlight-mode nil)
   ;; (jb/llamafile-config)  ;; or using online via (jb/openai-config)
   (jb/mistral-config)
-  ;; Ensure org-mode heading is level 1 for prompt
-  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "* ")
+  ;; Ensure org-mode headings are part of prompts 
+  (add-to-list 'gptel-prompt-prefix-alist `(org-mode . ,(concat "* Jiby\n")))
+  (add-to-list 'gptel-response-prefix-alist `(org-mode . ,(concat "** Answer\n")))
   ;; Ensure cursor moves to bottom of response
   (add-hook! 'gptel-post-response-functions 'gptel-end-of-response))
 
 (use-package! gptel-agent
   :after gptel
   :bind (:map doom-leader-map
-              ("v" . gptel-agent))
+              ("v" . gptel))
+  (:map gptel-mode-map
+        ("C-c RET" . gptel-menu)
+        ("C-c C-c" . gptel-send))
   :config
   (gptel-agent-update))
 
