@@ -493,3 +493,10 @@ will not be modified."
 ;; Get clipboard links for org-capture
 (use-package org-web-tools
   :commands org-web-tools--get-first-url)
+
+;; Hide org emphasis markers overall, but expose them for the active line
+(use-package org-expose-emphasis-markers
+  :after org
+  :custom (org-hide-emphasis-markers t)
+  :hook (org-mode . (lambda ()
+                      (org-expose-emphasis-markers 'line))))
