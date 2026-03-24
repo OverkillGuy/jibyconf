@@ -298,7 +298,8 @@ will not be modified."
   (setopt org-roam-directory
          (expand-file-name "roam"
                          (file-name-as-directory
-                          (expand-file-name org-directory))))
+                          (expand-file-name org-directory)))
+           org-roam-dailies-directory org-roam-directory)
   (require 'org-roam-protocol)
   (setopt
    org-roam-capture-templates
@@ -501,9 +502,13 @@ will not be modified."
   :config
   (global-org-modern-mode))
 
-;; Hide org emphasis markers overall, but expose them for the active line
-(use-package org-expose-emphasis-markers
-  :after org
-  :custom (org-hide-emphasis-markers t)
-  :hook (org-mode . (lambda ()
-                      (org-expose-emphasis-markers 'line))))
+
+;; Reveal hidden markup when cursor is on them
+(use-package org-appear
+  :hook (org-mode . org-appear-mode)
+  :custom
+  (org-hide-emphasis-markers t)
+  (org-appear-autoemphasis t)
+  (org-appear-autolinks t)
+  (org-appear-autosubmarkers t)
+  (org-appear-autoentities t))
