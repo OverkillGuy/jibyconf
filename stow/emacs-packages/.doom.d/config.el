@@ -497,10 +497,9 @@ will not be modified."
 
 ;; TODO: Look at org-modern configs like:
 ;; https://github.com/HaoZeke/dotdoom/blob/f22b07cb3ddad6f14e0e02ca2f07d4bc9e4f3f1b/config.org#L1500
-(use-package! org-modern
+(use-package org-modern
   :after org
-  :config
-  (global-org-modern-mode))
+  :config (global-org-modern-mode))
 
 
 ;; Reveal hidden markup when cursor is on them
