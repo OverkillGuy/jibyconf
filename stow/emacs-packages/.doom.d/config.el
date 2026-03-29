@@ -297,6 +297,11 @@ will not be modified."
   :config
   ;; Bind Shift+F8 globally to org-roam-capture
   (map! "<S-f8>" #'org-roam-capture)
+  ;; Override doom's default to remove the "hierarchy" Path, just use title
+  (setopt org-roam-node-display-template
+        (format "${title:*} %s %s"
+                (propertize "${doom-type:12}" 'face 'font-lock-keyword-face)
+                (propertize "${doom-tags:42}" 'face '(:inherit org-tag :box nil))))
   (setopt org-roam-directory
          (expand-file-name "roam"
                          (file-name-as-directory
