@@ -253,6 +253,8 @@ will not be modified."
 (evil-set-initial-state 'Info-mode 'emacs)
 
 (use-package org
+  ;; No line numbers in org-mode, you monsters
+  :hook (text-mode . doom-disable-line-numbers-h)
   :custom
   (org-export-with-entities nil)
   (org-id-prefix "jiborg")
