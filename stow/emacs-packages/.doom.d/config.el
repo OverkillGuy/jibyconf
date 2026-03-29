@@ -80,14 +80,14 @@
 
 (use-package irfc
   :load-path "~/.emacs.d/jb/packages/"
-  :mode ("[rR][fF][cC].*\\.txt" . irfc-mode)
+  :commands (rfc irfc-visit)
+  :init (defalias 'rfc 'irfc-visit)
   :custom-face
   (irfc-rfc-link-face ((t (:bold t :foreground "deep sky blue"))))
   (irfc-head-name-face ((t (:foreground "orange red"))))
   :custom
   (irfc-directory "~/dev/doc/rfc/")
-  (irfc-assoc-mode t)
-  :config (defalias 'rfc 'irfc-visit))
+  (irfc-assoc-mode t))
 
 
 (use-package edit-server
