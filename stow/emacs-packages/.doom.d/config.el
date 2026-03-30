@@ -324,10 +324,10 @@ will not be modified."
    '(
      ("d" "daily" plain
       (file "~/.emacs.d/jb/capture-templates/daily_template.org")
-      :if-new (file+head "%<%Y>/%<%m>/%<%Y-%m-%d>.org" "#+TITLE: Daily notes for %<%Y-%m-%d>\n#+CATEGORY: journal\n\n"))
+      :if-new (file+head "%<%Y>/%<%m>/%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: :journal:\n\n"))
      ("L" "daily w/ link" plain
       (file "~/.emacs.d/jb/capture-templates/daily_template_with_link.org")
-      :if-new (file+head "%<%Y>/%<%m>/%<%Y-%m-%d>.org" "#+TITLE: Daily notes for %<%Y-%m-%d>\n#+CATEGORY: journal\n\n"))
+      :if-new (file+head "%<%Y>/%<%m>/%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: :journal:\n\n"))
      ))
   ;; Replace SPC-X with dailies capture
   (map! :leader
