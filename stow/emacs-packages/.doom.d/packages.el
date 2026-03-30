@@ -109,3 +109,5 @@
 
 (package! org-web-tools)
 (package! macher)
+(package! ox-chameleon
+  :recipe (:host github :repo "tecosaur/ox-chameleon"))

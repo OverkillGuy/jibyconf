@@ -518,3 +518,13 @@ will not be modified."
   (org-appear-autolinks t)
   (org-appear-autosubmarkers t)
   (org-appear-autoentities t))
+;; Org-mode exports to PDF using Emacs theme colors
+;; as long as the org-mode file contains the following block:
+;;
+;; #+latex_class: chameleon
+;; #+latex_header: \usepackage{scrextend}
+;; #+latex_header: \usepackage{xcolor}
+(use-package ox-chameleon
+  :after org
+  ;; Org-mode backend for exporting code-blocks using theme colors
+  :custom (org-latex-src-block-backend 'engraved))
