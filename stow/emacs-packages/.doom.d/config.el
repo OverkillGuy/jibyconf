@@ -528,3 +528,10 @@ will not be modified."
   :after org
   ;; Org-mode backend for exporting code-blocks using theme colors
   :custom (org-latex-src-block-backend 'engraved))
+
+;; Enable LaTeX preview in org, but show LaTeX code when hovering
+;; Equivalent of org-appear, but for LaTeX fragments in org
+(use-package org-fragtog
+  :after org
+  :hook (org-mode org-fragtog-mode)
+  :custom (org-startup-with-latex-preview t))

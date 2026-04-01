@@ -111,3 +111,4 @@
 (package! macher)
 (package! ox-chameleon
   :recipe (:host github :repo "tecosaur/ox-chameleon"))
+(package! org-fragtog)
