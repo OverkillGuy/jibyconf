@@ -524,6 +524,7 @@ will not be modified."
 ;; #+latex_class: chameleon
 ;; #+latex_header: \usepackage{scrextend}
 ;; #+latex_header: \usepackage{xcolor}
+;; Which I set up as orgmode template "latex"
 (use-package ox-chameleon
   :after org
   ;; Org-mode backend for exporting code-blocks using theme colors
