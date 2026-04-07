@@ -376,18 +376,29 @@ will not be modified."
                       "devstral-latest"))
           gptel-quick-backend gptel-backend
           gptel-quick-model 'mistral-small-latest))
-
-(defun jb/llamafile-config ()
-  "Configure gtel for local llamafile config"
-  (setopt gptel-api-key nil
-          gptel-model 'test
+(defun jb/lmstudio-config ()
+  "Configure gptel for local LM Studio config"
+  (setopt gptel-api-key (lambda () nil)
           gptel-backend
-          (gptel-make-openai "llamafile"
+          (gptel-make-openai "LM Studio"
             :stream t
             :protocol "http"
-            :host "localhost:8081"
-            :models '(test))))
+            :host "localhost:8001"
+            ;; :endpoint "/v1/chat/completions"
+            :models '(
+                      (qwen/qwen3.5-35b-a3b
+                       :capabilities (media tool-use json url)
+                       :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
+                      (gemma-4-31b-it
+                       :capabilities (media tool-use json url)
+                       :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
+                      (google/gemma-4-26b-a4b
+                       :capabilities (media tool-use json url)
+                       :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))))
+            gptel-model 'google/gemma-4-26b-a4b))
 
+
+;; TODO gptel-post-response hook evil-scroll-line-to-bottom
 (use-package gptel
   :init
   (require 'gptel-agent)  ;; Force-load gptel-agent eagerly too
@@ -398,8 +409,7 @@ will not be modified."
           gptel-default-mode 'org-mode
          ;; Do not highlight responses (we have separate org headers)
          gptel-highlight-mode nil)
-  ;; (jb/llamafile-config)  ;; or using online via (jb/openai-config)
-  (jb/mistral-config)
+  (jb/lmstudio-config) ;; (jb/mistral-config) ;; Alternative cloud usage
   ;; Ensure org-mode headings are part of prompts 
   (add-to-list 'gptel-prompt-prefix-alist `(org-mode . ,(concat "* Jiby\n")))
   (add-to-list 'gptel-response-prefix-alist `(org-mode . ,(concat "** Answer\n")))
@@ -408,15 +418,17 @@ will not be modified."
 
 (use-package gptel-agent
   :after gptel
-  :bind (:map doom-leader-map
-              ("v" . gptel))
+  :commands gptel-agent
+  :bind
+  (:map doom-leader-map
+        ("v" . gptel))
   (:map gptel-mode-map
         ("C-c RET" . gptel-menu)
         ("C-c C-c" . gptel-send))
-  :config
-  (gptel-agent-update))
+  :config (gptel-agent-update))
 
 (use-package macher
+  :after gptel
   :custom
   ;; The org UI has structured navigation and nice content folding.
   (macher-action-buffer-ui 'org)
