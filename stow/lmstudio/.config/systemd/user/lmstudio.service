@@ -1,0 +1,13 @@
+[Unit]
+Description=LM Studio (selfhosted LLM) server
+Documentation=https://lmstudio.ai/
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/home/jiby/.lmstudio/bin/lms server start
+ExecStop=/home/jiby/.lmstudio/bin/lms server stop
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

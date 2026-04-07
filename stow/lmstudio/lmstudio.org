@@ -1,0 +1,57 @@
+#+TITLE: LM Studio for local AI
+
+Learning to use LM Studio for local AI management, see [[https://lmstudio.ai]].
+
+That runs as a local API server that loads LLMs when they are requested.
+
+
+
+* Systemd user service
+
+Starts as a systemd user service on login, loading models on demand.
+
+#+begin_src systemd :tangledir :tangle .config/systemd/user/lmstudio.service :mkdirp yes :padline no
+[Unit]
+Description=LM Studio (selfhosted LLM) server
+Documentation=https://lmstudio.ai/
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/home/jiby/.lmstudio/bin/lms server start
+ExecStop=/home/jiby/.lmstudio/bin/lms server stop
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+#+end_src
+* Model list
+:PROPERTIES:
+:ID:       jiborg:0f45b06f-8687-4c4b-a2ef-8b2ce5c7f2d4
+:CREATED:  [2026-04-07 Tue 20:57]
+:END:
+
+
+
+#+BEGIN_SRC emacs-lisp
+(defun jb/lmstudio-config ()
+  "Configure gptel for local LM Studio config"
+  (setopt
+   gptel-api-key (lambda () nil)
+   gptel-backend
+   (gptel-make-openai "LM Studio"
+     :stream t
+     :protocol "http"
+     :host "localhost:8001"
+     :models '(
+               (qwen/qwen3.5-35b-a3b
+                :capabilities (media tool-use json url)
+                :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
+               (gemma-4-31b-it
+                :capabilities (media tool-use json url)
+                :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
+               (google/gemma-4-26b-a4b
+                :capabilities (media tool-use json url)
+                :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))))
+   gptel-model 'google/gemma-4-26b-a4b))
+#+END_SRC
