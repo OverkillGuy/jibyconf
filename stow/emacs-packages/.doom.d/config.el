@@ -260,6 +260,7 @@ will not be modified."
   :custom
   (org-export-with-entities nil)
   (org-id-prefix "jiborg")
+  (org-catch-invisible-edits 'show-and-error)
   ;; Some settings are conflicting with doom, custom won't cut it:
   :config
     ;; Org buffers' indentation is sacred (fill-column + autofill)
@@ -520,11 +521,16 @@ will not be modified."
 ;; https://github.com/HaoZeke/dotdoom/blob/f22b07cb3ddad6f14e0e02ca2f07d4bc9e4f3f1b/config.org#L1500
 (use-package org-modern
   :after org
+  :custom
+  (org-modern-table-vertical 5)
+  (org-modern-table-horizontal 2)
+  (org-modern-block-fringe nil)
+  (org-modern-checkbox nil) ;; Not that interesting! Maybe it depends on the used font
   :config (global-org-modern-mode))
-
 
 ;; Reveal hidden markup when cursor is on them
 (use-package org-appear
+  :after org
   :hook (org-mode . org-appear-mode)
   :custom
   (org-hide-emphasis-markers t)
