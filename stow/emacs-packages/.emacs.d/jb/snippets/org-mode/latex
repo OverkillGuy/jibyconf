@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: LaTeX PDF header
-# key: latexpdf
+# key: latex
 # --
 #+latex_class: chameleon
 #+latex_header: \usepackage{scrextend}
