@@ -57,7 +57,9 @@
 
 (use-package projectile
   :bind ("S-<f7>" . projectile-switch-project)
-  :custom (projectile-project-search-path '("~/dev/")))
+  :custom
+  (projectile-project-search-path '("~/dev/"))
+  (+workspaces-switch-project-function 'magit-status))
 
 (use-package eww
   :after evil
