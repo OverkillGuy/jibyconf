@@ -261,6 +261,7 @@ will not be modified."
   (org-export-with-entities nil)
   (org-id-prefix "jiborg")
   (org-catch-invisible-edits 'show-and-error)
+  (org-startup-with-latex-preview t)
   ;; Some settings are conflicting with doom, custom won't cut it:
   :config
     ;; Org buffers' indentation is sacred (fill-column + autofill)
@@ -554,5 +555,4 @@ will not be modified."
 ;; Equivalent of org-appear, but for LaTeX fragments in org
 (use-package org-fragtog
   :after org
-  :hook (org-mode org-fragtog-mode)
-  :custom (org-startup-with-latex-preview t))
+  :hook (org-mode . org-fragtog-mode))
