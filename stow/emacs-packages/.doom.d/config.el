@@ -556,3 +556,12 @@ will not be modified."
 (use-package org-fragtog
   :after org
   :hook (org-mode . org-fragtog-mode))
+
+(use-package systemd
+  :after eglot
+  ;; Install systemd-lsp, use it with systemd-mode as LSP for eglot
+  :ensure-system-package
+  ((systemd-lsp . "cargo install systemd-lsp"))
+  :config
+  (add-to-list 'eglot-server-programs
+               '(systemd-mode "systemd-lsp")))
