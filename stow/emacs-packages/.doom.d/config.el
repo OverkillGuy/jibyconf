@@ -7,7 +7,8 @@
         display-line-numbers-type t
         doom-font (font-spec :family "Fira Mono" :size 20)
         sentence-end-double-space nil
-        comint-buffer-maximum-size 16384)
+        comint-buffer-maximum-size 16384
+        fancy-splash-image "~/.emacs.d/jb/emacs-logo-cutout.svg")
 
 ;; Show RGB hex colors in programming modes or text modes
 (use-package rainbow-mode
