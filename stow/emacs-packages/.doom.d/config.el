@@ -468,6 +468,7 @@ will not be modified."
 
 (use-package gptel-prompts
   :after gptel
+  :custom (gptel-prompts-directory "~/.emacs.d/prompts/")
   :config
   (gptel-prompts-update)
   ;; Ensure prompts are updated if prompt files change
