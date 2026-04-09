@@ -121,3 +121,5 @@
   :recipe (:host github :repo "tecosaur/org-glossary"))
 (package! org-fragtog :pin "562f6590843eeab30ac8aa2ced285aff8d590861")
 (package! systemd :pin "8742607120fbc440821acbc351fda1e8e68a8806")
+
+(package! ob-sql-mode :pin "2eaf436a6ac2178b94442d80f84fc6c02aa644d8")
