@@ -400,7 +400,9 @@ will not be modified."
                       (google/gemma-4-26b-a4b
                        :capabilities (media tool-use json url)
                        :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))))
-            gptel-model 'google/gemma-4-26b-a4b))
+            gptel-model 'google/gemma-4-26b-a4b
+            gptel-quick-backend gptel-backend
+            gptel-quick-model 'google/gemma-4-26b-a4b))
 
 
 ;; TODO gptel-post-response hook evil-scroll-line-to-bottom
