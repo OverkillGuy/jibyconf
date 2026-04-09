@@ -407,9 +407,6 @@ will not be modified."
 
 ;; TODO gptel-post-response hook evil-scroll-line-to-bottom
 (use-package gptel
-  :init
-  (require 'gptel-agent)  ;; Force-load gptel-agent eagerly too
-  (require 'macher)
   :config
   (setopt gptel-org-set-properties t  ;; Store session info in org props on save
           gptel-org-set-topic t  ;; Save topic in org props on save
@@ -435,7 +432,7 @@ will not be modified."
   :config (gptel-agent-update))
 
 (use-package macher
-  :after gptel
+  :after gptel-prompts
   :custom
   ;; The org UI has structured navigation and nice content folding.
   (macher-action-buffer-ui 'org)
@@ -455,6 +452,7 @@ will not be modified."
 
 (use-package gptel-quick
   :after gptel
+  :commands gptel-quick
   :bind (:map doom-leader-map
               ("V" . gptel-quick)))
 
@@ -469,7 +467,7 @@ will not be modified."
               'ob-gptel-capf nil t)))
 
 (use-package gptel-prompts
-  :after gptel
+  :after gptel-agent
   :custom (gptel-prompts-directory "~/.emacs.d/prompts/")
   :config
   (gptel-prompts-update)
@@ -483,6 +481,7 @@ will not be modified."
 ;; Activate org-mode style links in all programming modes
 ;; Solves the missing goto-address-mode too
 (use-package orglink
+  :after org
   :config (global-orglink-mode)
   :custom (orglink-activate-in-modes '(prog-mode)))
 
