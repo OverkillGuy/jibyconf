@@ -523,12 +523,14 @@ will not be modified."
 ;; https://github.com/HaoZeke/dotdoom/blob/f22b07cb3ddad6f14e0e02ca2f07d4bc9e4f3f1b/config.org#L1500
 (use-package org-modern
   :after org
+  ;; :config (global[...]mode) never gets lazy-loaded: use init!
+  :init (with-eval-after-load 'org (global-org-modern-mode))
+  :commands global-org-modern-mode
   :custom
   (org-modern-table-vertical 5)
   (org-modern-table-horizontal 2)
   (org-modern-block-fringe nil)
-  (org-modern-checkbox nil) ;; Not that interesting! Maybe it depends on the used font
-  :config (global-org-modern-mode))
+  (org-modern-checkbox nil)) ;; Not that interesting! Maybe it depends on the used font
 
 ;; Reveal hidden markup when cursor is on them
 (use-package org-appear
