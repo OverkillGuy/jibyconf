@@ -1,11 +1,13 @@
 [Unit]
+# GUI-style popup for sudo-like actions of e.g Rancher Desktop
 Description=LXPolkit Authentication Agent
-After=graphical-session.target
-PartOf=graphical-session.target
+Documentation=man:lxpolkit(1)
+Wants=dbus.service
+After=dbus.service
 
 [Service]
 ExecStart=/usr/bin/lxpolkit
 Restart=on-failure
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target

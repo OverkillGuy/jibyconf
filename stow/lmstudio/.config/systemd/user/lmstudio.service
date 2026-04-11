@@ -10,4 +10,4 @@ ExecStop=/home/jiby/.lmstudio/bin/lms server stop
 Restart=on-failure
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

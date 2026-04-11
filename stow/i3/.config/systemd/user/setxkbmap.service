@@ -3,11 +3,14 @@ Description=Set keyboard layout
 # Caps lock is actually Control
 # Switch between US and FR layout (toggle) by pressing BOTH Controls
 # See xkeyboard-config(7) for info
+After=graphical-session.target
+PartOf=graphical-session.target
 
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/setxkbmap -model pc104 -layout us,fr -option grp:ctrls_toggle,caps:ctrl_modifier
 RemainAfterExit=yes
+RestartSec=10s
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
