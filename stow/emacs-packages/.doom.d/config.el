@@ -152,9 +152,10 @@ will not be modified."
 (define-key! yas-keymap [tab] 'yas-next-field)
 
 
-;; TODO: Add to package
-; Don't use the recently-default "/posts/", but "/post/" as my blog does
-(setopt org-hugo-section "post")
+(use-package ox-hugo
+  :after ox
+  ;; Don't use the recently-default "/posts/", but "/post/" as my blog does
+  :custom (org-hugo-section "post"))
 
 
 ;; Fix magit-blame-mode ENTER key not jumping to commit anymore

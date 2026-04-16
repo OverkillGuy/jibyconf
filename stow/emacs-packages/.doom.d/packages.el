@@ -123,3 +123,6 @@
 (package! systemd :pin "8742607120fbc440821acbc351fda1e8e68a8806")
 
 (package! ob-sql-mode :pin "2eaf436a6ac2178b94442d80f84fc6c02aa644d8")
+(package! ox-hugo
+  :recipe (:host github :repo "kaushalmodi/ox-hugo" :nonrecursive t)
+  :pin "b7dc44dc28911b9d8e3055a18deac16c3b560b03")
