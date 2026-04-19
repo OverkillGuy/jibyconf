@@ -393,6 +393,9 @@ will not be modified."
             :host "localhost:8001"
             ;; :endpoint "/v1/chat/completions"
             :models '(
+                      (qwen/qwen3.6-35b-a3b
+                       :capabilities (media tool-use json url)
+                       :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
                       (qwen/qwen3.5-35b-a3b
                        :capabilities (media tool-use json url)
                        :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
@@ -402,9 +405,9 @@ will not be modified."
                       (google/gemma-4-26b-a4b
                        :capabilities (media tool-use json url)
                        :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))))
-            gptel-model 'google/gemma-4-26b-a4b
+            gptel-model 'qwen/qwen3.6-35b-a3b
             gptel-quick-backend gptel-backend
-            gptel-quick-model 'google/gemma-4-26b-a4b))
+            gptel-quick-model 'qwen/qwen3.6-35b-a3b))
 
 
 ;; TODO gptel-post-response hook evil-scroll-line-to-bottom
