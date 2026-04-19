@@ -3,7 +3,8 @@
 (setopt user-full-name "Jb Doyon"
         user-mail-address "jb@jiby.tech"
         doom-theme 'doom-one
-        org-directory "~/dev/notes/"
+        org-directory "~/dev/"
+        org-agenda-files org-directory
         display-line-numbers-type t
         doom-font (font-spec :family "Fira Mono" :size 20)
         sentence-end-double-space nil
