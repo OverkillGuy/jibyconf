@@ -564,10 +564,12 @@ will not be modified."
   :hook (org-mode . org-fragtog-mode))
 
 (use-package systemd
-  :after eglot
+  ;; Podman quadlet files should use systemd-mode too
+  :mode ("\\.\\(container\\|volume\\|kube\\|image\\|network\\|envfile\\|config\\)$" . systemd-mode)
   ;; Install systemd-lsp, use it with systemd-mode as LSP for eglot
   :ensure-system-package
   ((systemd-lsp . "cargo install systemd-lsp"))
   :config
-  (add-to-list 'eglot-server-programs
-               '(systemd-mode "systemd-lsp")))
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(systemd-mode "systemd-lsp"))))
