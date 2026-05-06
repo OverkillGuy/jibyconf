@@ -310,7 +310,7 @@ will not be modified."
                 (propertize "${doom-type:12}" 'face 'font-lock-keyword-face)
                 (propertize "${doom-tags:42}" 'face '(:inherit org-tag :box nil))))
   (setopt org-roam-directory
-         (expand-file-name "roam"
+         (expand-file-name "notes/roam"
                          (file-name-as-directory
                           (expand-file-name org-directory)))
            org-roam-dailies-directory org-roam-directory)
