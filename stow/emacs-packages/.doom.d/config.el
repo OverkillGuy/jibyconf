@@ -396,6 +396,9 @@ will not be modified."
                       (qwen/qwen3.6-35b-a3b
                        :capabilities (media tool-use json url)
                        :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
+                      (qwen/qwen3.6-27b
+                       :capabilities (media tool-use json url)
+                       :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
                       (qwen/qwen3.5-35b-a3b
                        :capabilities (media tool-use json url)
                        :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
@@ -405,9 +408,9 @@ will not be modified."
                       (google/gemma-4-26b-a4b
                        :capabilities (media tool-use json url)
                        :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))))
-            gptel-model 'qwen/qwen3.6-35b-a3b
+            gptel-model 'qwen/qwen3.6-27b
             gptel-quick-backend gptel-backend
-            gptel-quick-model 'qwen/qwen3.6-35b-a3b))
+            gptel-quick-model 'qwen/qwen3.6-27b))
 
 
 ;; TODO gptel-post-response hook evil-scroll-line-to-bottom
