@@ -482,7 +482,11 @@ will not be modified."
   ;; Ensure prompts are updated if prompt files change
   (gptel-prompts-add-update-watchers))
 
+(use-package typst-ts-mode
+  :mode "\\.typ\\'")
+
 (use-package typst-preview
+  :after typst-ts-mode
   :custom
   (typst-preview-invert-colors "never"))
 
