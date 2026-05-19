@@ -8,6 +8,8 @@ Type=forking
 ExecStart=/home/jiby/.lmstudio/bin/lms server start
 ExecStop=/home/jiby/.lmstudio/bin/lms server stop
 Restart=on-failure
+# Don't restart if exited OK
+RestartPreventExitStatus=0
 
 [Install]
 WantedBy=default.target

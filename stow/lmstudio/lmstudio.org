@@ -21,9 +21,11 @@ Type=forking
 ExecStart=/home/jiby/.lmstudio/bin/lms server start
 ExecStop=/home/jiby/.lmstudio/bin/lms server stop
 Restart=on-failure
+# Don't restart if exited OK
+RestartPreventExitStatus=0
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 #+end_src
 * Model list
 :PROPERTIES:
@@ -55,3 +57,47 @@ WantedBy=multi-user.target
                 :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))))
    gptel-model 'google/gemma-4-26b-a4b))
 #+END_SRC
+* pi.dev as coding agent
+:PROPERTIES:
+:ID:       jiborg:0e7a646b-2766-4b2d-b87b-4351164acba5
+:CREATED:  [2026-04-16 Thu 20:10]
+:END:
+
+Get NPM off homebrew:
+
+#+begin_src shell
+brew install npm
+#+end_src
+
+
+#+begin_src shell
+npm install -g @mariozechner/pi-coding-agent
+#+end_src
+
+Perfect provider
+
+#+begin_src shell
+pi install git:github.com/vampaz/pi-custom-provider-lmstudio@master
+#+end_src
+
+Use envvar for actual endpoint URL:
+#+begin_src shell
+export LMSTUDIO_ENDPOINT_URL=http://localhost:8001
+#+end_src
+
+And now that works, install an ACP client: pi-acp
+
+#+begin_src shell
+npm install -g pi-acp
+#+end_src
+
+
+Protected the keys via:
+
+#+begin_src shell
+pass hally/lmstudio/
+#+end_src
+
+: hally/lmstudio
+: ├── emacs_lmstudio_api
+: └── pi_lmstudio_api
