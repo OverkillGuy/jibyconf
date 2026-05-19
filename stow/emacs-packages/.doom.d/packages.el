@@ -120,6 +120,13 @@
 (package! systemd :pin "8742607120fbc440821acbc351fda1e8e68a8806")
 
 (package! ob-sql-mode :pin "2eaf436a6ac2178b94442d80f84fc6c02aa644d8")
+(package! org-transclusion :pin "2b010733bd888519d0dacb64f4acf023a2334a38")
 (package! ox-hugo
   :recipe (:host github :repo "kaushalmodi/ox-hugo" :nonrecursive t)
   :pin "b7dc44dc28911b9d8e3055a18deac16c3b560b03")
+
+(package! lua-mode :pin "2f6b8d7a6317e42c953c5119b0119ddb337e0a5f")
+(package! dumb-jump :pin "9ce4598e9c485821a6e639fa48854d8e05acd970")
+
+(package! easy-escape :pin "938497a21e65ba6b3ff8ec90e93a6d0ab18dc9b4")
+(package! sql-indent :pin "0e93fb4878aa3788084ce44b8e8ec8919af708a4")

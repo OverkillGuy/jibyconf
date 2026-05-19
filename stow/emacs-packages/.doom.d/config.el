@@ -173,10 +173,6 @@ will not be modified."
 
 (setopt +snippets-dir "~/.emacs.d/jb/snippets/")
 
-;; Start maximized
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-(add-hook 'doom-first-buffer-hook #'global-display-fill-column-indicator-mode)
-
 (defun python-src-fill-black-mode-hook ()
   (setopt fill-column 88))
 
@@ -584,3 +580,45 @@ will not be modified."
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
                  '(systemd-mode "systemd-lsp"))))
+
+(use-package emacs-everywhere
+  :config
+  ;; Use markdown for Github Discussion too
+  (add-to-list 'emacs-everywhere-markdown-windows "Discussion"))
+
+(use-package ediff
+  :custom
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  :hook
+  ;; Start Org files in maximally-unfolded view
+  (ediff-prepare-buffer . #'outline-show-all))
+
+(use-package org-transclusion
+  :after org
+  :config
+  (require 'org-transclusion-indent-mode)
+  (setq org-transclusion-extensions
+        '(org-transclusion-src-lines
+          org-transclusion-indent-mode)))
+
+(use-package lua-mode
+  :mode "\\.lua\\'"
+  :interpreter "lua")
+
+(use-package dumb-jump
+  :ensure t
+  :custom
+  (dumb-jump-prefer-searcher 'rg)
+  (xref-show-definitions-function #'consult-xref)
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
+(use-package easy-escape
+  :commands easy-escape-minor-mode
+  :hook
+  (lisp-mode-hook . easy-escape-minor-mode)
+  (emacs-lisp-mode-hook . easy-escape-minor-mode))
+
+(use-package sql-indent
+  :hook ((sql-mode . sqlind-minor-mode)))
