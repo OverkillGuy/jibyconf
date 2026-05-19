@@ -15,27 +15,25 @@
 (package! eww-lnum :pin "4b0ecec769919ecb05ca4fb15ec51911ba589929")
 (package! edit-server :pin "b39a8761916118afb024fdf9a7187def5805fa26")
 (package! k8s-mode :pin "39a189d1e030aa108e90a82fd40f0042b1e69b21")
-(package! ellama :pin "c9cf0ae36cac6d4a65bafb8f947e3195e2e2f5fd")
+(package! ellama :pin "d6e7603f0218ec4e089e2957da1dd31d1d39ec5c")
 (package! rainbow-delimiters :pin "f40ece58df8b2f0fb6c8576b527755a552a5e763")
 
 (package! hurl-mode
-  :pin "93f992dea8e4fc2aaca7ef2d80a0e8229ed3a0f8"
+  :pin "0f76060868d566139f6c3439ae813a16339f9daa"
   :recipe (:host github
            :repo "Orange-OpenSource/hurl"
            :files ("contrib/emacs/*.el")))
 
-;; Disable some useless python modules of doom emacs
-;; Free up keybinds shadowed by pkgs, like C-c C-p = run-python
 (package! gptel
-  :pin "cdbcdcbcef2152be97420dd737da08c0c51a324b"
-  :recipe
-  (:nonrecursive t))
-(package! gptel-agent :pin "0d1534b203ea756c76d5161dfcd57ddc146f774e")
+  :pin "677eb955918ad5290432040bfa44d0ac4e05036d"
+  :recipe (:nonrecursive t))
+(package! macher :pin "55e75f2ee27eedc3cbf7e8bfcef27bcce11e3540")
+(package! gptel-agent :pin "753e722778fcdefc165f049d27cbfea4fb909236")
 (package! gptel-quick
   :pin "018ff2be8f860a1e8fe3966eec418ad635620c38"
   :recipe (:host github :repo "karthink/gptel-quick"))
 (package! ob-gptel
-  :pin "cbed018a7d81de9ba8dc3220e1c4d10b7bb29b11"
+  :pin "71584eb30e8317cf36104cec78b6d53c4433cae7"
   :recipe (:host github :repo "jwiegley/ob-gptel"))
 (package! gptel-prompts
   :pin "7ce497590b006bb4b167abcdcbf2f069d9d72549"
@@ -47,14 +45,14 @@
 (package! rainbow-mode :pin "2e6b18609c2fdd1a2dc513937a64d276fd6cf24c")
 
 (package! typst-ts-mode
-  :pin "cf4d5282988068841efd51dc83f99091b41b91dd"
+  :pin "278562d702de429f5c4369c007913ca0ef1584f3"
   :recipe
   (:host codeberg :repo "meow_king/typst-ts-mode"))
 (package! typst-preview
   :pin "7e89cf105e4fef5e79977a4a790d5b3b18d305f6"
   :recipe (:host github :repo "havarddj/typst-preview.el"))
-(package! orglink :pin "0de830edc6ffc0b07b95284f545ffe7d7c37dfb8")
-(package! agent-shell :pin "73718e228c2011b0f645ed4c6b3f2377965b1940")
+(package! orglink :pin "e3c3999c4a88acd46208bef4f014fc2245f494a8")
+(package! agent-shell :pin "3f3f91ea5292af36d6f31824dfde901636047bd6")
 (package! knockknock
   ;; Original author:
   ;; :recipe '(:host 'github :repo "konrad1977/knockknock"))
@@ -67,7 +65,7 @@
   :pin "56732434067fe1874dcda62c491f7800bdc0a2f3"
   :recipe (:host github :repo "xenodium/agent-shell-knockknock"))
 
-(package! org-modern :pin "713beb72aed4db43f8a10feed72136e931eb674a")
+(package! org-modern :pin "4855ade77ab17de7587c37bde12a0afeab342783")
 (package! org-appear :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09")
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
@@ -112,12 +110,11 @@
 (package! which-key-posframe :pin "e4a9ce9a1b20de550fca51f14d055821980d534a")
 
 (package! org-web-tools :pin "7a6498f442fc7f29504745649948635c7165d847")
-(package! macher :pin "16672b88967c3ea452d8670285e2ab7fc705ce17")
 (package! ox-chameleon
   :pin "d52696836cee30eb911a57a640aee16d8fd4c015"
   :recipe (:host github :repo "tecosaur/ox-chameleon"))
 (package! org-glossary
-  :pin "eab0ffa07d02e6a406610db0dae56b4bda3760e7"
+  :pin "7397aa00f13d782c0150de96a3d720c7bbbb4fea"
   :recipe (:host github :repo "tecosaur/org-glossary"))
 (package! org-fragtog :pin "562f6590843eeab30ac8aa2ced285aff8d590861")
 (package! systemd :pin "8742607120fbc440821acbc351fda1e8e68a8806")
