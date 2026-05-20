@@ -292,14 +292,60 @@ will not be modified."
 ;; https://github.com/doomemacs/doomemacs/issues?q=is%3Aissue%20state%3Aopen%20which-key%20page
 
 
+(defun bind-roam-like-doom-emacs ()
+  "Bind roam like doom-emacs does but on SPC-m"
+  (map! :map emacs-lisp-mode-map
+        :localleader
+        "b" nil
+        "m" nil
+        "d" nil
+        "e" nil
+        "g" nil
+        "m" nil)
+  (map! :map ;; org-mode
+        doom-leader-map
+        :prefix ("m" . "org-roam")
+        "D" #'org-roam-demote-entire-buffer
+        "f" #'org-roam-node-find
+        "F" #'org-roam-ref-find
+        "g" #'org-roam-graph
+        "i" #'org-roam-node-insert
+        "I" #'org-id-get-create
+        "m" #'org-roam-buffer-toggle
+        "M" #'org-roam-buffer-display-dedicated
+        "n" #'org-roam-capture
+        "r" #'org-roam-refile
+        "R" #'org-roam-link-replace-all
+        (:prefix ("d" . "by date")
+         :desc "Goto previous note" "b" #'org-roam-dailies-goto-previous-note
+         :desc "Goto date"          "d" #'org-roam-dailies-goto-date
+         :desc "Capture date"       "D" #'org-roam-dailies-capture-date
+         :desc "Goto next note"     "f" #'org-roam-dailies-goto-next-note
+         :desc "Goto tomorrow"      "m" #'org-roam-dailies-goto-tomorrow
+         :desc "Capture tomorrow"   "M" #'org-roam-dailies-capture-tomorrow
+         :desc "Capture today"      "n" #'org-roam-dailies-capture-today
+         :desc "Goto today"         "t" #'org-roam-dailies-goto-today
+         :desc "Capture today"      "T" #'org-roam-dailies-capture-today
+         :desc "Goto yesterday"     "y" #'org-roam-dailies-goto-yesterday
+         :desc "Capture yesterday"  "Y" #'org-roam-dailies-capture-yesterday
+         :desc "Find directory"     "-" #'org-roam-dailies-find-directory)
+        (:prefix ("o" . "node properties")
+         "a" #'org-roam-alias-add
+         "A" #'org-roam-alias-remove
+         "t" #'org-roam-tag-add
+         "T" #'org-roam-tag-remove
+         "r" #'org-roam-ref-add
+         "R" #'org-roam-ref-remove)))
+
 (use-package org-roam
-  :after org evil
+  :after (org evil)
   ;; HACK evil-set-initial-state only works for MAJOR modes, org-capture = minor
   ;; See https://github.com/emacs-evil/evil/issues/1115#issuecomment-450480141
   :hook (org-capture-mode . evil-insert-state)
   :config
   ;; Bind Shift+F8 globally to org-roam-capture
   (map! "<S-f8>" #'org-roam-capture)
+  (bind-roam-like-doom-emacs)
   ;; Override doom's default to remove the "hierarchy" Path, just use title
   (setopt org-roam-node-display-template
         (format "${title:*} %s %s"
@@ -328,9 +374,15 @@ will not be modified."
      ("d" "daily" plain
       (file "~/.emacs.d/jb/capture-templates/daily_template.org")
       :if-new (file+head "%<%Y>/%<%m>/%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: :journal:\n\n"))
-     ("L" "daily w/ link" plain
+     ("D" "daily w/ link" plain
       (file "~/.emacs.d/jb/capture-templates/daily_template_with_link.org")
       :if-new (file+head "%<%Y>/%<%m>/%<%Y-%m-%d>.org" "#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: :journal:\n\n"))
+     ("r" "Link to read later" plain
+      (file "~/.emacs.d/jb/capture-templates/daily_template_with_link.org")
+      :if-new (file+head "to_read.org" "#+TITLE: Deep links to read \n#+FILETAGS: :to_read:\n\n"))
+     ("b" "Blog post idea" plain
+      (file "~/.emacs.d/jb/capture-templates/daily_template.org")
+      :if-new (file+head "blog_ideas.org" "#+TITLE: Blog post ideas \n#+FILETAGS: :blog_idea:\n\n"))
      ))
   ;; Replace SPC-X with dailies capture
   (map! :leader
@@ -387,6 +439,7 @@ will not be modified."
             :stream t
             :protocol "http"
             :host "localhost:8001"
+            ;; :key (password-store-get "hally/lmstudio/emacs_lmstudio_api")
             ;; :endpoint "/v1/chat/completions"
             :models '(
                       (qwen/qwen3.6-35b-a3b
@@ -436,7 +489,7 @@ will not be modified."
   :config (gptel-agent-update))
 
 (use-package macher
-  :after gptel-prompts
+  :after gptel
   :custom
   ;; The org UI has structured navigation and nice content folding.
   (macher-action-buffer-ui 'org)
@@ -508,7 +561,13 @@ will not be modified."
   (add-hook 'diff-mode-hook
 	    (lambda ()
 	      (when (string-match-p "\\*agent-shell-diff\\*" (buffer-name))
-		(evil-emacs-state)))))
+		(evil-emacs-state))))
+  (setq agent-shell-pi-environment
+        (agent-shell-make-environment-variables
+         "LMSTUDIO_ENDPOINT_URL" "http://localhost:8001"
+         ;; HACK: Set fake auth envvar to avoid https://github.com/svkozak/pi-acp/issues/15
+         "HF_TOKEN" "JUNK_HERE")))
+         ;; "LMSTUDIO_API_KEY" (password-store-get "hally/lmstudio/pi_lmstudio_api")
 
 ;; Keep track of what the agent is doing while in another buffer
 (use-package agent-shell-knockknock
@@ -552,6 +611,12 @@ will not be modified."
   (org-appear-autolinks t)
   (org-appear-autosubmarkers t)
   (org-appear-autoentities t))
+
+;; Define glossary words in a :GLOSSARY: section.
+;; Use them via links prefixed with gls:
+(use-package org-glossary
+  :hook (org-mode . org-glossary-mode))
+
 ;; Org-mode exports to PDF using Emacs theme colors
 ;; as long as the org-mode file contains the following block:
 ;;
@@ -563,6 +628,18 @@ will not be modified."
   :after org
   ;; Org-mode backend for exporting code-blocks using theme colors
   :custom (org-latex-src-block-backend 'engraved))
+
+
+(defun async-shell-command-no-window (command)
+  (interactive)
+  (let
+      ((display-buffer-alist
+        (list
+         (cons
+          "\\*Async Shell Command\\*.*"
+          (cons #'display-buffer-no-window nil)))))
+    (async-shell-command
+     command)))
 
 ;; Enable LaTeX preview in org, but show LaTeX code when hovering
 ;; Equivalent of org-appear, but for LaTeX fragments in org

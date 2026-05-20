@@ -127,6 +127,5 @@
 
 (package! lua-mode :pin "2f6b8d7a6317e42c953c5119b0119ddb337e0a5f")
 (package! dumb-jump :pin "9ce4598e9c485821a6e639fa48854d8e05acd970")
-
 (package! easy-escape :pin "938497a21e65ba6b3ff8ec90e93a6d0ab18dc9b4")
 (package! sql-indent :pin "0e93fb4878aa3788084ce44b8e8ec8919af708a4")
