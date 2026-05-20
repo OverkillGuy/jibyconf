@@ -69,6 +69,36 @@ detangle () {
     awk 'BEGIN{RS=">>>>>"} FNR == 1{print "* " FILENAME "\n\n#+BEGIN_SRC conf :tangle " FILENAME}; {print $0 "\n#+END_SRC\n"} ' $@ >detangled.org
 }
 
+## Turn a source file into a simple literate Org-mode file.
+## Splits code blocks on empty lines and tangles back to original file.
+##
+## Usage:
+##   literateify <file> <org-src-lang>
+##
+## Example:
+##   literateify config.el elisp
+##
+## Produces:
+##   config.org
+literateify () {
+    file="$1"
+    lang="$2"
+    org="${file%.*}.org"
+
+    {
+        echo "#+TITLE: $(basename "$file") literate config"
+        echo "#+PROPERTY: header-args :comments both :tangle $(basename "$file")"
+        echo
+
+        awk -v lang="$lang" '
+            BEGIN { print "#+BEGIN_SRC " lang }
+            /^$/ { print "#+END_SRC\n\n#+BEGIN_SRC " lang; next }
+            { print }
+            END { print "#+END_SRC" }
+        ' "$file"
+    } > "$org"
+}
+
 mkv2mp4 () {
     ffmpeg -i $1 -codec copy $2
 }
