@@ -257,6 +257,7 @@ will not be modified."
   ;; No line numbers in org-mode, you monsters
   :hook (text-mode . doom-disable-line-numbers-h)
   :custom
+  (org-id-link-to-org-use-id t)
   (org-export-with-entities nil)
   (org-id-prefix "jiborg")
   (org-catch-invisible-edits 'show-and-error)
