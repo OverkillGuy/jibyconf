@@ -700,3 +700,13 @@ will not be modified."
 
 (use-package sql-indent
   :hook ((sql-mode . sqlind-minor-mode)))
+
+(defun my-occur-non-ascii ()
+  "Find non-ascii characters using occur."
+  (interactive)
+  (occur "[^[:ascii:]]"))
+
+(defun my-highlight-non-ascii ()
+  "Highlight non-ascii characters."
+  (interactive)
+  (highlight-regexp "[^[:ascii:]]+"))
