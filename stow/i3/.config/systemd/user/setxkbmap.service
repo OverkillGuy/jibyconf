@@ -9,7 +9,10 @@ PartOf=graphical-session.target
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/setxkbmap -model pc104 -layout us,fr -option grp:ctrls_toggle,caps:ctrl_modifier
+# Keep it after it ran once
 RemainAfterExit=yes
+# But make it restart when it fails, waiting 10s for resources to be available
+Restart=on-failure
 RestartSec=10s
 
 [Install]
