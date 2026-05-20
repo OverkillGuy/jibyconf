@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: new doom package
+# key: package
+# --
+(package! $0)
