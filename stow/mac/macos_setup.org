@@ -1,0 +1,208 @@
+#+title: MacOS setup
+#+OPTIONS: :header-args: :mkdirp yes :comments both
+
+
+* Macos better defaults
+:PROPERTIES:
+:header-args:shell: :tangle macos_set_defaults.sh :shebang "#!/bin/bash" :tangle-mode (identity #o744) :comments both
+:ID:       jiborg:3ad53ab2-afc5-4238-ba2f-62cf3a938611
+:END:
+
+Disable the “Are you sure you want to open this application?” dialog
+#+begin_src shell
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+#+end_src
+
+Save to disk (not to iCloud) by default:
+
+#+begin_src shell
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+#+end_src
+
+Disable smart quotes and dashes as they cause problems when typing code
+#+begin_src shell
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+#+end_src
+
+Show full path to file in finder
+#+begin_src shell
+defaults write com.apple.finder ShowStatusBar -bool true
+defaults write com.apple.finder ShowPathbar -bool true
+#+end_src
+
+Disable the warning when changing a file extension
+#+begin_src shell
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+#+end_src
+
+Avoid creating =.DS_Store= files on network volumes:
+#+begin_src shell
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+#+end_src
+
+Disable crash reporter
+#+begin_src shell
+defaults write com.apple.CrashReporter DialogType -string "none"
+#+end_src
+
+Disable auto-correct
+#+begin_src shell
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+#+end_src
+
+
+When performing a search, search the current folder by default
+#+begin_src shell
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+#+end_src
+
+Use plain text mode for new TextEdit documents
+#+begin_src shell
+defaults write com.apple.TextEdit RichText -int 0
+#+end_src
+
+Open and save files as UTF-8 in TextEdit
+#+begin_src shell
+defaults write com.apple.TextEdit PlainTextEncoding -int 4
+defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
+#+end_src
+
+See also:
+https://gist.github.com/NickCrew/405afb9a78d14bd34164329bdd854e6c
+* Brewfile
+:PROPERTIES:
+:ID:       jiborg:1e1c017a-448b-4815-a2a5-dba24106e307
+:END:
+
+Install homebrew first, grabbing stow to deploy stuff:
+
+#+begin_src shell :tangle no
+brew install stow
+#+end_src
+
+A Brewfile, listing all the packages we want installed via homebrew.
+
+#+begin_src ruby :tangle .config/brewfile/Brewfile :mkdirp yes :comments both
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+
+# Core CLI utilities
+brew "git"
+brew "coreutils"
+brew "findutils"
+brew "ripgrep"
+brew "jq"
+brew "curl"
+
+# Supplementary CLI utils
+brew "stow"
+brew "watch"
+brew "glances"
+brew "pv"
+brew "nmap"
+brew "htop"
+brew "pandoc"
+brew "tree"
+brew "duckdb"
+brew "qrencode"
+# brew "hurl"
+# brew "blueutil"
+
+# Docker & Kubernetes
+cask "rancher"
+brew "k9s"
+brew "helm"
+brew "kubectx"
+brew "kubeconform"
+tap "stefanprodan/tap"
+brew "stefanprodan/tap/timoni"
+
+# Emacs
+tap "d12frosted/emacs-plus"
+brew "d12frosted/emacs-plus/emacs-plus@31", args: ["with-imagemagick", "with-xwidgets", "with-dbus"]
+
+## Languages
+
+# Python pkg manager (replaces pipx, pyenv, etc)
+brew "uv"
+uv "yt-dlp"
+uv "yq"
+uv "ruff"
+uv "sqlfluff"
+uv "pre-commit"
+uv "python-lsp-server"
+uv "mypy"
+uv "copier"
+uv "ansible-base"
+
+# Rust and cargo
+brew "rust"
+cargo "add-notice"
+cargo "cargo-deb"
+cargo "cargo-license"
+cargo "cargo-msrv"
+cargo "cargo-tarpaulin"
+cargo "emacs-lsp-booster"
+cargo "grcov"
+cargo "rust-script"
+cargo "rustfilt"
+
+# Infrastructure tools
+brew "terraform"
+# brew "opentofu"
+
+# Document tools
+brew "typst"
+brew "tinymist"
+
+# GPG password management
+brew "gnupg"
+brew "pass"
+brew "pinentry-mac"
+
+cask "gimp"
+cask "firefox"
+cask "vlc"
+
+# Fonts:
+tap 'homebrew/cask-fonts'
+cask 'font-fira-code'
+#+end_src
+
+See also: https://brewfile.as93.net/ and https://github.com/chiply/.files
+
+Emacs file:
+
+#+begin_src yaml :tangle .config/emacs-plus/build.yml :mkdirp yes :comments both
+icon: dragon-plus
+inject_path: true
+#+end_src
+
+* GPG Yubikey                                                      :disabled:
+:PROPERTIES:
+:ID:       jiborg:ae028155-bf1c-472b-b2cd-74d7d8579543
+:END:
+
+Following [[https://www.chrisdeluca.me/article/fixing-gpg-yubikey-macos-big-sur/][Yubikey guide on Macos]]
+
+#+begin_src conf :tangle .gnupg/.gpg.conf :mkdirp yes :comments both
+ask-cert-level
+use-agent
+auto-key-retrieve
+no-emit-version
+# default-key D81A4957BAF06BCA6E060EE5461C015E032EF9CB # use your key
+#+end_src
+
+#+begin_src conf :tangle .gnupg/gpg-agent.conf :mkdirp yes :comments both
+pinentry-program /usr/local/bin/pinentry-mac
+default-cache-ttl 600
+max-cache-ttl 7200
+debug-level basic
+log-file $HOME/.gnupg/gpg-agent.log
+#+end_src
+
+Disabled because Yubikey support on  GPG isn't ready for me (I haven't
+done enough digging to make it work).
+
